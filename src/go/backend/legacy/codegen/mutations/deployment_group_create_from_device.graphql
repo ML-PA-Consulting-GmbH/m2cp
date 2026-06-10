@@ -1,0 +1,6 @@
+mutation CreateDeploymentGroupFromDevice($input: DeploymentGroupCreateFromDeviceInput!) {
+  createDeploymentGroupFromDevice(input: $input) {
+    id
+    name
+  }
+}

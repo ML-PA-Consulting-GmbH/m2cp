@@ -1,0 +1,20 @@
+
+query getDeviceInstallStates($id: UUID!) {
+    device(id: $id) {
+        id
+        deviceInstallStates {
+            appRevision {
+                id
+                revision
+                version
+                description
+                downloadSize
+                appId
+                app {
+                    appName
+                    description
+                }
+            }
+        }
+    }
+}

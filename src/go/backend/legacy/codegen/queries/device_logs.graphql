@@ -1,0 +1,13 @@
+# @genqlient(omitempty: true)
+query GetDeviceLogs($filters: EdgeDeviceLogQueryInput){
+    data: edgeDeviceLogs(filters: $filters){
+        dateTime
+        deviceSerial
+        signalType
+        signalName
+        signalContent
+        origin
+        topic
+        taskId
+    }
+}

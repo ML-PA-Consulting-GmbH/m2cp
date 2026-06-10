@@ -1,0 +1,6 @@
+query FleetAutoUpdateModes($name: String!) {
+    fleetAutoUpdateModes(where: { name: { eq: $name } }) {
+        id
+        name
+    }
+}

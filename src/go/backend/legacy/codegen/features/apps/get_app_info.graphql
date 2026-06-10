@@ -1,0 +1,19 @@
+query GetAppInfo($appId: UUID!) {
+    app(id: $appId){
+        id
+        appName
+        architecture,
+        tenantId,
+        tenant{
+            alias
+        }
+        summary
+        description
+        deviceTypeId
+        appSnap{
+            snapId
+            assertionId
+        }
+        createdAt
+    }
+}

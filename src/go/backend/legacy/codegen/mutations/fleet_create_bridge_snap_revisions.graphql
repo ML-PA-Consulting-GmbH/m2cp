@@ -1,0 +1,14 @@
+mutation CreateFleetBridgeSnapRevisions($fleetId: UUID!, $snapRevisionId: UUID!)
+{
+    createFleetBridgeSnapRevisions(fleetBridgeSnapRevisions: [
+        {
+            fleetId: $fleetId
+            snapRevisionId: $snapRevisionId
+        }
+    ])
+    {
+        id
+        fleetId
+        snapRevisionId
+    }
+}

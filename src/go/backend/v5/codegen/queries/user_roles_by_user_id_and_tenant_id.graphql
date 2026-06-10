@@ -1,0 +1,18 @@
+query GetUserRolesByUserIdAndTenantId($userId: UUID!, $tenantId: UUID!) {
+    userBridgeRoles(
+        where: {
+            and: [{ userId: { eq: $userId } }, { tenantId: { eq: $tenantId } }]
+        }
+    ) {
+        items {
+            role {
+                name
+                roleBridgeScopes {
+                    scope {
+                        value
+                    }
+                }
+            }
+        }
+    }
+}

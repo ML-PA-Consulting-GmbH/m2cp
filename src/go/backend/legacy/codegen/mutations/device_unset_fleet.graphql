@@ -1,0 +1,11 @@
+mutation UnsetDeviceFleet($deviceId: UUID!){
+    updateEdgeDevices(edgeDevices: [{
+        id: $deviceId
+    }], setNull: {fleetId: true})
+    {
+        deviceSerial
+        deviceName
+        deviceDescription
+        fleetId
+    }
+}

@@ -1,0 +1,21 @@
+query GetAppRevisionByAppIdLatest($id: UUID!)
+{
+    appRevisions(
+        take: 1,
+        skip: 0,
+        where: {
+         appId: { eq: $id }
+        },
+        order: {revision:DESC}){
+         items{
+            id
+            revision
+            version
+             appStatus {
+                 id
+                 name
+             }
+
+         }
+    }
+}

@@ -1,0 +1,5 @@
+query GetEdgeDeviceSshContainerStatus($deviceSerial: String!) {
+    edgeDeviceSshStatus(input: {deviceSerial: $deviceSerial}){
+        isReady
+    }
+}

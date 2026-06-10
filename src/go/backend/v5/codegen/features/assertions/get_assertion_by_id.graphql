@@ -1,0 +1,8 @@
+query GetAssertionById($id: UUID!) {
+  assertion(id: $id) {
+    assertionBody
+    assertionTypeId
+    id
+    revision
+  }
+}

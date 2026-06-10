@@ -1,0 +1,10 @@
+mutation InitiateUserLogin($email: String!, $sshPublicKey: String!) {
+    initiateUserLogin(
+        input: {
+            email: $email,
+            sshPublicKey: $sshPublicKey
+        }
+    ) {
+        challenge
+    }
+}

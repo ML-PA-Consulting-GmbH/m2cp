@@ -1,0 +1,7 @@
+mutation deleteDeploymentGroupBridgeAppRevision($bridgeId: UUID!) {
+  deleteDeploymentGroupBridgeAppRevisions(
+    ids: [$bridgeId]
+  ) {
+    id
+  }
+}

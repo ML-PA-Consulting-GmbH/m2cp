@@ -1,0 +1,18 @@
+# @genqlient(omitempty: true)
+query GetDeploymentGroupByIdOrName($filter: DeploymentGroupFilterInput) {
+    deploymentGroups(where: $filter) {
+        items {
+            id
+            name
+            deviceModelRevision {
+                deviceModel {
+                    architecture
+                    deviceTypeId
+                    deviceType {
+                        deviceTypeName
+                    }
+                }
+            }
+        }
+    }
+}

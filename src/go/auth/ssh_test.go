@@ -1,0 +1,72 @@
+package auth
+
+import (
+	"crypto/rand"
+	"encoding/hex"
+	"github.com/stretchr/testify/assert"
+	"golang.org/x/crypto/ssh"
+	"testing"
+)
+
+func TestSignNonce(t *testing.T) {
+	const privKeyPem = `-----BEGIN OPENSSH PRIVATE KEY-----
+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
+f6dVuIzZNzZNhG8aSPw6Cbfmn+c=
+-----END OPENSSH PRIVATE KEY-----`
+
+	const nonceReceivedFromServer = "4beb89062bb2d09c01345ea58fa999e0f63773bbb0edc23bc726c638e3fe45889b992184face1a3390c3f44ec018df7a"
+
+	// decode hex string to bytes
+	nonceBytes, err := hex.DecodeString(nonceReceivedFromServer)
+	assert.NoError(t, err)
+
+	// load priv key
+	signer, err := ssh.ParsePrivateKeyWithPassphrase([]byte(privKeyPem), []byte("test1234"))
+	//signer, err := ssh.ParsePrivateKey([]byte(privKeyPem))
+	assert.NoError(t, err)
+
+	// sign nonce
+	signature, err := signer.Sign(rand.Reader, nonceBytes)
+	assert.NoError(t, err)
+
+	// encode signature
+	signatureEncoded := hex.EncodeToString(signature.Blob)
+	_ = signatureEncoded
+	//fmt.Println(signatureEncoded)
+	// 40d2a00c5752f04b1fda763262026eb75b146c430ee722bca913bec8b5d7badd3c3afed0e927a2a232b7df7841071f60ca492eb23c51d4805aceba4e3471fb502306f14fc6dcc6b6e771bd0799a2fc3138510a5e0b2b4758178ae529a1f382b866021cba23aa3f9ab97e46ec6c3b3b6dbf6af0ee61314006d8b3a6e4b15f5a23d31efed2de6399f54711a529347a05b21785142ea6297ef6eed7940c6a655a3650d056233d9c7104a43f42c34e911e914778c4c09f31c78d72402b11e436f73d2372a5fc625aa807288dff76cf04cd5d0a665f0511446cf8aae7e6bff798fb5dd2286dd0a2277b4d79a5a9d082d1ba46c9dff5ccb8b2bcda41c03c50ad6516e3ad658ef0dc0b894aab7b73aedf955780be80fd10749b5485915b29d222e64cd10739352df45c841a89118e0e19d7803ff093fbcab2a099c16684b56832b24ed89cc08d9ffb7229dc9a9561d5a1933589396559a1690c00287df94197915ab0a407f057d039bc7e42b37ec669cce86b43c19e822fd773ba1b6949b5b7af5f2c16
+}

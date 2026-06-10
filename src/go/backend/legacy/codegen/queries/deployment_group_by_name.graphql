@@ -1,0 +1,7 @@
+query getDeploymentGroupByName($name: String) {
+  deploymentGroups(where: { name: { eq: $name } }) {
+    items {
+      id
+    }
+  }
+}

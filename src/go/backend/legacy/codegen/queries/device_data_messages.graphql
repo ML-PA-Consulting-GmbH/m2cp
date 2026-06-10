@@ -1,0 +1,12 @@
+query GetDeviceDataMessages($edgeDeviceId: UUID!, $date: DateTime!) {
+    dataMessagesDownload(
+        input: { dateTime: $date, edgeDeviceId: $edgeDeviceId }
+    ) {
+        blobName
+        createdAt
+        modifiedAt
+        length
+        committedBlockCount
+        downloadUri
+    }
+}

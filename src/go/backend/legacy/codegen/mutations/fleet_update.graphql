@@ -1,0 +1,20 @@
+# @genqlient(omitempty: true)
+mutation UpdateFleet(
+    $id: UUID!
+    $fleetName: String
+    $description: String
+    $fleetAutoUpdateModeId: UUID
+) {
+    updateFleets(
+        fleets: [
+            {
+                id: $id
+                fleetName: $fleetName
+                description: $description
+                fleetAutoUpdateModeId: $fleetAutoUpdateModeId
+            }
+        ]
+    ) {
+        id
+    }
+}

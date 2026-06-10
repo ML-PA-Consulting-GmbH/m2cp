@@ -1,0 +1,13 @@
+mutation setAssetSystem($assetId: UUID!, $systemId: UUID, $systemIdNull: Boolean) {
+    updateAssets(
+        assets: [
+            {
+                id: $assetId
+                parentAssetId: $systemId
+                setNull: { parentAssetId: $systemIdNull }
+            }
+        ]
+    ) {
+        id
+    }
+}

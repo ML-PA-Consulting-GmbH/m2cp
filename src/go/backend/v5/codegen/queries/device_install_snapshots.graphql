@@ -1,0 +1,24 @@
+# @genqlient(omitempty: true)
+query GetEdgeDeviceInstallSnapshots(
+    $filter: EdgeDeviceInstallStateSnapshotFilterInput
+    $take: Int
+){
+    edgeDeviceInstallStateSnapshots(
+        where: $filter
+        take: $take
+        order: [{dateTime: ASC}, {changeSetId:ASC}]
+    ){
+        items{
+            dateTime
+            changeSetId
+            snapRevision{
+                snapDeclarationId
+                snapDeclaration{
+                    snapName
+                }
+                snapVersion
+                revision
+            }
+        }
+    }
+}

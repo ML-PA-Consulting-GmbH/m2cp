@@ -1,0 +1,26 @@
+type: snap-declaration
+format: 1
+authority-id: canonical
+revision: 13
+series: 16
+snap-id: J60k4JY0HppjwOjW8dZdYc8obXKxujRu
+aliases:
+   -
+       name: lxc
+       target: lxc
+auto-aliases:
+   - lxc
+plugs:
+   lxd-support:
+       allow-auto-connection: true
+       allow-installation: true
+   system-observe:
+       allow-auto-connection: true
+publisher-id: canonical
+slots:
+   lxd:
+       allow-connection: true
+       allow-installation: true
+       deny-auto-connection: true
+snap-name: lxd
+timestamp: 2017-11-20T18:36:12.647198Z

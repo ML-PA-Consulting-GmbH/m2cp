@@ -1,0 +1,6 @@
+mutation edgeDeviceRefresh($deviceSerial: String!) {
+    result: edgeDeviceRefresh(input: {deviceSerial: $deviceSerial}) {
+        success
+        message
+    }
+}

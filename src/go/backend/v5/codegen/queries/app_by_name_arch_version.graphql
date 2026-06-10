@@ -1,0 +1,28 @@
+query GetAppByNameAndArchitectureAndVersion($name: String, $arch: Architecture, $version: String) {
+    apps(
+        take: 1
+        skip: 0
+        where: {
+            and: [
+                { appName: { eq: $name } }
+                { architecture: { eq: $arch } }
+                { appRevisions: { some: { version: { eq: $version } } } }
+            ]
+        }
+    ) {
+        items {
+            id
+            appName
+            architecture
+            appSnap{
+                snapId
+                assertionId
+            }
+            appRevisions {
+                version
+                hashSha3
+                hashSha3Base64Url
+            }
+        }
+    }
+}

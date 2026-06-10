@@ -1,0 +1,19 @@
+mutation UpdateDeviceModelRevision(
+    $id: UUID!
+    $isTpmRequired: Boolean
+    $isPreRegistrationRequired: Boolean
+) {
+    updateDeviceModelRevisions(
+        deviceModelRevisions: [
+            {
+                id: $id
+                isTpmRequired: $isTpmRequired
+                isPreRegistrationRequired: $isPreRegistrationRequired
+            }
+        ]
+    ) {
+        id
+        isTpmRequired
+        isPreRegistrationRequired
+    }
+}

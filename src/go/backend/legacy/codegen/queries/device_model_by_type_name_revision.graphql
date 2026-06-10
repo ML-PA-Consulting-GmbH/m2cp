@@ -1,0 +1,15 @@
+query GetDeviceModelIdByTypeNameRevision($modelType: String!, $modelName: String!, $modelRevision: Int!) {
+    edgeDeviceModels(
+        where: {
+            and: [
+                {modelType: {eq: $modelType}},
+                {modelName: {eq: $modelName}},
+                {modelRevision: {eq: $modelRevision}}
+            ]
+        }
+    ) {
+        items {
+            id
+        }
+    }
+}

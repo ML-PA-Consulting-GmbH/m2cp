@@ -1,0 +1,17 @@
+[Unit]
+Description=Init Service
+Wants=snapd.seeded.service
+Requires=snapd.apparmor.service
+After=snapd.service snapd.socket snapd.seeded.service snapd.apparmor
+
+[Service]
+ExecStart=/bin/bash -c '/usr/local/bin/init.sh'
+Environment="SNAPPY_LAUNCHER_INSIDE_TESTS=true"
+Environment="LANG=C.UTF-8"
+Restart=no
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,41 @@
+# @genqlient(omitempty: true)
+query getDeviceList(
+    $filter: DeviceFilterInput
+    $sort: [DeviceSortInput!]
+    $take: Int
+    $skip: Int
+) {
+    devices(where: $filter, order: $sort, take: $take, skip: $skip) {
+        items {
+            id
+            serialNumber
+            deviceName
+            description
+            deviceTypeId
+            deviceSnap {
+                uplinkMode
+            }
+            deviceType {
+                deviceTypeName
+            }
+            deviceModelRevision {
+                revision
+                deviceModel {
+                    modelName
+                    architecture
+                }
+            }
+            deviceStatus {
+                lastAppstoreActivity
+                lastMessagingActivity
+                isOnline
+            }
+            deploymentGroup {
+                name
+            }
+        }
+        pageInfo {
+            hasNextPage
+        }
+    }
+}

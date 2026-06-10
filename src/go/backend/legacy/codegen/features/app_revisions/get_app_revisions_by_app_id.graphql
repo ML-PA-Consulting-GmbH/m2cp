@@ -1,0 +1,32 @@
+query GetAppRevisionsByAppId($appId: UUID!, $take: Int!, $skip: Int!) {
+  appRevisions(
+    where: { appId: { eq: $appId } }
+    take: $take
+    skip: $skip
+    order: { revision: ASC }
+  ) {
+    items {
+      id
+      app {
+        appName
+        appSnap {
+          assertionId
+        }
+      }
+      version
+      revision
+      appRevisionSnap {
+        assertionId
+      }
+      appStatus {
+        id
+        name
+      }
+      description
+      downloadSize
+      deploymentGroupBridgeAppRevisions {
+        deploymentGroupId
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+mutation DeploymentGroupClone($input: DeploymentGroupCloneInput!) {
+  cloneDeploymentGroup(input: $input) {
+    id
+    name
+  }
+}

@@ -1,0 +1,8 @@
+query GetFleetDevicesByFleetId($fleetId: UUID!) {
+    fleet(id: $fleetId) {
+        edgeDevices {
+            id
+            deviceSerial
+        }
+    }
+}

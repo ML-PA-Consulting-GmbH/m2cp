@@ -1,0 +1,22 @@
+# @genqlient(omitempty: true)
+mutation CreateFleets(
+    $fleetName: String!,
+    $edgeDeviceModelId: UUID!,
+    $description: String,
+    $isDeltaUpdateOnly: Boolean,
+    $fleetAutoUpdateModeId: UUID
+) {
+    fleet: createFleets(fleets: [{
+        fleetName: $fleetName,
+        edgeDeviceModelId: $edgeDeviceModelId
+        description: $description,
+        isDeltaUpdateOnly: $isDeltaUpdateOnly,
+        fleetAutoUpdateModeId: $fleetAutoUpdateModeId
+    }]) {
+        id
+        fleetName
+        description
+        edgeDeviceModelId
+        isDeltaUpdateOnly
+    }
+}

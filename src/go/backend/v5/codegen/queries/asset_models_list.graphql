@@ -1,0 +1,19 @@
+query assetModels($ids: [UUID!]) {
+  assetModels(
+    where: { and: [{ assetTypeId: { in: $ids } }] }
+    order: { assetTypeId: ASC, assetModelName: ASC }
+  ) {
+    items {
+      id
+      assetModelName
+      assetTypeId
+      description
+      isSystemOwned
+      revision
+      assetType {
+        assetTypeName
+      }
+    }
+  }
+}
+

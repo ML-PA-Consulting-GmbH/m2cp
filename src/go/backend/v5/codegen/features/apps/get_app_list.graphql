@@ -1,0 +1,18 @@
+# @genqlient(omitempty: true)
+query GetAppList($filter: AppFilterInput, $take: Int, $skip: Int) {
+    apps(where: $filter, take: $take, skip: $skip) {
+        items {
+            id
+            architecture
+            deviceTypeId
+            appName
+            tenant {
+                alias
+            }
+            description
+        }
+        pageInfo {
+            hasNextPage
+        }
+    }
+}

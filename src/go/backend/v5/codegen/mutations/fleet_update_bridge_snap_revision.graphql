@@ -1,0 +1,7 @@
+mutation UpdateFleetBridgeSnapRevision($id: UUID!, $snapRevisionId: UUID!) {
+    updateFleetBridgeSnapRevisions(
+        fleetBridgeSnapRevisions: [{ id: $id, snapRevisionId: $snapRevisionId }]
+    ) {
+        id
+    }
+}

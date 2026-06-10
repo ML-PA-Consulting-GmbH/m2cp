@@ -1,0 +1,21 @@
+query getAppTenantByNameAndArchitecture($name: String, $arch: Architecture) {
+  apps(
+    take: 1
+    skip: 0
+    where: {
+      and: [
+        { appName: { eq: $name } }
+        { architecture: { eq: $arch } }
+      ]
+    }
+  ) {
+    items {
+        id
+        tenant {
+          tenantId
+          tenantName
+          alias
+        }
+    }
+  }
+}

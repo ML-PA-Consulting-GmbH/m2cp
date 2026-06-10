@@ -1,0 +1,9 @@
+mutation DeviceSshUserReset($deviceSerial: String!) {
+    edgeDeviceSshResetUser(input: {
+        deviceSerial: $deviceSerial
+    })
+    {
+        message
+        success
+    }
+}

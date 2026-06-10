@@ -1,0 +1,10 @@
+
+mutation modifyAssetModel($id: UUID!, $name: String, $description: String) {
+    updateAssetModels(assetModels: {
+        id: $id
+        assetModelName: $name
+        description: $description
+    }) {
+        id
+    }
+}

@@ -1,0 +1,12 @@
+query GetAppStatuses {
+    appStatuses(order: { displayOrder: ASC }) {
+        items {
+            id
+            name
+            description
+            isUsable
+            isUnrated
+            displayOrder
+        }
+    }
+}

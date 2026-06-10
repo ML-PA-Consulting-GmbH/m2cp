@@ -1,0 +1,15 @@
+query GetDeviceInfoLimitedForRefresh ($deviceId: UUID!) {
+    device(id: $deviceId) {
+        serialNumber
+        deviceModelRevision {
+            deviceModel {
+                deviceType {
+                    deviceTypeName
+                }
+            }
+        }
+        connectedDevice {
+            serialNumber
+        }
+    }
+}

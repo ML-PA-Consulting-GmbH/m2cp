@@ -1,0 +1,62 @@
+query getDeploymentGroupById($id: UUID) {
+  deploymentGroups(where: { id: { eq: $id } }) {
+   items {
+     id
+     name
+     deviceModelRevision {
+       id
+       deviceModel {
+         architecture
+         deviceType {
+           deviceTypeName
+         }
+         modelName
+       }
+       revision
+     }
+     autoUpdateMode {
+       name
+     }
+     deploymentGroupAdministrators {
+       userId
+     }
+     ownerUserId
+     deploymentGroupBridgeAppRevisions {
+       isCoreApp
+       appRevision {
+         id
+         app {
+           id
+           appName
+           description
+         }
+         revision
+         version
+         appStatus {
+           name
+           description
+         }
+         uploadMessage
+       }
+     }
+     devices {
+       id
+       serialNumber
+       description
+       deviceName
+       deviceStatus {
+         lastAppstoreActivity
+         lastMessagingActivity
+         lastUptime
+       }
+       pendingActions {
+             pendingActionCount
+           }
+     }
+     pendingActionSummary {
+       totalPendingActionCount
+       updatedDeviceCount
+     }
+   }
+ }
+}

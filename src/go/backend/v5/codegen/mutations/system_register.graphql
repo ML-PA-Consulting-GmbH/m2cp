@@ -1,0 +1,15 @@
+mutation provisionSystemAsset($input: SystemAssetProvisionInput!) {
+    provisionSystemAsset(input: $input) {
+        id
+        assetName
+        serialNo
+        childAssets {
+            id
+            assetName
+            serialNo
+            mcuId
+            attestationKey
+            attestationKeySha3
+        }
+    }
+}

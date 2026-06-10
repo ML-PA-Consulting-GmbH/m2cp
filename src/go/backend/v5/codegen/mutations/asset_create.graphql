@@ -1,0 +1,24 @@
+mutation createAsset(
+    $model: UUID!,
+    $serial: String!,
+    $mcuId: String,
+    $name: String!,
+    $description: String,
+    $attestationKey: String,
+    $tenantId: UUID!
+) {
+    createAssets(
+        assets: {
+            assetModelId: $model,
+            assetName: $name,
+            attestationKey: $attestationKey,
+            serialNo: $serial,
+            mcuId: $mcuId,
+            assetDescription: $description,
+            tenantId: $tenantId
+        }
+    ) {
+        id
+        attestationKey
+    }
+}

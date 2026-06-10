@@ -1,0 +1,12 @@
+mutation SetDeviceFleet($deviceId: UUID!, $fleetId: UUID){
+    updateEdgeDevices(edgeDevices: [{
+        id: $deviceId
+        fleetId: $fleetId
+    }])
+    {
+        deviceSerial
+        deviceName
+        deviceDescription
+        fleetId
+    }
+}

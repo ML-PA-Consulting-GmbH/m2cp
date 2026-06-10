@@ -1,0 +1,19 @@
+query GetDevicesWithExtendedFleetInfoBySerial($serial: String){
+    result: edgeDevices(where: {deviceSerial: {eq: $serial}}, order: {id:ASC}){
+        items{
+            id,
+            deviceName
+            deviceSerial
+            deviceArchitecture
+            fleet {
+                id
+                fleetName
+                description
+                edgeDevices {
+                    id
+                    deviceSerial
+                }
+            }
+        }
+        totalCount
+    }}

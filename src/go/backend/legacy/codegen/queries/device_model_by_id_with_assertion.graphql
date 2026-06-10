@@ -1,0 +1,14 @@
+query GetDeviceModelByIdWithAssertion($id: UUID!) {
+    edgeDeviceModel(id: $id) {
+        id
+        isTpmRequired
+        modelType
+        modelName
+        modelRevision
+        modelArchitecture
+        uploadMessage
+        modelAssertion {
+            assertionBody
+        }
+    }
+}

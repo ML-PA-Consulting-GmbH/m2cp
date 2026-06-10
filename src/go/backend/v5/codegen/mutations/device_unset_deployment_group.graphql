@@ -1,0 +1,10 @@
+mutation UnsetDeviceDeploymentGroup($deviceId: UUID!){
+    updateDevices(devices: [{
+        id: $deviceId
+    }], setNull: {deploymentGroupId: true})
+    {
+        id
+        serialNumber
+        deviceName
+    }
+}

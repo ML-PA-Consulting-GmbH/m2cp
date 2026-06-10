@@ -1,0 +1,18 @@
+query GetDevicesByDeploymentGroupId($deploymentGroupId: UUID!) {
+    devices(where: { deploymentGroupId: { eq: $deploymentGroupId } }) {
+        items {
+            id
+            serialNumber
+            deviceName
+            deviceStatus {
+                lastAppstoreActivity
+                lastMessagingActivity
+                lastUptime
+            }
+            pendingActions {
+                pendingActionCount
+            }
+            description
+        }
+    }
+}

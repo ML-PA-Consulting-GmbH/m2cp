@@ -1,0 +1,61 @@
+query GetFleetInfoById($fleetId: UUID!) {
+    fleet(id: $fleetId) {
+        id
+        fleetName
+        description
+        fleetAutoUpdateMode {
+            name
+        }
+        edgeDeviceModel {
+            modelType
+            modelName
+            modelRevision
+            modelArchitecture
+            edgeDeviceModelBridgeSnapDeclarations{
+                snapDeclaration {
+                    id
+                    snapName
+                    snapDescription
+                }
+            }
+        }
+        ownerUser {
+            email
+            displayName
+        }
+        fleetAdministrators {
+            user {
+                email
+                displayName
+            }
+        }
+        edgeDevices {
+            id
+            deviceSerial
+            deviceName
+            deviceDescription
+            deviceLastActivity
+            messageHubLastActivity
+            lastUptime
+        }
+        fleetBridgeSnapRevisions {
+            id
+            snapRevisionId
+            isCoreApp
+            snapRevision {
+                snapStatus {
+                    name
+                    description
+                }
+                uploadMessage
+                snapDeclaration {
+                    id
+                    snapName
+                    snapDescription
+                }
+                snapVersion
+                revision
+            }
+        }
+    }
+}

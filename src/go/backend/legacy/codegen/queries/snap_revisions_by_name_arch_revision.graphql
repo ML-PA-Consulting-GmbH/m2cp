@@ -1,0 +1,20 @@
+query GetSnapRevisionsByNameArchRevision($snapName: String!, $snapArchitecture: String!, $revision: Int!)
+{
+    snapRevisions(
+        take: 1,
+        skip: 0,
+        where: {
+            snapDeclaration: {
+                snapName: {eq: $snapName}
+                snapDeviceArchitecture: {eq: $snapArchitecture}
+            },
+            revision: {eq: $revision}
+        },
+        order: {revision:DESC}){
+         items{
+            id
+            revision
+        }
+        totalCount
+    }
+}

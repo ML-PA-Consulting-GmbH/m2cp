@@ -1,0 +1,74 @@
+/*
+ * Copyright (C) 2014-2024 ML!PA GmbH
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+ package constants
+
+const (
+	BaseUrlSnapcraftDashboard        = "{{ base-url-snapcraft-dashboard }}"
+	BaseUrlSnapcraftDashboardStaging = "{{ base-url-snapcraft-dashboard }}"
+	BaseUrlSnapcraftApi              = "{{ base-url-snapcraft-api }}"
+	BaseUrlSnapcraftStagingApi       = "{{ base-url-snapcraft-api }}"
+	BaseUrlSnapcraftApiV2            = "{{ base-url-snapcraft-api-v2 }}"
+	BaseUrlSnapcraftStagingApiV2     = "{{ base-url-snapcraft-api-v2 }}"
+	AuthLocation                     = "{{ auth-location }}"
+	AuthLocationStaging              = "{{ auth-location }}"
+
+	// snap ids
+	ProdIdSnapd  = "{{ prod-id-snapd }}"
+	ProdIdCore   = "{{ prod-id-core }}"
+	ProdIdCore18 = "{{ prod-id-core18 }}"
+	ProdIdCore20 = "{{ prod-id-core20 }}"
+	ProdIdCore22 = "{{ prod-id-core22 }}"
+	ProdIdCore24 = "{{ prod-id-core24 }}"
+	ProdIdCore26 = "{{ prod-id-core26 }}"
+
+	StagingIdSnapd  = "{{ prod-id-snapd }}"
+	StagingIdCore   = "{{ prod-id-core }}"
+	StagingIdCore18 = "{{ prod-id-core18 }}"
+	StagingIdCore20 = "{{ prod-id-core20 }}"
+	StagingIdCore22 = "{{ prod-id-core22 }}"
+	StagingIdCore24 = "{{ prod-id-core24 }}"
+	StagingIdCore26 = "{{ prod-id-core26 }}"
+
+	AccountId = "{{ account-id }}"
+
+	EncodedRepairRootAccountKeyPublicKeySha3 = "{{ repair-root-account-key-public-key-sha3 }}"
+	EncodedRepairRootAccountKey              = `{{ repair-root-account-key }}`
+
+	EncodedStagingRepairRootAccountKey = `{{ staging-repair-root-account-key }}`
+
+	EncodedCanonicalAccountSignKeySha3 = "{{ canonical-account-sign-key-sha3 }}"
+	EncodedCanonicalAccount            = `{{ canonical-account }}`
+
+	EncodedCanonicalRootAccountKey = `{{ canonical-root-account-key }}`
+
+	EncodedGenericAccount = `{{ generic-account }}`
+
+	EncodedGenericModelsAccountKeyPublicKeySha3 = "{{ generic-models-account-key-public-key-sha3 }}"
+	EncodedGenericModelsAccountKey              = `{{ generic-models-account-key }}`
+
+	EncodedGenericClassicModel = `{{ generic-classic-model }}`
+
+	EncodedStagingTrustedAccount = `{{ staging-trusted-account }}`
+
+	EncodedStagingRootAccountKey = `{{ staging-root-account-key }}`
+
+	EncodedStagingGenericAccount = `{{ staging-generic-account }}`
+
+	EncodedStagingGenericModelsAccountKey = `{{ staging-generic-models-account-key }}`
+
+	EncodedStagingGenericClassicModel = `{{ staging-generic-classic-model }}`
+)

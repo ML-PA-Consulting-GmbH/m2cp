@@ -1,0 +1,82 @@
+package model
+
+import (
+	"github.com/spf13/cobra"
+	"m2cpcli/backend"
+	"m2cpcli/format"
+	"strconv"
+)
+
+var modifyCmd = &cobra.Command{
+	Use:   "modify [modelId | modelType modelName modelRevision]",
+	Short: "Modify a model in your store",
+	Args:  validateModelModifyArgs,
+	RunE:  runModifyCmd,
+}
+
+func validateModelModifyArgs(cmd *cobra.Command, args []string) error {
+	return validateModelArgs(cmd, args)
+}
+
+func init() {
+	ModelCmd.AddCommand(modifyCmd)
+	modifyCmd.Flags().String("tpm", "false", "if the model requires a Trusted Platform Module (TPM) (true or false)")
+	modifyCmd.Flags().String("pre-reg", "false", "if the model requires hardware pre-registration (true or false)")
+}
+
+type ModelModifyResult struct {
+	Response *backend.UpdateDeviceModelRevisionResponse
+}
+
+func runModifyCmd(cmd *cobra.Command, args []string) error {
+	modelId, err := modelIdFromArgs(cmd, args)
+	deviceModelRevisionId := string(modelId)
+
+	var isTpmRequired *bool
+	var isPreRegistrationRequired *bool
+
+	if cmd.Flags().Changed("tpm") {
+		var tpm string
+		tpm, err = cmd.Flags().GetString("tpm")
+		if err != nil {
+			return err
+		}
+
+		value, err := strconv.ParseBool(tpm)
+		if err != nil {
+			return err
+		}
+
+		isTpmRequired = &value
+	}
+
+	if cmd.Flags().Changed("pre-reg") {
+		var preReg string
+		preReg, err = cmd.Flags().GetString("pre-reg")
+		if err != nil {
+			return err
+		}
+
+		value, err := strconv.ParseBool(preReg)
+		if err != nil {
+			return err
+		}
+
+		isPreRegistrationRequired = &value
+	}
+
+	result, err := backend.UpdateDeviceModelRevision(cmd.Context(), deviceModelRevisionId, isTpmRequired, isPreRegistrationRequired)
+	if err != nil {
+		return err
+	}
+
+	msg := ModelModifyResult{
+		Response: result,
+	}
+
+	return format.PrintFormattedOutput(cmd, msg, customModelModifyFormatter)
+}
+
+func customModelModifyFormatter(_ ModelModifyResult) (string, error) {
+	return "Success", nil
+}

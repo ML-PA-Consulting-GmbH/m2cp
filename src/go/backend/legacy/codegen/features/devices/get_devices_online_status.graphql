@@ -1,0 +1,6 @@
+query GetDevicesOnlineStatus($serialNumbers : [String!]!){
+    edgeDeviceOnlineStatus(deviceSerials: $serialNumbers){
+        deviceSerial
+        connectionState
+    }
+}

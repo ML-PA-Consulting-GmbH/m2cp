@@ -1,0 +1,17 @@
+query GetAppIdsByAppNameAndArchitecture(
+    $appName: String!
+    $architecture: Architecture!
+) {
+    apps(
+        where: {
+            and: [
+                { appName: { eq: $appName } }
+                { architecture: { eq: $architecture } }
+            ]
+        }
+    ) {
+        items {
+            id
+        }
+    }
+}

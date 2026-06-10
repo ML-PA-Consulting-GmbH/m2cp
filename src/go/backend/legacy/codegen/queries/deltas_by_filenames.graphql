@@ -1,0 +1,10 @@
+query GetDeltasByFileNames($fileNames: [String!]!) {
+    data: snapDeltas(where: { deltaFileName: { in: $fileNames } }) {
+        items {
+            deltaFileName
+            fromSnapRevisionId
+            toSnapRevisionId
+            deltaDownloadSize
+        }
+    }
+}

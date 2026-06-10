@@ -1,0 +1,8 @@
+
+query getDeviceInfoByIdTiny($id: UUID!) {
+    device(id: $id) {
+        id
+        serialNumber
+        deviceName
+    }
+}

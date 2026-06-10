@@ -1,0 +1,21 @@
+mutation ModifyDevice(
+  $deviceId: UUID!,
+  $deviceName: String,
+  $deviceDescription: String,
+  $deviceActivated: Boolean
+) {
+  updateDevices(
+    devices: [{
+      id: $deviceId,
+      deviceName: $deviceName,
+      description: $deviceDescription,
+      isDeviceActivated: $deviceActivated
+    }]
+  ) {
+    id
+    deviceName
+    serialNumber
+    description
+    isDeviceActivated
+  }
+}

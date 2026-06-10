@@ -1,0 +1,22 @@
+query GetAppRevisionByAppIdAndVersion($id: UUID!, $version: String) {
+    appRevisions(
+        take: 1
+        skip: 0
+        where: {
+            and: [
+                { appId: { eq: $id } }
+                { version: { eq: $version } }
+            ]
+        }
+    ) {
+        items {
+            id
+            revision
+            version
+            appStatus {
+                id
+                name
+            }
+        }
+    }
+}

@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package pb;
+
+enum MessageType {
+  COMMAND = 0;
+  RESPONSE = 1;
+  SIGNAL = 2;
+  DATA = 3;
+  INVALID = 4;
+  ANY = 5;
+  RAW = 6;
+}
+
+enum MessageScope {
+  UNDEFINED = 0;
+  PROCESS = 1;
+  DEVICE = 2;
+  NETWORK = 3;
+  GLOBAL = 4;
+}
+
+// Header message definition
+message Header {
+  MessageType Type = 1;
+  string Topic = 2;
+  MessageScope Scope = 3;
+  int64 TimeStamp = 4;
+  string Id = 5;
+  string TaskId = 6;
+  string Origin = 7;
+}
+
+// Assertion message definition
+message Assertion {
+  string Hash = 1;
+  string Signature = 2;
+  string SigningKeySha3 = 3;
+}
+
+// Trace message definition
+message TraceEntry {
+  string A = 1;
+  string T = 2;
+}
+
+// Command Body message definition
+message CommandBody {
+  string Command = 1;
+  repeated Parameter Parameters = 2;
+}
+
+message Parameter {
+  map<string, string> values = 1;
+}
+
+// Response Body message definition
+message ResponseBody {
+  string CommandId = 1;
+  repeated Response Responses = 2;
+}
+
+message Response {
+  int32 Error = 1;
+  string Message = 2;
+  map<string, string> Results = 3;
+}
+
+// Signal Body message definition
+message SignalBody {
+  string Type = 1;
+  string Name = 2;
+  string Content = 3;
+}
+
+// Data Body message definition
+message DataBody {
+  string FormatId = 1;
+  repeated Column Columns = 2;
+  repeated DataEntry Data = 3;
+}
+
+message Column {
+  string Name = 1;
+  string Type = 2;
+}
+
+message DataEntry {
+  string T = 1;
+  repeated string D = 2;
+}
+
+// Message definition that can contain any of the Body types
+message Message {
+  Header Header = 1;
+  oneof Body {
+    CommandBody commandBody = 2;
+    ResponseBody responseBody = 3;
+    SignalBody signalBody = 4;
+    DataBody dataBody = 5;
+  }
+  Assertion Assertion = 6;
+  repeated TraceEntry Trace = 7;
+}

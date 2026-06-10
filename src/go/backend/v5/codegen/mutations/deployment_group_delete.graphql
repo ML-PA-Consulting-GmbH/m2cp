@@ -1,0 +1,5 @@
+mutation DeleteDeploymentGroups($ids: [UUID!]!) {
+  deleteDeploymentGroups(ids: $ids) {
+    id
+  }
+}

@@ -1,0 +1,10 @@
+query getDeviceSerialByName($name: String) {
+    data: edgeDevices(
+        where: { and: [{ deviceName: { eq: $name } }, { deviceName: { neq: "" } }] }
+        take: 1
+    ) {
+        items {
+            deviceSerial
+        }
+    }
+}

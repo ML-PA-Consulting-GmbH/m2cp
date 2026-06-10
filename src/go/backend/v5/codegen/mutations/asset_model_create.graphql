@@ -1,0 +1,11 @@
+mutation createAssetModel( $typeId: UUID!, $name: String!, $description: String) {
+    createAssetModels(
+        assetModels: {
+            assetTypeId: $typeId
+            assetModelName: $name
+            description: $description
+        }
+    ) {
+        id
+    }
+}

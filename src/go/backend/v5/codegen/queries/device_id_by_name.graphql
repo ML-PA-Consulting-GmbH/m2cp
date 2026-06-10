@@ -1,0 +1,10 @@
+query getDeviceIdByName($name: String) {
+    data: devices(
+        where: { and: [{ deviceName: { eq: $name } }, { deviceName: { neq: "" } }] }
+        take: 1
+    ) {
+        items {
+            id
+        }
+    }
+}

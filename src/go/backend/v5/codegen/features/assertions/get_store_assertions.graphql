@@ -1,0 +1,8 @@
+query GetStoreAssertions {
+  storeAssertionsV2 {
+    assertions {
+      assertion
+      revision
+    }
+  }
+}

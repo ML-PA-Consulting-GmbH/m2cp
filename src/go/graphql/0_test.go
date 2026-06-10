@@ -1,0 +1,115 @@
+package graphql
+
+import (
+	"context"
+	"github.com/stretchr/testify/suite"
+	"go.uber.org/goleak"
+	"log"
+	"testing"
+)
+
+type TestSuite struct {
+	suite.Suite
+	ctx       context.Context
+	ctxCancel context.CancelFunc
+
+	// for invalidate json web token tests
+	url                string
+	userEmail          string
+	publicKey          []byte
+	privateKey         []byte
+	privateKeyPassword []byte
+}
+
+// TODO: how shall this work? ~/.m2cp/config must be a JSON to match the TestSuite struct? But why is it completely overwritten?
+func (s *TestSuite) SetupSuite() {
+	//var err error
+
+	log.Println(">>> From SetupSuite")
+
+	//log.Println("importing ~/.m2cp/" + state.ConfigStateFileName + " configuration file to use for unit tests")
+	//configFilename := state.ConfigStateFileName
+	//viper.SetConfigName(configFilename)
+	//viper.SetConfigType("json")
+	//home, err := os.UserHomeDir()
+	//s.NoError(err)
+	//
+	//configDirName := fmt.Sprintf(".%s", "m2cp")
+	//configDirPath := filepath.Join(home, configDirName)
+	//viper.AddConfigPath(configDirPath)
+	//err = viper.ReadInConfig()
+	//s.NoError(err)
+
+	// for invalidate json web token tests
+	s.url = "https://app-gateway-svc-test-csharp.azurewebsites.net/graphql/"
+
+	s.userEmail = "testuser@ml-pa.com"
+
+	s.publicKey = []byte("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBmefSwoqMqG+9wLNq+O5nI/MP4Sjq/7ArGRlX/UlDG4kQSbaB9yF9OknPQYGVzDAOfuKfEITiYq2yyrvAvdyc/iAE/YHHb5LzRm1JeRGaE6m+RAha5rb7BCwSjGxg9wA+3VSTuRm7I31gpdgYA/n2G1yl2cew7XpP9LFT8XhJ5KBEaMqFBikjOxBTTrAj7fBG2NGid1oSC1GhpNWbiOvwKKUoB4gLj4vRmFXFeFjl+fWXX3Zqcr8X6ennTjPeaqHpVWJY5i3WE2YaJtfIOEum2gnSlmN4dnnNiu6DAfodV9k1NAC6ZqzZ/19+qBWlRrBjfWOaI5pRzvRfv0sKOhGzSlKZ2WEKg3ZXWbHOHtKyM5pUIzvLZ+A6GHCzBVV8qvKs/RVYE/VQzHFhGrVeKAGgj5vZWuOZ2UetarTnduF1I2Uqb2gjaukWFHeSee9d3DWrFO9fvJmPcNyjbDq6N5QXEeSz03W38JIoWOl40d84cSC0G5kVogKXhKj3eKvK/CM= flo@MLPA-NB105")
+	s.Equal(567, len(s.publicKey))
+
+	s.privateKey = []byte(`-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABBb6hx1vi
+17xYPK1f7n7gwdAAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQDBmefSwoqM
+qG+9wLNq+O5nI/MP4Sjq/7ArGRlX/UlDG4kQSbaB9yF9OknPQYGVzDAOfuKfEITiYq2yyr
+vAvdyc/iAE/YHHb5LzRm1JeRGaE6m+RAha5rb7BCwSjGxg9wA+3VSTuRm7I31gpdgYA/n2
+G1yl2cew7XpP9LFT8XhJ5KBEaMqFBikjOxBTTrAj7fBG2NGid1oSC1GhpNWbiOvwKKUoB4
+gLj4vRmFXFeFjl+fWXX3Zqcr8X6ennTjPeaqHpVWJY5i3WE2YaJtfIOEum2gnSlmN4dnnN
+iu6DAfodV9k1NAC6ZqzZ/19+qBWlRrBjfWOaI5pRzvRfv0sKOhGzSlKZ2WEKg3ZXWbHOHt
+KyM5pUIzvLZ+A6GHCzBVV8qvKs/RVYE/VQzHFhGrVeKAGgj5vZWuOZ2UetarTnduF1I2Uq
+b2gjaukWFHeSee9d3DWrFO9fvJmPcNyjbDq6N5QXEeSz03W38JIoWOl40d84cSC0G5kVog
+KXhKj3eKvK/CMAAAWQ3rYfwL2pmyButK5zsAGPwnNjKwB1tFoziZquZY8MnLNn9lY4j0Z9
+mk7b6ZXVzpLq9wfcMrPZE2Odo/WFz7zfvy0JDiZr1G2lYi9eTtMiY+oJVfB+HV0yHANnAH
+wkW1orEzkyYuRDHylcaXdOr1mnKcXZrY+zeHT0Vd/aH5jtXudicMZnzIoT/kWxfXH7Lo+O
+CgGauOAavnOAb9J20sjRyAWLDGtWJMNy+NEXfhLPJmyr6Sju9D5dsrMQdSaBqakSnno6LR
+wFvkTcE9DW87AnPkQ6MqD4T8cloh/P1mtS2hFv4ZOjicrMWp/2V6kfmrAJPNByizdeyNbc
+TmF64njSArfnThCUv/IxturS+ESG9YexzrlqvsrTE47s+JH8DwQuJqZIZ3lXSiG7mgdOG0
+inCTaQLjGr/QbgSO4QtFQe1N71KSZ2uaskXeyWg30hKv0GdgC/W85oH0/DVok4W32tGahn
+kqAaO09McvmfljUvyuSxtyQYezEdir6u9lFhRUpTOTNyVffjU4fW2XGQsxTIhuKB7fPyR5
+aF5r7RSUcCQASWa72mSvJkx7FaOk0kr76TkpfR90944+qoc1DwoVLbjBwpjmox78Yrf287
+qgB1P2UVWkdSBqKOtoZ1jvFI783hPJHlEzfn0QQY8NR183KSG/kfR1LZKRILYneyRDDhtv
+7Y49PYPttctTDy9nyl2Hb4Bt2wz/7iJZZ4FjQ80gKXQrVRS1bCLcOk8eQpZONRI59tyTfR
+M7R3SOidE9/pCb1sH03QxpWFk2sl3AxrckQgNxSLFjFP46YKcxyUF7q7KnlWuHTQ6lF8tZ
+/BJNFLDAy02X3ogloTtgvWBti0hd51rb7TYlsxdIr2j7fcxuatF59IJ3hRBLbeLdYtJxhr
+45DNJrvx01LGGVAfcjsS8X/oXkq+afN9vgCfpyDIDNn8ekA1Aiq/ENmAu48DRdV79YECCG
+km/f+7eWlUxBHMRwM7O7tqnTIKY0POvV23uC2s8EFKk2ue47XSEJqf4Mo9vmPAB9YYgvO5
+KMpNjd0r8e0g7/wfWrum2CEvgGeWpmxPvDuSozIUGE8ym2IWn3//0YlSHcQnGofzRGbtEO
+uMj1JOGIDkrEfOx5gNYPbjYa+E9/sSyIshLt/U04tir9uNSY1nwuO0EnzoomhHUZYzPDFj
+jpZTecIeJRAadT56bQ/lZ9u6GZe825RpmIsxemwc90nFedFrfo2cXoKvGEv9lB/w3rfEmE
+BqaOYFzNV4bcwakV1il+Y5dFThBgRUnCvRqJD8Iq5+uJVQLY0AzS5AkA6LPwEqA+TM5Wyd
+uH1oYMeoBUVTod+x+2p1c+GWcsihvd/nJ1JY/EGsDF9L9hfDRMsirZss3oYcnxya58va4E
+kl66bt//DJDhyCrFZAkE772GeZdd6QtWSwl14BD/sxmTQQz94skFOUBqAj+NZs3Xk+NtIm
+k7cpuMpaL2ir9QdL+FTv6BNSnV+jU9ZWSmW8KAtXr4KOVthcUTbLYvQWW6LdF5+hSm/pfy
+7UAYNF8DoI30STs0omblCWPnMw6SoorXdl4eGzhY+aocOmlu2tDfI3gq+3KfgllVwAsRLg
+eg+saPHkYMQ6jeexro9XSaTBkpylzfAGXjau9GQr1fszN8yvkBqiSA98oP2Idv4k3+YBjN
+J7sn/Y++8+yjCbDf62fEZG89x0WerooUSzP66IRyAdARLD03869EL6wW/cMd4azr6I0z+N
+6OKQuo94vZqt6dJRm9ILcyjMNxxSV36dTsWoPkdUZ78ZVFsAkGeKxbnxb7jm6MY+6JnkHX
+rdlB5egUQ/URxKNf1OwjaEojw6YwwVsy+cSywApo/WTIY3LN68Ut2hZE0D6yD7UvIOKKfU
+f6dVuIzZNzZNhG8aSPw6Cbfmn+c=
+-----END OPENSSH PRIVATE KEY-----`)
+	s.Equal(2654, len(s.privateKey))
+
+	s.privateKeyPassword = []byte("test1234")
+}
+
+func (s *TestSuite) TearDownSuite() {
+	log.Println(">>> From TearDownSuite")
+}
+
+func (s *TestSuite) SetupTest() {
+	log.Println("-- From SetupTest")
+	s.ctx, s.ctxCancel = context.WithCancel(context.Background())
+}
+
+func (s *TestSuite) TearDownTest() {
+	s.ctxCancel()
+	<-s.ctx.Done()
+
+	log.Println("checking for leaks")
+	goleak.VerifyNone(s.T())
+	log.Println("-- From TearDownTest: done")
+}
+
+func TestSuiteRunner(t *testing.T) {
+	suite.Run(t, new(TestSuite))
+}

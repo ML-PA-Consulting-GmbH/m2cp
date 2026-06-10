@@ -1,0 +1,17 @@
+query assetModelById($id: UUID!) {
+    assetModel(id: $id) {
+        id
+        assetModelName
+        assetTypeId
+        description
+        isSystemOwned
+        revision
+        assetType {
+            assetTypeName
+        }
+        tenant {
+            id
+            alias
+        }
+    }
+}

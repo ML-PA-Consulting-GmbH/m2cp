@@ -1,0 +1,47 @@
+# @genqlient(omitempty: true)
+query getAssets(
+    $filter: AssetFilterInput
+    $sort: [AssetSortInput!]
+    $take: Int
+    $skip: Int
+) {
+  assets(where: $filter, order: $sort, take: $take, skip: $skip) {
+    items {
+      id
+      assetDescription
+      assetName
+      isSystemOwned
+      parentAssetId
+      serialNo
+      deviceId
+      assetModel {
+        id
+        assetType {
+          id
+          assetTypeCategory
+          assetTypeName
+          createdAt
+          createdBy
+          description
+        }
+        assetModelName
+      }
+      childAssets {
+        id
+      }
+      tenant {
+        alias
+        id
+      }
+      createdAt
+      modifiedAt
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+    totalCount
+  }
+}
+
+

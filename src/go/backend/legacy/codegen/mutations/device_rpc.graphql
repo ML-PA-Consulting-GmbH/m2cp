@@ -1,0 +1,15 @@
+mutation deviceRpc($rpcInput: ExecuteRpcInput!){
+    result: executeRPC(
+        input: $rpcInput
+    ){
+        commandId
+        responses{
+            error
+            message
+            results{
+                key
+                value
+            }
+        }
+    }
+}

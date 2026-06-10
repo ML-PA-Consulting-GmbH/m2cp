@@ -1,0 +1,7 @@
+mutation CompleteAppRevisionUpload($input: AppRevisionCompleteUploadInput!) {
+    completeAppRevisionUpload(input: $input) {
+        id
+        version
+        revision
+    }
+}

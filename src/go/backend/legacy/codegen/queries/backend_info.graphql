@@ -1,0 +1,35 @@
+query backendInfo {
+    storeSettings {
+        items {
+            id
+            tenantId
+            isOwner
+            tenant {
+                tenantName
+                alias
+            }
+        }
+    }
+    snapStoreVersion {
+        environment
+        version
+        coreVersion
+        databaseVersion
+        compatibleDatabaseVersion
+        friendlyVersion
+    }
+    modules {
+        items {id
+            moduleName
+            moduleInstances(order: {entryAssemblyModifiedAt: DESC}) {
+                startedAt
+                entryAssemblyModifiedAt
+            }
+        }
+    }
+    virtualDeviceContainerRegistryCredentials {
+        containerRegistryUri
+        username
+        password
+    }
+}

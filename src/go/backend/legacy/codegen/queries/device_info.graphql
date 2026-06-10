@@ -1,0 +1,112 @@
+
+query getDeviceInfoById($id: UUID!) {
+    device(id: $id) {
+        id
+        serialNumber
+        deviceName
+        description
+        deviceStatus {
+            lastAppstoreActivity
+            lastMessagingActivity
+            lastHubEndpoint
+            lastUptime
+            lastUplinkSignalContent
+        }
+        deviceModelRevision {
+            id
+            deviceModel {
+                deviceType {
+                    deviceTypeName
+                }
+                modelName
+                architecture
+            }
+            revision
+            deviceModelRevisionBridgeApps {
+                app {
+                    id
+                    appName
+                    description
+                }
+            }
+        }
+        deploymentGroup {
+            id
+            description
+            ownerUserId
+            deploymentGroupAdministrators {
+                userId
+            }
+            deploymentGroupBridgeAppRevisions {
+                isCoreApp
+                appRevision {
+                    id
+                    revision
+                    version
+                    description
+                    downloadSize
+                    app {
+                        id
+                        appName
+                        description
+                    }
+                }
+            }
+            name
+        }
+        deviceInstallStates {
+            appRevision {
+                id
+                revision
+                version
+                description
+                downloadSize
+                appId
+                app {
+                    appName
+                    description
+                }
+            }
+        }
+        pendingActions {
+            pendingActionCount
+            items {
+                appName
+                deltaFileSize
+                downloadSize
+                installedRevision
+                installedVersion
+                isCoreApp
+                pendingActionName
+                targetRevision
+                targetVersion
+            }
+        }
+        connectedDevice{
+            id
+            serialNumber
+            deviceName
+        }
+        connectedDevices{
+            id
+            serialNumber
+            deviceName
+            deviceModelRevision {
+                deviceModel {
+                    modelName
+                    architecture
+                }
+                revision
+            }
+
+        }
+        deviceSnap {
+            deviceTpmEkPublicKey
+            uplinkMode
+        }
+        assetId
+        asset {
+          id
+        }
+    }
+}

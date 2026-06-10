@@ -1,0 +1,28 @@
+query GetDeploymentGroupLogBooks(
+    $id: UUID!
+    $fromDateTime: DateTime!
+    $toDateTime: DateTime!
+) {
+    deploymentGroup(id: $id) {
+        id
+        logBooks(
+            order: { createdAt: ASC }
+            where: {
+                and: [
+                    { createdAt: { gte: $fromDateTime } }
+                    { createdAt: { lte: $toDateTime } }
+                ]
+            }
+        ) {
+            createdAt
+            description
+            user {
+                displayName
+                email
+                firstName
+                lastName
+            }
+        }
+    }
+}
+

@@ -1,0 +1,43 @@
+query findAsset($q: String!) {
+  assets(
+    where: {
+      or: [
+        { assetName: { contains: $q }},
+        { serialNo: { eq: $q }},
+      ],
+      assetModel: {
+        assetType: {
+          assetTypeName: {
+            or: [
+              { eq: "RTOS" }
+              { eq: "M2CP" }
+            ]
+          }
+        }
+      }
+    }
+  ) {
+    items {
+    id
+    assetName
+    serialNo
+    deviceId
+      parentAssetId
+      isSystemOwned
+
+      device {
+      id
+      serialNumber
+    }
+      assetModel {
+        id
+        assetType {
+          id
+          assetTypeCategory
+          assetTypeName
+        }
+        assetModelName
+      }
+    }
+  }
+}

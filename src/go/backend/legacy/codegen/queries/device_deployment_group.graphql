@@ -1,0 +1,30 @@
+
+query getDeviceDeploymentGroup($id: UUID!) {
+    device(id: $id) {
+        id
+        deploymentGroup {
+            id
+            description
+            ownerUserId
+            deploymentGroupAdministrators {
+                userId
+            }
+            deploymentGroupBridgeAppRevisions {
+                isCoreApp
+                appRevision {
+                    id
+                    revision
+                    version
+                    description
+                    downloadSize
+                    app {
+                        id
+                        appName
+                        description
+                    }
+                }
+            }
+            name
+        }
+    }
+}

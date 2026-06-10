@@ -1,0 +1,12 @@
+query GetAppStatusByName($name: String!) {
+    appStatuses(where: { name: { eq: $name } }) {
+        items {
+            id
+            name
+            description
+            isUsable
+            isUnrated
+            displayOrder
+        }
+    }
+}

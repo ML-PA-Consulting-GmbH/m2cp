@@ -1,0 +1,32 @@
+# https://github.com/Khan/genqlient/blob/main/docs/genqlient.yaml
+
+# Configuration file for genqlient, a GraphQL client generator for Go.
+#
+# graphql: Path to the GraphQL graphql files.
+# queries: Path to the GraphQL queries (queries, mutations, subscriptions).
+# generated: Output path for the generated Go code.
+# use_struct_references: Whether to use references to shared structs in generated code.
+# bindings: Custom type bindings for specific GraphQL scalars.
+#   - UUID: Maps to a Go type for UUIDs.
+#   - DateTime: Maps to a Go type for DateTime.
+#   - Long: Maps to a Go type for long integers.
+
+schema: ./schema.graphql
+operations:
+  - ./queries/*.graphql
+  - ./mutations/*.graphql
+  - ./features/**/*.graphql
+generated: ../generated.go
+optional: pointer
+client_getter: m2cpcli/backend/infrastructure.NewGraphqlClient
+use_struct_references: true
+
+bindings:
+  UUID:
+    type: string
+  DateTime:
+    type: string
+  Long:
+    type: int64
+  Decimal:
+    type: float64

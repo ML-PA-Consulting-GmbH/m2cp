@@ -1,0 +1,12 @@
+mutation SetDeviceToDead($id: UUID!){
+    updateEdgeDevices(edgeDevices: [{ id: $id }],
+        setNull: {
+            deviceName: true,
+            deviceDescription: true,
+            deviceLastActivity: true
+            fleetId: true,
+        })
+    {
+        deviceSerial
+    }
+}

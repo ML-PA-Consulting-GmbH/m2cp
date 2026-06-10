@@ -1,0 +1,22 @@
+query GetAppByNameAndArchitecture($name: String, $arch: Architecture) {
+  apps(
+    take: 1
+    skip: 0
+    where: {
+      and: [
+        { appName: { eq: $name } }
+        { architecture: { eq: $arch } }
+      ]
+    }
+  ) {
+    items {
+      id
+      appName
+      architecture
+      appSnap{
+          snapId
+          assertionId
+      }
+    }
+  }
+}

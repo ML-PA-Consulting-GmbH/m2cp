@@ -1,0 +1,19 @@
+query getDeviceInstallStateByDeviceIds(
+    $take: Int!
+    $skip: Int!
+    $deviceIds: [UUID!]!
+) {
+    data: edgeDeviceInstallStates(take: $take, skip: $skip, order: { id: ASC }, where: {edgeDeviceId:{in: $deviceIds }}) {
+        items {
+            id
+            edgeDeviceId
+            snapRevisionId
+            snapRevision {
+                snapDeclarationId
+            }
+        }
+        pageInfo {
+            hasNextPage
+        }
+    }
+}

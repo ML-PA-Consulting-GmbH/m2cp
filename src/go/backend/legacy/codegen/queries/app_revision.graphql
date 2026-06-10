@@ -1,0 +1,22 @@
+query getAppRevisionSpecific($id: UUID!, $revision: Int) {
+  appRevisions(
+    take: 1
+    skip: 0
+    where: {
+      and: [
+        { appId: { eq: $id } }
+        { revision: { eq: $revision } }
+      ]
+    }
+  ) {
+    items {
+      id
+      revision
+      version
+      appStatus {
+        id
+        name
+      }
+    }
+  }
+}

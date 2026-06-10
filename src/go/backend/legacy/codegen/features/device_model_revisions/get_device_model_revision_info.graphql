@@ -1,0 +1,31 @@
+query GetDeviceModelRevisionInfoById($id: UUID!) {
+  deviceModelRevision(id: $id) {
+    id
+    revision
+    isTpmRequired
+    isPreRegistrationRequired
+    uploadMessage
+    modelAssertionId
+    deviceModel {
+      modelName
+      architecture
+      deviceType {
+        deviceTypeName
+      }
+    }
+    deviceModelRevisionBridgeApps {
+      app {
+        id
+        appName
+        summary
+        appSnap {
+          snapBase
+          snapType {
+            id
+            snapTypeName
+          }
+        }
+      }
+    }
+  }
+}

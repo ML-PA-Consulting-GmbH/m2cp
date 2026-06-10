@@ -1,0 +1,20 @@
+query GetAppsByRating($rating: String!) {
+    appRevisions(where: { appStatus: { name: { eq: $rating } } }) {
+        items {
+            appStatus {
+                name
+            }
+            app {
+                id
+                appName
+                architecture
+            }
+            revision
+            version
+            uploadMessage
+            description
+            createdAt
+            createdBy
+        }
+    }
+}

@@ -1,0 +1,21 @@
+query GetDeviceModelRevisionList(
+    $filter: DeviceModelRevisionFilterInput
+    $take: Int
+    $skip: Int
+) {
+    deviceModelRevisions(where: $filter, take: $take, skip: $skip) {
+        items {
+            id
+            deviceModel {
+                modelName
+                deviceTypeId
+                architecture
+            }
+            revision
+            uploadMessage
+        }
+        pageInfo{
+            hasNextPage
+        }
+    }
+}

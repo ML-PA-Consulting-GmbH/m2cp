@@ -1,0 +1,9 @@
+mutation DeleteFleet($fleetId: UUID!){
+    deleteFleets(ids: [$fleetId])
+    {
+        id
+        fleetName
+        description
+        architecture
+    }
+}

@@ -1,0 +1,10 @@
+query getDeviceIdBySerial($serial: String) {
+    data: devices(
+        where: { and: [{ serialNumber: { eq: $serial } }, { serialNumber: { neq: "" } }] }
+        take: 1
+    ) {
+        items {
+            id
+        }
+    }
+}

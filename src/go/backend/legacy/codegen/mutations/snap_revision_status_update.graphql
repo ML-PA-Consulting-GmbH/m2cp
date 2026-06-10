@@ -1,0 +1,6 @@
+mutation UpdateSnapRevisionStatus($input: SnapRevisionUpdateStatusInput!) {
+    updateSnapRevisionStatus(snapRevision: $input) {
+        id
+        snapStatusId
+    }
+}

@@ -1,0 +1,7 @@
+mutation AddAppRevisionToDeploymentGroupMutation($deploymentGroupId:UUID!, $appRevisionId:UUID!) {
+  createDeploymentGroupBridgeAppRevisions(
+    deploymentGroupBridgeAppRevisions: [{ appRevisionId: $appRevisionId, deploymentGroupId: $deploymentGroupId }]
+  ) {
+    id
+  }
+}

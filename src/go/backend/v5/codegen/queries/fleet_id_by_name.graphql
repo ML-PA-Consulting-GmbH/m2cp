@@ -1,0 +1,7 @@
+query GetFleetIdByName($name: String!) {
+    fleets(where: {fleetName: {eq: $name}}) {
+        items {
+            id
+        }
+    }
+}

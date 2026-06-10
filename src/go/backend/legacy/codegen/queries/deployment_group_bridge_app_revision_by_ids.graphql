@@ -1,0 +1,24 @@
+query GetDeploymentGroupBridgeAppRevision($deploymentGroupId: UUID!, $appId: UUID!) {
+  deploymentGroupBridgeAppRevisions(
+    where: {
+      and: [
+        { deploymentGroupId: { eq: $deploymentGroupId } }
+        { appRevision: { app: { id: { eq: $appId } } } }
+      ]
+    }
+  ) {
+    items {
+      id
+      appRevision {
+        app {
+          appName
+          architecture
+          id
+        }
+        id
+        version
+        revision
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+query getUserByEmail($email: String!){
+    users(where: {email:{eq:$email}}){
+        items{
+            id
+            displayName
+            email
+            tenantId
+            sshPublicKey
+
+            tenant{
+                tenantName
+            }
+        }
+    }
+}

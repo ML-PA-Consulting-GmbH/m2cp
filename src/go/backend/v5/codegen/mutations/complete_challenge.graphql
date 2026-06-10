@@ -1,0 +1,10 @@
+mutation CompleteChallenge($challenge: String!, $signedChallenge: String!) {
+    completeChallenge(
+        input: {
+            challenge: $challenge,
+            signedChallenge: $signedChallenge,
+        }
+    ) {
+        token
+    }
+}

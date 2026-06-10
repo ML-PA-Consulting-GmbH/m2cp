@@ -1,0 +1,16 @@
+mutation SetDeviceDeploymentGroup($deviceId: UUID!, $dgroupId: UUID){
+    updateDevices(devices: [{
+        id: $deviceId
+        deploymentGroupId: $dgroupId
+    }])
+    {
+        id
+        serialNumber
+        deviceName
+        description
+        deploymentGroupId
+        deploymentGroup {
+          name
+        }
+    }
+}

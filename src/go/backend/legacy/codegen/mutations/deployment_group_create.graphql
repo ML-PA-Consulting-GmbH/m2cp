@@ -1,0 +1,15 @@
+mutation CreateDeploymentGroups($input: [DeploymentGroupCreateInput!]!) {
+  createDeploymentGroups(deploymentGroups: $input) {
+    autoUpdateModeId
+    createdAt
+    createdBy
+    description
+    deviceModelRevisionId
+    id
+    isDeltaUpdateOnly
+    modifiedAt
+    modifiedBy
+    name
+    ownerUserId
+  }
+}

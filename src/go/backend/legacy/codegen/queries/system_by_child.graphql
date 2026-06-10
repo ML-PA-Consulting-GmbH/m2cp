@@ -1,0 +1,15 @@
+query getSystemByChildAssetId($assetId: UUID!) {
+  assets(
+    where: {
+      childAssets: { some: { id: { eq: $assetId } } }
+    }
+  ) {
+    items {
+      id
+      childAssets {
+        id
+      }
+    }
+  }
+}
+

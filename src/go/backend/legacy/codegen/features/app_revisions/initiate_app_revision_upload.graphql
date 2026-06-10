@@ -1,0 +1,6 @@
+mutation InitiateAppRevisionUpload($input: AppRevisionInitiateUploadInput!) {
+    initiateAppRevisionUpload(input: $input) {
+        continuesToken
+        uploadUrl
+    }
+}

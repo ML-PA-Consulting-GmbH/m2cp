@@ -1,0 +1,12 @@
+query getUserById($userId: UUID!) {
+    user(id: $userId) {
+        id
+        displayName
+        email
+        tenantId
+        sshPublicKey
+        tenant {
+            tenantName
+        }
+    }
+}

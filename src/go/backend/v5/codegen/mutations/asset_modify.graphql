@@ -1,0 +1,7 @@
+mutation modifyAsset($id: UUID!, $name: String, $attestationKey: String) {
+    updateAssets(
+        assets: { id: $id, assetName: $name, attestationKey: $attestationKey }
+    ) {
+        id
+    }
+}

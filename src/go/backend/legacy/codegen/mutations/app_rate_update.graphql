@@ -1,0 +1,13 @@
+mutation setAppRevisionStatus($appRevisionId: UUID!, $appStatusId: UUID!, $description: String!){
+    updateAppRevisions(
+        appRevisions: [
+            {
+                id: $appRevisionId
+                appStatusId: $appStatusId
+                description: $description
+            }
+        ]
+    ) {
+        id
+    }
+}

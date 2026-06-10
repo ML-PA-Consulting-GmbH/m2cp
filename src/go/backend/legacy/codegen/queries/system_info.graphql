@@ -1,0 +1,60 @@
+query getSystemInfoById($assetId: UUID!) {
+  assets(where: { id: { eq: $assetId } }) {
+    items {
+      id
+      assetDescription
+      assetName
+      isSystemOwned
+      parentAssetId
+      serialNo
+      assetModel {
+        id
+        assetType {
+          id
+          assetTypeCategory
+          assetTypeName
+          createdAt
+          createdBy
+          description
+        }
+        assetModelName
+      }
+      childAssets {
+        id
+        assetDescription
+        assetModelId
+        assetModel {
+            id
+            assetType {
+              id
+              assetTypeCategory
+              assetTypeName
+              createdAt
+              createdBy
+              description
+            }
+            assetModelName
+        }
+        assetName
+        attestationKey
+        attestationKeySha3
+        createdAt
+        createdBy
+        deviceId
+        device {
+          id
+          serialNumber
+        }
+        isHealthy
+        isSystemOwned
+        lastDataReceivedAt
+        serialNo
+        tenantId
+      }
+      tenant {
+        alias
+        id
+      }
+    }
+  }
+}

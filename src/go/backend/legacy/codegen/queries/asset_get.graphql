@@ -1,0 +1,32 @@
+query getAssetById($id: UUID!) {
+  assets(
+    where: { id: { eq: $id }}
+  ) {
+    items {
+      id
+      assetName
+      serialNo
+      deviceId
+      device {
+        serialNumber
+      }
+      attestationKey
+      assetModel {
+        id
+        assetTypeId
+        assetType {
+          id
+          assetTypeCategory
+          assetTypeName
+        }
+        assetModelName
+      }
+      parentAssetId
+      isSystemOwned
+      tenant {
+          id
+          alias
+      }
+    }
+  }
+}
