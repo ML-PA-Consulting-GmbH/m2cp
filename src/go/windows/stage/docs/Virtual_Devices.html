@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. Virtual Edge Devices &mdash; L-IoT Documentation  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/drawio.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/MLPA-FavIcon-neg-weiss.ico"/>
+    <link rel="canonical" href="http://apu.ml-pa.loc/docs/customers/Virtual_Devices.html" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Real Time Device Development" href="Development_RTD.html" />
+    <link rel="prev" title="1. Edge Device Development" href="Development_Edge.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: black" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            L-IoT Documentation
+          </a>
+              <div class="version">
+                Version 1.14.8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Tools.html">2. Tools Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Tools.html#browser-ui">2.1. Browser UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Tools.html#cli-tools">2.2. CLI Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#windows-cli-tool">2.2.1. Windows CLI Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#linux-cli-tools">2.2.2. Linux CLI Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#login-and-usage">2.2.3. Login and Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Backend.html">3. Cloud Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#installing-backend-services">3.1. Installing Backend Services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#azure">3.1.1. Azure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#constraints-on-secrets">3.2. Constraints on secrets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#secrets">3.2.1. Secrets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#container-registry">3.3. Container Registry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#event-api">3.4. Event API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#full-list-of-entities">3.4.1. Full List of Entities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#receiving-data-points">3.4.2. Receiving Data Points</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#graphql-api">3.5. GraphQL API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#rest-api">3.6. REST API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#authentication-authorization">3.6.1. Authentication &amp; Authorization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#swagger-api-documentation">3.6.2. Swagger API Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#requests">3.6.3. Requests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Device.html">4. Devices Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Device.html#provisioning-process-of-externally-produced-edge-devices">4.1. Provisioning Process of Externally Produced Edge Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#installing-edge-os">4.1.1. Installing Edge OS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#test-sd-card-of-a-device">4.1.2. Test SD Card of a Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#os-image-inspection">4.1.3. OS Image Inspection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_User.html">5. User Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#quick-reference">5.1. Quick Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#roles-in-detail">5.2. Roles in Detail</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#default">5.2.1. Default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#observer">5.2.2. Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#system-analyst">5.2.3. System Analyst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#device-manager">5.2.4. Device Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#device-admin">5.2.5. Device Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-developer">5.2.6. Software Developer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-manager">5.2.7. Software Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-admin">5.2.8. Software Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#asset-admin">5.2.9. Asset Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#user-admin">5.2.10. User Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#business-application">5.2.11. Business Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#manufacturing-service">5.2.12. Manufacturing Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#core-admin">5.2.13. Core Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#super-admin">5.2.14. Super Admin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#rolepermission-scope-matrix">5.3. Role–Permission Scope Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#scope-naming-convention">5.4. Scope Naming Convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#role-decision-guide">5.5. Role Decision Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-1-is-this-a-human-user-or-a-machine-service-account">5.5.1. Step 1 — Is this a human user or a machine/service account?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-2-what-is-their-primary-area-of-responsibility">5.5.2. Step 2 — What is their primary area of responsibility?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-3-user-administration">5.5.3. Step 3 — User administration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-4-device-operations">5.5.4. Step 4 — Device operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-5-software-roles">5.5.5. Step 5 — Software roles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-6-read-only-and-monitoring">5.5.6. Step 6 — Read-only and monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#assigning-roles">5.6. Assigning Roles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Asset.html">6. Asset Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#concept-of-assets">6.1. Concept of Assets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#relevant-user-roles">6.2. Relevant User Roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-management-with-the-cli">6.3. Asset Management with the CLI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#working-with-asset-models">6.3.1. Working with Asset Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#working-with-assets">6.3.2. Working with Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#linking-assets">6.3.3. Linking Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#searching-and-finding-assets">6.3.4. Searching and Finding Assets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-creation-during-the-installation-process">6.4. Asset Creation during the installation process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#disable-the-asset-service-pre-registration-requirement">6.5. Disable the Asset Service Pre-Registration Requirement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-management-with-the-ecosystem-web-ui">6.6. Asset Management with the Ecosystem Web-UI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Software.html">7. Software Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#uploading-app-revisions">7.1. Uploading App Revisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#review">7.2. Review</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#deployment">7.3. Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#the-ml-pa-release-process">7.4. The ML!PA release process</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#steps-to-create-a-release">7.4.1. Steps to create a release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#contents-of-a-release-package">7.4.2. Contents of a release package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#security-updates">7.4.3. Security Updates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Device.html">8. Devices Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#list-devices">8.1. List Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#device-details">8.2. Device Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deployment-groups">8.3. Deployment Groups</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#deployment-groups-administrator-and-co-administrators">8.3.1. Deployment Group’s Administrator and Co-Administrators</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deploying-an-app-revision">8.4. Deploying an App Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#manually-trigger-deployment">8.5. Manually Trigger Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#analyzing-deployment">8.6. Analyzing Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#edge-devices">8.6.1. Edge Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#real-time-devices">8.6.2. Real Time Devices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deployment-history">8.7. Deployment History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#toggle-rtd-updates">8.8. Toggle RTD Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#device-logs">8.9. Device Logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#reverse-ssh-access">8.10. Reverse-SSH Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#advanced-troubleshooting">8.11. Advanced Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#tpm-da-lockout-mode">8.11.1. TPM DA Lockout Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#inspecting-the-state-json">8.11.2. Inspecting the state.json</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Manual</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Development_Edge.html">1. Edge Device Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#learning-path-for-app-developers">1.1. Learning Path for App Developers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#tools-for-app-development">1.2. Tools for App Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#build-applications-in-go-with-m2cp-go">1.2.1. Build Applications in Go with m2cp-go</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#package-applications-with-m2cp-snap">1.2.2. Package applications with m2cp-snap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#run-existing-software-within-an-m2cp-app-using-the-state-machine">1.2.3. Run existing software within an M2CP App using the State Machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#m2cp-app-crafting">1.3. M2CP App Crafting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-building-m2cp-apps">1.3.1. Questions and Answers: Building M2CP Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-debugging-m2cp-apps">1.3.2. Questions and Answers: Debugging M2CP Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-m2cp-app-deployment">1.3.3. Questions and Answers: M2CP App Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#upload-new-software-to-the-store">1.4. Upload new Software to the store</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#rate-a-version">1.4.1. Rate a version</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#edge-device-sdk">1.5. Edge Device SDK</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#installing-the-edge-device-sdk">1.5.1. Installing the Edge Device SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#setting-up-dev-environment">1.5.2. Setting Up Dev Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#using-the-edge-device-sdk">1.5.3. Using the Edge Device SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#tutorials">1.5.4. Tutorials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#python-edge-device-sdk">1.5.5. Python Edge Device SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#gpio">1.6. GPIO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#gpio-tools">1.6.1. GPIO Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#using-state-machine-with-gpio">1.6.2. Using State Machine with GPIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#gpio-led-blinking">1.6.3. GPIO LED Blinking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#rename-a-network-interface">1.7. Rename a Network Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#manual-remote-procedure-calls-rpc">1.8. Manual Remote Procedure Calls (RPC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-discovery">1.8.1. Node discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-information">1.8.2. Node information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-rpc">1.8.3. Node RPC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#json-mode">1.8.4. JSON mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#protect-edge-devices-via-basic-firewall">1.9. Protect Edge Devices via Basic Firewall</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Virtual Edge Devices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-a-virtual-device">2.1. What is a Virtual Device?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">2.2. Prerequisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation-of-docker">2.2.1. Installation of Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage-of-virtual-devices">2.3. Usage of Virtual Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#list-virtual-devices">2.3.1. List Virtual Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-virtual-device">2.3.2. Create a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delete-a-virtual-device">2.3.3. Delete a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#start-stop-a-virtual-device">2.3.4. Start/Stop a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#attach-to-a-virtual-device">2.3.5. Attach to a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-an-app-from-local-host-in-a-virtual-device">2.3.6. Install an App from Local Host in a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#copy-files-from-host-to-the-virtual-device">2.3.7. Copy Files from Host to the Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#copy-files-from-virtual-device-to-host">2.3.8. Copy files from Virtual Device to Host</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-or-debugging-applications-with-a-virtual-device">2.4. Testing or Debugging Applications with a Virtual Device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#testing-coap-clients-against-m2cp-coap">2.4.1. Testing CoAP clients against m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#debugging-applications-in-a-virtual-device">2.4.2. Debugging Applications in a Virtual Device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Development_RTD.html">3. Real Time Device Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#identifying-devices">3.1. Identifying Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-device-name">3.1.1. From Device Name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-hardware-serial-number">3.1.2. From Hardware Serial Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-hardware-assembly-number">3.1.3. From Hardware Assembly Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#by-device-type">3.1.4. By Device Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#creating-device-models">3.2. Creating Device Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#uploading-firmware">3.3. Uploading Firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#assigning-firmware-to-real-time-devices">3.4. Assigning Firmware to Real-time Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#creating-a-new-deployment-group-for-a-real-time-device">3.4.1. Creating a new Deployment Group for a Real-time Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#adding-the-app-to-the-deployment-group">3.4.2. Adding the app to the deployment group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#adding-the-device-to-the-deployment-group">3.4.3. Adding the device to the deployment group</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#monitoring-firmware-deployment">3.5. Monitoring Firmware Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#debugging-problem-scenarios">3.5.1. Debugging Problem Scenarios</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#legacy">3.6. Legacy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#id1">3.6.1. Uploading Firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#prerequisites">3.6.2. Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#firmware-files">3.6.3. Firmware Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#packaging-tool">3.6.4. Packaging Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#deployment">3.6.5. Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#validation">3.6.6. Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Networking.html">4. CoAP and Networking</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#lan-addresses">4.1. LAN Addresses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#contacting-modules">4.2. Contacting Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#common-coap-endpoints">4.3. Common CoAP endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#whoami-1">4.3.1. /whoami/1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#uptime-1">4.3.2. /uptime/1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#power-management">4.4. Power Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#m2cp-coaps-part-in-power-management">4.4.1. m2cp-coap’s part in power management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#apps-uptime-requests">4.4.2. App’s uptime requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#getuptimerequests-rpc">4.4.3. getUptimeRequests RPC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#dev-m2cpctl-integration">4.4.4. dev-m2cpctl integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Messages.html">5. Messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#monitoring-messages">5.1. Monitoring Messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#using-the-m2cp-device-message-listen-cli-command">5.1.1. Using the m2cp device message listen CLI Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#monitoring-with-azure-iot-hub-explorer">5.1.2. Monitoring with Azure IoT Hub Explorer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#conclusion">5.1.3. Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#data-flow-debugging">5.2. DATA Flow Debugging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#mcus">5.2.1. MCUs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#ingoing-packets-analysis">5.2.2. Ingoing Packets Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-coap">5.2.3. m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-message-hub">5.2.4. m2cp-message-hub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-coap-a-z-custom-parser">5.2.5. m2cp-coap-[a-z]+ Custom Parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-gateway">5.2.6. m2cp-gateway</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-gateway-uplink-output-buffer">5.2.7. m2cp-gateway Uplink Output Buffer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#inspecting-data-messages-in-the-cloud">5.2.8. Inspecting DATA messages in the cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#inspecting-signal-messages-in-the-cloud">5.2.9. Inspecting SIGNAL messages in the cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#data-visualization">5.2.10. Data Visualization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="APIs_Backend.html">6. Backend APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="APIs_Backend.html#user-service">6.1. User Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="APIs_Backend.html#app-store-service">6.2. App Store Service</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Technical Specification</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Architecture.html">2. Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#edge-system">2.1. Edge System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#edge-device">2.1.1. Edge Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#real-time-devices">2.1.2. Real Time Devices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#cloud-backend">2.2. Cloud Backend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#gateway-service">2.2.1. Gateway Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#user-service">2.2.2. User Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#log-service">2.2.3. Log Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#asset-service">2.2.4. Asset Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#signalr-hub-service">2.2.5. SignalR Hub Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#domain-event-exporter-service">2.2.6. Domain Event Exporter Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#app-store-service">2.2.7. App Store Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#assertion-service">2.2.8. Assertion Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#ssh-relay-service">2.2.9. SSH Relay Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#service-bus">2.2.10. Service Bus</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#id33">2.3. User Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Lifecycle_ED.html">3. Edge Device Lifecycle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#building-an-os-image">3.1. Building an OS Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#initial-provisioning-of-an-edge-device-os-installation">3.2. Initial Provisioning of an Edge Device &amp; OS Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#registration-of-an-edge-device-with-the-appstore">3.3. Registration of an Edge Device with the Appstore</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_ED.html#terminology">3.3.1. Terminology:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#authorization-of-an-edge-device">3.4. Authorization of an Edge Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#software-update">3.5. Software Update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#establishing-the-messaging-uplink">3.6. Establishing the Messaging Uplink</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#re-installation-of-the-os">3.7. Re-Installation of the OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#re-registration-with-a-different-appstore">3.8. Re-Registration with a different Appstore</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Lifecycle_RTD.html">4. Real Time Device Lifecycle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_RTD.html#firmware-updates-1-0-legacy">4.1. Firmware Updates 1.0 (Legacy)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_RTD.html#firmware-updates-2-0-current">4.2. Firmware Updates 2.0 (current)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#update-cycle">4.2.1. Update Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#data-formats">4.2.2. Data Formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#endpoints">4.2.3. Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#edge-cases">4.2.4. Edge Cases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Messaging.html">5. Messaging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#typical-message-routing">5.1. Typical Message Routing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#log-message-linux-app-to-cloud">5.1.1. Log Message Linux App to Cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#log-message-rtos-to-cloud">5.1.2. Log Message RTOS to Cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#local-to-device-rpc-via-backend">5.1.3. Local To Device RPC via Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#app-to-app-rpc-on-a-device">5.1.4. App To App RPC on a Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#device-to-device-rpc-via-ip">5.1.5. Device To Device RPC via IP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#data-points-to-data-visualization">5.2. Data Points to Data Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#m2cp-messaging-protocol">5.3. M2CP Messaging Protocol</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#changelog">5.3.1. Changelog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#message-format">5.3.2. Message Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#message-routing">5.3.3. Message Routing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#nodes-and-remote-procedure-calls-rpc">5.4. Nodes and Remote Procedure Calls (RPC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-discovery">5.4.1. Node discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-information">5.4.2. Node information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-rpc">5.4.3. Node RPC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Glossary</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">1. Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app">1.1. App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-registration">1.2. App Store Registration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-service">1.3. App Store Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-ui">1.4. App Store UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#architecture">1.5. Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset">1.6. Asset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-attestation-key">1.7. Asset Attestation Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-hierarchy">1.8. Asset Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-management-ui">1.9. Asset Management UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-model">1.10. Asset Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-name">1.11. Asset Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-service">1.12. Asset Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-type">1.13. Asset Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-type-category">1.14. Asset Type Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#backend-services">1.15. Backend Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#deployment-group">1.16. Deployment Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device">1.17. Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-id">1.18. Device ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-hardware">1.19. Device Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-management">1.20. Device Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model">1.21. Device Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model-name">1.22. Device Model Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model-revision">1.23. Device Model Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-name">1.24. Device Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-type">1.25. Device Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#ecosystem-ui">1.26. Ecosystem UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-device">1.27. Edge Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-device-sdk">1.28. Edge Device SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-os">1.29. Edge OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#firmware-package">1.30. Firmware Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model">1.31. Hardware Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model-name">1.32. Hardware Model Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-vendor">1.33. Hardware Vendor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model-revision">1.34. Hardware Model Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-serial-number">1.35. Hardware Serial Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#mcu-id">1.36. MCU ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp">1.37. M2CP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-coap">1.38. m2cp-coap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-gateway">1.39. m2cp-gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-message-hub">1.40. m2cp-message-hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#l-iot">1.41. L-IoT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#os-serial-number">1.42. OS Serial Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#real-time-device">1.43. Real Time Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#real-time-device-sdk">1.44. Real Time Device SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#snapd">1.45. Snapd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#snap-package">1.46. Snap Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#tenant">1.47. Tenant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#user-service">1.48. User Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#virtual-device">1.49. Virtual Device</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Legacy_Glossary.html">2. Legacy Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#dev-m2cpctl">2.1. dev-m2cpctl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#fleet">2.2. Fleet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-device">2.3. M2CP Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-cli">2.4. M2CP CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-coap">2.5. m2cp-coap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-control-tools">2.6. M2CP Control Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-core-apps">2.7. M2CP Core Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-gateway">2.8. m2cp-gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-go">2.9. m2cp-go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-listen">2.10. m2cp-listen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-logstat">2.11. m2cp-logstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-message-hub">2.12. m2cp-message-hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-simsensor">2.13. m2cp-simsensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-sdk">2.14. M2CP SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-sdk-go">2.15. m2cp-sdk-go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-snap">2.16. m2cp-snap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-timesync">2.17. m2cp-timesync</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-toolchain">2.18. M2CP Toolchain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#real-time-device-peripheral-iot-device">2.19. Real-Time Device / Peripheral / IoT Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#snapd">2.20. snapd</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Revision History</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Revision_History.html">1. Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">L-IoT Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">2. </span>Virtual Edge Devices</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="virtual-edge-devices">
+<h1><span class="section-number">2. </span>Virtual Edge Devices<a class="headerlink" href="#virtual-edge-devices" title="Permalink to this heading"></a></h1>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#what-is-a-virtual-device">What is a Virtual Device?</a></p></li>
+<li><p><a class="reference internal" href="#prerequisites">Prerequisites</a></p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#installation-of-docker">Installation of Docker</a></p></li>
+</ol>
+</li>
+<li><p><a class="reference internal" href="#usage-of-virtual-devices">Usage of Virtual Devices</a></p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#list-virtual-devices">List Virtual Devices</a></p></li>
+<li><p><a class="reference internal" href="#create-a-virtual-device">Create a Virtual Device</a></p></li>
+<li><p><a class="reference internal" href="#delete-a-virtual-device">Delete a Virtual Device</a></p></li>
+<li><p><a class="reference internal" href="#start-stop-a-virtual-device">Start/Stop a Virtual Device</a></p></li>
+<li><p><a class="reference internal" href="#attach-to-a-virtual-device">Attach to a Virtual Device</a></p></li>
+<li><p><a class="reference internal" href="#install-an-app-from-local-host-in-a-virtual-device">Install an App from Local Host in a Virtual Device</a></p></li>
+<li><p><a class="reference internal" href="#copy-files-from-host-to-the-virtual-device">Copy Files from Host to the Virtual Device</a></p></li>
+<li><p><a class="reference internal" href="#copy-files-from-virtual-device-to-host">Copy Files from Virtual Device to Host</a></p></li>
+</ol>
+</li>
+<li><p><a class="reference internal" href="#testing-or-debugging-applications-with-a-virtual-device">Testing or Debugging applications with a Virtual Device</a></p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#testing-coap-clients-against-m2cp-coap">Testing CoAP clients against m2cp-coap</a></p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#coap-clients-sending-from-the-host-machine">CoAP clients sending from the Host Machine</a></p></li>
+<li><p><a class="reference internal" href="#coap-clients-sending-from-ethernet-connected-devices">CoAP clients sending from Ethernet-connected Devices</a></p></li>
+</ol>
+</li>
+<li><p><a class="reference internal" href="#debugging-applications-in-a-virtual-device">Debugging Applications in a Virtual Device</a></p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#debugging-applications-from-localhost">Debugging Applications from Localhost</a></p></li>
+<li><p><a class="reference internal" href="#debugging-applications-from-inside-the-virtual-device">Debugging Applications from inside the Virtual Device</a></p></li>
+<li><p><a class="reference internal" href="#test-an-app-on-a-virtual-device">Test an App on a Virtual Device</a></p></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<section id="what-is-a-virtual-device">
+<h2><span class="section-number">2.1. </span>What is a Virtual Device?<a class="headerlink" href="#what-is-a-virtual-device" title="Permalink to this heading"></a></h2>
+<p>A Virtual Edge Device (=“virtual device”) is a Docker-based image built to behave <em>very similar</em> to a real, physiscal Edge Device.
+The image is built on Ubuntu 22 and can install and run amd64 Edge Device Apps. It has all the messaging capabilities as normal Edge Device
+and is thus ideal for App Development. With m2cp-coap installed it can also be used for Real Time Device development, acting as a bridge to the Backend.</p>
+<p>It’s created with the essential Apps preinstalled:</p>
+<ul class="simple">
+<li><p>snapd</p></li>
+<li><p>m2cp-gateway</p></li>
+<li><p>m2cp-message-hub</p></li>
+<li><p>core snaps</p></li>
+</ul>
+<p>Virtual devices are particularly useful for testing and debugging Edge Device Apps.
+They share most features of a regular Edge Device and offer some additional development features that physical devices do not have.
+Just like normal devices, they:</p>
+<ul class="simple">
+<li><p>can be interacted with via the M2CP CLI</p></li>
+<li><p>can be managed via Deployment Group</p></li>
+<li><p>have a regular application lifecycle (install, refresh, and delete are handled automatically by m2cp-gateway)</p></li>
+<li><p>support full M2CP messaging</p></li>
+<li><p>have application sandbox enabled</p></li>
+</ul>
+<p>Additional to normal devices, they also allow for:</p>
+<ul class="simple">
+<li><p>debugging applications in an L-IoT context</p></li>
+<li><p>connecting to CoAP, Snapd, and M2CP Messaging from the host system, as a those specific ports are exposed to the host</p></li>
+</ul>
+<p>However, they are also limited in some ways:</p>
+<ul class="simple">
+<li><p>no TPM support</p></li>
+<li><p>no Reverse-SSH (but direct access is more powerful anyway, see <a class="reference internal" href="#attach-to-a-virtual-device">attaching to a virtual device</a>)</p></li>
+<li><p>connected hardware related features are not available (connected peripherals, sensors, etc.)</p></li>
+<li><p>applications need to be compiled for amd64, as the virtual device is running on a x86_64 architecture</p></li>
+</ul>
+</section>
+<section id="prerequisites">
+<h2><span class="section-number">2.2. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Docker (Version 27.0.0 or later)</p></li>
+<li><p>m2cp CLI</p></li>
+<li><p>M2CP developer account</p></li>
+<li><p>Access to the ML!PA Azure Container Registry
+If you are missing any prerequisite, please contact ML!PA.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the case that you have a RabbitMQ or LavinMQ instance running
+locally, we recommend stopping it. It is not mandatory to stop it, but
+the local instance might hide a connection problem with the Virtual
+Device.</p>
+</div>
+<p>To install the m2cp CLI on Windows, follow the instructions in the <a class="reference internal" href="Installation_Tools.html#windows-cli-tool"><span class="std std-ref">Installation_Tools.md#windows-cli-tool</span></a> section.</p>
+<p>To install the m2cp CLI on Linux, follow the instructions in the <a class="reference internal" href="Installation_Tools.html#linux-cli-tools"><span class="std std-ref">Installation_Tools.md#linux-cli-tools</span></a> section.</p>
+<section id="installation-of-docker">
+<h3><span class="section-number">2.2.1. </span>Installation of Docker<a class="headerlink" href="#installation-of-docker" title="Permalink to this heading"></a></h3>
+<section id="instructions-for-linux">
+<h4>Instructions for Linux<a class="headerlink" href="#instructions-for-linux" title="Permalink to this heading"></a></h4>
+<p>Follow the instructions on the <a class="reference external" href="https://docs.docker.com/engine/install/ubuntu/">docker website</a>. We recommend to install docker via the <a class="reference external" href="https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository">APT repository method</a>.
+After installation, add your user to the <code class="docutils literal notranslate"><span class="pre">docker</span></code> group to avoid having to use <code class="docutils literal notranslate"><span class="pre">sudo</span></code> for every docker command.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>docker<span class="w"> </span><span class="nv">$USER</span>
+</pre></div>
+</div>
+<p>Log out and back in to apply the changes.</p>
+</section>
+<section id="instructions-for-windows">
+<h4>Instructions for Windows<a class="headerlink" href="#instructions-for-windows" title="Permalink to this heading"></a></h4>
+<p>Download and install the Docker Desktop installer <a class="reference external" href="https://hub.docker.com/editions/community/docker-ce-desktop-windows">from the docker website</a>. If not already installed, it will also install WSL2 (Windows Subsystem for Linux). Multiple reboots may be required during the installation process.</p>
+</section>
+</section>
+</section>
+<section id="usage-of-virtual-devices">
+<h2><span class="section-number">2.3. </span>Usage of Virtual Devices<a class="headerlink" href="#usage-of-virtual-devices" title="Permalink to this heading"></a></h2>
+<p>Virtual devices can be managed and interacted with using the <code class="docutils literal notranslate"><span class="pre">m2cp</span></code> CLI. All commands have an interactive mode that requests required and frequently used options, but flags can be used for each command to provide the option directly. In this section only interactive mode is used as, e.g., passing container names is very cumbersome.</p>
+<section id="list-virtual-devices">
+<h3><span class="section-number">2.3.1. </span>List Virtual Devices<a class="headerlink" href="#list-virtual-devices" title="Permalink to this heading"></a></h3>
+<p>To list all virtual devices, run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>device<span class="w"> </span>virtual<span class="w"> </span>list
+</pre></div>
+</div>
+<p>This command will list all locally existing virtual devices and their status.</p>
+</section>
+<section id="create-a-virtual-device">
+<h3><span class="section-number">2.3.2. </span>Create a Virtual Device<a class="headerlink" href="#create-a-virtual-device" title="Permalink to this heading"></a></h3>
+<p>To create a virtual device, run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>device<span class="w"> </span>virtual<span class="w"> </span>create
+</pre></div>
+</div>
+<p>This command will ask for the following information:</p>
+<p><strong>Name</strong>: Allowed characters are a-z, A-Z, 0-9, and dashes (<code class="docutils literal notranslate"><span class="pre">-</span></code>). As naming scheme for virtual devices, please use <code class="docutils literal notranslate"><span class="pre">dev-&lt;your-name&gt;-&lt;any-suffix&gt;</span></code>. For example, <code class="docutils literal notranslate"><span class="pre">dev-janos-coap</span></code> or <code class="docutils literal notranslate"><span class="pre">dev-janos-vd</span></code>.</p>
+<p><strong>CoAP</strong>: If enabled, the virtual device will expose port 5683 to the host. This is useful for debugging and testing CoAP applications. Only one started virtual device can have CoAP enabled at a time. If multiple devices with enabled CoAP exist, only one will start successfully. It’s recommended to enable it only for one device</p>
+<p><strong>Default Deployment Group</strong>: If enabled, a default Deployment Group with the same name as the device will be created containing all applications that are installed on the device. This is enabled by default.</p>
+<p>The default Deployment Group has by default auto updates enabled and set to <code class="docutils literal notranslate"><span class="pre">stable</span></code>. To change this, use the flag  <code class="docutils literal notranslate"><span class="pre">-m/--auto-update-mode</span></code> for the <code class="docutils literal notranslate"><span class="pre">create</span></code> command. Possible values are <code class="docutils literal notranslate"><span class="pre">stable</span></code>, <code class="docutils literal notranslate"><span class="pre">edge</span></code> and <code class="docutils literal notranslate"><span class="pre">off</span></code>. If the auto mode is set to <code class="docutils literal notranslate"><span class="pre">stable</span></code>, the apps in the Deployment Group get updated automatically if a new stable version is available. If it is set to <code class="docutils literal notranslate"><span class="pre">edge</span></code>, the apps get updated automatically if a new edge, or stable version is available. If it is set to <code class="docutils literal notranslate"><span class="pre">off</span></code>, the apps do not get updated automatically and have to be updated manually.</p>
+<p>Create a new virtual device, named, e.g., <code class="docutils literal notranslate"><span class="pre">dev-alice-test</span></code>. You can
+change the name of the device to your liking. The device name has
+following structure: <code class="docutils literal notranslate"><span class="pre">dev-&lt;username&gt;-&lt;name&gt;</span></code> where <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> can be set
+to the users liking.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ m2cp device virtual create dev-alice-test --yes
+Creating device &#39;dev-alice-test&#39; as container &#39;M2CP_LOCAL_DEVICE_DEV_dev-alice-test_STORE_mlpa-dev&#39;
+</pre></div>
+</div>
+<p>This will download the virtual device image and start it. It will be
+enabled to start automatically when you boot your system.
+The created virtual devices can be list with <code class="docutils literal notranslate"><span class="pre">m2cp</span> <span class="pre">device</span> <span class="pre">virtual</span> <span class="pre">list</span></code>. It should look very similar to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ m2cp device virtual list
+Name              Store       OS Serial Number                        Debugging Ports                           Running    Container
+dev-alice-test    mlpa-dev    ec6a5341-b268-466e-bb76-97440b329870    snapd=20000, rabbitmq=20001, ssh=20002    true       M2CP_LOCAL_DEVICE_DEV_dev-alice-test_STORE_mlpa-dev
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please note that the ports in <code class="docutils literal notranslate"><span class="pre">Debugging</span> <span class="pre">Ports</span></code> numbers may differ to
+your system.</p>
+</div>
+<p>At this point the virtual device is successfully set up.</p>
+</section>
+<section id="delete-a-virtual-device">
+<h3><span class="section-number">2.3.3. </span>Delete a Virtual Device<a class="headerlink" href="#delete-a-virtual-device" title="Permalink to this heading"></a></h3>
+<p>To delete a virtual device, run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>device<span class="w"> </span>virtual<span class="w"> </span>delete
+</pre></div>
+</div>
+<p>It lists all existing virtual devices and requests to select the one you want to delete. This will</p>
+<ul class="simple">
+<li><p>delete the container</p></li>
+<li><p>delete the Deployment Group, if it was created and the device is the only one in the Deployment Group</p></li>
+<li><p>unset the device name from the backend</p></li>
+<li><p>unset the store activity from the backend</p></li>
+</ul>
+</section>
+<section id="start-stop-a-virtual-device">
+<h3><span class="section-number">2.3.4. </span>Start/Stop a Virtual Device<a class="headerlink" href="#start-stop-a-virtual-device" title="Permalink to this heading"></a></h3>
+<p>To start or stop a virtual device, run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>device<span class="w"> </span>virtual<span class="w"> </span>start
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>device<span class="w"> </span>virtual<span class="w"> </span>stop
+</pre></div>
+</div>
+<p>A virtual device will stay in the last state it was set to. If you stop a device, it will stay stopped until you start it again.</p>
+</section>
+<section id="attach-to-a-virtual-device">
+<h3><span class="section-number">2.3.5. </span>Attach to a Virtual Device<a class="headerlink" href="#attach-to-a-virtual-device" title="Permalink to this heading"></a></h3>
+<p>Attaching means to get console access of the device. In the background, this simply connects to the underlying container.
+To attach to a virtual device, run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>device<span class="w"> </span>virtual<span class="w"> </span>attach
+</pre></div>
+</div>
+</section>
+<section id="install-an-app-from-local-host-in-a-virtual-device">
+<h3><span class="section-number">2.3.6. </span>Install an App from Local Host in a Virtual Device<a class="headerlink" href="#install-an-app-from-local-host-in-a-virtual-device" title="Permalink to this heading"></a></h3>
+<p>To install an App from your local host in a virtual device, run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>device<span class="w"> </span>virtual<span class="w"> </span>push<span class="w"> </span>&lt;path-to-snap&gt;
+</pre></div>
+</div>
+<p>It will be installed with the <code class="docutils literal notranslate"><span class="pre">--dangerous</span></code> flag, as the App is not signed by the store. Handy when testing a locally built App.</p>
+</section>
+<section id="copy-files-from-host-to-the-virtual-device">
+<h3><span class="section-number">2.3.7. </span>Copy Files from Host to the Virtual Device<a class="headerlink" href="#copy-files-from-host-to-the-virtual-device" title="Permalink to this heading"></a></h3>
+<p>As the virtual device is running in a docker container, you can copy files from your host to the virtual device using the <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">cp</span></code> command.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>docker<span class="w"> </span>cp<span class="w"> </span>&lt;path-to-file&gt;<span class="w"> </span>&lt;container-name&gt;:&lt;path-in-container&gt;
+</pre></div>
+</div>
+<p>To get the container name, use the <code class="docutils literal notranslate"><span class="pre">virtual</span> <span class="pre">device</span> <span class="pre">list</span></code> command.</p>
+</section>
+<section id="copy-files-from-virtual-device-to-host">
+<h3><span class="section-number">2.3.8. </span>Copy files from Virtual Device to Host<a class="headerlink" href="#copy-files-from-virtual-device-to-host" title="Permalink to this heading"></a></h3>
+<p>To copy files from the virtual device to the host, use the <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">cp</span></code> command as well.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>docker<span class="w"> </span>cp<span class="w"> </span>&lt;container-name&gt;:&lt;path-in-container&gt;<span class="w"> </span>&lt;path-to-file&gt;
+</pre></div>
+</div>
+<p>To get the container name, use the virtual device list command.</p>
+</section>
+</section>
+<section id="testing-or-debugging-applications-with-a-virtual-device">
+<h2><span class="section-number">2.4. </span>Testing or Debugging Applications with a Virtual Device<a class="headerlink" href="#testing-or-debugging-applications-with-a-virtual-device" title="Permalink to this heading"></a></h2>
+<p>To view application logs, we can use the command line tool <code class="docutils literal notranslate"><span class="pre">m2cpctl</span></code>. It is provided by the <code class="docutils literal notranslate"><span class="pre">dev-m2cpctl</span></code> app and is available in all virtual devices.
+The usage for <code class="docutils literal notranslate"><span class="pre">logs</span></code> is as follows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">m2cpctl logs &lt;service&gt; [flags]</span>
+
+<span class="go">Flags:</span>
+<span class="go">  -f, --follow               follow logs</span>
+<span class="go">  -h, --help                 help for logs</span>
+<span class="go">  -l, --level string         minimum log level to display (default &quot;debug&quot;)</span>
+<span class="go">  -m, --module stringArray   filter logs by module (* wildcards allowed, ^ to exclude)</span>
+<span class="go">  -n, --numlines int         print number of lines</span>
+<span class="go">      --raw                  print raw logs as received from &#39;journalctl&#39;</span>
+<span class="go">  -s, --search stringArray   filter logs by content (* wildcards allowed, ^ to exclude)</span>
+
+<span class="go">Global Flags:</span>
+<span class="go">      --debug   print debug output</span>
+<span class="go">      --json    print output as JSON</span>
+</pre></div>
+</div>
+<p>To view the logs of an application, <a class="reference internal" href="#attach-to-a-virtual-device">attach to the virtual device</a> and execute:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cpctl<span class="w"> </span>logs<span class="w"> </span>&lt;app-name&gt;
+</pre></div>
+</div>
+<p>To follow the logs, use the <code class="docutils literal notranslate"><span class="pre">-f</span></code>-flag.</p>
+<section id="testing-coap-clients-against-m2cp-coap">
+<h3><span class="section-number">2.4.1. </span>Testing CoAP clients against m2cp-coap<a class="headerlink" href="#testing-coap-clients-against-m2cp-coap" title="Permalink to this heading"></a></h3>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>This section expects and requires a running virtual device with the <strong>CoAP option enabled</strong>!</p>
+</div>
+<p>There are two ways to test CoAP clients against m2cp-coap:</p>
+<ul class="simple">
+<li><p>You have a CoAP client on your host machine, and want to send CoAP messages to m2cp-coap</p></li>
+<li><p>You have a CoAP client on an Ethernet-connected device, and want to send CoAP messages to m2cp-coap in the virtual device</p></li>
+</ul>
+<p>m2cp-coap offers a few endpoints by default. A portion of them are listed below:</p>
+<ul class="simple">
+<li><p>Method: <code class="docutils literal notranslate"><span class="pre">GET</span></code> Path: <code class="docutils literal notranslate"><span class="pre">/whoami/1</span></code> Description: Returns the current time from the Linux system</p></li>
+<li><p>Method: <code class="docutils literal notranslate"><span class="pre">GET</span></code> Path: <code class="docutils literal notranslate"><span class="pre">/t/1</span></code> Description: Returns information about the current device and coap server</p></li>
+<li><p>Method: <code class="docutils literal notranslate"><span class="pre">POST</span></code> Path: <code class="docutils literal notranslate"><span class="pre">/hello/1</span></code> Description: Is called by sensors as a heartbeat, notifying the server that they are still alive</p></li>
+</ul>
+<p>To view all incoming messages to m2cp-coap, <a class="reference internal" href="#attach-to-a-virtual-device">attach to the virtual device</a> and run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cpctl<span class="w"> </span>logs<span class="w"> </span>m2cp-coap<span class="w"> </span>-f<span class="w"> </span>--module<span class="w"> </span>server*
+</pre></div>
+</div>
+<section id="coap-clients-sending-from-the-host-machine">
+<h4>CoAP clients sending from the Host Machine<a class="headerlink" href="#coap-clients-sending-from-the-host-machine" title="Permalink to this heading"></a></h4>
+<p>To send CoAP messages from your host machine to m2cp-coap running inside the virtual device, send the CoAP messages to <code class="docutils literal notranslate"><span class="pre">localhost:5683</span></code> and they will be forwarded to the virtual device with enabled CoAP.</p>
+<p><strong>Instructions for Linux</strong> <a id="coap-sending-from-host-machine-linux"></a></p>
+<p>On Linux, a CoAP client is included in the <code class="docutils literal notranslate"><span class="pre">libcoap</span></code> package. To install it, execute:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libcoap3-bin
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Depending on your Linux distribution, <code class="docutils literal notranslate"><span class="pre">libcoap3-bin</span></code> may not be available. Then, try <code class="docutils literal notranslate"><span class="pre">libcoap2-bin</span></code> instead.</p>
+</div>
+<p>The CoAP client is then available with the command <code class="docutils literal notranslate"><span class="pre">coap-client-notls</span></code>. To test, if m2cp-coap is reachable, you can send a simple <code class="docutils literal notranslate"><span class="pre">/whoami/1</span></code> request:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>coap-client-notls<span class="w"> </span>-m<span class="w"> </span>get<span class="w"> </span><span class="s1">&#39;coap://localhost:5683/whoami/1&#39;</span>
+</pre></div>
+</div>
+<p>A successful response will look like this:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;sn&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&quot;edge_device_serial&quot;</span><span class="p">:</span><span class="s2">&quot;aa2db3fb-4670-5a8d-b105-c84587c81a62&quot;</span><span class="p">,</span><span class="nt">&quot;board&quot;</span><span class="p">:</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span><span class="nt">&quot;app&quot;</span><span class="p">:</span><span class="s2">&quot;m2cp-coap&quot;</span><span class="p">,</span><span class="nt">&quot;app_ver&quot;</span><span class="p">:</span><span class="s2">&quot;2.18.3-dev&quot;</span><span class="p">,</span><span class="nt">&quot;app_rev&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>If you want to see the request that <code class="docutils literal notranslate"><span class="pre">m2cp-cop</span></code> receives, open another terminal and <a class="reference internal" href="#attach-to-a-virtual-device">attach to the virtual device</a> and run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cpctl<span class="w"> </span>logs<span class="w"> </span>m2cp-coap<span class="w"> </span>-f<span class="w"> </span>--module<span class="w"> </span>server*
+</pre></div>
+</div>
+<p>If you send the CoAP request again, you should see the request in the logs. It should look like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">2024-11-12T16:35:18Z[debug](server@[::]:5683) 172.17.0.1:59023 -&gt; Code: GET, Token: 01, Path: /whoami/1, Type: Confirmable, MessageID: 103</span>
+<span class="go">2024-11-12T16:35:18Z[debug](server@[::]:5683) handler: /whoami/1, body:</span>
+</pre></div>
+</div>
+<p><strong>Instructions for Windows</strong><a id="coap-sending-from-host-machine-windows"></a></p>
+<p>No instructions are provided for Windows, as the <code class="docutils literal notranslate"><span class="pre">libcoap</span></code> package is not available for Windows. If you have a CoAP client for Windows, you can use it to send CoAP messages to <code class="docutils literal notranslate"><span class="pre">localhost:5683</span></code>. See the Linux instructions for an example request and how to see the messages in m2cp-coap!</p>
+</section>
+<section id="coap-clients-sending-from-ethernet-connected-devices">
+<h4>CoAP clients sending from Ethernet-connected Devices<a class="headerlink" href="#coap-clients-sending-from-ethernet-connected-devices" title="Permalink to this heading"></a></h4>
+<p>If, for example, an embedded device is connected to your machine via Ethernet and sending out CoAP messages a few things have to be configured.
+We assume that the connected device is sending CoAP requests/messages to a specific IP address. This address needs to be set on your host machine, so that it is reachable under this IP address. Otherwise, your host machine will ignore the requests and not forward them to the virtual device.</p>
+<p>If your device sends requests to, e.g., <code class="docutils literal notranslate"><span class="pre">fdea:dbee:f::1</span></code>, you have to set this address to the ethernet interface, where the device is connected to. This is done differently on Linux and Windows. The next section explains how to do it.</p>
+<p><strong>Instructions for Linux</strong> <a id="coap-sending-from-ethernet-device-linux"></a></p>
+<p>Make sure, that your device is connected via Ethernet to your machine.</p>
+<p>On Linux, you have to set it via your default network configuration tool of your distribution. For Ubuntu, it is <code class="docutils literal notranslate"><span class="pre">NetworkManager</span></code>.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Do not set the IP address via the <code class="docutils literal notranslate"><span class="pre">ip</span></code> command, as this will very likely get overwritten by your default network configuration tool after a few seconds.</p>
+</div>
+<p>With the following steps we first identify the network interface where the device is connected to and then set the IP address to it.</p>
+<p>To list all available network interfaces, execute:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>nmcli<span class="w"> </span>connection<span class="w"> </span>show
+</pre></div>
+</div>
+<p>The output should look like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">NAME                UUID                                  TYPE      DEVICE           </span>
+<span class="go">br-da4681fcabfd     43f9862f-c662-48f3-8ee6-e8ca46e2410f  bridge    br-da4681fcabfd               </span>
+<span class="go">ml-pa               142beb40-d892-477b-ae20-099c4cd70869  vpn       --                            </span>
+<span class="go">Wired connection 1  9684dd0c-828f-314e-a92f-3d23c2aadc30  ethernet  enp1s0f0              </span>
+<span class="go">Wired connection 2  58dc789a-6de0-368a-8c95-ca230e6fcaf7  ethernet  enxf4a80d3690e7 </span>
+</pre></div>
+</div>
+<p>The interface name is listed in the column <code class="docutils literal notranslate"><span class="pre">DEVICE</span></code>. The correct interface should be of type <code class="docutils literal notranslate"><span class="pre">ethernet</span></code>. If you have multiple to choose from, e.g., because you have an ethernet port on your docking station and for the laptop itself, you can differentiate them by the <code class="docutils literal notranslate"><span class="pre">DEVICE</span></code> column. Network interfaces on Linux have a specific naming scheme. Ethernet interfaces start with <code class="docutils literal notranslate"><span class="pre">en</span></code>. If it is followed by:</p>
+<ul class="simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">p</span></code>, it is a PCI device. That is usually the port of your laptop.</p></li>
+<li><p>an <code class="docutils literal notranslate"><span class="pre">x</span></code>, the rest of the name is the MAC address of the device. That can be, for example, be the port of a docking station.</p></li>
+</ul>
+<p>For example, if you have connected the device to the port of your laptop, and a device in this list starts with <code class="docutils literal notranslate"><span class="pre">enp</span></code>, it is very likely the correct interface.</p>
+<p>An alternative way is to disconnect the device and run the command again. The ethernet interface that has <code class="docutils literal notranslate"><span class="pre">---</span></code> in the <code class="docutils literal notranslate"><span class="pre">DEVICE</span></code> column is the one where the device was connected to.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For more information about predictable network interface device names, refer to the <a class="reference external" href="https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/networking_guide/sec-understanding_the_predictable_network_interface_device_names">Red Hat article</a>. For a more detailed and technically advanced explanation, see the <a class="reference external" href="https://www.freedesktop.org/software/systemd/man/latest/systemd.net-naming-scheme.html">manual page on network device naming schemes</a> from the freedesktop project.</p>
+</div>
+<p>If you have identified the correct interface, remember the <code class="docutils literal notranslate"><span class="pre">NAME</span></code> of the connection. It is the first column of the output. Next, we set the IP address to the interface with the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w"> </span><span class="s2">&quot;&lt;CONNECTION&gt;&quot;</span><span class="w"> </span>ipv6.method<span class="w"> </span>manual<span class="w"> </span>ipv6.addresses<span class="w"> </span>&lt;address&gt;/&lt;prefix-length&gt;
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;CONNECTION&gt;</span></code> with the <code class="docutils literal notranslate"><span class="pre">NAME</span></code> of the connection and <code class="docutils literal notranslate"><span class="pre">&lt;address&gt;/&lt;prefix-length&gt;</span></code> with the IP address and prefix length of the device. For example, if the device has the IP address <code class="docutils literal notranslate"><span class="pre">fdea:dbee:f::1</span></code>, the command could look like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w"> </span><span class="s2">&quot;Wired connection 1&quot;</span><span class="w"> </span>ipv6.method<span class="w"> </span>manual<span class="w"> </span>ipv6.addresses<span class="w"> </span>fdea:dbee:f::1/64
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Sometimes, the network interface is getting disabled after a few minutes. What seems to help is to also disable ipv4 for the connection:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w"> </span><span class="s2">&quot;&lt;CONNECTION&gt;&quot;</span><span class="w"> </span>ipv4.method<span class="w"> </span>disabled
+</pre></div>
+</div>
+</div>
+<p>Let’s check if the IP address is set correctly:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ip<span class="w"> </span>-6<span class="w"> </span>addr<span class="w"> </span>show<span class="w"> </span>&lt;interface&gt;
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;interface&gt;</span></code> with the name of the interface. Interface name this time, not the connection name.</p>
+<p>The output can look like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">2: enp1s0f0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000</span>
+<span class="go">    inet6 fdea:dbee:f::1/64 scope global noprefixroute </span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+<span class="go">    inet6 fe80::86d2:9b11:246b:70a4/64 scope link noprefixroute </span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+</pre></div>
+</div>
+<p>The device should now be able to send CoAP messages to the IP address of your host machine. The host machine will forward them to the virtual device. To view incoming messages, <a class="reference internal" href="#attach-to-a-virtual-device">attach to the virtual device</a> and run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cpctl<span class="w"> </span>logs<span class="w"> </span>m2cp-coap<span class="w"> </span>-f<span class="w"> </span>--module<span class="w"> </span>server*
+</pre></div>
+</div>
+<p>The output can look like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">2024-11-19T13:59:15Z[debug](server@[::]:5683) 172.17.0.1:33751 -&gt; Code: POST, Token: , Path: /hello/1, Type: NonConfirmable, MessageID: 10530, PayloadLen: 30</span>
+<span class="go">2024-11-19T13:59:15Z[debug](server@[::]:5683) handler: /hello/1, body: {&quot;uptime&quot;:60, &quot;id&quot;:4294967295}</span>
+</pre></div>
+</div>
+<p><strong>Instructions for Windows</strong> <a id="coap-sending-from-ethernet-device-windows"></a></p>
+<p>Make sure, that your device is connected via Ethernet to your machine.</p>
+<p>On Windows, alongside the IP we additionally have to configure the category of the network connection and the firewall to properly allow traffic from the device to m2cp-coap.
+Start a PowerShell as administrator (or use <a class="reference external" href="https://github.com/gerardog/gsudo">gsudo</a> for every command)</p>
+<p>First, we list all network interfaces</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">PS</span><span class="p">&gt;</span> <span class="n">netsh</span> <span class="n">interface</span> <span class="n">ipv6</span> <span class="n">show</span> <span class="n">interfaces</span>
+</pre></div>
+</div>
+<p>We need to find the ethernet interface where the device is connected to. <code class="docutils literal notranslate"><span class="pre">Ethernet</span></code> is usually the name of the ethernet port of a laptop.</p>
+<p>It can look like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Idx     Met         MTU          State                Name</span>
+<span class="go">---  ----------  ----------  ------------  ---------------------------</span>
+<span class="go">  1          75  4294967295  connected     Loopback Pseudo-Interface 1</span>
+<span class="go"> 19           1        1500  disconnected  Local Area Connection</span>
+<span class="go"> 13          30        1500  connected     Wi-Fi</span>
+<span class="go"> 10          35        1500  connected     Ethernet</span>
+<span class="go">  7          25        1500  disconnected  Wi-Fi 2</span>
+<span class="go"> 12          65        1500  disconnected  Bluetooth Network Connection</span>
+<span class="go"> 46        5000        1500  connected     vEthernet (WSL (Hyper-V firewall))</span>
+</pre></div>
+</div>
+<p>To identify the correct interface, connect and disconnect your device so that you can see, which interface connects and disconnects in the <code class="docutils literal notranslate"><span class="pre">State</span></code> field. If you found the correct interface, remember the <code class="docutils literal notranslate"><span class="pre">Idx</span></code> of the interface and the <code class="docutils literal notranslate"><span class="pre">Name</span></code> field.</p>
+<p>Next, we set the IP address to the interface</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">PS</span><span class="p">&gt;</span> <span class="n">netsh</span> <span class="n">interface</span> <span class="n">ipv6</span> <span class="n">add</span> <span class="n">address</span> <span class="n">interface</span><span class="p">=&lt;</span><span class="n">interface_name</span><span class="p">&gt;</span> <span class="n">address</span><span class="p">=&lt;</span><span class="n">address</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;interface-name&gt;</span></code> with the name of the interface and <code class="docutils literal notranslate"><span class="pre">&lt;address&gt;</span></code> with the IP address that your device sends the messages to. For example, if the device has the IP address <code class="docutils literal notranslate"><span class="pre">fdea:dbee:f::1</span></code>, the command could look like this:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">PS</span><span class="p">&gt;</span> <span class="n">netsh</span> <span class="n">interface</span> <span class="n">ipv6</span> <span class="n">add</span> <span class="n">address</span> <span class="n">interface</span><span class="p">=</span><span class="s2">&quot;Ethernet&quot;</span> <span class="n">address</span><span class="p">=</span><span class="n">fdea</span><span class="p">:</span><span class="n">dbee</span><span class="p">:</span><span class="n">f</span><span class="p">::</span><span class="n">1</span>
+</pre></div>
+</div>
+<p>Next, we need to change the network category of the connection. We set it to <code class="docutils literal notranslate"><span class="pre">private</span></code>. Replace <code class="docutils literal notranslate"><span class="pre">&lt;Idx&gt;</span></code> with the <code class="docutils literal notranslate"><span class="pre">Idx</span></code> of the interface.</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">PS</span><span class="p">&gt;</span> <span class="nb">Set-NetConnectionProfile</span> <span class="n">-InterfaceIndex</span> <span class="p">&lt;</span><span class="n">Idx</span><span class="p">&gt;</span> <span class="n">-NetworkCategory</span> <span class="n">Private</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Setting the network category is <em>not persisted between reboots</em>. If you reboot your machine, you have to set it again!</p>
+</div>
+<p>As a final step, we need to add a rule to the Windows firewall to allow CoAP traffic from the device to m2cp-coap.</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">PS</span><span class="p">&gt;</span> <span class="nb">New-NetFirewallRule</span> <span class="n">-DisplayName</span> <span class="s2">&quot;Allow CoAP from device&quot;</span> <span class="n">-Direction</span> <span class="n">Inbound</span> <span class="n">-LocalPort</span> <span class="n">5683</span> <span class="n">-Protocol</span> <span class="n">UDP</span> <span class="n">-Action</span> <span class="n">Allow</span> <span class="n">-RemoteAddress</span> <span class="s2">&quot;LocalSubnet&quot;</span> <span class="n">-InterfaceAlias</span> <span class="s2">&quot;&lt;interface-name&gt;&quot;</span>
+</pre></div>
+</div>
+<p>(optional) If you also want to allow ICMPv6 pings, you can add a rule for that as well</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">PS</span><span class="p">&gt;</span> <span class="nb">New-NetFirewallRule</span> <span class="n">-DisplayName</span> <span class="s2">&quot;Allow ICMPv6 from device&quot;</span> <span class="n">-Direction</span> <span class="n">Inbound</span> <span class="n">-Protocol</span> <span class="n">ICMPv6</span> <span class="n">-Action</span> <span class="n">Allow</span> <span class="n">-RemoteAddress</span> <span class="s2">&quot;LocalSubnet&quot;</span> <span class="n">-InterfaceAlias</span> <span class="s2">&quot;&lt;interface-name&gt;&quot;</span>
+</pre></div>
+</div>
+<p>The device should now be able to send CoAP messages to the IP address of your host machine. The host machine will forward them to the virtual device. To view incoming messages, <a class="reference internal" href="#attach-to-a-virtual-device">attach to the virtual device</a> and run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cpctl<span class="w"> </span>logs<span class="w"> </span>m2cp-coap<span class="w"> </span>-f<span class="w"> </span>--module<span class="w"> </span>server*
+</pre></div>
+</div>
+<p>The output can look like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">2024-11-19T13:59:15Z[debug](server@[::]:5683) 172.17.0.1:33751 -&gt; Code: POST, Token: , Path: /hello/1, Type: NonConfirmable, MessageID: 10530, PayloadLen: 30</span>
+<span class="go">2024-11-19T13:59:15Z[debug](server@[::]:5683) handler: /hello/1, body: {&quot;uptime&quot;:60, &quot;id&quot;:4294967295}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are done working with the device and want to undo the changes, you can use the following commands:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">PS</span><span class="p">&gt;</span> <span class="n">netsh</span> <span class="n">interface</span> <span class="n">ipv6</span> <span class="n">delete</span> <span class="n">address</span> <span class="n">interface</span><span class="p">=&lt;</span><span class="n">interface-name</span><span class="p">&gt;</span> <span class="n">address</span><span class="p">=&lt;</span><span class="n">address</span><span class="p">&gt;</span>
+<span class="n">PS</span><span class="p">&gt;</span> <span class="nb">Remove-NetFirewallRule</span> <span class="n">-DisplayName</span> <span class="s2">&quot;Allow CoAP from device&quot;</span>
+<span class="n">PS</span><span class="p">&gt;</span> <span class="nb">Remove-NetFirewallRule</span> <span class="n">-DisplayName</span> <span class="s2">&quot;Allow ICMPv6 from device&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><strong>Some additional tips for Windows</strong>:
+There is also a UI for the firewall, which makes it easy to view and manage rules. To open:</p>
+<ol class="arabic simple">
+<li><p>Press <code class="docutils literal notranslate"><span class="pre">Win</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code></p></li>
+<li><p>Enter <code class="docutils literal notranslate"><span class="pre">wf.msc</span></code> and press <code class="docutils literal notranslate"><span class="pre">Enter</span></code></p></li>
+</ol>
+<p>To view the network category of connections, use:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">PS</span><span class="p">&gt;</span> <span class="nb">Get-NetConnectionProfile</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="debugging-applications-in-a-virtual-device">
+<h3><span class="section-number">2.4.2. </span>Debugging Applications in a Virtual Device<a class="headerlink" href="#debugging-applications-in-a-virtual-device" title="Permalink to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This section is only relevant for developers and written in mind of Linux as the host OS. It may work on Windows as well, but the instructions are not tested.</p>
+</div>
+<p>Virtual devices allows to debug applications in a M2CP context. This means they can use the messaging of a virtual device. However, we do not yet have a way to run the application in the same environment as a real M2CP App, which is sandboxed and has a limited view and access to the system.</p>
+<p>We currently have two ways to debug applications in a virtual device:</p>
+<ul class="simple">
+<li><p>Run the application on localhost (not inside the virtual device) and use the exposed ports of the virtual device to connect to the M2CP messaging of the virtual device. This is useful for most M2CP applications</p></li>
+<li><p>Run the application inside the virtual device, and connect directly to the device’s messaging. This is a bit more complicated but very useful when, for example, debugging <code class="docutils literal notranslate"><span class="pre">snapd</span></code></p></li>
+</ul>
+<section id="debugging-applications-from-localhost">
+<h4>Debugging Applications from Localhost<a class="headerlink" href="#debugging-applications-from-localhost" title="Permalink to this heading"></a></h4>
+<p>To debug an application from localhost, you need to set two environment variables, <code class="docutils literal notranslate"><span class="pre">M2CP_VIRTUAL_DEVICE</span></code> and <code class="docutils literal notranslate"><span class="pre">SNAP_NAME</span></code>.<code class="docutils literal notranslate"><span class="pre">M2CP_VIRTUAL_DEVICE</span></code> is the snapd port of the virtual device. Each virtual device has a different port. To get it execute the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>device<span class="w"> </span>virtual<span class="w"> </span>list
+</pre></div>
+</div>
+<p>It shows an output like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>device<span class="w"> </span>virtual<span class="w"> </span>list
+<span class="go">Alias            Store         OS Serial Number                           Debugging Ports                           Running    Container Name</span>
+<span class="go">dev-janos-vd     local         d97e56cc-3396-5eec-8990-3485e15f8d55    snapd=20000, rabbitmq=20001, ssh=20002    true       M2CP_VIRTUAL_DEVICE_dev-janos-vd_STORE_local</span>
+<span class="go">dev-janos-test   local         74b0a8eb-bcdd-53fd-a362-85719de0e2f4    snapd=20004, rabbitmq=20005, ssh=20006    true       M2CP_VIRTUAL_DEVICE_dev-janos-test_STORE_local</span>
+</pre></div>
+</div>
+<p>If we want to debug an application on the <code class="docutils literal notranslate"><span class="pre">dev-janos-vd</span></code> virtual device, we have to set the environment variable <code class="docutils literal notranslate"><span class="pre">M2CP_VIRTUAL_DEVICE</span></code> to <code class="docutils literal notranslate"><span class="pre">20000</span></code>. For the device  <code class="docutils literal notranslate"><span class="pre">dev-janos-test</span></code>, we have to set it to <code class="docutils literal notranslate"><span class="pre">20004</span></code>.</p>
+<p>This variable is not persisted in the terminal, and you need to set it e.g. each time, you start a new terminal emulator.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">SNAP_NAME</span></code> is the name of the snap/application you want to debug.</p>
+<p>If the variables are set, the Edge Device SDK will recognize this and hook into the virtual device on the given port.
+If you have log outputs enabled, the Edge Device SDK will print out a message that it uses a virtual device:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">08</span><span class="p">:</span><span class="mi">31</span><span class="p">:</span><span class="mi">57</span> <span class="n">WRN</span><span class="p">]</span> <span class="n">using</span> <span class="n">virtual</span> <span class="n">m2cp</span> <span class="n">device</span> <span class="n">on</span> <span class="n">ports</span> <span class="mi">20000</span><span class="o">/</span><span class="mi">20001</span>
+</pre></div>
+</div>
+<p>The exact message can differ depending on the used SDK.</p>
+</section>
+<section id="debugging-applications-from-inside-the-virtual-device">
+<h4>Debugging Applications from inside the Virtual Device<a class="headerlink" href="#debugging-applications-from-inside-the-virtual-device" title="Permalink to this heading"></a></h4>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>These instructions are written for users of the Goland IDE. If you are using another IDE, the method is the same but how to execute it is different.</p>
+</div>
+<p>The idea behind this method is to run and debug the application in the virtual device via SSH. We have three steps to make this possible:</p>
+<ul class="simple">
+<li><p>Set a password for the root user in the virtual device</p></li>
+<li><p>Find the IP address of the virtual device container</p></li>
+<li><p>Configure a run configuration in Goland with a remote target</p>
+<ul>
+<li><p>Set the environment variable <code class="docutils literal notranslate"><span class="pre">SNAP_NAME</span></code></p></li>
+</ul>
+</li>
+</ul>
+<p>First, choose a virtual device you want to debug an application in. Use <code class="docutils literal notranslate"><span class="pre">m2cp</span> <span class="pre">device</span> <span class="pre">virtual</span> <span class="pre">list</span></code> to get the list of virtual devices and remember the container name of the device.</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#attach-to-a-virtual-device">Attach to the virtual device</a> and set a password for the root user with <code class="docutils literal notranslate"><span class="pre">passwd</span></code></p></li>
+<li><p>Leave the virtual device</p></li>
+<li><p>Find the IP address of the virtual device container: <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">inspect</span> <span class="pre">&lt;container-name&gt;</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">\&quot;IPAddress\&quot;</span></code>
+This will show the IP address of the container twice. Remember any of them.</p></li>
+<li><p>Open the application you want to debug in Goland</p></li>
+<li><p>Have a runnable run configuration for the application and open the configuration menu of the run configuration</p></li>
+<li><p>Set the environment variable <code class="docutils literal notranslate"><span class="pre">SNAP_NAME</span></code> to the name of the snap/application you want to debug</p></li>
+<li><p>At the top, there should be <code class="docutils literal notranslate"><span class="pre">Run</span> <span class="pre">on</span></code> listed. Click on <code class="docutils literal notranslate"><span class="pre">Manage</span> <span class="pre">targets</span></code></p></li>
+<li><p>Click on <code class="docutils literal notranslate"><span class="pre">+</span></code> to add a new target of type <code class="docutils literal notranslate"><span class="pre">SSH</span></code></p></li>
+<li><p>As host, use the IP address of the virtual device container and for the user <code class="docutils literal notranslate"><span class="pre">root</span></code></p></li>
+<li><p>Press on next</p></li>
+<li><p>Enter the password you set for the root user</p></li>
+<li><p>Press on next and finish</p></li>
+<li><p>Select the newly created target in the run configuration and press <code class="docutils literal notranslate"><span class="pre">OK</span></code></p></li>
+<li><p>Run the application in debug mode</p></li>
+</ol>
+</section>
+<section id="test-an-app-on-a-virtual-device">
+<h4>Test an App on a Virtual Device<a class="headerlink" href="#test-an-app-on-a-virtual-device" title="Permalink to this heading"></a></h4>
+<p>Say, you have an application packaged as an M2CP App and want to test it in
+your Virtual Device. The process is the same as with normal devices:</p>
+<ul class="simple">
+<li><p>Push the application to the store</p></li>
+<li><p>Add the application to the Deployment Group that contains your Virtual Device</p></li>
+<li><p>Trigger your device to refresh
+The details of these steps are explained in greater detail in the
+M2CP CLI Management
+Tool section.  Now
+your application is running in the L-IoT environment of the virtual
+device!
+If you want to view the console logs of your app, you have to attach
+to the virtual device.  Attaching to a virtual device means that you
+enter the Docker container of the virtual device. You are then in the
+container environment and every command is executed in the virtual
+device.  To attach, use:</p></li>
+</ul>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>device<span class="w"> </span>virtual<span class="w"> </span>attach
+</pre></div>
+</div>
+<p>It will give you a list of all your running virtual devices to choose
+which to attach to by number.
+Once you are attached, you can see the logs of your application with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>snap<span class="w"> </span>logs<span class="w"> </span><span class="o">{</span>your-snap-name<span class="o">}</span>
+</pre></div>
+</div>
+<p>A list of all installed snaps can be viewed with <code class="docutils literal notranslate"><span class="pre">snap</span> <span class="pre">list</span></code>.  To
+leave the Virtual Device environment again, execute <code class="docutils literal notranslate"><span class="pre">exit</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is not possible to enter the Virtual Device via SSH login. Please
+use <code class="docutils literal notranslate"><span class="pre">m2cp</span> <span class="pre">device</span> <span class="pre">virtual</span> <span class="pre">attach</span></code> instead.</p>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Development_Edge.html" class="btn btn-neutral float-left" title="1. Edge Device Development" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Development_RTD.html" class="btn btn-neutral float-right" title="3. Real Time Device Development" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, ML!PA.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,535 @@
+# Real Time Device Lifecycle
+
+## Firmware Updates 1.0 (Legacy)
+
+```{note}
+The legacy update process will be phased out starting in Q2/2025. The new process will allow controlling the
+firmware updates from the Appstore, making the process more secure and transparent.
+```
+
+The Devices built by ML!PA typically run on Riot-OS. As administrators typically don't have direct access to
+a Real Time Device (e.g. a sensor board), firmware updates use the Edge Device as an intermediary. Firmware is
+deployed to the Edge Device via the appstore and then offered to the Real Time Devices. Successful installations
+are reported back to the appstore.
+
+Multiple firmware files for multiple Real Time Devices of multiple versions can be deployed as a single snap package. The
+package contains metadata, specifying which firmware file is intended for which class of Real Time Devices or which individual
+Real Time Devices.
+
+The packaging and deployment is a highly automated process -- which will be described in detail in the following chapter,
+not because a user needs to know the details, but because it's valuable knowledge to understand how the system works.
+
+We'll also explain, how to package firmware as a snap package and how to validate, if the firmware was properly deployed.
+
+**Prerequisites**
+
+- Linux (Debian/Ubuntu based)
+- firmware files to be deployed
+- m2cp developer tools for Linux [must be installed](Installation_Tools.md#cli-tools)
+
+
+**Firmware Files**
+
+Our firmware is build based on SUIT (Software Updates for Internet of Things). The process for generating the firmware
+files is out of the scope of this document. We'll assume to have a set of valid firmware files.
+
+Example:
+
+```
+hwr-0_fwt-22_fwr-202402300_fws-0.bin
+hwr-0_fwt-22_fwr-202402300_fws-1.bin
+hwr-0_fwt-22_fwr-202402300.mani
+hwr-0_fwt-22_fwr-202402301_fws-0.bin
+hwr-0_fwt-22_fwr-202402301_fws-1.bin
+hwr-0_fwt-22_fwr-202402301.mani
+hwr-0_fwt-22_fwr-202402302_fws-0.bin
+hwr-0_fwt-22_fwr-202402302_fws-1.bin
+hwr-0_fwt-22_fwr-202402302.mani
+```
+
+Each firmware consists of three files:
+
+- a `.mani` file containing the manifest
+- a `_fws-0.bin` and a `_fws-1.bin` file containing the firmware payload for slots 0 and 1 of the Real Time Device
+
+The filenames encode, which class of Real Time Devices the firmware is intended for:
+
+```
+hwr-<HARDWARE_REVISION>_fwt-<FIRMWARE_TYPE>_fwr-<FIRMWARE_VERSION>_fws-0.bin
+hwr-<HARDWARE_REVISION>_fwt-<FIRMWARE_TYPE>_fwr-<FIRMWARE_VERSION>_fws-1.bin
+hwr-<HARDWARE_REVISION>_fwt-<FIRMWARE_TYPE>_fwr-<FIRMWARE_VERSION>.mani
+```
+
+It's crucial, that the filenames are correct, as they are parsed by the packaging tool.
+
+**Packaging Tool**
+
+To package the firmware files, we use the `m2cp-coap-manager` tool, which is contained in the [developers tools for
+Linux](Installation_Tools.md#linux-cli-tools). This CLI tool scans a given path for firmware files and packages them into a snap package
+with a custom name and version number.
+
+The package will contain the firmware files, additional metadata derived from the firmware file names, and a deployment
+tool, which will push the firmware -- not directly to the Real Time Device! -- but to the _m2cp-coap_ server on the Edge Device.
+This server maintains an archive of all available firmware files and offers them to the Real Time Devices via a CoAP endpoint.
+
+Let's assume that our firmware files are in the directory `./firmware` and we want to package them into a snap package
+called "my-firmware" with version "1.0.0", to be exported to directory `./snap`:
+
+```bash
+m2cp-coap-manager firmware-snap -i ./firmware -o ./snap -n "my-firmware" -v "1.0.0"
+```
+
+The tool will create the file `./snap/my-firmware_1.0.0_arm64.snap`, which can be deployed to the appstore.
+
+Please read the output of `m2cp-coap-manager` carefully to verify, that it found and processed your firmware files correctly.
+The output should list all files that were added to the resulting snap.
+
+To verify the contents of the produced snap file, you can use the Linux tool _unsquashfs_ to extract and view the contents.
+
+```bash
+$ unsquashfs <snap-filename>
+```
+
+If you don't have `unsquashfs` installed, use:
+
+```bash
+sudo apt-get update && sudo apt-get install squashfs-tools
+```
+
+**Deployment**
+
+As usual, the App must now be assigned to a Deployment Group of Devices to be deployed. It will then be installed on all the
+Devices of the Deployment Group. Once installed, the App will -- after each boot - contact the _m2cp-coap_ server on the Edge Device
+and offer the firmware files contained in the package. It sends a list of its available files together with their hash
+sums and waits for the CoAP server to request files that are not yet known to the server. Those files are transferred
+from the App to the server. The App then shuts down until the next boot -- while the server notifies Real Time Devices of the
+new firmware files. The Real Time Devices can then request the firmware files from the server.
+
+To learn more about deployment using the App Store Service, please refer to managing devices](Management_Device.md).
+
+**Validation**
+
+Validation of the firmware deployment is currently (as of 2024-05-30) still a manual process without a comfortable UI.
+
+In the future, we plan to visualize the currently installed firmware versions of all Real Time Devices in the appstore.
+
+Until then, there's multiple manual ways to check, which firmware is currently installed on a Real Time Device. You should choose
+the method which is most convenient for you.
+
+- Use the `/whoami/1` endpoint of the Real Time Device to get the firmware version. This requires you to have direct access
+  to the internal network of the Edge Device and its Real Time Devices.
+- Review the SIGNAL messages emitted by m2cp-coap. After successfully installing a firmware, the app will emit a
+  SIGNAL message with the firmware version. This can be seen in the appstore logs.
+- Review the logs of the _m2cp-coap_ server. The server logs all requests and responses. You can see, which firmware
+  files were requested by which Real Time Device.
+- Review the DATA messages with Device information emitted by each Real Time Device at boot.
+
+
+## Firmware Updates 2.0 (current)
+<a id="realtime_device_firmware_updates"></a>
+
+_Real Time Devices (RTD)_ can't communicate directly with the App Store Service - instead they use an _Edge Device (ED)_ as a proxy. On the _Edge Device_ the App _m2cp-coap_ is responsible for handling those updating process.
+
+The App Store Service has a generalized concept of "Apps" that is applied to all classes of Devices.
+It considers the firmware of a Real Time Device to be the _App_ running on that Device. This generalization allows managing the software for
+all types of Devices in a unified manner.
+
+For this update process to work properly, the Real Time Devices must have their own hardware information stored in a location that
+is not overwritten when updating the firmware, e.g. user page or EEPROM. The fields `hw_model`, `hw_vendor` and `hw_serial` must be
+communicated by the Real Time Devices during the process.
+
+### Update Cycle
+
+```{drawio-image} /_static/drawio/realtime_device_firmware_updates.drawio
+:name: rtos-firmware-updates-page-0
+:alt: Real Time Device Firmware Updates
+:width: 100%
+:align: center
+:transparency: "true"
+:page-index: 0
+:export-scale: 100
+```
+
+_RTDs_ communicate with _m2cp-coap_ on the _Edge Device_, which in turn communicates with the _App Store Service_, reporting the
+current state of all RTDs in its neighbourhood, asking for updates to perform. The process is asynchronous and designed to work
+reliable even if networking availability and RTDs uptime is sparse.
+
+The _Edge Device_ executes an update sequence, when:
+- The _m2cp-coap_ app starts up
+- A new _Real Time Device_ is discovered
+- A successful update of an _Real Time Device_ has been observed
+- 6 hours have passed since the last refresh call
+- A rpc-call from the App Store Service requests an immediate refresh due to a changed target state
+
+Whenever one of these conditions is met, the update sequence depicted on the diagram above is started:
+
+```{drawio-image} /_static/drawio/realtime_device_firmware_updates.drawio
+:name: rtos-firmware-updates-page-1
+:alt: Real Time Device Firmware Updates
+:width: 100%
+:align: center
+:transparency: "true"
+:page-index: 1
+:export-scale: 100
+```
+
+
+#### Peers Discovery
+
+_m2cp-coap_ prepares for an imminent refresh call to the App Store by trying to gather as much information as possible
+about the _RTDs_ in its local network. To achieve this, it sends a multicast CoAP request to the local network:`GET coap://[ff02::1]/whoami/2`
+and additionally sends individual `GET /whoami/2` requests to all _known peers_ (RTDs it has seen recently).
+Successful responses contain an [RTD Details Data Object](#rtd-details) in their body and `2.05 Content` as result code.
+_m2cp-coap_ waits 3 seconds for responses from the _Real Time Devices_ and updates the _known peers_ list using the received information.
+
+The update mechanism does _not_ rely on the _RTDs_ answering to these discovery requests. It's designed to support a broad range of legacy RTDs and RTDs with limited capability.
+Implementing these endpoints is recommended, though, for fast and efficient updates. Some _RTDs_ don't have a CoAP server. They announce themselves as described in [Serve Firmware Updates](#serve-firmware-updates).
+
+
+#### Refresh Call
+
+_m2cp-coap_ uses the secure connection through `snapd` to call the App Store Service for a URL of the App Store and a session token. This is done using the `get-appstore-session` query parameter. If the session token is still valid, this step is omitted.
+_m2cp-coap_ reports _known-peers_ and their details to the App Store Service at the provided URL using `POST` on the endpoint `/api/v2/mlpa/firmware/refresh` with a [Firmware Refresh Request](#firmware-refresh-request) in the body.
+
+```{note}
+The same physical _RTDs_ can appear in _known-peers_ multiple times, if they interact with _m2cp-coap_ legacy and modern processes. This is due to the fact, that internally we view different compatibility profiles as different devices. When sending
+the refresh request, _m2cp-coap_ will deduplicate the entries, so that each _RTD_ is only reported once. If both legacy and modern compatibility profiles of the same _RTD_ are known, and they were both last seen in a short time window, the modern one is preferred.
+```
+
+Processing the Request:
+- For each reported Device the App Store Service looks up the sequence number in the Devices installation history to find out, what App Revision was installed using that sequence number. If no entry is found, the App Store Service assumes the current installation to be invalid and an update to be required.
+- The App Store Service records the current installation state of all Devices in its database, compares it to the target state as defined by the Deployment Group of each Device, and calculates the necessary update actions
+- The App Store Service can add additionally add update actions for Devices that were _not_ reported with the refresh call, but are expected to appear in the vicinity of the requester soon
+- For each update action an incremented sequence number and a Suit Manifest is generated and stored in the database (unless the database already contains that information)
+- The list of all gathered update actions is returned to _m2cp-coap_ in a [Firmware Refresh Response](#firmware-refresh-response)
+- _m2cp-coap_ replaces its current set of update actions with the new ones
+
+
+This mechanism does _all_ the computation and decision-making on the App Store Service side, allowing us the flexibility to change the update logic without
+the need of updating Devices in the field. This allows us to monitor and refine the process over time.
+
+
+#### Download Firmware
+
+_m2cp-coap_ checks, if its local cache contains all required firmware packages (="App Revisions") and downloads the missing ones from the URLs provided in the refresh response:
+
+- It does a REST `GET` request to the URL provided in the `"download"` field of the JSON update object to get the tar firmware package. This URL contains a session token for the specific resource, that is requested.
+- The backend replies with the requested tar file as binary data or responds with a 401 error if the token is not valid.
+
+Now _m2cp-coap_ is ready to serve any update action received from the App Store Service.
+
+#### Announce Updates
+
+- _m2cp-coap_ now announces the availability of new firmware to the _RTDs_ in the network both by multicast and individual coap requests to all known peers at `PUT /update/1` with the manifest of the available update in the message body.
+- Some _Real Time Devices_ will take the manifest and ask for the available binaries.
+- Some _Real Time Devices_ will ask for the available updates.
+- Some _Real Time Devices_ will react at all.
+
+#### Serve Firmware Updates
+
+- _Real Time Devices_ can ask _m2cp-coap_ for available updates at any time using  `POST /suit/mani` providing an [RTD Data Object](#rtd-data-object) in the message body
+- If there is an update action to be executed, _m2cp-coap_ responds by returning the manifests of the firmware packages to be installed to the _RTDs_. If there is no update action, it returns an empty response with an error code 4.04 (not found).
+- The _Real Time Devices_ validates the manifests, aborts if validation fails
+- The _RTD_ downloads the firmware from the ED at `POST /suit/fw/<app-revison-id>/<slot>` (the exact URL is in the manifest)
+- The _Real Time Devices_ install the firmware packages
+- If failed, it rolls back, if successful, it marks the new partition as active. Optionally: report result of the update process to `POST /suit/result/{sequence-number}?error={uint}`
+- After reboot call _m2cp-coap_ `POST /hello/2` to announce the new state of the RTD
+
+#### Wait
+
+Most of the time _m2cp-coap_ is waiting for the next iteration of the update process to start, still serving the available updates and waiting for a trigger condition to be met.
+
+A new update cycle is triggered by _m2cp-coap_ learning new information about its peers from:
+- An unknown _RTD_ announcing itself to _m2cp-coap_ at `POST /hello/2` with an [RTD Data Object](#rtd-data-object) in the message body
+- A known _RTD_ sending `POST /hello/2` with an [RTD Data Object](#rtd-data-object) in the message body after booting a new firmware
+- A known or unknown _RTD_ calling _m2cp-coap_ with `POST /suit/mani` providing an [RTD Data Object](#rtd-data-object) in the message body
+
+It can also be triggered by the App Store Service via a RPC requesting an immediate refresh due to a changed target state
+
+If none of the above triggers happened a new update process will start after 6 hours.
+
+### Data Formats
+
+_m2cp-coap_ keeps two persisted lists - _known-peers_ and _update-actions_:
+
+#### m2cp-coap: Known Peers
+
+```
+Peer:
++ OS Serial Number (uuid)
++ IP Address (string)
+
++ Hardware Serial (string)
++ Hardware Model (string)
++ Hardware Vendor (string)
++ MCU ID (string)
+
++ Device Model (string)
++ App Name (string)
++ App Version (string)
++ Sequence Number (int)
+
++ Last Uptime (int)
++ Last Seen (datetime)
+
++ Firmware Signing Keys (array of base64 encoded public keys)
+
++ Last Update Result (int)
++ Last Update Result Code (string)
++ Last Update Result Timestamp (datetime)
+```
+
+The OS Serial Number for a Real Time Device is a
+[UUIDv5](https://www.rfc-editor.org/rfc/rfc9562.html?utm_source=chatgpt.com#name-uuid-version-5)
+generated from the Namespace ID `32e58df2-3b30-11f0-9033-325096b39f47`
+and the string concatenation of the device properties. If the MCU ID
+is not provided, the string is `Hardware Vendor + '$' + Hardware
+Model + '$' + Hardware Serial + '$' + Device Model`. If a MCU ID is
+provided, it is added to the string concatenation: `Hardware Vendor +
+'$' + Hardware Model + '$' + Hardware Serial + '$' + MCU ID + '$' +
+Device Model`.
+
+An RTD with the following properties:
+```
+Hardware Vendor: "mlpa"
+Hardware Model: "PMIC 1.08"
+Hardware Serial: "1"
+MCU ID: "mcu-2"
+Device Model: "pmic"
+```
+would have the OS Serial `249dfacf-8010-59f8-bcca-2697180602e8`.
+
+
+The following code is a executable Python snippet of the calculation:
+
+
+```python3
+import uuid
+
+NAMESPACE = uuid.UUID('32e58df2-3b30-11f0-9033-325096b39f47')
+
+device_properties = [
+  'Example Hardware Vendor',
+  'Example Hardware Model',
+  'Example Hardware Serial',
+]
+
+mcu_id = None
+if mcu_id is not None:
+    device_properties.append(mcu_id)
+
+device_properties.append('Example Device Model')
+
+concatenated_device_properties = '$'.join(device_properties)
+os_serial_number = uuid.uuid5(NAMESPACE, concatenated_device_properties)
+print(os_serial_number)
+```
+
+
+#### m2cp-coap: Update Actions
+
+```
+Update Action:
++ OS Serial Number (uuid)
++ Sequence Number (int)
++ Manifest (cbor encoded Suit Manifest)
++ App Revision ID (uuid)
++ App Revision Download URL (string)
++ Update Valid Until (datetime)
+```
+
+`Sequence Number` is a counter of installations so far done on the Real Time Device. Each installation needs a higher Sequence Number than the previous one.
+This is a security mechanism of the SUIT protocol to prevent rollback attacks.
+
+
+#### RTD Details
+<a id="realtime_device_details_data_object"></a>
+
+When RTDs report their details, they use one of the two following formats:
+
+(rtd-data-object)=
+JSON Format:
+```javascript
+{
+  "hw_serial":"12345", // The Device Hardware Serial
+  "hw_model":"PMIC 1.08", // The Device Hardware Model
+  "hw_vendor":"mlpa", // The Device Hardware Vendor
+  "mcu_id":"123abc",  // Optional: The MCU ID
+  "dev_model":"pmic", // The Device Model of the Real Time Device
+  "app_name":"fw-pmic", // The name of the App running on the Real Time Device
+  "app_version":"3.2.1", // The semver version of the App running on the Real Time Device
+  "seq_no":2001000, // The sequence number of the current firmware installation
+  "uptime": 12345, // The uptime of the Real Time Device in seconds
+  "keys": ["key1", "key2", "..."] // Array of base64 encoded public keys
+}
+```
+
+CBOR Format:
+```text
+DeviceInfo = {
+  0: tstr,       ; hw_serial
+  1: tstr,       ; hw_model
+  2: tstr,       ; hw_vendor
+  3: tstr,       ; dev_model
+  4: tstr,       ; app_name
+  5: tstr,       ; app_version
+  6: uint,       ; seq_no
+  7: uint,       ; uptime
+  8: [+ bstr]    ; keys 
+  9: ? tstr      ; mcu_id (optional)
+}
+```
+
+These details are used in:
+- ED calling RTD `GET /whoami/2` (Response Code `2.05 Content`) to ask for device details
+- RTD calling ED `POST /suit/mani` (Response Code `2.05 Content`) to ask for updates
+- RTD calling ED `POST /hello/2` to announce their existence
+
+#### Firmware Refresh Request
+<a id="data_format_firmware_refresh_request"></a>
+
+```  
+{
+  "devices": [
+    {    
+      "os_serial": "fa2f3d96-b90d-528f-8a9a-5ccfa7987dd0", // uuid(namespace, hw_vendor + hw_model + hw_serial + dev_model) namespace for this example: "1fd04816-aa3f-4a48-8c44-87e821249415"
+      "hw_model": "PMIC 1.08",
+      "hw_vendor": "mlpa",
+      "hw_serial": "12345", // the Hardware Serial
+      "hw_mcu_id": "5", 
+      "device_model": "pmic", // the Device Model of the Real Time Device 
+      "fw_type": -1, // the legacy firmware type information
+      "app_name": "fw-pmic", // the name of the App running on the Real Time Device
+      "app_version": "3.2.1",  // the semver version of the App running on the Real Time Device
+      "sequence_number": 22088,  // this is incremented with each firmware update
+      "last_seen": "2022-09-27 18:00:00.000+01:00",  // ISO 8601 Timestamp
+      "edge_device_ip": "[fdea:dbee:f::1]", // the IPv6 address under which the Real Time Device reached the Edge Device
+      "uptime": 200, // seconds the Real Time Device is already running
+      "keys": [
+        "<base64 bytestring>"  // signing keys accepted by the Real Time Device
+      ]
+    }
+  ]
+}
+```
+
+If more than once MCUs are on a PCB, then they have identical hw-serials (serial of the PCB) but different MCU ids. MCU id can be any string. 
+MCU id is used to generate the OS-Serial of an RTD, so that it can be uniquely identified.
+
+#### Firmware Refresh Response
+<a id="data_format_firmware_refresh_response"></a>
+
+```json
+{
+  "updates": [
+    {
+      "serial": "fa2f3d96-b90d-528f-8a9a-5ccfa7987dd0", // OS Serial Number of the RTD for which this update is intended
+      "valid_until": "2022-09-27 18:00:00.000+01:00", // ISO 8601 Timestamp until which the update may be deployed
+      "sequence_number": 22089,
+      "manifest": "<base64 encoded suit manifest>",
+      "revision_id": "<uuid>", // App Revision ID for this update, used for caching downloads
+      "download": "https://appstore.m2cp.com/somehash" // URL for downloading the firmware blobs from the App Store Service
+    }
+  ]
+}
+```
+
+### Endpoints
+
+Here's an overview of all the relevant endpoints used in the update process (ED: _m2cp-coap_ on the Edge Device, AS: App Store Service)
+
+| From | To  | Method | Endpoint                                   | Body                                                  | Response                                                | Description                                                                                                |
+|------|-----|--------|--------------------------------------------|-------------------------------------------------------|---------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| ED   | AS  | GET    | /api/v2/mlpa/firmware/refresh              | [Firmware REfresh Request](#firmware-refresh-request) | [Firmware REfresh Response](#firmware-refresh-response) | _m2cp-coap_ sends list of known peers and their state to App Store Service, asking for new update actions  |
+| RTD  | ED  | POST   | /hello/2                                   | [RTD Details](#rtd-details)                           | A RTD reports its details                               |
+| RTD  | ED  | POST   | /hello/1                                   | LEGACY endpoint for RTDs to report their details      |
+| RTD  | ED  | GET    | /suit/fw/{app-revison-id}/{slot}           | none                                                  | firmware                                                | download a firmware file                                                                                   | 
+| RTD  | ED  | GET    | /suit/mani                                 | [RTD Details](#rtd-details)                           | A manifest binary                                       | Ask for available updates                                                                                  |
+| RTD  | ED  | POST   | /suit/result/{sequence-number}?error={uint} | none                                                  | none                                                    | RTD reports firmware update result to ED                                                                   |
+| RTD  | ED  | POST   | /report/update/result/1?success={0,1}      | none                                                  | none                                                    | LEGACY alias of /suit/result/{sequence-number}?success={0,1}                                               |
+| ED   | RTD | PUT    | /update/1                                  | manifest binary                                       | none                                                    | ED announces available updates to RTD                                                                      |
+| ED   | RTD | GET    | /whoami/2                                  | none                                                  | RTD Details                                             | ED asks RTD for its details, RTD responds with its details in a RTD Data Object                            |
+| ED   | RTD | GET    | /whoami/1                                  | none                                                  | Legacy RTD information in JSON format                   | ED asks RTD for its details, RTD responds with its details in a legacy JSON format                         |
+
+### Edge Cases
+
+#### Legacy Real Time Devices
+
+For legacy _RTDs_ running a CoAP server but not having the `/whoami/2` endpoint, we call `GET coap://[ff02::1]/whoami/1` or `GET /whoami/1`.
+Devices will respond with following JSON body:
+```json
+{
+  "sn":12345, // The Hardware Serial
+  "board":"foobar", // The Device Model Name
+  "app_rev":2001000 // The sequence number of the current firmware installation
+}
+```
+Those values have to be translated to the RTD Data Object:
+- `sn` is assigned to `hw_serial`
+- "mlpa" is used as a constant value for `hw_vendor`
+- `board` is assigned to `device_model`, `hw_model` and `app_name`
+- `app_rev` is assigned to `seq_no`
+- `app_rev` is converted to a semver and assigned to `app_version` (semver integer encoding: major*10^6 + minor*10^3 + patch*10^0)
+
+
+Legacy _RTDs_ without CoAP server announce themselves to the _ED_ by sending a CoAP request to `/fw/1/m/<hw-serial>` (with `<hw-serial>` being a base64 encoded integer),
+asking for a manifest. They report their installation state with the following query parameters:
+
+````
+fwt: Firmware Type (int)
+hwr: Hardware Revision (int)
+fwr: Firmware Revision (int)
+````
+
+- `fwt (int)`: This legacy identifier 'Firmware Type' can be resolved to a _Device Model_ by the Backend through a lookup in the _Real Time Device Models_ table.
+- `hwr (int)`: Can be safely ignored, was never used
+- `fwr (int)`: The _sequence number_ of the currently installed firmware
+
+For these legacy devices we calculate the OS Serial Number as a UUID generated using namespace `32e58df2-3b30-11f0-9033-325096b39f47` and
+the string concatenation `'mlpa-legacy$' + <hw-serial-decimal>`.
+
+
+#### Sparse _RTD_ Uptime
+
+Some _RTDs_ have very sparse uptime due to power consumption constraints. They might be only online for a few seconds every week.
+
+This is not enough time to do a full refresh call to the Appstore, download updates, and serve them to the _RTD_. The protocol still
+works in these cases, though. The steps are:
+
+- _RTD_ awakes
+- _RTD_ asks for updates, which also reports currently installed firmware to _ED_
+- _RTD_ sleeps for another week
+- _ED_ does a refresh call to the Appstore
+- _ED_ downloads the updates (which have a long validity, as the Appstore knows about the sparse uptime of the specific _RTD_ class)
+- _RTD_ asks for updates and receives the manifest
+- _RTD_ extends uptime to install the firmware
+- _RTD_ reports the new installation state to the _ED_
+- _RTD_ sleeps for another week
+
+#### Highly Mobile _RTDs_ with Sparse Uptime
+
+Some _RTDs_ move around a lot and thus connect to a different _ED_ every time they wake up.
+
+Being highly mobile is not a problem on its own, as the _RTDs_ could simply wait for the result of the refresh call of the _ED_
+and then receive their updates. It's more difficult, if they're also highly mobile, connecting to a different _ED_ every time.
+
+In that case, the only possible strategy is preemption. The Appstore needs to know about the high mobility of the _RTD_ and
+preemptively push updates to all _EDs_ in the network, which are likely to be visited by the _RTD_.
+
+This is a strategy covered by the protocol - it needs to be implemented in the Appstore, though.
+
+#### Sparse Internet Connection
+
+In some scenarios, the _ED_ has an internet connection that's only available sometimes. The availability of the internet connection
+might not conform to the uptime of the _RTDs_ in the network.
+
+The protocol would still work in this case as follows:
+
+- _RTD_ asks for manifest, reporting its current state to the _ED_
+- _ED_ updates its table of known peers
+- _ED_ can't make a refresh call to the Appstore, as the internet connection is down
+- _RTD_ sleeps
+- _ED_ gets internet connection and performs the refresh call, updating its set of available updates
+- _ED_ loses internet connection
+- _RTD_ awakes and asks for updates
+- _ED_ serves the updates to the _RTD_

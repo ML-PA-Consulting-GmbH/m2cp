@@ -1,0 +1,3086 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5. User Management &mdash; L-IoT Documentation  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/drawio.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/MLPA-FavIcon-neg-weiss.ico"/>
+    <link rel="canonical" href="http://apu.ml-pa.loc/docs/customers/Management_User.html" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="6. Asset Management" href="Management_Asset.html" />
+    <link rel="prev" title="4. Devices Installation" href="Installation_Device.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: black" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            L-IoT Documentation
+          </a>
+              <div class="version">
+                Version 1.14.8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Manual</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Tools.html">2. Tools Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Tools.html#browser-ui">2.1. Browser UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Tools.html#cli-tools">2.2. CLI Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#windows-cli-tool">2.2.1. Windows CLI Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#linux-cli-tools">2.2.2. Linux CLI Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#login-and-usage">2.2.3. Login and Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Backend.html">3. Cloud Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#installing-backend-services">3.1. Installing Backend Services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#azure">3.1.1. Azure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#constraints-on-secrets">3.2. Constraints on secrets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#secrets">3.2.1. Secrets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#container-registry">3.3. Container Registry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#event-api">3.4. Event API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#full-list-of-entities">3.4.1. Full List of Entities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#receiving-data-points">3.4.2. Receiving Data Points</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#graphql-api">3.5. GraphQL API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#rest-api">3.6. REST API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#authentication-authorization">3.6.1. Authentication &amp; Authorization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#swagger-api-documentation">3.6.2. Swagger API Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#requests">3.6.3. Requests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Device.html">4. Devices Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Device.html#provisioning-process-of-externally-produced-edge-devices">4.1. Provisioning Process of Externally Produced Edge Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#installing-edge-os">4.1.1. Installing Edge OS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#test-sd-card-of-a-device">4.1.2. Test SD Card of a Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#os-image-inspection">4.1.3. OS Image Inspection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. User Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-reference">5.1. Quick Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#roles-in-detail">5.2. Roles in Detail</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#default">5.2.1. Default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#observer">5.2.2. Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#system-analyst">5.2.3. System Analyst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#device-manager">5.2.4. Device Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#device-admin">5.2.5. Device Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#software-developer">5.2.6. Software Developer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#software-manager">5.2.7. Software Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#software-admin">5.2.8. Software Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#asset-admin">5.2.9. Asset Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-admin">5.2.10. User Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#business-application">5.2.11. Business Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#manufacturing-service">5.2.12. Manufacturing Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#core-admin">5.2.13. Core Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#super-admin">5.2.14. Super Admin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#rolepermission-scope-matrix">5.3. Role–Permission Scope Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scope-naming-convention">5.4. Scope Naming Convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#role-decision-guide">5.5. Role Decision Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-is-this-a-human-user-or-a-machine-service-account">5.5.1. Step 1 — Is this a human user or a machine/service account?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-what-is-their-primary-area-of-responsibility">5.5.2. Step 2 — What is their primary area of responsibility?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-user-administration">5.5.3. Step 3 — User administration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-device-operations">5.5.4. Step 4 — Device operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-5-software-roles">5.5.5. Step 5 — Software roles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-6-read-only-and-monitoring">5.5.6. Step 6 — Read-only and monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#assigning-roles">5.6. Assigning Roles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Asset.html">6. Asset Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#concept-of-assets">6.1. Concept of Assets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#relevant-user-roles">6.2. Relevant User Roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-management-with-the-cli">6.3. Asset Management with the CLI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#working-with-asset-models">6.3.1. Working with Asset Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#working-with-assets">6.3.2. Working with Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#linking-assets">6.3.3. Linking Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#searching-and-finding-assets">6.3.4. Searching and Finding Assets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-creation-during-the-installation-process">6.4. Asset Creation during the installation process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#disable-the-asset-service-pre-registration-requirement">6.5. Disable the Asset Service Pre-Registration Requirement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-management-with-the-ecosystem-web-ui">6.6. Asset Management with the Ecosystem Web-UI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Software.html">7. Software Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#uploading-app-revisions">7.1. Uploading App Revisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#review">7.2. Review</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#deployment">7.3. Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#the-ml-pa-release-process">7.4. The ML!PA release process</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#steps-to-create-a-release">7.4.1. Steps to create a release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#contents-of-a-release-package">7.4.2. Contents of a release package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#security-updates">7.4.3. Security Updates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Device.html">8. Devices Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#list-devices">8.1. List Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#device-details">8.2. Device Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deployment-groups">8.3. Deployment Groups</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#deployment-groups-administrator-and-co-administrators">8.3.1. Deployment Group’s Administrator and Co-Administrators</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deploying-an-app-revision">8.4. Deploying an App Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#manually-trigger-deployment">8.5. Manually Trigger Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#analyzing-deployment">8.6. Analyzing Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#edge-devices">8.6.1. Edge Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#real-time-devices">8.6.2. Real Time Devices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deployment-history">8.7. Deployment History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#toggle-rtd-updates">8.8. Toggle RTD Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#device-logs">8.9. Device Logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#reverse-ssh-access">8.10. Reverse-SSH Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#advanced-troubleshooting">8.11. Advanced Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#tpm-da-lockout-mode">8.11.1. TPM DA Lockout Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#inspecting-the-state-json">8.11.2. Inspecting the state.json</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Development_Edge.html">1. Edge Device Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#learning-path-for-app-developers">1.1. Learning Path for App Developers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#tools-for-app-development">1.2. Tools for App Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#build-applications-in-go-with-m2cp-go">1.2.1. Build Applications in Go with m2cp-go</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#package-applications-with-m2cp-snap">1.2.2. Package applications with m2cp-snap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#run-existing-software-within-an-m2cp-app-using-the-state-machine">1.2.3. Run existing software within an M2CP App using the State Machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#m2cp-app-crafting">1.3. M2CP App Crafting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-building-m2cp-apps">1.3.1. Questions and Answers: Building M2CP Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-debugging-m2cp-apps">1.3.2. Questions and Answers: Debugging M2CP Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-m2cp-app-deployment">1.3.3. Questions and Answers: M2CP App Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#upload-new-software-to-the-store">1.4. Upload new Software to the store</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#rate-a-version">1.4.1. Rate a version</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#edge-device-sdk">1.5. Edge Device SDK</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#installing-the-edge-device-sdk">1.5.1. Installing the Edge Device SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#setting-up-dev-environment">1.5.2. Setting Up Dev Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#using-the-edge-device-sdk">1.5.3. Using the Edge Device SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#tutorials">1.5.4. Tutorials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#python-edge-device-sdk">1.5.5. Python Edge Device SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#gpio">1.6. GPIO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#gpio-tools">1.6.1. GPIO Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#using-state-machine-with-gpio">1.6.2. Using State Machine with GPIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#gpio-led-blinking">1.6.3. GPIO LED Blinking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#rename-a-network-interface">1.7. Rename a Network Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#manual-remote-procedure-calls-rpc">1.8. Manual Remote Procedure Calls (RPC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-discovery">1.8.1. Node discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-information">1.8.2. Node information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-rpc">1.8.3. Node RPC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#json-mode">1.8.4. JSON mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#protect-edge-devices-via-basic-firewall">1.9. Protect Edge Devices via Basic Firewall</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Virtual_Devices.html">2. Virtual Edge Devices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#what-is-a-virtual-device">2.1. What is a Virtual Device?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#prerequisites">2.2. Prerequisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#installation-of-docker">2.2.1. Installation of Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#usage-of-virtual-devices">2.3. Usage of Virtual Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#list-virtual-devices">2.3.1. List Virtual Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#create-a-virtual-device">2.3.2. Create a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#delete-a-virtual-device">2.3.3. Delete a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#start-stop-a-virtual-device">2.3.4. Start/Stop a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#attach-to-a-virtual-device">2.3.5. Attach to a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#install-an-app-from-local-host-in-a-virtual-device">2.3.6. Install an App from Local Host in a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#copy-files-from-host-to-the-virtual-device">2.3.7. Copy Files from Host to the Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#copy-files-from-virtual-device-to-host">2.3.8. Copy files from Virtual Device to Host</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#testing-or-debugging-applications-with-a-virtual-device">2.4. Testing or Debugging Applications with a Virtual Device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#testing-coap-clients-against-m2cp-coap">2.4.1. Testing CoAP clients against m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#debugging-applications-in-a-virtual-device">2.4.2. Debugging Applications in a Virtual Device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Development_RTD.html">3. Real Time Device Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#identifying-devices">3.1. Identifying Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-device-name">3.1.1. From Device Name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-hardware-serial-number">3.1.2. From Hardware Serial Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-hardware-assembly-number">3.1.3. From Hardware Assembly Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#by-device-type">3.1.4. By Device Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#creating-device-models">3.2. Creating Device Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#uploading-firmware">3.3. Uploading Firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#assigning-firmware-to-real-time-devices">3.4. Assigning Firmware to Real-time Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#creating-a-new-deployment-group-for-a-real-time-device">3.4.1. Creating a new Deployment Group for a Real-time Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#adding-the-app-to-the-deployment-group">3.4.2. Adding the app to the deployment group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#adding-the-device-to-the-deployment-group">3.4.3. Adding the device to the deployment group</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#monitoring-firmware-deployment">3.5. Monitoring Firmware Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#debugging-problem-scenarios">3.5.1. Debugging Problem Scenarios</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#legacy">3.6. Legacy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#id1">3.6.1. Uploading Firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#prerequisites">3.6.2. Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#firmware-files">3.6.3. Firmware Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#packaging-tool">3.6.4. Packaging Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#deployment">3.6.5. Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#validation">3.6.6. Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Networking.html">4. CoAP and Networking</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#lan-addresses">4.1. LAN Addresses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#contacting-modules">4.2. Contacting Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#common-coap-endpoints">4.3. Common CoAP endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#whoami-1">4.3.1. /whoami/1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#uptime-1">4.3.2. /uptime/1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#power-management">4.4. Power Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#m2cp-coaps-part-in-power-management">4.4.1. m2cp-coap’s part in power management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#apps-uptime-requests">4.4.2. App’s uptime requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#getuptimerequests-rpc">4.4.3. getUptimeRequests RPC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#dev-m2cpctl-integration">4.4.4. dev-m2cpctl integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Messages.html">5. Messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#monitoring-messages">5.1. Monitoring Messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#using-the-m2cp-device-message-listen-cli-command">5.1.1. Using the m2cp device message listen CLI Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#monitoring-with-azure-iot-hub-explorer">5.1.2. Monitoring with Azure IoT Hub Explorer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#conclusion">5.1.3. Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#data-flow-debugging">5.2. DATA Flow Debugging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#mcus">5.2.1. MCUs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#ingoing-packets-analysis">5.2.2. Ingoing Packets Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-coap">5.2.3. m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-message-hub">5.2.4. m2cp-message-hub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-coap-a-z-custom-parser">5.2.5. m2cp-coap-[a-z]+ Custom Parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-gateway">5.2.6. m2cp-gateway</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-gateway-uplink-output-buffer">5.2.7. m2cp-gateway Uplink Output Buffer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#inspecting-data-messages-in-the-cloud">5.2.8. Inspecting DATA messages in the cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#inspecting-signal-messages-in-the-cloud">5.2.9. Inspecting SIGNAL messages in the cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#data-visualization">5.2.10. Data Visualization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="APIs_Backend.html">6. Backend APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="APIs_Backend.html#user-service">6.1. User Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="APIs_Backend.html#app-store-service">6.2. App Store Service</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Technical Specification</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Architecture.html">2. Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#edge-system">2.1. Edge System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#edge-device">2.1.1. Edge Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#real-time-devices">2.1.2. Real Time Devices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#cloud-backend">2.2. Cloud Backend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#gateway-service">2.2.1. Gateway Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#user-service">2.2.2. User Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#log-service">2.2.3. Log Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#asset-service">2.2.4. Asset Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#signalr-hub-service">2.2.5. SignalR Hub Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#domain-event-exporter-service">2.2.6. Domain Event Exporter Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#app-store-service">2.2.7. App Store Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#assertion-service">2.2.8. Assertion Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#ssh-relay-service">2.2.9. SSH Relay Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#service-bus">2.2.10. Service Bus</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#id33">2.3. User Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Lifecycle_ED.html">3. Edge Device Lifecycle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#building-an-os-image">3.1. Building an OS Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#initial-provisioning-of-an-edge-device-os-installation">3.2. Initial Provisioning of an Edge Device &amp; OS Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#registration-of-an-edge-device-with-the-appstore">3.3. Registration of an Edge Device with the Appstore</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_ED.html#terminology">3.3.1. Terminology:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#authorization-of-an-edge-device">3.4. Authorization of an Edge Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#software-update">3.5. Software Update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#establishing-the-messaging-uplink">3.6. Establishing the Messaging Uplink</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#re-installation-of-the-os">3.7. Re-Installation of the OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#re-registration-with-a-different-appstore">3.8. Re-Registration with a different Appstore</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Lifecycle_RTD.html">4. Real Time Device Lifecycle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_RTD.html#firmware-updates-1-0-legacy">4.1. Firmware Updates 1.0 (Legacy)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_RTD.html#firmware-updates-2-0-current">4.2. Firmware Updates 2.0 (current)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#update-cycle">4.2.1. Update Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#data-formats">4.2.2. Data Formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#endpoints">4.2.3. Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#edge-cases">4.2.4. Edge Cases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Messaging.html">5. Messaging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#typical-message-routing">5.1. Typical Message Routing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#log-message-linux-app-to-cloud">5.1.1. Log Message Linux App to Cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#log-message-rtos-to-cloud">5.1.2. Log Message RTOS to Cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#local-to-device-rpc-via-backend">5.1.3. Local To Device RPC via Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#app-to-app-rpc-on-a-device">5.1.4. App To App RPC on a Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#device-to-device-rpc-via-ip">5.1.5. Device To Device RPC via IP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#data-points-to-data-visualization">5.2. Data Points to Data Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#m2cp-messaging-protocol">5.3. M2CP Messaging Protocol</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#changelog">5.3.1. Changelog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#message-format">5.3.2. Message Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#message-routing">5.3.3. Message Routing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#nodes-and-remote-procedure-calls-rpc">5.4. Nodes and Remote Procedure Calls (RPC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-discovery">5.4.1. Node discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-information">5.4.2. Node information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-rpc">5.4.3. Node RPC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Glossary</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">1. Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app">1.1. App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-registration">1.2. App Store Registration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-service">1.3. App Store Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-ui">1.4. App Store UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#architecture">1.5. Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset">1.6. Asset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-attestation-key">1.7. Asset Attestation Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-hierarchy">1.8. Asset Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-management-ui">1.9. Asset Management UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-model">1.10. Asset Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-name">1.11. Asset Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-service">1.12. Asset Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-type">1.13. Asset Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-type-category">1.14. Asset Type Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#backend-services">1.15. Backend Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#deployment-group">1.16. Deployment Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device">1.17. Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-id">1.18. Device ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-hardware">1.19. Device Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-management">1.20. Device Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model">1.21. Device Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model-name">1.22. Device Model Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model-revision">1.23. Device Model Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-name">1.24. Device Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-type">1.25. Device Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#ecosystem-ui">1.26. Ecosystem UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-device">1.27. Edge Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-device-sdk">1.28. Edge Device SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-os">1.29. Edge OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#firmware-package">1.30. Firmware Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model">1.31. Hardware Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model-name">1.32. Hardware Model Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-vendor">1.33. Hardware Vendor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model-revision">1.34. Hardware Model Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-serial-number">1.35. Hardware Serial Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#mcu-id">1.36. MCU ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp">1.37. M2CP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-coap">1.38. m2cp-coap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-gateway">1.39. m2cp-gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-message-hub">1.40. m2cp-message-hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#l-iot">1.41. L-IoT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#os-serial-number">1.42. OS Serial Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#real-time-device">1.43. Real Time Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#real-time-device-sdk">1.44. Real Time Device SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#snapd">1.45. Snapd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#snap-package">1.46. Snap Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#tenant">1.47. Tenant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#user-service">1.48. User Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#virtual-device">1.49. Virtual Device</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Legacy_Glossary.html">2. Legacy Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#dev-m2cpctl">2.1. dev-m2cpctl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#fleet">2.2. Fleet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-device">2.3. M2CP Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-cli">2.4. M2CP CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-coap">2.5. m2cp-coap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-control-tools">2.6. M2CP Control Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-core-apps">2.7. M2CP Core Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-gateway">2.8. m2cp-gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-go">2.9. m2cp-go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-listen">2.10. m2cp-listen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-logstat">2.11. m2cp-logstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-message-hub">2.12. m2cp-message-hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-simsensor">2.13. m2cp-simsensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-sdk">2.14. M2CP SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-sdk-go">2.15. m2cp-sdk-go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-snap">2.16. m2cp-snap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-timesync">2.17. m2cp-timesync</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-toolchain">2.18. M2CP Toolchain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#real-time-device-peripheral-iot-device">2.19. Real-Time Device / Peripheral / IoT Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#snapd">2.20. snapd</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Revision History</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Revision_History.html">1. Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">L-IoT Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">5. </span>User Management</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="user-management">
+<h1><span class="section-number">5. </span>User Management<a class="headerlink" href="#user-management" title="Permalink to this heading"></a></h1>
+<p>User management allows defining roles granting the required permissions to users. User rights management is currently only possible through the Web UI. The concept includes a set of predefined user roles created by ML!PA, which are hard-coded into the system and cannot be modified.</p>
+<p>Understanding which role to assign to a new team member is critical for both security and operational efficiency. This guide explains every available role, who it is designed for, what it permits, and what it explicitly does not allow.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Every user automatically receives the <strong>Default</strong> role upon account creation. The Default role provides only the minimum permissions needed to sign in and manage personal account settings. All other roles must be explicitly assigned by a User Admin or Super Admin.</p>
+</div>
+<section id="quick-reference">
+<h2><span class="section-number">5.1. </span>Quick Reference<a class="headerlink" href="#quick-reference" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Role</p></th>
+<th class="head"><p>Designed for</p></th>
+<th class="head"><p>Access level</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#default">Default</a></p></td>
+<td><p>All users (automatic)</p></td>
+<td><p>Own account only</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#observer">Observer</a></p></td>
+<td><p>Managers, auditors, stakeholders</p></td>
+<td><p>Read-only view of all resources</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#system-analyst">System Analyst</a></p></td>
+<td><p>Support engineers, QA</p></td>
+<td><p>Deep diagnostics + own-device access</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#device-manager">Device Manager</a></p></td>
+<td><p>Field engineers, site operators</p></td>
+<td><p>Full control of own devices and deploymnet groups</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#device-admin">Device Admin</a></p></td>
+<td><p>Senior device engineers</p></td>
+<td><p>Full control of all devices and deploymnet groups</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#software-developer">Software Developer</a></p></td>
+<td><p>Engineers writing app packages</p></td>
+<td><p>Upload and test apps on own devices</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#software-manager">Software Manager</a></p></td>
+<td><p>QA leads, release managers</p></td>
+<td><p>Review and approve app releases</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#software-admin">Software Admin</a></p></td>
+<td><p>Senior software engineers</p></td>
+<td><p>Full software lifecycle management</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#asset-admin">Asset Admin</a></p></td>
+<td><p>Asset/inventory managers</p></td>
+<td><p>Manage asset definitions within the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#user-admin">User Admin</a></p></td>
+<td><p>IT administrators</p></td>
+<td><p>Manage all users and roles</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#business-application">Business Application</a></p></td>
+<td><p>Automation services, integrations</p></td>
+<td><p>Read users, roles, and sessions (service account)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#manufacturing-service">Manufacturing Service</a></p></td>
+<td><p>Provisioning systems</p></td>
+<td><p>Device provisioning only (service account)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#core-admin">Core Admin</a></p></td>
+<td><p>Infrastructure engineers</p></td>
+<td><p>Device model and assertion management</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#super-admin">Super Admin</a></p></td>
+<td><p>Platform owners</p></td>
+<td><p>Unrestricted full access</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="roles-in-detail">
+<h2><span class="section-number">5.2. </span>Roles in Detail<a class="headerlink" href="#roles-in-detail" title="Permalink to this heading"></a></h2>
+<section id="default">
+<h3><span class="section-number">5.2.1. </span>Default<a class="headerlink" href="#default" title="Permalink to this heading"></a></h3>
+<p><strong>Every user receives this role automatically.</strong> It cannot be removed and does not need to be assigned manually. On its own, it provides enough access to sign in, view the platform, and manage personal settings — nothing more.</p>
+<p><strong>Intended for:</strong> All users
+<strong>Access level:</strong> Personal account only</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>Sign in to the platform</p></li>
+<li><p>View and edit your own user profile</p></li>
+<li><p>Manage your own account settings (including SSH keys and personal preferences)</p></li>
+<li><p>View your own active sessions</p></li>
+<li><p>View which roles are assigned to your own account</p></li>
+<li><p>View basic information about the organization</p></li>
+</ul>
+<p><strong>Technical scopes:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">User.Read.Own</span></code></p></td>
+<td><p>View own user profile</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">User.Update.Own</span></code></p></td>
+<td><p>Edit own user profile</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UserSetting.Read.Own</span></code></p></td>
+<td><p>View own account settings</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">UserSetting.Update.Own</span></code></p></td>
+<td><p>Edit own account settings</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UserSession.Read.Own</span></code></p></td>
+<td><p>View own active sessions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">UserBridgeRole.Read.Own</span></code></p></td>
+<td><p>View own role assignments</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Tenant.Read.Tenant</span></code></p></td>
+<td><p>View organization information</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="observer">
+<h3><span class="section-number">5.2.2. </span>Observer<a class="headerlink" href="#observer" title="Permalink to this heading"></a></h3>
+<p><strong>A read-only view of the entire system.</strong> The Observer role is designed for people who need visibility into operations without any risk of making unintended changes.</p>
+<p><strong>Intended for:</strong> Managers, executive stakeholders, auditors, security reviewers, support staff during initial onboarding</p>
+<p><strong>Access level:</strong> Read-only across all resources</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>View all devices, deployment groups, assets, apps, and configurations</p></li>
+<li><p>Download app packages</p></li>
+<li><p>Observe all status information and system operations</p></li>
+</ul>
+<p><strong>What this role does NOT allow:</strong></p>
+<ul class="simple">
+<li><p>Making any changes to assets, devices, software, or configurations</p></li>
+<li><p>Uploading or publishing software</p></li>
+<li><p>Managing users</p></li>
+</ul>
+<p><strong>Technical scopes:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">*.Read.All</span></code></p></td>
+<td><p>Read access to all resource types system-wide</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Asset.Read.All</span></code></p></td>
+<td><p>View all assets</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Snap.Download.All</span></code></p></td>
+<td><p>Download app packages</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="system-analyst">
+<h3><span class="section-number">5.2.3. </span>System Analyst<a class="headerlink" href="#system-analyst" title="Permalink to this heading"></a></h3>
+<p><strong>A diagnostics-focused role for investigating and troubleshooting issues.</strong> Analysts can read everything they need to understand a problem and can fully control the devices they own, but cannot make changes to the broader system configuration.</p>
+<p><strong>Intended for:</strong> Support engineers, field-service technicians, QA engineers who need to investigate issues</p>
+<p><strong>Access level:</strong> Full read access + diagnostic actions on own devices</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>View all devices and their full installation history and state snapshots</p></li>
+<li><p>Read system and device logs</p></li>
+<li><p>Execute RPC calls on own devices</p></li>
+<li><p>SSH into own devices for live troubleshooting</p></li>
+<li><p>View all application statuses</p></li>
+<li><p>View all deployment group information</p></li>
+<li><p>View asset information</p></li>
+<li><p>Create store assertions (required for certain diagnostic workflows)</p></li>
+</ul>
+<p><strong>What this role does NOT allow:</strong></p>
+<ul class="simple">
+<li><p>Modifying device configurations, deployment groups, or software</p></li>
+<li><p>Publishing or uploading software to the store</p></li>
+<li><p>Managing users</p></li>
+</ul>
+<p><strong>Technical scopes:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.Read.All</span></code></p></td>
+<td><p>View all edge devices</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.RPC.Own</span></code></p></td>
+<td><p>Execute RPC commands on own devices</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.RPC_SSH.Own</span></code></p></td>
+<td><p>SSH into own devices</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceModel.Read.All</span></code></p></td>
+<td><p>View device model definitions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallState.Read.All</span></code></p></td>
+<td><p>View device installation state</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallStateHistory.Read.All</span></code></p></td>
+<td><p>View full device installation history</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallStateSnapshot.Read.All</span></code></p></td>
+<td><p>View device state snapshots</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Log.Read.All</span></code></p></td>
+<td><p>Read all system and device logs</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Read.All</span></code></p></td>
+<td><p>View all deployment groups</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AppStatus.Read.All</span></code></p></td>
+<td><p>View application status</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SnapStatus.Read.All</span></code></p></td>
+<td><p>View app package status</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SnapDeclaration.Read.All</span></code></p></td>
+<td><p>View app declarations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SnapRevision.Read.All</span></code></p></td>
+<td><p>View app revision information</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Asset.Read.All</span></code></p></td>
+<td><p>View all assets</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">StoreAssertions.Create.All</span></code></p></td>
+<td><p>Create store assertions</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="device-manager">
+<h3><span class="section-number">5.2.4. </span>Device Manager<a class="headerlink" href="#device-manager" title="Permalink to this heading"></a></h3>
+<p><strong>Manage and operate the devices and deployment groups assigned to you.</strong> Device Managers have full operational control over their assigned devices and deployment groups, but their authority does not extend to the broader system.</p>
+<p><strong>Intended for:</strong> Field engineers, site operators, team leads managing a defined set of devices</p>
+<p><strong>Access level:</strong> Full control of own devices and deployment groups</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>View all devices and their installation state, history, and snapshots</p></li>
+<li><p>Update device configurations</p></li>
+<li><p>Create, modify, clone, and delete deployment groups</p></li>
+<li><p>Assign, update, and remove app revisions to/from deployment groups</p></li>
+<li><p>Install and update apps on devices</p></li>
+<li><p>Execute RPC calls on own devices</p></li>
+<li><p>SSH into own devices</p></li>
+<li><p>Download telemetry data from own devices</p></li>
+<li><p>View app statuses, asset and asset model information</p></li>
+</ul>
+<p><strong>What this role does NOT allow:</strong></p>
+<ul class="simple">
+<li><p>Interacting with devices not assigned to them (SSH, RPC)</p></li>
+<li><p>Deleting individual devices from the system</p></li>
+<li><p>Uploading or publishing software to the store</p></li>
+<li><p>Managing users</p></li>
+</ul>
+<p><strong>Technical scopes:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.Read.All</span></code></p></td>
+<td><p>View all devices</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.Update.All</span></code></p></td>
+<td><p>Update any device’s configuration</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.RPC.Own</span></code></p></td>
+<td><p>Execute RPC commands on own devices</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.RPC_SSH.Own</span></code></p></td>
+<td><p>SSH into own devices</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceModel.Read.All</span></code></p></td>
+<td><p>View device models</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallState.Read.All</span></code></p></td>
+<td><p>View device installation states</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallStateHistory.Read.All</span></code></p></td>
+<td><p>View device installation history</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallStateSnapshot.Read.All</span></code></p></td>
+<td><p>View device state snapshots</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Read.All</span></code></p></td>
+<td><p>View all deployment groups</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Create.All</span></code></p></td>
+<td><p>Create new deployment groups</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Update.All</span></code></p></td>
+<td><p>Update any deployment group</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Clone.All</span></code></p></td>
+<td><p>Clone any deployment group</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Delete.All</span></code></p></td>
+<td><p>Delete any deployment group</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FleetBridgeSnapRevision.Read.All</span></code></p></td>
+<td><p>View fleet app assignments</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">FleetBridgeSnapRevision.Create.All</span></code></p></td>
+<td><p>Assign apps to deployment groups</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FleetBridgeSnapRevision.Update.All</span></code></p></td>
+<td><p>Update deployment group app assignments</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">FleetBridgeSnapRevision.Delete.All</span></code></p></td>
+<td><p>Remove app assignments from deployment groups</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DeviceSnap.Update.All</span></code></p></td>
+<td><p>Update apps installed on devices</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SnapDeclaration.Read.All</span></code></p></td>
+<td><p>View app declarations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SnapRevision.Read.All</span></code></p></td>
+<td><p>View app revisions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SnapStatus.Read.All</span></code></p></td>
+<td><p>View app status</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AppStatus.Read.All</span></code></p></td>
+<td><p>View application status</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Asset.Read.All</span></code></p></td>
+<td><p>View all assets</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Read.All</span></code></p></td>
+<td><p>View asset models</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DataMessage.Download.Own</span></code></p></td>
+<td><p>Download telemetry from own devices</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="device-admin">
+<h3><span class="section-number">5.2.5. </span>Device Admin<a class="headerlink" href="#device-admin" title="Permalink to this heading"></a></h3>
+<p><strong>Full operational control over all devices and fleets in the system.</strong> This is the most powerful device-facing role and should only be granted to engineers who need system-wide device management authority.</p>
+<p><strong>Intended for:</strong> Senior device engineers, infrastructure or operations team leads who must act across all devices.</p>
+<p><strong>Access level:</strong> Unrestricted device and deployment group management across the entire system</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>Everything a Device Manager can do, applied to any device or deployment group in the system</p></li>
+<li><p>SSH into any device in the system</p></li>
+<li><p>Execute RPC calls on any device in the system (tenant-wide)</p></li>
+<li><p>Relink devices (reassign device identity or connectivity)</p></li>
+<li><p>Create, update, and delete physical asset models</p></li>
+<li><p>Create, update, and delete system assets</p></li>
+</ul>
+<p><strong>What this role does NOT allow:</strong></p>
+<ul class="simple">
+<li><p>Uploading or publishing software to the store</p></li>
+<li><p>Managing users or roles</p></li>
+</ul>
+<p><strong>Technical scopes</strong> (in addition to Device Manager scopes):</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.RPC.Tenant</span></code></p></td>
+<td><p>Execute RPC on any device in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Device.Relink.All</span></code></p></td>
+<td><p>Relink any device</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Create.All</span></code></p></td>
+<td><p>Create asset model definitions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Update.All</span></code></p></td>
+<td><p>Update system assets</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Delete.All</span></code></p></td>
+<td><p>Delete system assets</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="software-developer">
+<h3><span class="section-number">5.2.6. </span>Software Developer<a class="headerlink" href="#software-developer" title="Permalink to this heading"></a></h3>
+<p><strong>Upload, iterate on, and test software on assigned devices.</strong> Software Developers manage the full development lifecycle of an app package from pushing it to the store to installing it on their own devices and debugging via ssh. Software Developers have full control over their own devices and deployment groups. They can install experimental builds on their own devices to try out new app versions.</p>
+<p><strong>Intended for:</strong> Application developers and firmware engineers writing and testing apps</p>
+<p><strong>Access level:</strong> Full app publishing within the tenant + full control of own devices</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>Push apps to the store</p></li>
+<li><p>Create and update app declarations and revisions within the tenant</p></li>
+<li><p>Update the status of their own app revisions (only up to “experimental”)</p></li>
+<li><p>Download apps for local use</p></li>
+<li><p>View and interact with own devices (RPC and SSH on own devices)</p></li>
+<li><p>View all deployment groups, app statuses, and device installation history</p></li>
+<li><p>Create app revision records</p></li>
+<li><p>Create store assertions</p></li>
+<li><p>Read asset information within the tenant</p></li>
+</ul>
+<p><strong>What this role does NOT allow:</strong></p>
+<ul class="simple">
+<li><p>Promoting apps to managed statuses such as “stable” or “deprecated” (this requires a Software Manager or Software Admin)</p></li>
+<li><p>Managing deployment groups or deploying apps across the entire system</p></li>
+<li><p>Managing users</p></li>
+</ul>
+<p><strong>Technical scopes:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Snap.Push.Tenant</span></code></p></td>
+<td><p>Push apps  to the store</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Snap.Push_Declaration.Tenant</span></code></p></td>
+<td><p>Push app declarations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Snap.Download.All</span></code></p></td>
+<td><p>Download app packages</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Snap.UpdateUploadMessage.Tenant</span></code></p></td>
+<td><p>Update app upload messages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SnapDeclaration.Create.Tenant</span></code></p></td>
+<td><p>Create app declarations in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SnapDeclaration.Update.Tenant</span></code></p></td>
+<td><p>Update app declarations in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SnapDeclaration.Read.All</span></code></p></td>
+<td><p>View all app declarations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SnapRevision.Create.Tenant</span></code></p></td>
+<td><p>Create app revisions in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SnapRevision.Read.All</span></code></p></td>
+<td><p>View all app revisions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SnapRevision.UpdateStatus.Own</span></code></p></td>
+<td><p>Update status of own app revisions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SnapStatus.Read.All</span></code></p></td>
+<td><p>View app statuses</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AppStatus.Read.All</span></code></p></td>
+<td><p>View application statuses</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AppRevision.Create.All</span></code></p></td>
+<td><p>Create application revision records</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Asset.Read.Tenant</span></code></p></td>
+<td><p>View assets within the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.Read.All</span></code></p></td>
+<td><p>View all devices</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.RPC_SSH.Own</span></code></p></td>
+<td><p>SSH into own devices</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceModel.Read.All</span></code></p></td>
+<td><p>View device models</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallState.Read.All</span></code></p></td>
+<td><p>View device installation states</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallStateHistory.Read.All</span></code></p></td>
+<td><p>View device installation history</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallStateSnapshot.Read.All</span></code></p></td>
+<td><p>View device state snapshots</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Read.All</span></code></p></td>
+<td><p>View all deployment groups</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">StoreAssertions.Create.All</span></code></p></td>
+<td><p>Create store assertions</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="software-manager">
+<h3><span class="section-number">5.2.7. </span>Software Manager<a class="headerlink" href="#software-manager" title="Permalink to this heading"></a></h3>
+<p><strong>Quality control and approval of software releases.</strong> Software Managers act as gatekeepers for the app store. They review, rate, and approve software before it is made available for deployment to devices. Without a rating from a Software Manager, an app is not visible in the app store and thus cannot be installed.</p>
+<p><strong>Intended for:</strong> Release managers, QA leads, product owners responsible for software quality</p>
+<p><strong>Access level:</strong> Full system read + app approval and publishing</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>Read everything in the system (all devices, fleets, assets, apps)</p></li>
+<li><p>Download apps for review</p></li>
+<li><p>Update app metadata and upload messages</p></li>
+<li><p>Change the status or rating of any app revision across the tenant (e.g., promote to stable, mark as deprecated)</p></li>
+</ul>
+<p><strong>What this role does NOT allow:</strong></p>
+<ul class="simple">
+<li><p>Making changes to device configurations or deployment groups</p></li>
+<li><p>Uploading new apps to the store (that is a Developer function)</p></li>
+<li><p>Managing users</p></li>
+</ul>
+<p><strong>Technical scopes:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">*.Read.All</span></code></p></td>
+<td><p>Read access to all resources system-wide</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Snap.Download.All</span></code></p></td>
+<td><p>Download app packages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Snap.Update.Tenant</span></code></p></td>
+<td><p>Update app metadata in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Snap.UpdateUploadMessage.Tenant</span></code></p></td>
+<td><p>Update app upload messages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SnapRevision.UpdateStatus.Tenant</span></code></p></td>
+<td><p>Change the status of any app revision in the tenant</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="software-admin">
+<h3><span class="section-number">5.2.8. </span>Software Admin<a class="headerlink" href="#software-admin" title="Permalink to this heading"></a></h3>
+<p><strong>Full software lifecycle management.</strong> Software Admins combine the privileges of a Software Manager with the ability to trigger device updates and fully administer the software catalogue.</p>
+<p><strong>Intended for:</strong> Senior software engineers and platform engineers responsible for the complete software catalogue</p>
+<p><strong>Access level:</strong> Full app management + ability to trigger device software updates</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>Everything a Software Manager can do</p></li>
+<li><p>Trigger software installations and updates on any device</p></li>
+<li><p>View all device installation states, history, and snapshots</p></li>
+</ul>
+<p><strong>What this role does NOT allow:</strong></p>
+<ul class="simple">
+<li><p>Creating or deleting deployment groups</p></li>
+<li><p>SSH or RPC access to devices</p></li>
+<li><p>Managing users</p></li>
+</ul>
+<p><strong>Technical scopes:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Snap.Download.All</span></code></p></td>
+<td><p>Download apps</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Snap.Update.Tenant</span></code></p></td>
+<td><p>Update apps in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Snap.UpdateUploadMessage.Tenant</span></code></p></td>
+<td><p>Update app upload messages</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SnapRevision.Read.All</span></code></p></td>
+<td><p>View all snap revisions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SnapRevision.UpdateStatus.Tenant</span></code></p></td>
+<td><p>Change app revision status in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SnapDeclaration.Read.All</span></code></p></td>
+<td><p>View app declarations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SnapStatus.Read.All</span></code></p></td>
+<td><p>View app status</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AppStatus.Read.All</span></code></p></td>
+<td><p>View application status</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.Read.All</span></code></p></td>
+<td><p>View all devices</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.Update.All</span></code></p></td>
+<td><p>Update any device</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceModel.Read.All</span></code></p></td>
+<td><p>View device models</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallState.Read.All</span></code></p></td>
+<td><p>View device installation state</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallStateHistory.Read.All</span></code></p></td>
+<td><p>View device installation history</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallStateSnapshot.Read.All</span></code></p></td>
+<td><p>View device state snapshots</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Read.All</span></code></p></td>
+<td><p>View all deployment groups</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="asset-admin">
+<h3><span class="section-number">5.2.9. </span>Asset Admin<a class="headerlink" href="#asset-admin" title="Permalink to this heading"></a></h3>
+<p><strong>Manage the asset catalogue for your organization.</strong> Asset Admins maintain asset model definitions and system assets within their tenant, keeping asset records accurate and up to date.</p>
+<p><strong>Intended for:</strong> Asset managers, inventory managers, facilities managers</p>
+<p><strong>Access level:</strong> Full asset management within the tenant</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>Create, update, and delete asset types within the tenant</p></li>
+<li><p>Create, update, and delete asset models within the tenant</p></li>
+<li><p>Update and delete system assets within the tenant</p></li>
+<li><p>Create, update and delete asset instances</p></li>
+<li><p>Create update and delete attribute sets and attributes</p></li>
+<li><p>Perform commissioning (assigning devices and assets to a hierarchy)</p></li>
+<li><p>View all assets and asset models</p></li>
+</ul>
+<p><strong>What this role does NOT allow:</strong></p>
+<ul class="simple">
+<li><p>Managing devices, deployment groups, or software</p></li>
+<li><p>Managing users</p></li>
+</ul>
+<p><strong>Technical scopes:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Asset.Read.Tenant</span></code></p></td>
+<td><p>View assets in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Read.Tenant</span></code></p></td>
+<td><p>View asset models in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Create.Tenant</span></code></p></td>
+<td><p>Create asset models in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Update.Tenant</span></code></p></td>
+<td><p>Update system assets in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Delete.Tenant</span></code></p></td>
+<td><p>Delete system assets in the tenant</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="user-admin">
+<h3><span class="section-number">5.2.10. </span>User Admin<a class="headerlink" href="#user-admin" title="Permalink to this heading"></a></h3>
+<p><strong>Control who has access to the system and what they are permitted to do.</strong> User Admins are responsible for onboarding users, assigning roles, and maintaining access governance across the platform.</p>
+<p><strong>Intended for:</strong> IT administrators, system administrators, and anyone responsible for access control</p>
+<p><strong>Access level:</strong> Full user and role management (cannot assign the Super Admin role — only a Super Admin can do that)</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>Create, update, and delete user accounts</p></li>
+<li><p>Assign and revoke roles from users</p></li>
+<li><p>Create, update, and delete custom roles</p></li>
+<li><p>View all users, roles, and permissions</p></li>
+<li><p>View all active user sessions</p></li>
+<li><p>Manage tenant access per user</p></li>
+<li><p>View all available permission scopes</p></li>
+</ul>
+<p><strong>What this role does NOT allow:</strong></p>
+<ul class="simple">
+<li><p>Assigning the Super Admin role — that action requires a Super Admin</p></li>
+<li><p>Device operations, software management, or asset management</p></li>
+</ul>
+<p><strong>Technical scopes:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">User.Read.All</span></code></p></td>
+<td><p>View all users</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">User.Create.All</span></code></p></td>
+<td><p>Create user accounts</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">User.Update.All</span></code></p></td>
+<td><p>Update any user account</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">User.Delete.All</span></code></p></td>
+<td><p>Delete user accounts</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Role.Read.All</span></code></p></td>
+<td><p>View all roles</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Role.Create.All</span></code></p></td>
+<td><p>Create new roles</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Role.Update.All</span></code></p></td>
+<td><p>Update existing roles</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Role.Delete.All</span></code></p></td>
+<td><p>Delete roles</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RoleBridgeScope.Read.All</span></code></p></td>
+<td><p>View scope-to-role mappings</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">RoleBridgeScope.Create.All</span></code></p></td>
+<td><p>Add scopes to roles</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RoleBridgeScope.Delete.All</span></code></p></td>
+<td><p>Remove scopes from roles</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">UserBridgeRole.Read.All</span></code></p></td>
+<td><p>View user-to-role assignments</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UserBridgeRole.Create.All</span></code></p></td>
+<td><p>Assign roles to users</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">UserBridgeRole.Delete.All</span></code></p></td>
+<td><p>Remove roles from users</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UserSession.Read.All</span></code></p></td>
+<td><p>View all active user sessions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Tenant.Read.All</span></code></p></td>
+<td><p>View all tenant information</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Scope.Read.All</span></code></p></td>
+<td><p>View all available permission scopes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">UserAllowedTenant.Read.Tenant</span></code></p></td>
+<td><p>View which tenants a user can access</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UserAllowedTenant.Create.Tenant</span></code></p></td>
+<td><p>Grant a user access to a tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">UserAllowedTenant.Update.Tenant</span></code></p></td>
+<td><p>Update tenant access for a user</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UserAllowedTenant.Delete.Tenant</span></code></p></td>
+<td><p>Revoke a user’s access to a tenant</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="business-application">
+<h3><span class="section-number">5.2.11. </span>Business Application<a class="headerlink" href="#business-application" title="Permalink to this heading"></a></h3>
+<p><strong>API access for automated services and third-party integrations.</strong> This role is intended for machine accounts used by automation systems or external applications that need to query user directory information via the API.</p>
+<p><strong>Intended for:</strong> Backend services, automation tools, and integration platforms. <strong>This role is not intended for human users.</strong></p>
+<p><strong>Access level:</strong> Read users, roles, and active sessions</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>Read all user accounts</p></li>
+<li><p>Read all role definitions</p></li>
+<li><p>Read all active user sessions</p></li>
+</ul>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Assign this role only to service accounts, not to individual people. Credentials for accounts with this role must be managed as application secrets and rotated regularly.</p>
+</div>
+<p><strong>Technical scopes:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">User.Read.All</span></code></p></td>
+<td><p>Read all user accounts</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Role.Read.All</span></code></p></td>
+<td><p>Read all role definitions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UserSession.Read.All</span></code></p></td>
+<td><p>Read all active sessions</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="manufacturing-service">
+<h3><span class="section-number">5.2.12. </span>Manufacturing Service<a class="headerlink" href="#manufacturing-service" title="Permalink to this heading"></a></h3>
+<p><strong>Device provisioning during manufacturing or initial setup.</strong> This is a highly restricted role designed exclusively for automated provisioning systems used when registering new devices into the platform.</p>
+<p><strong>Intended for:</strong> Manufacturing line automation and device provisioning scripts. <strong>This role is not intended for human users.</strong></p>
+<p><strong>Access level:</strong> Device provisioning only</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>Register (provision) new system assets into the platform</p></li>
+</ul>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Assign this role only to machine accounts used in manufacturing or provisioning pipelines. It grants no visibility into any existing data and cannot perform any other operation. Treat credentials for these accounts as high-value secrets.</p>
+</div>
+<p><strong>Technical scopes:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Provision.All</span></code></p></td>
+<td><p>Provision new system assets</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="core-admin">
+<h3><span class="section-number">5.2.13. </span>Core Admin<a class="headerlink" href="#core-admin" title="Permalink to this heading"></a></h3>
+<p><strong>Manage the foundational platform configuration.</strong> Core Admins handle low-level infrastructure concerns such as defining new device models and managing the cryptographic assertions that underpin the app ecosystem trust chain.</p>
+<p><strong>Intended for:</strong> Platform engineers and infrastructure architects who manage device model definitions and the Snapcraft trust infrastructure</p>
+<p><strong>Access level:</strong> Device model management + assertion creation</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>Create and update edge device model definitions</p></li>
+<li><p>Create generic, model-level, and system user assertions</p></li>
+<li><p>Create store assertions</p></li>
+<li><p>View app declarations and revisions</p></li>
+<li><p>Download app packages</p></li>
+</ul>
+<p><strong>What this role does NOT allow:</strong></p>
+<ul class="simple">
+<li><p>Managing live devices, fleets, or users</p></li>
+<li><p>Publishing or rating software packages</p></li>
+</ul>
+<p><strong>Technical scopes:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceModel.Create.All</span></code></p></td>
+<td><p>Create device model definitions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceModel.Update.All</span></code></p></td>
+<td><p>Update device model definitions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SnapDeclaration.Read.All</span></code></p></td>
+<td><p>View app declarations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SnapRevision.Read.All</span></code></p></td>
+<td><p>View app revisions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Snap.Download.All</span></code></p></td>
+<td><p>Download app packages</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">StoreAssertions.Create.All</span></code></p></td>
+<td><p>Create store assertions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Assertion.Create.All</span></code></p></td>
+<td><p>Create generic assertions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ModelAssertion.Create.All</span></code></p></td>
+<td><p>Create device model assertions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SystemUserAssertion.Create.All</span></code></p></td>
+<td><p>Create system user assertions</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="super-admin">
+<h3><span class="section-number">5.2.14. </span>Super Admin<a class="headerlink" href="#super-admin" title="Permalink to this heading"></a></h3>
+<p><strong>Unrestricted access to the entire platform.</strong> The Super Admin role grants full read and write permission across every resource in the system. This role must be used with great care.</p>
+<p><strong>Intended for:</strong> Platform owners, system architects, and senior operations leads who require total platform control</p>
+<p><strong>Access level:</strong> Complete — every operation on every resource, without exception</p>
+<p><strong>What this role allows:</strong></p>
+<ul class="simple">
+<li><p>Every operation available in the system</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Keep the number of Super Admins to an absolute minimum.</p>
+<ul class="simple">
+<li><p>Only assign this role when no other role combination meets the requirement.</p></li>
+<li><p>Accounts with this role should use multi-factor authentication.</p></li>
+<li><p>Audit Super Admin assignments periodically.</p></li>
+<li><p>Super Admin is the only role that can assign the Super Admin role to other users.</p></li>
+</ul>
+</div>
+<p><strong>Technical scopes:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">*.*.All</span></code></p></td>
+<td><p>All actions on all resources system-wide</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="rolepermission-scope-matrix">
+<h2><span class="section-number">5.3. </span>Role–Permission Scope Matrix<a class="headerlink" href="#rolepermission-scope-matrix" title="Permalink to this heading"></a></h2>
+<p>All permission scopes in a single view. Read <strong>across a row</strong> to find every role that holds a given scope; read <strong>down a column</strong> to see the complete permission set for one role.</p>
+<p><strong>Legend</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Symbol</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>●</p></td>
+<td><p>Scope explicitly assigned to this role</p></td>
+</tr>
+<tr class="row-odd"><td><p>★</p></td>
+<td><p>Scope covered by a wildcard held by this role</p></td>
+</tr>
+<tr class="row-even"><td><p><em>(blank)</em></p></td>
+<td><p>Role does not hold this scope</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Observer</strong> and <strong>Software Manager</strong> hold <code class="docutils literal notranslate"><span class="pre">*.Read.All</span></code>, granting them every <code class="docutils literal notranslate"><span class="pre">&lt;Resource&gt;.Read.All</span></code> scope — shown as ★ in those cells.
+<strong>Super Admin</strong> holds <code class="docutils literal notranslate"><span class="pre">*.*.All</span></code>, covering every scope without exception — every Super Admin cell is ★.</p>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Category</p></th>
+<th class="head"><p>Scope</p></th>
+<th class="head text-center"><p>Default</p></th>
+<th class="head text-center"><p>Observer</p></th>
+<th class="head text-center"><p>System Analyst</p></th>
+<th class="head text-center"><p>Device Manager</p></th>
+<th class="head text-center"><p>Device Admin</p></th>
+<th class="head text-center"><p>Software Developer</p></th>
+<th class="head text-center"><p>Software Manager</p></th>
+<th class="head text-center"><p>Software Admin</p></th>
+<th class="head text-center"><p>Asset Admin</p></th>
+<th class="head text-center"><p>User Admin</p></th>
+<th class="head text-center"><p>Business Application</p></th>
+<th class="head text-center"><p>Manufacturing Service</p></th>
+<th class="head text-center"><p>Core Admin</p></th>
+<th class="head text-center"><p>Super Admin</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Own Account</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">User.Read.Own</span></code></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Own Account</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">User.Update.Own</span></code></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Own Account</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UserSetting.Read.Own</span></code></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Own Account</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UserSetting.Update.Own</span></code></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Own Account</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UserSession.Read.Own</span></code></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Own Account</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UserBridgeRole.Read.Own</span></code></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Own Account</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tenant.Read.Tenant</span></code></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">User.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">User.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">User.Update.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">User.Delete.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UserSession.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UserBridgeRole.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UserBridgeRole.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UserBridgeRole.Delete.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Role.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Role.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Role.Update.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Role.Delete.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RoleBridgeScope.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RoleBridgeScope.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RoleBridgeScope.Delete.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tenant.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Scope.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UserAllowedTenant.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UserAllowedTenant.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UserAllowedTenant.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Users &amp; Roles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UserAllowedTenant.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.Update.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.RPC.Own</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.RPC.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.RPC_SSH.Own</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Device.Relink.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DeviceSnap.Update.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceModel.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceModel.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceModel.Update.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallState.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallStateHistory.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EdgeDeviceInstallStateSnapshot.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Devices</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Log.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Deployment Groups</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Deployment Groups</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Deployment Groups</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Update.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Deployment Groups</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Clone.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Deployment Groups</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Delete.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Deployment Groups</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FleetBridgeSnapRevision.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Deployment Groups</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FleetBridgeSnapRevision.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Deployment Groups</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FleetBridgeSnapRevision.Update.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Deployment Groups</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FleetBridgeSnapRevision.Delete.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Snap.Push.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Snap.Push_Declaration.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Snap.Download.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Snap.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Snap.UpdateUploadMessage.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SnapDeclaration.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SnapDeclaration.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SnapDeclaration.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SnapRevision.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SnapRevision.UpdateStatus.Own</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SnapRevision.UpdateStatus.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SnapRevision.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SnapStatus.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AppStatus.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AppRevision.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assertions</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">StoreAssertions.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assertions</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Assertion.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assertions</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ModelAssertion.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assertions</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SystemUserAssertion.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Asset.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Asset.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Provision.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Update.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Delete.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DataMessage.Download.Own</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="scope-naming-convention">
+<h2><span class="section-number">5.4. </span>Scope Naming Convention<a class="headerlink" href="#scope-naming-convention" title="Permalink to this heading"></a></h2>
+<p>For engineers who need to interpret permission scope names directly, all scopes follow a consistent three-part pattern:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Resource</span><span class="o">&gt;.&lt;</span><span class="n">Action</span><span class="o">&gt;.&lt;</span><span class="n">Target</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Part</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Examples</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Resource</strong></p></td>
+<td><p>The type of object being acted upon</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice</span></code>, <code class="docutils literal notranslate"><span class="pre">Snap</span></code>, <code class="docutils literal notranslate"><span class="pre">User</span></code>, <code class="docutils literal notranslate"><span class="pre">Deployment</span> <span class="pre">proup</span> <span class="pre">(fleet)</span></code>, <code class="docutils literal notranslate"><span class="pre">Asset</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Action</strong></p></td>
+<td><p>The operation being performed</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Read</span></code>, <code class="docutils literal notranslate"><span class="pre">Update</span></code>, <code class="docutils literal notranslate"><span class="pre">Create</span></code>, <code class="docutils literal notranslate"><span class="pre">Delete</span></code>, <code class="docutils literal notranslate"><span class="pre">Download</span></code>, <code class="docutils literal notranslate"><span class="pre">Push</span></code>, <code class="docutils literal notranslate"><span class="pre">RPC</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Target</strong></p></td>
+<td><p>How broadly the permission applies</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Own</span></code>, <code class="docutils literal notranslate"><span class="pre">Tenant</span></code>, <code class="docutils literal notranslate"><span class="pre">All</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Target values explained:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Target</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Own</span></code></p></td>
+<td><p>Only the resources owned by or assigned to this user</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Tenant</span></code></p></td>
+<td><p>All resources within the user’s organization (tenant)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">All</span></code></p></td>
+<td><p>All resources across the entire system</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Plain-language meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EdgeDevice.Read.All</span></code></p></td>
+<td><p>View all edge devices in the system</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Snap.Push.Tenant</span></code></p></td>
+<td><p>Push app packages within this organization</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">User.Update.Own</span></code></p></td>
+<td><p>Edit your own user account only</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Delete.All</span></code></p></td>
+<td><p>Delete any deployment group in the system</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">*.*.All</span></code></p></td>
+<td><p>Wildcard: every action on every resource (Super Admin only)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="role-decision-guide">
+<h2><span class="section-number">5.5. </span>Role Decision Guide<a class="headerlink" href="#role-decision-guide" title="Permalink to this heading"></a></h2>
+<p>Use the questions below to identify the correct role for a new team member. Start at Step 1 and follow the path that matches the situation.</p>
+<section id="step-1-is-this-a-human-user-or-a-machine-service-account">
+<h3><span class="section-number">5.5.1. </span>Step 1 — Is this a human user or a machine/service account?<a class="headerlink" href="#step-1-is-this-a-human-user-or-a-machine-service-account" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Service account for provisioning new devices on a manufacturing line</strong> → assign <a class="reference internal" href="#manufacturing-service">Manufacturing Service</a></p></li>
+<li><p><strong>Service account for an integration or automation tool that reads user data</strong> → assign <a class="reference internal" href="#business-application">Business Application</a></p></li>
+<li><p><strong>Human user</strong> → continue to <a class="reference internal" href="#step-2-what-is-their-primary-area-of-responsibility">Step 2</a></p></li>
+</ul>
+</section>
+<section id="step-2-what-is-their-primary-area-of-responsibility">
+<h3><span class="section-number">5.5.2. </span>Step 2 — What is their primary area of responsibility?<a class="headerlink" href="#step-2-what-is-their-primary-area-of-responsibility" title="Permalink to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Their focus</p></th>
+<th class="head"><p>Next step</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Managing user accounts and access control</p></td>
+<td><p><a class="reference internal" href="#step-3-user-administration">Step 3</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Working with physical devices in the field</p></td>
+<td><p><a class="reference internal" href="#step-4-device-operations">Step 4</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Developing, releasing, or managing software packages</p></td>
+<td><p><a class="reference internal" href="#step-5-software-roles">Step 5</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Monitoring and reporting only — no changes needed</p></td>
+<td><p><a class="reference internal" href="#step-6-read-only-and-monitoring">Step 6</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Investigating issues or providing technical support</p></td>
+<td><p>→ assign <a class="reference internal" href="#system-analyst">System Analyst</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Managing asset definitions and inventory</p></td>
+<td><p>→ assign <a class="reference internal" href="#asset-admin">Asset Admin</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Low-level platform configuration (device models, assertions)</p></td>
+<td><p>→ assign <a class="reference internal" href="#core-admin">Core Admin</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Full platform ownership — unrestricted access required</p></td>
+<td><p>→ assign <a class="reference internal" href="#super-admin">Super Admin</a> ⚠️ use sparingly</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="step-3-user-administration">
+<h3><span class="section-number">5.5.3. </span>Step 3 — User administration<a class="headerlink" href="#step-3-user-administration" title="Permalink to this heading"></a></h3>
+<p><strong>Do they need to manage user accounts, assign roles, and control access across the platform?</strong></p>
+<ul class="simple">
+<li><p><strong>Yes</strong> → assign <a class="reference internal" href="#user-admin">User Admin</a></p></li>
+</ul>
+</section>
+<section id="step-4-device-operations">
+<h3><span class="section-number">5.5.4. </span>Step 4 — Device operations<a class="headerlink" href="#step-4-device-operations" title="Permalink to this heading"></a></h3>
+<p><strong>Do they need to act on all devices in the system, or only a specific assigned set?</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Situation</p></th>
+<th class="head"><p>Role</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Operate and manage only their own assigned devices and deployment groups</p></td>
+<td><p><a class="reference internal" href="#device-manager">Device Manager</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Full control of all devices, including relinking and system asset management</p></td>
+<td><p><a class="reference internal" href="#device-admin">Device Admin</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="step-5-software-roles">
+<h3><span class="section-number">5.5.5. </span>Step 5 — Software roles<a class="headerlink" href="#step-5-software-roles" title="Permalink to this heading"></a></h3>
+<p><strong>What is their primary task in the software lifecycle?</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Task</p></th>
+<th class="head"><p>Role</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Writing code and uploading app packages to the store</p></td>
+<td><p><a class="reference internal" href="#software-developer">Software Developer</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Reviewing, rating, and approving app releases</p></td>
+<td><p><a class="reference internal" href="#software-manager">Software Manager</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Full software administration — approvals, device deployments, and catalogue management</p></td>
+<td><p><a class="reference internal" href="#software-admin">Software Admin</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="step-6-read-only-and-monitoring">
+<h3><span class="section-number">5.5.6. </span>Step 6 — Read-only and monitoring<a class="headerlink" href="#step-6-read-only-and-monitoring" title="Permalink to this heading"></a></h3>
+<p><strong>They need visibility but should not be able to change anything.</strong></p>
+<ul class="simple">
+<li><p>→ assign <a class="reference internal" href="#observer">Observer</a></p></li>
+</ul>
+</section>
+</section>
+<section id="assigning-roles">
+<h2><span class="section-number">5.6. </span>Assigning Roles<a class="headerlink" href="#assigning-roles" title="Permalink to this heading"></a></h2>
+<p>Roles are managed in the <strong>User Management</strong> section of the Ecosystem UI. You must hold either the <strong>User Admin</strong> or <strong>Super Admin</strong> role to make changes.</p>
+<ol class="arabic simple">
+<li><p>Open the Ecosystem UI and navigate to <strong>User Management</strong>.</p></li>
+<li><p>Select the user you want to update.</p></li>
+<li><p>Check or uncheck the desired roles.</p></li>
+<li><p>Save your changes.</p></li>
+</ol>
+<p>To inspect a user’s roles from the command line:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>user<span class="w"> </span>roles<span class="w"> </span>list<span class="w"> </span>&lt;user&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The predefined roles described in this guide are created by ML!PA and cannot be modified. User Admins and Super Admins may create <strong>custom roles</strong> with specific permission combinations for specialized use cases not covered by the predefined set. Custom roles are created and managed in the User Management section of the Ecosystem UI.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Installation_Device.html" class="btn btn-neutral float-left" title="4. Devices Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Management_Asset.html" class="btn btn-neutral float-right" title="6. Asset Management" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, ML!PA.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

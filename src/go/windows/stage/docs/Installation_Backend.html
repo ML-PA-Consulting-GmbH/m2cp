@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3. Cloud Installation &mdash; L-IoT Documentation  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/drawio.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/MLPA-FavIcon-neg-weiss.ico"/>
+    <link rel="canonical" href="http://apu.ml-pa.loc/docs/customers/Installation_Backend.html" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Devices Installation" href="Installation_Device.html" />
+    <link rel="prev" title="2. Tools Installation" href="Installation_Tools.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: black" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            L-IoT Documentation
+          </a>
+              <div class="version">
+                Version 1.14.8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Manual</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Tools.html">2. Tools Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Tools.html#browser-ui">2.1. Browser UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Tools.html#cli-tools">2.2. CLI Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#windows-cli-tool">2.2.1. Windows CLI Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#linux-cli-tools">2.2.2. Linux CLI Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#login-and-usage">2.2.3. Login and Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Cloud Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing-backend-services">3.1. Installing Backend Services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#azure">3.1.1. Azure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#constraints-on-secrets">3.2. Constraints on secrets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#secrets">3.2.1. Secrets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#container-registry">3.3. Container Registry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#event-api">3.4. Event API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#full-list-of-entities">3.4.1. Full List of Entities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#receiving-data-points">3.4.2. Receiving Data Points</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#graphql-api">3.5. GraphQL API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rest-api">3.6. REST API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#authentication-authorization">3.6.1. Authentication &amp; Authorization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#swagger-api-documentation">3.6.2. Swagger API Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#requests">3.6.3. Requests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Device.html">4. Devices Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Device.html#provisioning-process-of-externally-produced-edge-devices">4.1. Provisioning Process of Externally Produced Edge Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#installing-edge-os">4.1.1. Installing Edge OS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#test-sd-card-of-a-device">4.1.2. Test SD Card of a Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#os-image-inspection">4.1.3. OS Image Inspection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_User.html">5. User Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#quick-reference">5.1. Quick Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#roles-in-detail">5.2. Roles in Detail</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#default">5.2.1. Default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#observer">5.2.2. Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#system-analyst">5.2.3. System Analyst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#device-manager">5.2.4. Device Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#device-admin">5.2.5. Device Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-developer">5.2.6. Software Developer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-manager">5.2.7. Software Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-admin">5.2.8. Software Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#asset-admin">5.2.9. Asset Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#user-admin">5.2.10. User Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#business-application">5.2.11. Business Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#manufacturing-service">5.2.12. Manufacturing Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#core-admin">5.2.13. Core Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#super-admin">5.2.14. Super Admin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#rolepermission-scope-matrix">5.3. Role–Permission Scope Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#scope-naming-convention">5.4. Scope Naming Convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#role-decision-guide">5.5. Role Decision Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-1-is-this-a-human-user-or-a-machine-service-account">5.5.1. Step 1 — Is this a human user or a machine/service account?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-2-what-is-their-primary-area-of-responsibility">5.5.2. Step 2 — What is their primary area of responsibility?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-3-user-administration">5.5.3. Step 3 — User administration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-4-device-operations">5.5.4. Step 4 — Device operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-5-software-roles">5.5.5. Step 5 — Software roles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-6-read-only-and-monitoring">5.5.6. Step 6 — Read-only and monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#assigning-roles">5.6. Assigning Roles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Asset.html">6. Asset Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#concept-of-assets">6.1. Concept of Assets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#relevant-user-roles">6.2. Relevant User Roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-management-with-the-cli">6.3. Asset Management with the CLI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#working-with-asset-models">6.3.1. Working with Asset Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#working-with-assets">6.3.2. Working with Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#linking-assets">6.3.3. Linking Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#searching-and-finding-assets">6.3.4. Searching and Finding Assets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-creation-during-the-installation-process">6.4. Asset Creation during the installation process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#disable-the-asset-service-pre-registration-requirement">6.5. Disable the Asset Service Pre-Registration Requirement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-management-with-the-ecosystem-web-ui">6.6. Asset Management with the Ecosystem Web-UI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Software.html">7. Software Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#uploading-app-revisions">7.1. Uploading App Revisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#review">7.2. Review</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#deployment">7.3. Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#the-ml-pa-release-process">7.4. The ML!PA release process</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#steps-to-create-a-release">7.4.1. Steps to create a release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#contents-of-a-release-package">7.4.2. Contents of a release package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#security-updates">7.4.3. Security Updates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Device.html">8. Devices Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#list-devices">8.1. List Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#device-details">8.2. Device Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deployment-groups">8.3. Deployment Groups</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#deployment-groups-administrator-and-co-administrators">8.3.1. Deployment Group’s Administrator and Co-Administrators</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deploying-an-app-revision">8.4. Deploying an App Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#manually-trigger-deployment">8.5. Manually Trigger Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#analyzing-deployment">8.6. Analyzing Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#edge-devices">8.6.1. Edge Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#real-time-devices">8.6.2. Real Time Devices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deployment-history">8.7. Deployment History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#toggle-rtd-updates">8.8. Toggle RTD Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#device-logs">8.9. Device Logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#reverse-ssh-access">8.10. Reverse-SSH Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#advanced-troubleshooting">8.11. Advanced Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#tpm-da-lockout-mode">8.11.1. TPM DA Lockout Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#inspecting-the-state-json">8.11.2. Inspecting the state.json</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Development_Edge.html">1. Edge Device Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#learning-path-for-app-developers">1.1. Learning Path for App Developers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#tools-for-app-development">1.2. Tools for App Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#build-applications-in-go-with-m2cp-go">1.2.1. Build Applications in Go with m2cp-go</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#package-applications-with-m2cp-snap">1.2.2. Package applications with m2cp-snap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#run-existing-software-within-an-m2cp-app-using-the-state-machine">1.2.3. Run existing software within an M2CP App using the State Machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#m2cp-app-crafting">1.3. M2CP App Crafting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-building-m2cp-apps">1.3.1. Questions and Answers: Building M2CP Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-debugging-m2cp-apps">1.3.2. Questions and Answers: Debugging M2CP Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-m2cp-app-deployment">1.3.3. Questions and Answers: M2CP App Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#upload-new-software-to-the-store">1.4. Upload new Software to the store</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#rate-a-version">1.4.1. Rate a version</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#edge-device-sdk">1.5. Edge Device SDK</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#installing-the-edge-device-sdk">1.5.1. Installing the Edge Device SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#setting-up-dev-environment">1.5.2. Setting Up Dev Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#using-the-edge-device-sdk">1.5.3. Using the Edge Device SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#tutorials">1.5.4. Tutorials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#python-edge-device-sdk">1.5.5. Python Edge Device SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#gpio">1.6. GPIO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#gpio-tools">1.6.1. GPIO Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#using-state-machine-with-gpio">1.6.2. Using State Machine with GPIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#gpio-led-blinking">1.6.3. GPIO LED Blinking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#rename-a-network-interface">1.7. Rename a Network Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#manual-remote-procedure-calls-rpc">1.8. Manual Remote Procedure Calls (RPC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-discovery">1.8.1. Node discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-information">1.8.2. Node information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-rpc">1.8.3. Node RPC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#json-mode">1.8.4. JSON mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#protect-edge-devices-via-basic-firewall">1.9. Protect Edge Devices via Basic Firewall</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Virtual_Devices.html">2. Virtual Edge Devices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#what-is-a-virtual-device">2.1. What is a Virtual Device?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#prerequisites">2.2. Prerequisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#installation-of-docker">2.2.1. Installation of Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#usage-of-virtual-devices">2.3. Usage of Virtual Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#list-virtual-devices">2.3.1. List Virtual Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#create-a-virtual-device">2.3.2. Create a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#delete-a-virtual-device">2.3.3. Delete a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#start-stop-a-virtual-device">2.3.4. Start/Stop a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#attach-to-a-virtual-device">2.3.5. Attach to a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#install-an-app-from-local-host-in-a-virtual-device">2.3.6. Install an App from Local Host in a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#copy-files-from-host-to-the-virtual-device">2.3.7. Copy Files from Host to the Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#copy-files-from-virtual-device-to-host">2.3.8. Copy files from Virtual Device to Host</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#testing-or-debugging-applications-with-a-virtual-device">2.4. Testing or Debugging Applications with a Virtual Device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#testing-coap-clients-against-m2cp-coap">2.4.1. Testing CoAP clients against m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#debugging-applications-in-a-virtual-device">2.4.2. Debugging Applications in a Virtual Device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Development_RTD.html">3. Real Time Device Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#identifying-devices">3.1. Identifying Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-device-name">3.1.1. From Device Name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-hardware-serial-number">3.1.2. From Hardware Serial Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-hardware-assembly-number">3.1.3. From Hardware Assembly Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#by-device-type">3.1.4. By Device Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#creating-device-models">3.2. Creating Device Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#uploading-firmware">3.3. Uploading Firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#assigning-firmware-to-real-time-devices">3.4. Assigning Firmware to Real-time Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#creating-a-new-deployment-group-for-a-real-time-device">3.4.1. Creating a new Deployment Group for a Real-time Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#adding-the-app-to-the-deployment-group">3.4.2. Adding the app to the deployment group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#adding-the-device-to-the-deployment-group">3.4.3. Adding the device to the deployment group</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#monitoring-firmware-deployment">3.5. Monitoring Firmware Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#debugging-problem-scenarios">3.5.1. Debugging Problem Scenarios</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#legacy">3.6. Legacy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#id1">3.6.1. Uploading Firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#prerequisites">3.6.2. Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#firmware-files">3.6.3. Firmware Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#packaging-tool">3.6.4. Packaging Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#deployment">3.6.5. Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#validation">3.6.6. Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Networking.html">4. CoAP and Networking</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#lan-addresses">4.1. LAN Addresses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#contacting-modules">4.2. Contacting Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#common-coap-endpoints">4.3. Common CoAP endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#whoami-1">4.3.1. /whoami/1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#uptime-1">4.3.2. /uptime/1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#power-management">4.4. Power Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#m2cp-coaps-part-in-power-management">4.4.1. m2cp-coap’s part in power management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#apps-uptime-requests">4.4.2. App’s uptime requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#getuptimerequests-rpc">4.4.3. getUptimeRequests RPC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#dev-m2cpctl-integration">4.4.4. dev-m2cpctl integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Messages.html">5. Messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#monitoring-messages">5.1. Monitoring Messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#using-the-m2cp-device-message-listen-cli-command">5.1.1. Using the m2cp device message listen CLI Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#monitoring-with-azure-iot-hub-explorer">5.1.2. Monitoring with Azure IoT Hub Explorer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#conclusion">5.1.3. Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#data-flow-debugging">5.2. DATA Flow Debugging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#mcus">5.2.1. MCUs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#ingoing-packets-analysis">5.2.2. Ingoing Packets Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-coap">5.2.3. m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-message-hub">5.2.4. m2cp-message-hub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-coap-a-z-custom-parser">5.2.5. m2cp-coap-[a-z]+ Custom Parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-gateway">5.2.6. m2cp-gateway</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-gateway-uplink-output-buffer">5.2.7. m2cp-gateway Uplink Output Buffer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#inspecting-data-messages-in-the-cloud">5.2.8. Inspecting DATA messages in the cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#inspecting-signal-messages-in-the-cloud">5.2.9. Inspecting SIGNAL messages in the cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#data-visualization">5.2.10. Data Visualization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="APIs_Backend.html">6. Backend APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="APIs_Backend.html#user-service">6.1. User Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="APIs_Backend.html#app-store-service">6.2. App Store Service</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Technical Specification</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Architecture.html">2. Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#edge-system">2.1. Edge System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#edge-device">2.1.1. Edge Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#real-time-devices">2.1.2. Real Time Devices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#cloud-backend">2.2. Cloud Backend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#gateway-service">2.2.1. Gateway Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#user-service">2.2.2. User Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#log-service">2.2.3. Log Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#asset-service">2.2.4. Asset Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#signalr-hub-service">2.2.5. SignalR Hub Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#domain-event-exporter-service">2.2.6. Domain Event Exporter Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#app-store-service">2.2.7. App Store Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#assertion-service">2.2.8. Assertion Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#ssh-relay-service">2.2.9. SSH Relay Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#service-bus">2.2.10. Service Bus</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#id33">2.3. User Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Lifecycle_ED.html">3. Edge Device Lifecycle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#building-an-os-image">3.1. Building an OS Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#initial-provisioning-of-an-edge-device-os-installation">3.2. Initial Provisioning of an Edge Device &amp; OS Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#registration-of-an-edge-device-with-the-appstore">3.3. Registration of an Edge Device with the Appstore</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_ED.html#terminology">3.3.1. Terminology:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#authorization-of-an-edge-device">3.4. Authorization of an Edge Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#software-update">3.5. Software Update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#establishing-the-messaging-uplink">3.6. Establishing the Messaging Uplink</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#re-installation-of-the-os">3.7. Re-Installation of the OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#re-registration-with-a-different-appstore">3.8. Re-Registration with a different Appstore</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Lifecycle_RTD.html">4. Real Time Device Lifecycle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_RTD.html#firmware-updates-1-0-legacy">4.1. Firmware Updates 1.0 (Legacy)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_RTD.html#firmware-updates-2-0-current">4.2. Firmware Updates 2.0 (current)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#update-cycle">4.2.1. Update Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#data-formats">4.2.2. Data Formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#endpoints">4.2.3. Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#edge-cases">4.2.4. Edge Cases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Messaging.html">5. Messaging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#typical-message-routing">5.1. Typical Message Routing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#log-message-linux-app-to-cloud">5.1.1. Log Message Linux App to Cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#log-message-rtos-to-cloud">5.1.2. Log Message RTOS to Cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#local-to-device-rpc-via-backend">5.1.3. Local To Device RPC via Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#app-to-app-rpc-on-a-device">5.1.4. App To App RPC on a Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#device-to-device-rpc-via-ip">5.1.5. Device To Device RPC via IP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#data-points-to-data-visualization">5.2. Data Points to Data Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#m2cp-messaging-protocol">5.3. M2CP Messaging Protocol</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#changelog">5.3.1. Changelog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#message-format">5.3.2. Message Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#message-routing">5.3.3. Message Routing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#nodes-and-remote-procedure-calls-rpc">5.4. Nodes and Remote Procedure Calls (RPC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-discovery">5.4.1. Node discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-information">5.4.2. Node information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-rpc">5.4.3. Node RPC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Glossary</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">1. Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app">1.1. App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-registration">1.2. App Store Registration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-service">1.3. App Store Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-ui">1.4. App Store UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#architecture">1.5. Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset">1.6. Asset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-attestation-key">1.7. Asset Attestation Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-hierarchy">1.8. Asset Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-management-ui">1.9. Asset Management UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-model">1.10. Asset Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-name">1.11. Asset Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-service">1.12. Asset Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-type">1.13. Asset Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-type-category">1.14. Asset Type Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#backend-services">1.15. Backend Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#deployment-group">1.16. Deployment Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device">1.17. Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-id">1.18. Device ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-hardware">1.19. Device Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-management">1.20. Device Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model">1.21. Device Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model-name">1.22. Device Model Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model-revision">1.23. Device Model Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-name">1.24. Device Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-type">1.25. Device Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#ecosystem-ui">1.26. Ecosystem UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-device">1.27. Edge Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-device-sdk">1.28. Edge Device SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-os">1.29. Edge OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#firmware-package">1.30. Firmware Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model">1.31. Hardware Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model-name">1.32. Hardware Model Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-vendor">1.33. Hardware Vendor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model-revision">1.34. Hardware Model Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-serial-number">1.35. Hardware Serial Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#mcu-id">1.36. MCU ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp">1.37. M2CP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-coap">1.38. m2cp-coap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-gateway">1.39. m2cp-gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-message-hub">1.40. m2cp-message-hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#l-iot">1.41. L-IoT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#os-serial-number">1.42. OS Serial Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#real-time-device">1.43. Real Time Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#real-time-device-sdk">1.44. Real Time Device SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#snapd">1.45. Snapd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#snap-package">1.46. Snap Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#tenant">1.47. Tenant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#user-service">1.48. User Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#virtual-device">1.49. Virtual Device</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Legacy_Glossary.html">2. Legacy Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#dev-m2cpctl">2.1. dev-m2cpctl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#fleet">2.2. Fleet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-device">2.3. M2CP Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-cli">2.4. M2CP CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-coap">2.5. m2cp-coap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-control-tools">2.6. M2CP Control Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-core-apps">2.7. M2CP Core Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-gateway">2.8. m2cp-gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-go">2.9. m2cp-go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-listen">2.10. m2cp-listen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-logstat">2.11. m2cp-logstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-message-hub">2.12. m2cp-message-hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-simsensor">2.13. m2cp-simsensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-sdk">2.14. M2CP SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-sdk-go">2.15. m2cp-sdk-go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-snap">2.16. m2cp-snap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-timesync">2.17. m2cp-timesync</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-toolchain">2.18. M2CP Toolchain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#real-time-device-peripheral-iot-device">2.19. Real-Time Device / Peripheral / IoT Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#snapd">2.20. snapd</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Revision History</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Revision_History.html">1. Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">L-IoT Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3. </span>Cloud Installation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cloud-installation">
+<h1><span class="section-number">3. </span>Cloud Installation<a class="headerlink" href="#cloud-installation" title="Permalink to this heading"></a></h1>
+<p>This section adresses users meant to set up the Backend Services and work directly with the systems APIs. It covers how to install the App Store Service.  Additionally, it explains the data points that are being received and discusses the purpose and usage of the two main interfaces: the Event API and the GraphQL API.</p>
+<section id="installing-backend-services">
+<h2><span class="section-number">3.1. </span>Installing Backend Services<a class="headerlink" href="#installing-backend-services" title="Permalink to this heading"></a></h2>
+<p>There are two ways to install the backend services of L-IoT, via bicep or via terraform. The terraform installation is the preferred way. The bicep installation is not feature complete and will be deprecated in the future.</p>
+<section id="azure">
+<h3><span class="section-number">3.1.1. </span>Azure<a class="headerlink" href="#azure" title="Permalink to this heading"></a></h3>
+<section id="requirements">
+<h4>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><p>Resource Group in the determined subscription for each environment (e.g. dev, prod)</p>
+<ul>
+<li><p>ensure at least read access for one technical employee of ML!PA</p></li>
+</ul>
+</li>
+<li><p>Service Connection to the Resource Group(s) in Azure DevOps</p>
+<ul>
+<li><p>when terraform is used, the service connection needs to have contributor permissions on subscription level</p></li>
+<li><p>service connection needs to have the ‘Microsoft.Authorization/roleAssignments/write’ &amp; Microsoft.Authorization/roleDefinitions/write permission, can be aquired through the role ´Role Based Access Control Administrator´</p>
+<ul>
+<li><p>One way to achieve this is to create a custom role with the required permissions and assign it to the service connection. A script can be found in the <a class="reference external" href="https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac?path=%2Futil%2Fcreate-service-connection-role.ps1">ml-pa project</a>.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>SQL Server Admin Group, in the MS Entra, with at least one technical employee of ML!PA as a member</p>
+<ul>
+<li><p>Name, tenantId and the Sid (object Id) of the group are required to obtain</p></li>
+</ul>
+</li>
+<li><p>“Appstore Observer” Group, for all people who should have read access to the appstore</p></li>
+<li><p>“Appstore Emergency” Group, for all people who should have emergency (read + write + actions) access to the appstore</p></li>
+<li><p>DevOps Repository for the infrastructure code</p>
+<ul>
+<li><p>It is not required to be a separate repository, but it is recommended, it can also be a subfolder in an existing repository</p></li>
+<li><p>Permissions to create a new pipeline in the project</p></li>
+</ul>
+</li>
+<li><p>Access to the container registry, where the docker images of the services are stored</p>
+<ul>
+<li><p>for instructions see section <a class="reference internal" href="#container-registry">Container Registry</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="terraform">
+<h4>Terraform<a class="headerlink" href="#terraform" title="Permalink to this heading"></a></h4>
+<p>The terraform code provides more options of deployment and is the preferred way to deploy the infrastructure. The terraform code is located in the terraform folder of the <a class="reference external" href="https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac">ml-pa project</a>. A description of the parameters and modules, can be found in the README.md file in the terraform folder.</p>
+<section id="deployment-requirements">
+<h5>Deployment Requirements<a class="headerlink" href="#deployment-requirements" title="Permalink to this heading"></a></h5>
+<p>Next to the already mentioned requirements, the following requirements are needed to deploy the infrastructure via terraform:</p>
+<ul class="simple">
+<li><p>A storage account to store the terraform state file. It is recommended to place that storage account in a separate resource group.</p>
+<ul>
+<li><p>The service connection that deploys the infrastructure needs to have the role <code class="docutils literal notranslate"><span class="pre">Storage</span> <span class="pre">Blob</span> <span class="pre">Data</span> <span class="pre">Contributor</span></code> on that storage account.</p></li>
+</ul>
+</li>
+<li><p>A secrets file in the library from devops, the secrets are described in the readme of the repository.</p>
+<ul>
+<li><p>If secrets are updated, then the the secrets file also need to be updated in the devops library.</p></li>
+<li><p>Due to the loss of sensitive information, the secrets file should not be stored in the repository.</p></li>
+</ul>
+</li>
+<li><p>An Azure Devops environment with an approval gate for the deployment needs to be created.</p></li>
+<li><p>A .tfbackend file in the terraform folder, which contains the information about the storage account and the container where the terraform state file is stored. An example file can be found in the terraform folder of the <a class="reference external" href="https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac?path=/.terraform.tfbackend">ml-pa project</a>.</p></li>
+</ul>
+</section>
+<section id="developer-requirements">
+<h5>Developer Requirements<a class="headerlink" href="#developer-requirements" title="Permalink to this heading"></a></h5>
+<p>When using terraform and the automatic deployment it is required to format the terraform code before pushing it to the repository. This can be done with <code class="docutils literal notranslate"><span class="pre">terraform</span> <span class="pre">fmt</span> <span class="pre">--recursive</span></code> in the terraform folder. The pipeline will fail if the code is not formatted.</p>
+</section>
+<section id="steps-for-a-new-project-terraform">
+<h5>Steps for a new project - Terraform<a class="headerlink" href="#steps-for-a-new-project-terraform" title="Permalink to this heading"></a></h5>
+<ol class="arabic simple">
+<li><p>Copy the files from the terraform folder of the <a class="reference external" href="https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac">ml-pa project</a> to the new customer project.</p></li>
+<li><p>Create a new tfvars file in the terraform directory, based on the example file called <code class="docutils literal notranslate"><span class="pre">dev.tfvars</span></code>.</p></li>
+<li><p>Create a new secretes file in the terraform directory</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">secrets.tfvars</span></code> is not tracked in git, so it needs to be created manually. The secrets are described in the readme of the repository. Or the section <a class="reference internal" href="#constraints-on-secrets">constraints on secrets</a> below. An example secrets file can be found in the terraform folder of the <a class="reference external" href="https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac?path=/.terraform/example-secrets.tfvars">ml-pa project</a>.</p></li>
+</ul>
+</li>
+<li><p>Create a new tfbackend file in the terraform directory, based on the example file called <code class="docutils literal notranslate"><span class="pre">$environment-config.azurerm.tfbackend</span></code>. Where environment denotes the environment the infrastructure is deployed to, e.g. dev, prod.</p>
+<ol class="arabic simple">
+<li><p>Update the storage account name, container name and key to match the previously created storage account.</p></li>
+</ol>
+</li>
+<li><p>Copy the <a class="reference external" href="https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac?path=/.azure-pipelines/terraform-pipeline.yml">pipeline file</a> from the ml-pa project to the new project.</p>
+<ol class="arabic simple">
+<li><p>Replace the following variables with the new values:</p>
+<ul class="simple">
+<li><p>serviceConnection</p></li>
+<li><p>projectAbbreviation</p></li>
+<li><p>environment</p></li>
+</ul>
+</li>
+<li><p>If required replace the values of the following variables:</p>
+<ul class="simple">
+<li><p>projectAbbreviation</p></li>
+<li><p>varsFile</p></li>
+<li><p>secretsVarsFile</p></li>
+<li><p>terraformDirectory</p></li>
+</ul>
+</li>
+<li><p>Adjust the agent pool.</p></li>
+<li><p>Adjust the pipeline trigger.</p></li>
+<li><p>(Optional) Adjust the pipeline name.</p></li>
+</ol>
+</li>
+<li><p>Update the Subscription and TenantId in the local-provider.tf file to match your deployment destination.</p></li>
+<li><p>Register the pipeline in Azure DevOps.</p></li>
+</ol>
+</section>
+<section id="steps-for-existing-projects-that-are-not-managed-by-terraform">
+<h5>Steps for existing projects that are not managed by terraform<a class="headerlink" href="#steps-for-existing-projects-that-are-not-managed-by-terraform" title="Permalink to this heading"></a></h5>
+<p>To be determined.</p>
+</section>
+<section id="after-deployment-steps-terraform">
+<h5>After Deployment Steps - Terraform<a class="headerlink" href="#after-deployment-steps-terraform" title="Permalink to this heading"></a></h5>
+<p>In case a MS SQL Server is used, the same <a class="reference internal" href="#after-deployment-steps-bicep">after deployment steps as in bicep</a> are required.</p>
+</section>
+</section>
+<section id="bicep">
+<h4>Bicep<a class="headerlink" href="#bicep" title="Permalink to this heading"></a></h4>
+<section id="steps-bicep">
+<h5>Steps - Bicep<a class="headerlink" href="#steps-bicep" title="Permalink to this heading"></a></h5>
+<p>If a new project for the appstore has been acquired, the following steps are required to deploy the resources:</p>
+<ol class="arabic">
+<li><p>Copy the files from the bicep folder of the <a class="reference external" href="https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac">ml-pa project</a> to the new customer project.</p></li>
+<li><p>Create a new parameters file for the new project.</p>
+<ol class="arabic simple">
+<li><p>Use the internal.parameters.json as a template</p></li>
+<li><p>Replace the 3 letter abbreviation in the parameters file with the new abbreviation. E.g. int -&gt; mlp</p></li>
+<li><p>Replace the information about the sql admin.</p>
+<ul class="simple">
+<li><p>login is the name of the group in the MS Entra</p></li>
+<li><p>tenantId is the tenantId of the group in the MS Entra</p></li>
+<li><p>sid is the objectId of the group in the MS Entra</p></li>
+</ul>
+</li>
+<li><p>Update the user groups (admin and emergency) with the corresponding object Id.</p></li>
+<li><p>Rename the parameters file to the new project name. E.g. internal.parameters.js on -&gt; mlpa.parameters.json</p></li>
+</ol>
+</li>
+<li><p>Copy the <a class="reference external" href="https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac?path=/.azure-pipelines/appstore3-bicep-pipeline.yml">pipeline file</a> from the ml-pa project to the new project.</p>
+<ol class="arabic">
+<li><p>Replace the following variables with the new values:</p>
+<ul class="simple">
+<li><p>projectName</p></li>
+<li><p>resourceGroupName</p></li>
+<li><p>serviceConnection</p></li>
+<li><p>subscriptionId</p></li>
+</ul>
+</li>
+<li><p>Optionally change the following variables:</p>
+<ul class="simple">
+<li><p>location (then the short location in the parameters file has to be changed as well)</p></li>
+<li><p>pathToBicepFiles</p></li>
+</ul>
+</li>
+<li><p>Change the agent pool.</p></li>
+<li><p>(Optional) Create a second stage for prod</p></li>
+<li><p>Register Pipeline in Azure DevOps</p></li>
+<li><p>Save pipeline secrets, which is every secure parameter.</p>
+<ul class="simple">
+<li><p>Secrets can be set, once the pipeline is registered</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>Go to the freshly registered pipeline</p></li>
+<li><p>click on edit</p></li>
+<li><p>click on variables</p></li>
+<li><p>check the box “Keep this value secret”</p></li>
+</ol>
+</li>
+<li><p>(Optional) Change trigger</p></li>
+</ol>
+</li>
+<li><p>Execute the pipeline in Azure DevOps. Or create a commit.</p></li>
+</ol>
+</section>
+<section id="after-deployment-steps-bicep">
+<h5>After Deployment Steps - Bicep<a class="headerlink" href="#after-deployment-steps-bicep" title="Permalink to this heading"></a></h5>
+<ol class="arabic">
+<li><p>Connect to the SQL Server and add the managed identities for the appstore, asset and user database. The identity name is the name of the resource, e.g. “app-as3-int-appstore-svc-dev-euw”</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="p">[</span><span class="o">&lt;</span><span class="k">identity</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span><span class="p">]</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">EXTERNAL</span><span class="w"> </span><span class="n">PROVIDER</span><span class="p">;</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="n">db_datareader</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">MEMBER</span><span class="w"> </span><span class="p">[</span><span class="o">&lt;</span><span class="k">identity</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span><span class="p">];</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="n">db_datawriter</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">MEMBER</span><span class="w"> </span><span class="p">[</span><span class="o">&lt;</span><span class="k">identity</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span><span class="p">];</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="n">db_ddladmin</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">MEMBER</span><span class="w"> </span><span class="p">[</span><span class="o">&lt;</span><span class="k">identity</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span><span class="p">];</span>
+<span class="k">GO</span>
+</pre></div>
+</div>
+</li>
+<li><p>Reconnect to the SQL Server and execute the following command for the appstore and user database to enable read and emergency access</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="ss">&quot;Appstore Observer&quot;</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">EXTERNAL</span><span class="w"> </span><span class="n">PROVIDER</span><span class="p">;</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="n">db_datareader</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">MEMBER</span><span class="w"> </span><span class="ss">&quot;Appstore Observer&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>and</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="ss">&quot;Appstore Emergency&quot;</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">EXTERNAL</span><span class="w"> </span><span class="n">PROVIDER</span><span class="p">;</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="n">db_datareader</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">MEMBER</span><span class="w"> </span><span class="ss">&quot;Appstore Emergency&quot;</span><span class="p">;</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="n">db_datawriter</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">MEMBER</span><span class="w"> </span><span class="ss">&quot;Appstore Emergency&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Copy the web hook URLs of the app services and azure functions into the variable group Appstore Container Web Hooks</p>
+<ol class="arabic simple">
+<li><p>You can find them in the Azure Portal in the respective resource: Deployment -&gt;  Deployment Center -&gt; Webhook URL</p></li>
+</ol>
+</li>
+<li><p>Copy the URL of the Update container function into the variable group Appstore Container Web Hooks</p></li>
+</ol>
+</section>
+</section>
+</section>
+</section>
+<section id="constraints-on-secrets">
+<h2><span class="section-number">3.2. </span>Constraints on secrets<a class="headerlink" href="#constraints-on-secrets" title="Permalink to this heading"></a></h2>
+<p>This section describes the constraints on the secrets and configuration of the services, if you are deploying the services in a new envrionment. Specific secret values will not be exposed in this document, and shouldn’t be exposed anywhere else.
+Some of the secrets and parameters need to be manually determined ahead of deployment time. In the following sections, we will discuss the constraints on the secrets and configuration of the services. An overview of the secret flow can be seen in the respective mermaid diagram. (Diagram not available in this repository.)</p>
+<section id="secrets">
+<h3><span class="section-number">3.2.1. </span>Secrets<a class="headerlink" href="#secrets" title="Permalink to this heading"></a></h3>
+<p>The values of these secrets contain sensitive information and should be kept confidential. One option for deployment is the use of a secret management system, such as HashiCorp Vault, Azure Key Vault, or AWS Secrets Manager.</p>
+<section id="secrets-for-firmware-update-process">
+<h4>Secrets for firmware update process<a class="headerlink" href="#secrets-for-firmware-update-process" title="Permalink to this heading"></a></h4>
+<p>As an interim solution, the SUIT manifest signing keys for the firmware update process must be generated manually and then stored in the Key Vault.</p>
+<ol class="arabic simple">
+<li><p>Generate the Ed25519 key pair</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>openssl<span class="w"> </span>genpkey<span class="w"> </span>-algorithm<span class="w"> </span>Ed25519<span class="w"> </span>-out<span class="w"> </span>private_key.pem
+openssl<span class="w"> </span>pkey<span class="w"> </span>-in<span class="w"> </span>private_key.pem<span class="w"> </span>-pubout<span class="w"> </span>-out<span class="w"> </span>public_key.pem
+</pre></div>
+</div>
+<p>The generated private key must begin with <code class="docutils literal notranslate"><span class="pre">-----BEGIN</span> <span class="pre">PRIVATE</span> <span class="pre">KEY-----</span></code>.</p>
+<ol class="arabic simple" start="2">
+<li><p>Store the keys in the Key Vault</p></li>
+</ol>
+<p>For the interim setup, upload the very same key pair twice under the following names (two naming schemes referencing the same underlying keys):</p>
+<ul class="simple">
+<li><p>suit-manifest-production-signing-private-key-<code class="docutils literal notranslate"><span class="pre">&lt;YYYYMMDD-HHMMSS&gt;</span></code></p></li>
+<li><p>suit-manifest-production-signing-public-key-<code class="docutils literal notranslate"><span class="pre">&lt;YYYYMMDD-HHMMSS&gt;</span></code></p></li>
+<li><p>suit-manifest-signing-production-private-key</p></li>
+<li><p>suit-manifest-signing-production-public-key</p></li>
+</ul>
+<p>Timestamp format</p>
+<ul class="simple">
+<li><p>The timestamp is the key creation date and time in the format <code class="docutils literal notranslate"><span class="pre">YYYYMMDD-HHMMSS</span></code> (24-hour clock)</p></li>
+<li><p>Example: Created on 27 June 2025 at 14:02:12 → <code class="docutils literal notranslate"><span class="pre">20250627-140212</span></code>.</p></li>
+<li><p>Example secret names:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">suit-manifest-production-signing-private-key-20250627-140212</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">suit-manifest-production-signing-public-key-20250627-140212</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="userservicepublicsigningkey">
+<h4>UserServicePublicSigningKey<a class="headerlink" href="#userservicepublicsigningkey" title="Permalink to this heading"></a></h4>
+<p>The services use an internal JWT token for authorization. To sign the JWT token, the user service use an RSA key pair with 2048 bits. This secret is the public key part of the key pair. Only the base64 part of the key is needed, so no header or footer.</p>
+</section>
+<section id="userservicesigningprivatekey">
+<h4>UserServiceSigningPrivateKey<a class="headerlink" href="#userservicesigningprivatekey" title="Permalink to this heading"></a></h4>
+<p>The services use an internal JWT token for authorization. To sign the JWT token, the user service use an RSA key pair with 2048 bits. This secret is the private key part of the key pair. Only the base64 part of the key is needed, so no header or footer.</p>
+</section>
+<section id="customeropenidaudiencesecret">
+<h4>customerOpenIdAudienceSecret<a class="headerlink" href="#customeropenidaudiencesecret" title="Permalink to this heading"></a></h4>
+<p>The customer can use an OpenID Identity Provider for authentication. This secret is the Audience contained in the JWT token, used for authentication with the customer OpenID Identity Provider.</p>
+</section>
+<section id="customeropenidmetadataaddresssecret">
+<h4>customerOpenIdMetadataAddressSecret<a class="headerlink" href="#customeropenidmetadataaddresssecret" title="Permalink to this heading"></a></h4>
+<p>The customer can use an OpenID Identity Provider for authentication. This secret is the Address of the metadata endpoint of the customer OpenID Identity Provider.</p>
+</section>
+<section id="customeropenidvalidissuersecret">
+<h4>customerOpenIdValidIssuerSecret<a class="headerlink" href="#customeropenidvalidissuersecret" title="Permalink to this heading"></a></h4>
+<p>The customer can use an OpenID Identity Provider for authentication. This secret is the Issuer of the JWT token, used for authentication with the customer OpenID Identity Provider.</p>
+</section>
+<section id="mlpaazureadaudience">
+<h4>mLPAAzureADAudience<a class="headerlink" href="#mlpaazureadaudience" title="Permalink to this heading"></a></h4>
+<p>ML!PA uses MS Entra ID for authentication. To enable the ML!PA developers to use the ecosystem, the services need to authenticate with the ML!PA MS Entra ID. This secret is the audience contained in the JWT token.</p>
+</section>
+<section id="mlpaazureadtenantid">
+<h4>mLPAAzureADTenantId<a class="headerlink" href="#mlpaazureadtenantid" title="Permalink to this heading"></a></h4>
+<p>The tenant Id of the MS Entra ID of ML!PA used by the ML!PA developers to authenticate. It is in a UUID format.</p>
+</section>
+<section id="reversesshsvcapikey">
+<h4>reverseSshSvcApiKey<a class="headerlink" href="#reversesshsvcapikey" title="Permalink to this heading"></a></h4>
+<p>The relay ssh service uses an API key for authentication. This secret is the API key used for authentication with the relay ssh service.
+Randomly generated long enough stirng secure. Aim for at least 50 chars, the longer the better. Needs to be identical to relaySshLocalDockerApiKeySecret, relaySshLocalDockerApiKeySecret, api-key-snapstore3-dev, api-key-snapstore3-local-docker.</p>
+</section>
+<section id="relaysshlocaldockerapikeysecret">
+<h4>relaySshLocalDockerApiKeySecret<a class="headerlink" href="#relaysshlocaldockerapikeysecret" title="Permalink to this heading"></a></h4>
+<p>The relay ssh service uses an API key for authentication. This secret is the API key used for authentication with the relay ssh service.
+Needs to be equal to reverseSshSvcApiKey. Randomly generated long enough stirng secure. Aim for at least 50 chars, the longer the better.</p>
+</section>
+<section id="relaysshdockerregistrypasswordsecret">
+<h4>relaySshDockerRegistryPasswordSecret<a class="headerlink" href="#relaysshdockerregistrypasswordsecret" title="Permalink to this heading"></a></h4>
+<p>Password for the docker registry, where the relay ssh docker image is stored.</p>
+</section>
+<section id="relaysshdockerregistryusernamesecret">
+<h4>relaySshDockerRegistryUsernameSecret<a class="headerlink" href="#relaysshdockerregistryusernamesecret" title="Permalink to this heading"></a></h4>
+<p>Username for the docker registry, where the relay ssh docker image is stored.</p>
+</section>
+<section id="api-key-snapstore3-dev">
+<h4>api-key-snapstore3-dev<a class="headerlink" href="#api-key-snapstore3-dev" title="Permalink to this heading"></a></h4>
+<p>Needs to be equal to reverseSshSvcApiKey. Random long enough to be secure strings. Aim for at least 50 chars. Needs to be identical to relaySshLocalDockerApiKeySecret.</p>
+</section>
+<section id="api-key-snapstore3-local-docker">
+<h4>api-key-snapstore3-local-docker<a class="headerlink" href="#api-key-snapstore3-local-docker" title="Permalink to this heading"></a></h4>
+<p>Random long enough to be secure strings. Aim for at least 50 chars.</p>
+</section>
+<section id="docker-registry-server-password">
+<h4>DOCKER_REGISTRY_SERVER_PASSWORD<a class="headerlink" href="#docker-registry-server-password" title="Permalink to this heading"></a></h4>
+<p>Password for the docker registry, where the service docker image is stored.</p>
+</section>
+<section id="docker-registry-server-username">
+<h4>DOCKER_REGISTRY_SERVER_USERNAME<a class="headerlink" href="#docker-registry-server-username" title="Permalink to this heading"></a></h4>
+<p>Username for the docker registry, where the service docker image is stored.</p>
+</section>
+<section id="docker-registry-server-url">
+<h4>DOCKER_REGISTRY_SERVER_URL<a class="headerlink" href="#docker-registry-server-url" title="Permalink to this heading"></a></h4>
+<p>URL of the docker registry, where the service docker image is stored.</p>
+</section>
+<section id="device-token-signing-private-key-device-token-signing-public-key">
+<h4>Device Token Signing Private Key / Device Token Signing Public Key<a class="headerlink" href="#device-token-signing-private-key-device-token-signing-public-key" title="Permalink to this heading"></a></h4>
+<p>RSA key pair (2048 bits) used for signing device tokens. Required for device authentication in the IoT ecosystem.</p>
+</section>
+<section id="assertion-svc-secret-value">
+<h4>assertion_svc_secret_value<a class="headerlink" href="#assertion-svc-secret-value" title="Permalink to this heading"></a></h4>
+<p>Secret value used by the assertion service for internal authentication and authorization.</p>
+</section>
+<section id="appstore-service-signing-private-key">
+<h4>Appstore service Signing Private Key<a class="headerlink" href="#appstore-service-signing-private-key" title="Permalink to this heading"></a></h4>
+<p>Private key used by the appstore service for signing internal requests and tokens.</p>
+</section>
+<section id="virtual-device-container-registry-password">
+<h4>Virtual Device Container Registry Password<a class="headerlink" href="#virtual-device-container-registry-password" title="Permalink to this heading"></a></h4>
+<p>Password for accessing the container registry where virtual device images are stored.</p>
+</section>
+<section id="database-configuration">
+<h4>Database Configuration<a class="headerlink" href="#database-configuration" title="Permalink to this heading"></a></h4>
+<p>If the infrastructure is deployed with PostgreSQL, an admin user and password are required to access the database. The configuration requries login and password.</p>
+<section id="rabbitmq-configuration">
+<h5>RabbitMQ Configuration<a class="headerlink" href="#rabbitmq-configuration" title="Permalink to this heading"></a></h5>
+<p>If the infrastructure is deployed with RabbitMQ, a user and password are required to access the message broker. The configuration requires username and password.</p>
+</section>
+<section id="frontend">
+<h5>Frontend<a class="headerlink" href="#frontend" title="Permalink to this heading"></a></h5>
+<p>With the infrastructure deployment a static web app is deployed. To deploy the code the project manager of ML!PA should contact the Frontend Team to take the necessary steps.</p>
+</section>
+</section>
+</section>
+</section>
+<section id="container-registry">
+<h2><span class="section-number">3.3. </span>Container Registry<a class="headerlink" href="#container-registry" title="Permalink to this heading"></a></h2>
+<p>The container registry is used to store the docker images of the services. The container registry is located in the Azure subscription of ML!PA. The container registry is private and requires authentication to access it. To gain access a new token should be created for each new project. The token needs a scope map assigned. If a suitable scope map does not exist, a new scope map granting access to the repositories required for the project should be created. The permission ‘Content/read’ is sufficient.</p>
+</section>
+<section id="event-api">
+<h2><span class="section-number">3.4. </span>Event API<a class="headerlink" href="#event-api" title="Permalink to this heading"></a></h2>
+<p>While the <a class="reference internal" href="#graphql-api">GraphQL API</a> lets you query the current <em>state</em> of the system, the <em>Event API</em> lets you subscribe to <em>changes</em> (events).</p>
+<p>Whenever the state of an entities is changed (creation, modification, deletion), an event is emitted. Events are <em>thin</em>, meaning they only contain the <em>minimum</em> information necessary to identify the entity and the change.
+If you need more information about the new state of the entity after the change, you can use the <a class="reference internal" href="#graphql-api">GraphQL API</a> or the <a class="reference internal" href="#rest-api">REST API</a> to query it.</p>
+<p>The Event API is designed to:</p>
+<ul class="simple">
+<li><p>Provide instant updates when important events occur (e.g., when a new Device is added)</p></li>
+<li><p>Eliminate the need for constant polling</p></li>
+<li><p>Enable event-driven workflows, allowing services to listen for updates instead of making direct API calls</p></li>
+</ul>
+<p>Messages being received through the Event API are structured as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;event&quot;</span><span class="p">:</span> <span class="s2">&quot;205e8259-b7df-4961-86dd-d46e03f00279&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-06-01T00:07:35.555539Z&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;entity&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;entityId&quot;</span><span class="p">:</span> <span class="s2">&quot;b5d1c4fa-9876-4e3a-bf07-d4a2f3c92e4b&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;created&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">event</span></code> is a unique identifier for the event</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> is the timestamp of the event in ISO 8601 UTC</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">entity</span></code> is the type of entity that was changed, possible values are …</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">entityId</span></code> is the unique identifier of the entity that was changed, you can use it to query the new state of the entity using the <a class="reference internal" href="#graphql-api">GraphQL API</a> or the <a class="reference internal" href="#rest-api">REST API</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">action</span></code> is the type of change that occurred, possible values are <code class="docutils literal notranslate"><span class="pre">created</span></code>, <code class="docutils literal notranslate"><span class="pre">updated</span></code>, <code class="docutils literal notranslate"><span class="pre">deleted</span></code></p></li>
+</ul>
+<section id="full-list-of-entities">
+<h3><span class="section-number">3.4.1. </span>Full List of Entities<a class="headerlink" href="#full-list-of-entities" title="Permalink to this heading"></a></h3>
+<p>Here’s a full list of entities, that can potentially generate events. As event generation needs to be implemented
+for each entity separately, not all entities are supported yet. If you require us to implement events for a specific entity, please let us know.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Entity</p></th>
+<th class="head"><p>Events Activated</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>app</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>appRevision</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>appRevisionDelta</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>appRevisionSnap</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>appSnap</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>appStatus</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>assertion</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>assertionType</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>asset</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>assetAttribute</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>assetAttributeDataType</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>assetAttributeModelDefaultValue</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>assetAttributeSet</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>assetAttributeUnit</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>assetAttributeValue</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>assetBridgeAssetTag</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>assetModel</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>assetModelBridgeAssetAttributeSet</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>assetTag</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>assetType</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>assetTypeTree</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>assetTypeTreeNode</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>autoUpdateMode</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>deploymentGroup</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>deploymentGroupAdministrator</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>deploymentGroupBridgeAppRevision</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>device</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>deviceInstallState</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>deviceInstallStateHistory</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>deviceInstallStateSnapshot</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>deviceModel</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>deviceModelRevision</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>deviceModelRevisionBridgeApp</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>deviceSnap</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>deviceStatus</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>deviceType</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>domainTenant</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>snapCategory</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>snapNamePolicy</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>snapType</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>snapVisibilityPolicy</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>storeSetting</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>role</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>roleBridgeScope</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>scope</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>tenant</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>tenantTokenIssuer</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>tokenCorrelation</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>user</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>userBridgeRole</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>userBridgeTenant</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>userChallenge</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>userSession</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>userSettings</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>tenant</p></td>
+<td><p>no</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="receiving-data-points">
+<h3><span class="section-number">3.4.2. </span>Receiving Data Points<a class="headerlink" href="#receiving-data-points" title="Permalink to this heading"></a></h3>
+<p>Data points from edge Devices are transmitted to the backend, where the ingestion function unpacks them and publishes them on the
+Event API. While events for most entities are published as <em>thin events</em> (i.e. only the entity ID and the action), data points are published as <em>thick events</em>.
+Thick events contain the full data point, including all data fields, in a human-readable format. This allows you to process the data point directly without having to query the GraphQL API for more information.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;event&quot;</span><span class="p">:</span> <span class="s2">&quot;3db2d9fe-2328-45b6-934b-a325aa808151&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-06-01T00:07:35.555539Z&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;entity&quot;</span><span class="p">:</span> <span class="s2">&quot;dataMessage&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;entityId&quot;</span><span class="p">:</span> <span class="s2">&quot;0907ffab-6d9f-5574-b4c0-a56bbfa3de75&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;created&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;0907ffab-6d9f-5574-b4c0-a56bbfa3de75&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;topic&quot;</span><span class="p">:</span> <span class="s2">&quot;sensor.JiMAAA.oid.104.protobuf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;sensor.JiMAAA.oid.104.protobuf.m2cp-coap.0907ffab-6d9f-5574-b4c0-a56bbfa3de75&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;coap_data_protobuf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-06-01T00:08:48.822539Z&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span> <span class="p">},</span>
+      <span class="s2">&quot;foo&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;JiMAAA&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span> <span class="p">},</span>
+      <span class="s2">&quot;bar&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;CJDN6bIGEAAYACAAKAAwADgAQLEJSAA=&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;binary&quot;</span> <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">event</span></code> is a unique identifier for the event</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> is the timestamp of when the data point was <em>received</em> by the cloud backend</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">entity</span></code> is <em>dataMessage</em> for data points</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">entityId</span></code> is the id of the DATA message which contained the data point (a DATA message can contain multiple data points!)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">action</span></code> is <em>created</em> for data points</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> contains the full data point…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data.device</span></code> is the <a class="reference internal" href="Glossary.html#device-id"><span class="std std-ref">Device ID</span></a> of the Device that sent the data point</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data.topic</span></code> is the topic of the data point as set by the app that sent the data point</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data.origin</span></code> is the full m2cp-address of the sender of the data point (node name + App Name + Device ID)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data.format</span></code> is a free text field set by the app that sent the data point to identify the format of the data point</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data.fields</span></code> contains the actual data fields of the data point. Each field has a name, a value and a type.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data.fields.time</span></code> is the timestamp of the data point (that maps to the <code class="docutils literal notranslate"><span class="pre">T</span></code> field in the table section of the data message)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data.fields.&lt;name&gt;</span></code> is additional fields of data</p></li>
+</ul>
+<p>Available data types are defined in the <a class="reference internal" href="Tech_Messaging.html#data"><span class="std std-ref">Message Format Specification</span></a>.</p>
+</section>
+</section>
+<section id="graphql-api">
+<h2><span class="section-number">3.5. </span>GraphQL API<a class="headerlink" href="#graphql-api" title="Permalink to this heading"></a></h2>
+<p>General data access within L-IoT is structured by seperation of concerns. The <a class="reference internal" href="#event-api">Event API</a> handles real-time updates, ensuring timely notifications, while the GraphQL API provides deep, structured data retrieval. To structure it this way balances real-time event-driven communication with flexible, query-based data access, improving maintainablity and efficiency for users.</p>
+<p>The GraphQL API is designed to:</p>
+<ul class="simple">
+<li><p>Allow clients to request exactly the data they need, reducing unnecessary data transfer</p></li>
+<li><p>Provide a single entry point for accessing all system information</p></li>
+<li><p>Enable efficient data aggregation, allowing related information to be retrieved in a single query</p></li>
+</ul>
+</section>
+<section id="rest-api">
+<h2><span class="section-number">3.6. </span>REST API<a class="headerlink" href="#rest-api" title="Permalink to this heading"></a></h2>
+<p>The REST API is another way to access all information in a flexible and query-based way similar to the GraphQL API.
+The complete REST API documentation is organized into separate HTML files based on the respective services. It is divided into three sections: the REST API documentation for the <a class="reference download internal" download="" href="_downloads/05bfd216db5a7db2f1d1b1e21549580b/user-api-doc.html"><span class="xref download myst">User Service</span></a>, the <a class="reference download internal" download="" href="_downloads/cd602cdaa9159e428e18e0584b8ef4e2/asset-api-doc.html"><span class="xref download myst">Asset Service</span></a>, and the <a class="reference download internal" download="" href="_downloads/3be4b1d2dc50be6f253bd647e57f9702/appstore-api-doc.html"><span class="xref download myst">App Store Service</span></a>.</p>
+<p>The API follows a structured approach using <a class="reference external" href="https://github.com/dotnet/yarp">YARP</a> for request routing from the gateway to underlying services.</p>
+<section id="authentication-authorization">
+<h3><span class="section-number">3.6.1. </span>Authentication &amp; Authorization<a class="headerlink" href="#authentication-authorization" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>The authentication and authorization mechanism is shared with our GraphQL endpoints.</p></li>
+<li><p>All endpoints require authentication unless explicitly mentioned.</p></li>
+</ul>
+</section>
+<section id="swagger-api-documentation">
+<h3><span class="section-number">3.6.2. </span>Swagger API Documentation<a class="headerlink" href="#swagger-api-documentation" title="Permalink to this heading"></a></h3>
+<p>The swagger documentation is also accessible through the gateway:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="p">[</span><span class="n">gateway</span><span class="o">-</span><span class="n">service</span><span class="p">]</span><span class="o">/</span><span class="n">swagger</span>
+</pre></div>
+</div>
+</section>
+<section id="requests">
+<h3><span class="section-number">3.6.3. </span>Requests<a class="headerlink" href="#requests" title="Permalink to this heading"></a></h3>
+<p>Requests to the API gateway are forwarded to backend services based on predefined rules.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>https://[gateway-service]/api/v{version}/{entity}?param1=value1&amp;param2=value2
+https://[gateway-service]/api/v{version}/{entity}/{id}
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[gateway-service]</span></code>: The same endpoint used for GraphQL but without the <code class="docutils literal notranslate"><span class="pre">/graphql</span></code> postfix</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{version}</span></code>: API version (e.g., <code class="docutils literal notranslate"><span class="pre">v1</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{entity}</span></code>: Plural form of entity names</p></li>
+</ul>
+<section id="pagination">
+<h4>Pagination<a class="headerlink" href="#pagination" title="Permalink to this heading"></a></h4>
+<p>The API supports pagination using the following optional query parameters:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>pageSize</p></td>
+<td><p>int?</p></td>
+<td><p>The number of items per page. If omitted, Items are returned based on the configured max page size.</p></td>
+</tr>
+<tr class="row-odd"><td><p>pageNumber</p></td>
+<td><p>int?</p></td>
+<td><p>The page number to retrieve (starting from <code class="docutils literal notranslate"><span class="pre">1</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p>includeTotalCount</p></td>
+<td><p>bool?</p></td>
+<td><p>If <code class="docutils literal notranslate"><span class="pre">true</span></code>, includes the total count of records <strong>only when <code class="docutils literal notranslate"><span class="pre">pageNumber</span> <span class="pre">=</span> <span class="pre">1</span></code></strong>. Default is <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sorting">
+<h4>Sorting<a class="headerlink" href="#sorting" title="Permalink to this heading"></a></h4>
+<p>The API supports sorting using the <code class="docutils literal notranslate"><span class="pre">sort</span></code> query parameter. Sorting can be applied to one or multiple fields in <strong>ascending (<code class="docutils literal notranslate"><span class="pre">asc</span></code>)</strong> or <strong>descending (<code class="docutils literal notranslate"><span class="pre">desc</span></code>)</strong> order.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>?sort=&lt;field1&gt; &lt;order&gt;, &lt;field2&gt; &lt;order&gt;, ...
+
+/api/v1/users?sort=email
+/api/v1/users?sort=email desc
+/api/v1/users?sort=firstName asc, lastName asc
+</pre></div>
+</div>
+</section>
+<section id="filtering">
+<h4>Filtering<a class="headerlink" href="#filtering" title="Permalink to this heading"></a></h4>
+<p>The API supports filtering using the filter query parameter. Filters can be applied to one or multiple fields with various operators. Grouping conditions using parentheses ( and ) is also supported.</p>
+<ul class="simple">
+<li><p>Multiple filters can be combined using <code class="docutils literal notranslate"><span class="pre">and</span></code> / <code class="docutils literal notranslate"><span class="pre">or</span></code>.</p></li>
+<li><p>Parentheses <code class="docutils literal notranslate"><span class="pre">(</span></code> and <code class="docutils literal notranslate"><span class="pre">)</span></code> can be used to group conditions.</p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/api/v1/users?filter=email = &quot;user@organization.com&quot;
+/api/v1/users?filter=email eq &quot;user@organization.com&quot;
+/api/v1/users?filter=email neq &quot;user@organization.com&quot;
+/api/v1/users?filter=displayname.contains(&quot;foo&quot;)
+/api/v1/users?filter=displayname.contains(&quot;foo&quot;) or displayname.startswith(&quot;bar&quot;)
+/api/v1/users?filter=(lastname = &quot;foo&quot; and firstName.startswith(&quot;bar&quot;)) or (lastname != &quot;Jackson&quot;)
+/api/v1/users?filter=(modifiedat &gt;= &quot;2025-01-01&quot; || createdat &gt;= &quot;2025-01-01&quot;)
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Installation_Tools.html" class="btn btn-neutral float-left" title="2. Tools Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Installation_Device.html" class="btn btn-neutral float-right" title="4. Devices Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, ML!PA.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

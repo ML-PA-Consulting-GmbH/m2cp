@@ -1,0 +1,12 @@
+body {
+    background-color: #fdfdfd;
+}
+
+.rst-content h1 {
+    color: #007acc;
+    border-bottom: 2px solid #007acc;
+}
+
+.wy-nav-content {
+    max-width: none !important;
+}

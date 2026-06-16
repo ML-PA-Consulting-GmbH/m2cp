@@ -1,0 +1,743 @@
+# User Management
+
+User management allows defining roles granting the required permissions to users. User rights management is currently only possible through the Web UI. The concept includes a set of predefined user roles created by ML!PA, which are hard-coded into the system and cannot be modified. 
+
+Understanding which role to assign to a new team member is critical for both security and operational efficiency. This guide explains every available role, who it is designed for, what it permits, and what it explicitly does not allow.
+
+```{note}
+Every user automatically receives the **Default** role upon account creation. The Default role provides only the minimum permissions needed to sign in and manage personal account settings. All other roles must be explicitly assigned by a User Admin or Super Admin.
+```
+
+
+## Quick Reference
+
+| Role | Designed for | Access level |
+|------|-------------|--------------|
+| [Default](#default) | All users (automatic) | Own account only |
+| [Observer](#observer) | Managers, auditors, stakeholders | Read-only view of all resources |
+| [System Analyst](#system-analyst) | Support engineers, QA | Deep diagnostics + own-device access |
+| [Device Manager](#device-manager) | Field engineers, site operators | Full control of own devices and deploymnet groups |
+| [Device Admin](#device-admin) | Senior device engineers | Full control of all devices and deploymnet groups |
+| [Software Developer](#software-developer) | Engineers writing app packages | Upload and test apps on own devices |
+| [Software Manager](#software-manager) | QA leads, release managers | Review and approve app releases |
+| [Software Admin](#software-admin) | Senior software engineers | Full software lifecycle management |
+| [Asset Admin](#asset-admin) | Asset/inventory managers | Manage asset definitions within the tenant |
+| [User Admin](#user-admin) | IT administrators | Manage all users and roles |
+| [Business Application](#business-application) | Automation services, integrations | Read users, roles, and sessions (service account) |
+| [Manufacturing Service](#manufacturing-service) | Provisioning systems | Device provisioning only (service account) |
+| [Core Admin](#core-admin) | Infrastructure engineers | Device model and assertion management |
+| [Super Admin](#super-admin) | Platform owners | Unrestricted full access |
+
+
+## Roles in Detail
+
+### Default
+
+**Every user receives this role automatically.** It cannot be removed and does not need to be assigned manually. On its own, it provides enough access to sign in, view the platform, and manage personal settings — nothing more.
+
+**Intended for:** All users
+**Access level:** Personal account only
+
+**What this role allows:**
+- Sign in to the platform
+- View and edit your own user profile
+- Manage your own account settings (including SSH keys and personal preferences)
+- View your own active sessions
+- View which roles are assigned to your own account
+- View basic information about the organization
+
+**Technical scopes:**
+
+| Scope | Meaning |
+|-------|---------|
+| `User.Read.Own` | View own user profile |
+| `User.Update.Own` | Edit own user profile |
+| `UserSetting.Read.Own` | View own account settings |
+| `UserSetting.Update.Own` | Edit own account settings |
+| `UserSession.Read.Own` | View own active sessions |
+| `UserBridgeRole.Read.Own` | View own role assignments |
+| `Tenant.Read.Tenant` | View organization information |
+
+
+### Observer
+
+**A read-only view of the entire system.** The Observer role is designed for people who need visibility into operations without any risk of making unintended changes.
+
+**Intended for:** Managers, executive stakeholders, auditors, security reviewers, support staff during initial onboarding
+
+**Access level:** Read-only across all resources
+
+**What this role allows:**
+- View all devices, deployment groups, assets, apps, and configurations
+- Download app packages
+- Observe all status information and system operations
+
+**What this role does NOT allow:**
+- Making any changes to assets, devices, software, or configurations
+- Uploading or publishing software
+- Managing users
+
+**Technical scopes:**
+
+| Scope | Meaning |
+|-------|---------|
+| `*.Read.All` | Read access to all resource types system-wide |
+| `Asset.Read.All` | View all assets |
+| `Snap.Download.All` | Download app packages |
+
+
+### System Analyst
+
+**A diagnostics-focused role for investigating and troubleshooting issues.** Analysts can read everything they need to understand a problem and can fully control the devices they own, but cannot make changes to the broader system configuration.
+
+**Intended for:** Support engineers, field-service technicians, QA engineers who need to investigate issues
+
+**Access level:** Full read access + diagnostic actions on own devices
+
+**What this role allows:**
+- View all devices and their full installation history and state snapshots
+- Read system and device logs
+- Execute RPC calls on own devices
+- SSH into own devices for live troubleshooting
+- View all application statuses
+- View all deployment group information
+- View asset information
+- Create store assertions (required for certain diagnostic workflows)
+
+**What this role does NOT allow:**
+- Modifying device configurations, deployment groups, or software
+- Publishing or uploading software to the store
+- Managing users
+
+**Technical scopes:**
+
+| Scope | Meaning |
+|-------|---------|
+| `EdgeDevice.Read.All` | View all edge devices |
+| `EdgeDevice.RPC.Own` | Execute RPC commands on own devices |
+| `EdgeDevice.RPC_SSH.Own` | SSH into own devices |
+| `EdgeDeviceModel.Read.All` | View device model definitions |
+| `EdgeDeviceInstallState.Read.All` | View device installation state |
+| `EdgeDeviceInstallStateHistory.Read.All` | View full device installation history |
+| `EdgeDeviceInstallStateSnapshot.Read.All` | View device state snapshots |
+| `Log.Read.All` | Read all system and device logs |
+| `Fleet.Read.All` | View all deployment groups |
+| `AppStatus.Read.All` | View application status |
+| `SnapStatus.Read.All` | View app package status |
+| `SnapDeclaration.Read.All` | View app declarations |
+| `SnapRevision.Read.All` | View app revision information |
+| `Asset.Read.All` | View all assets |
+| `StoreAssertions.Create.All` | Create store assertions |
+
+
+### Device Manager
+
+**Manage and operate the devices and deployment groups assigned to you.** Device Managers have full operational control over their assigned devices and deployment groups, but their authority does not extend to the broader system.
+
+**Intended for:** Field engineers, site operators, team leads managing a defined set of devices
+
+**Access level:** Full control of own devices and deployment groups
+
+**What this role allows:**
+- View all devices and their installation state, history, and snapshots
+- Update device configurations
+- Create, modify, clone, and delete deployment groups
+- Assign, update, and remove app revisions to/from deployment groups
+- Install and update apps on devices
+- Execute RPC calls on own devices
+- SSH into own devices
+- Download telemetry data from own devices
+- View app statuses, asset and asset model information
+
+**What this role does NOT allow:**
+- Interacting with devices not assigned to them (SSH, RPC)
+- Deleting individual devices from the system
+- Uploading or publishing software to the store
+- Managing users
+
+**Technical scopes:**
+
+| Scope | Meaning |
+|-------|---------|
+| `EdgeDevice.Read.All` | View all devices |
+| `EdgeDevice.Update.All` | Update any device's configuration |
+| `EdgeDevice.RPC.Own` | Execute RPC commands on own devices |
+| `EdgeDevice.RPC_SSH.Own` | SSH into own devices |
+| `EdgeDeviceModel.Read.All` | View device models |
+| `EdgeDeviceInstallState.Read.All` | View device installation states |
+| `EdgeDeviceInstallStateHistory.Read.All` | View device installation history |
+| `EdgeDeviceInstallStateSnapshot.Read.All` | View device state snapshots |
+| `Fleet.Read.All` | View all deployment groups |
+| `Fleet.Create.All` | Create new deployment groups |
+| `Fleet.Update.All` | Update any deployment group |
+| `Fleet.Clone.All` | Clone any deployment group |
+| `Fleet.Delete.All` | Delete any deployment group |
+| `FleetBridgeSnapRevision.Read.All` | View fleet app assignments |
+| `FleetBridgeSnapRevision.Create.All` | Assign apps to deployment groups |
+| `FleetBridgeSnapRevision.Update.All` | Update deployment group app assignments |
+| `FleetBridgeSnapRevision.Delete.All` | Remove app assignments from deployment groups |
+| `DeviceSnap.Update.All` | Update apps installed on devices |
+| `SnapDeclaration.Read.All` | View app declarations |
+| `SnapRevision.Read.All` | View app revisions |
+| `SnapStatus.Read.All` | View app status |
+| `AppStatus.Read.All` | View application status |
+| `Asset.Read.All` | View all assets |
+| `AssetModel.Read.All` | View asset models |
+| `DataMessage.Download.Own` | Download telemetry from own devices |
+
+
+### Device Admin
+
+**Full operational control over all devices and fleets in the system.** This is the most powerful device-facing role and should only be granted to engineers who need system-wide device management authority.
+
+**Intended for:** Senior device engineers, infrastructure or operations team leads who must act across all devices.
+
+**Access level:** Unrestricted device and deployment group management across the entire system
+
+**What this role allows:**
+- Everything a Device Manager can do, applied to any device or deployment group in the system
+- SSH into any device in the system
+- Execute RPC calls on any device in the system (tenant-wide)
+- Relink devices (reassign device identity or connectivity)
+- Create, update, and delete physical asset models
+- Create, update, and delete system assets
+
+**What this role does NOT allow:**
+- Uploading or publishing software to the store
+- Managing users or roles
+
+**Technical scopes** (in addition to Device Manager scopes):
+
+| Scope | Meaning |
+|-------|---------|
+| `EdgeDevice.RPC.Tenant` | Execute RPC on any device in the tenant |
+| `Device.Relink.All` | Relink any device |
+| `AssetModel.Create.All` | Create asset model definitions |
+| `SystemAsset.Update.All` | Update system assets |
+| `SystemAsset.Delete.All` | Delete system assets |
+
+
+### Software Developer
+
+**Upload, iterate on, and test software on assigned devices.** Software Developers manage the full development lifecycle of an app package from pushing it to the store to installing it on their own devices and debugging via ssh. Software Developers have full control over their own devices and deployment groups. They can install experimental builds on their own devices to try out new app versions. 
+
+**Intended for:** Application developers and firmware engineers writing and testing apps
+
+**Access level:** Full app publishing within the tenant + full control of own devices
+
+**What this role allows:**
+- Push apps to the store
+- Create and update app declarations and revisions within the tenant
+- Update the status of their own app revisions (only up to "experimental")
+- Download apps for local use
+- View and interact with own devices (RPC and SSH on own devices)
+- View all deployment groups, app statuses, and device installation history
+- Create app revision records
+- Create store assertions
+- Read asset information within the tenant
+
+**What this role does NOT allow:**
+- Promoting apps to managed statuses such as "stable" or "deprecated" (this requires a Software Manager or Software Admin)
+- Managing deployment groups or deploying apps across the entire system
+- Managing users
+
+**Technical scopes:**
+
+| Scope | Meaning |
+|-------|---------|
+| `Snap.Push.Tenant` | Push apps  to the store |
+| `Snap.Push_Declaration.Tenant` | Push app declarations |
+| `Snap.Download.All` | Download app packages |
+| `Snap.UpdateUploadMessage.Tenant` | Update app upload messages |
+| `SnapDeclaration.Create.Tenant` | Create app declarations in the tenant |
+| `SnapDeclaration.Update.Tenant` | Update app declarations in the tenant |
+| `SnapDeclaration.Read.All` | View all app declarations |
+| `SnapRevision.Create.Tenant` | Create app revisions in the tenant |
+| `SnapRevision.Read.All` | View all app revisions |
+| `SnapRevision.UpdateStatus.Own` | Update status of own app revisions |
+| `SnapStatus.Read.All` | View app statuses |
+| `AppStatus.Read.All` | View application statuses |
+| `AppRevision.Create.All` | Create application revision records |
+| `Asset.Read.Tenant` | View assets within the tenant |
+| `EdgeDevice.Read.All` | View all devices |
+| `EdgeDevice.RPC_SSH.Own` | SSH into own devices |
+| `EdgeDeviceModel.Read.All` | View device models |
+| `EdgeDeviceInstallState.Read.All` | View device installation states |
+| `EdgeDeviceInstallStateHistory.Read.All` | View device installation history |
+| `EdgeDeviceInstallStateSnapshot.Read.All` | View device state snapshots |
+| `Fleet.Read.All` | View all deployment groups |
+| `StoreAssertions.Create.All` | Create store assertions |
+
+
+### Software Manager
+
+**Quality control and approval of software releases.** Software Managers act as gatekeepers for the app store. They review, rate, and approve software before it is made available for deployment to devices. Without a rating from a Software Manager, an app is not visible in the app store and thus cannot be installed. 
+
+**Intended for:** Release managers, QA leads, product owners responsible for software quality
+
+**Access level:** Full system read + app approval and publishing
+
+**What this role allows:**
+- Read everything in the system (all devices, fleets, assets, apps)
+- Download apps for review
+- Update app metadata and upload messages
+- Change the status or rating of any app revision across the tenant (e.g., promote to stable, mark as deprecated)
+
+**What this role does NOT allow:**
+- Making changes to device configurations or deployment groups
+- Uploading new apps to the store (that is a Developer function)
+- Managing users
+
+**Technical scopes:**
+
+| Scope | Meaning |
+|-------|---------|
+| `*.Read.All` | Read access to all resources system-wide |
+| `Snap.Download.All` | Download app packages |
+| `Snap.Update.Tenant` | Update app metadata in the tenant |
+| `Snap.UpdateUploadMessage.Tenant` | Update app upload messages |
+| `SnapRevision.UpdateStatus.Tenant` | Change the status of any app revision in the tenant |
+
+
+### Software Admin
+
+**Full software lifecycle management.** Software Admins combine the privileges of a Software Manager with the ability to trigger device updates and fully administer the software catalogue.
+
+**Intended for:** Senior software engineers and platform engineers responsible for the complete software catalogue
+
+**Access level:** Full app management + ability to trigger device software updates
+
+**What this role allows:**
+- Everything a Software Manager can do
+- Trigger software installations and updates on any device
+- View all device installation states, history, and snapshots
+
+**What this role does NOT allow:**
+- Creating or deleting deployment groups
+- SSH or RPC access to devices
+- Managing users
+
+**Technical scopes:**
+
+| Scope | Meaning |
+|-------|---------|
+| `Snap.Download.All` | Download apps |
+| `Snap.Update.Tenant` | Update apps in the tenant |
+| `Snap.UpdateUploadMessage.Tenant` | Update app upload messages |
+| `SnapRevision.Read.All` | View all snap revisions |
+| `SnapRevision.UpdateStatus.Tenant` | Change app revision status in the tenant |
+| `SnapDeclaration.Read.All` | View app declarations |
+| `SnapStatus.Read.All` | View app status |
+| `AppStatus.Read.All` | View application status |
+| `EdgeDevice.Read.All` | View all devices |
+| `EdgeDevice.Update.All` | Update any device |
+| `EdgeDeviceModel.Read.All` | View device models |
+| `EdgeDeviceInstallState.Read.All` | View device installation state |
+| `EdgeDeviceInstallStateHistory.Read.All` | View device installation history |
+| `EdgeDeviceInstallStateSnapshot.Read.All` | View device state snapshots |
+| `Fleet.Read.All` | View all deployment groups |
+
+
+### Asset Admin
+
+**Manage the asset catalogue for your organization.** Asset Admins maintain asset model definitions and system assets within their tenant, keeping asset records accurate and up to date.
+
+**Intended for:** Asset managers, inventory managers, facilities managers
+
+**Access level:** Full asset management within the tenant
+
+**What this role allows:**
+- Create, update, and delete asset types within the tenant
+- Create, update, and delete asset models within the tenant
+- Update and delete system assets within the tenant
+- Create, update and delete asset instances
+- Create update and delete attribute sets and attributes
+- Perform commissioning (assigning devices and assets to a hierarchy)
+- View all assets and asset models
+
+**What this role does NOT allow:**
+- Managing devices, deployment groups, or software
+- Managing users
+
+**Technical scopes:**
+
+| Scope | Meaning |
+|-------|---------|
+| `Asset.Read.Tenant` | View assets in the tenant |
+| `AssetModel.Read.Tenant` | View asset models in the tenant |
+| `AssetModel.Create.Tenant` | Create asset models in the tenant |
+| `SystemAsset.Update.Tenant` | Update system assets in the tenant |
+| `SystemAsset.Delete.Tenant` | Delete system assets in the tenant |
+
+
+### User Admin
+
+**Control who has access to the system and what they are permitted to do.** User Admins are responsible for onboarding users, assigning roles, and maintaining access governance across the platform.
+
+**Intended for:** IT administrators, system administrators, and anyone responsible for access control
+
+**Access level:** Full user and role management (cannot assign the Super Admin role — only a Super Admin can do that)
+
+**What this role allows:**
+- Create, update, and delete user accounts
+- Assign and revoke roles from users
+- Create, update, and delete custom roles
+- View all users, roles, and permissions
+- View all active user sessions
+- Manage tenant access per user
+- View all available permission scopes
+
+**What this role does NOT allow:**
+- Assigning the Super Admin role — that action requires a Super Admin
+- Device operations, software management, or asset management
+
+**Technical scopes:**
+
+| Scope | Meaning |
+|-------|---------|
+| `User.Read.All` | View all users |
+| `User.Create.All` | Create user accounts |
+| `User.Update.All` | Update any user account |
+| `User.Delete.All` | Delete user accounts |
+| `Role.Read.All` | View all roles |
+| `Role.Create.All` | Create new roles |
+| `Role.Update.All` | Update existing roles |
+| `Role.Delete.All` | Delete roles |
+| `RoleBridgeScope.Read.All` | View scope-to-role mappings |
+| `RoleBridgeScope.Create.All` | Add scopes to roles |
+| `RoleBridgeScope.Delete.All` | Remove scopes from roles |
+| `UserBridgeRole.Read.All` | View user-to-role assignments |
+| `UserBridgeRole.Create.All` | Assign roles to users |
+| `UserBridgeRole.Delete.All` | Remove roles from users |
+| `UserSession.Read.All` | View all active user sessions |
+| `Tenant.Read.All` | View all tenant information |
+| `Scope.Read.All` | View all available permission scopes |
+| `UserAllowedTenant.Read.Tenant` | View which tenants a user can access |
+| `UserAllowedTenant.Create.Tenant` | Grant a user access to a tenant |
+| `UserAllowedTenant.Update.Tenant` | Update tenant access for a user |
+| `UserAllowedTenant.Delete.Tenant` | Revoke a user's access to a tenant |
+
+
+### Business Application
+
+**API access for automated services and third-party integrations.** This role is intended for machine accounts used by automation systems or external applications that need to query user directory information via the API.
+
+**Intended for:** Backend services, automation tools, and integration platforms. **This role is not intended for human users.**
+
+**Access level:** Read users, roles, and active sessions
+
+**What this role allows:**
+- Read all user accounts
+- Read all role definitions
+- Read all active user sessions
+
+```{caution}
+Assign this role only to service accounts, not to individual people. Credentials for accounts with this role must be managed as application secrets and rotated regularly.
+```
+
+**Technical scopes:**
+
+| Scope | Meaning |
+|-------|---------|
+| `User.Read.All` | Read all user accounts |
+| `Role.Read.All` | Read all role definitions |
+| `UserSession.Read.All` | Read all active sessions |
+
+
+### Manufacturing Service
+
+**Device provisioning during manufacturing or initial setup.** This is a highly restricted role designed exclusively for automated provisioning systems used when registering new devices into the platform.
+
+**Intended for:** Manufacturing line automation and device provisioning scripts. **This role is not intended for human users.**
+
+**Access level:** Device provisioning only
+
+**What this role allows:**
+- Register (provision) new system assets into the platform
+
+```{caution}
+Assign this role only to machine accounts used in manufacturing or provisioning pipelines. It grants no visibility into any existing data and cannot perform any other operation. Treat credentials for these accounts as high-value secrets.
+```
+
+**Technical scopes:**
+
+| Scope | Meaning |
+|-------|---------|
+| `SystemAsset.Provision.All` | Provision new system assets |
+
+
+### Core Admin
+
+**Manage the foundational platform configuration.** Core Admins handle low-level infrastructure concerns such as defining new device models and managing the cryptographic assertions that underpin the app ecosystem trust chain.
+
+**Intended for:** Platform engineers and infrastructure architects who manage device model definitions and the Snapcraft trust infrastructure
+
+**Access level:** Device model management + assertion creation
+
+**What this role allows:**
+- Create and update edge device model definitions
+- Create generic, model-level, and system user assertions
+- Create store assertions
+- View app declarations and revisions
+- Download app packages
+
+**What this role does NOT allow:**
+- Managing live devices, fleets, or users
+- Publishing or rating software packages
+
+**Technical scopes:**
+
+| Scope | Meaning |
+|-------|---------|
+| `EdgeDeviceModel.Create.All` | Create device model definitions |
+| `EdgeDeviceModel.Update.All` | Update device model definitions |
+| `SnapDeclaration.Read.All` | View app declarations |
+| `SnapRevision.Read.All` | View app revisions |
+| `Snap.Download.All` | Download app packages |
+| `StoreAssertions.Create.All` | Create store assertions |
+| `Assertion.Create.All` | Create generic assertions |
+| `ModelAssertion.Create.All` | Create device model assertions |
+| `SystemUserAssertion.Create.All` | Create system user assertions |
+
+
+### Super Admin
+
+**Unrestricted access to the entire platform.** The Super Admin role grants full read and write permission across every resource in the system. This role must be used with great care.
+
+**Intended for:** Platform owners, system architects, and senior operations leads who require total platform control
+
+**Access level:** Complete — every operation on every resource, without exception
+
+**What this role allows:**
+- Every operation available in the system
+
+```{warning}
+Keep the number of Super Admins to an absolute minimum.
+
+- Only assign this role when no other role combination meets the requirement.
+- Accounts with this role should use multi-factor authentication.
+- Audit Super Admin assignments periodically.
+- Super Admin is the only role that can assign the Super Admin role to other users.
+```
+
+**Technical scopes:**
+
+| Scope | Meaning |
+|-------|---------|
+| `*.*.All` | All actions on all resources system-wide |
+
+
+## Role–Permission Scope Matrix
+
+All permission scopes in a single view. Read **across a row** to find every role that holds a given scope; read **down a column** to see the complete permission set for one role.
+
+**Legend**
+
+| Symbol | Meaning |
+|--------|---------|
+| ● | Scope explicitly assigned to this role |
+| ★ | Scope covered by a wildcard held by this role |
+| *(blank)* | Role does not hold this scope |
+
+```{note}
+**Observer** and **Software Manager** hold `*.Read.All`, granting them every `<Resource>.Read.All` scope — shown as ★ in those cells.
+**Super Admin** holds `*.*.All`, covering every scope without exception — every Super Admin cell is ★.
+```
+
+| Category | Scope | Default | Observer | System Analyst | Device Manager | Device Admin | Software Developer | Software Manager | Software Admin | Asset Admin | User Admin | Business Application | Manufacturing Service | Core Admin | Super Admin |
+|----------|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Own Account | `User.Read.Own` | ● | | | | | | | | | | | | | ★ |
+| Own Account | `User.Update.Own` | ● | | | | | | | | | | | | | ★ |
+| Own Account | `UserSetting.Read.Own` | ● | | | | | | | | | | | | | ★ |
+| Own Account | `UserSetting.Update.Own` | ● | | | | | | | | | | | | | ★ |
+| Own Account | `UserSession.Read.Own` | ● | | | | | | | | | | | | | ★ |
+| Own Account | `UserBridgeRole.Read.Own` | ● | | | | | | | | | | | | | ★ |
+| Own Account | `Tenant.Read.Tenant` | ● | | | | | | | | | | | | | ★ |
+| Users & Roles | `User.Read.All` | | ★ | | | | | ★ | | | ● | ● | | | ★ |
+| Users & Roles | `User.Create.All` | | | | | | | | | | ● | | | | ★ |
+| Users & Roles | `User.Update.All` | | | | | | | | | | ● | | | | ★ |
+| Users & Roles | `User.Delete.All` | | | | | | | | | | ● | | | | ★ |
+| Users & Roles | `UserSession.Read.All` | | ★ | | | | | ★ | | | ● | ● | | | ★ |
+| Users & Roles | `UserBridgeRole.Read.All` | | ★ | | | | | ★ | | | ● | | | | ★ |
+| Users & Roles | `UserBridgeRole.Create.All` | | | | | | | | | | ● | | | | ★ |
+| Users & Roles | `UserBridgeRole.Delete.All` | | | | | | | | | | ● | | | | ★ |
+| Users & Roles | `Role.Read.All` | | ★ | | | | | ★ | | | ● | ● | | | ★ |
+| Users & Roles | `Role.Create.All` | | | | | | | | | | ● | | | | ★ |
+| Users & Roles | `Role.Update.All` | | | | | | | | | | ● | | | | ★ |
+| Users & Roles | `Role.Delete.All` | | | | | | | | | | ● | | | | ★ |
+| Users & Roles | `RoleBridgeScope.Read.All` | | ★ | | | | | ★ | | | ● | | | | ★ |
+| Users & Roles | `RoleBridgeScope.Create.All` | | | | | | | | | | ● | | | | ★ |
+| Users & Roles | `RoleBridgeScope.Delete.All` | | | | | | | | | | ● | | | | ★ |
+| Users & Roles | `Tenant.Read.All` | | ★ | | | | | ★ | | | ● | | | | ★ |
+| Users & Roles | `Scope.Read.All` | | ★ | | | | | ★ | | | ● | | | | ★ |
+| Users & Roles | `UserAllowedTenant.Read.Tenant` | | | | | | | | | | ● | | | | ★ |
+| Users & Roles | `UserAllowedTenant.Create.Tenant` | | | | | | | | | | ● | | | | ★ |
+| Users & Roles | `UserAllowedTenant.Update.Tenant` | | | | | | | | | | ● | | | | ★ |
+| Users & Roles | `UserAllowedTenant.Delete.Tenant` | | | | | | | | | | ● | | | | ★ |
+| Devices | `EdgeDevice.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | | ★ |
+| Devices | `EdgeDevice.Update.All` | | | | ● | ● | | | ● | | | | | | ★ |
+| Devices | `EdgeDevice.RPC.Own` | | | ● | ● | | | | | | | | | | ★ |
+| Devices | `EdgeDevice.RPC.Tenant` | | | | | ● | | | | | | | | | ★ |
+| Devices | `EdgeDevice.RPC_SSH.Own` | | | ● | ● | ● | | | | | | | | | ★ |
+| Devices | `Device.Relink.All` | | | | | ● | | | | | | | | | ★ |
+| Devices | `DeviceSnap.Update.All` | | | | ● | ● | | | | | | | | | ★ |
+| Devices | `EdgeDeviceModel.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | ● | ★ |
+| Devices | `EdgeDeviceModel.Create.All` | | | | | | | | | | | | | ● | ★ |
+| Devices | `EdgeDeviceModel.Update.All` | | | | | | | | | | | | | ● | ★ |
+| Devices | `EdgeDeviceInstallState.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | | ★ |
+| Devices | `EdgeDeviceInstallStateHistory.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | | ★ |
+| Devices | `EdgeDeviceInstallStateSnapshot.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | | ★ |
+| Devices | `Log.Read.All` | | ★ | ● | | | | ★ | | | | | | | ★ |
+| Deployment Groups | `Fleet.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | | ★ |
+| Deployment Groups | `Fleet.Create.All` | | | | ● | ● | | | | | | | | | ★ |
+| Deployment Groups | `Fleet.Update.All` | | | | ● | ● | | | | | | | | | ★ |
+| Deployment Groups | `Fleet.Clone.All` | | | | ● | ● | | | | | | | | | ★ |
+| Deployment Groups | `Fleet.Delete.All` | | | | ● | ● | | | | | | | | | ★ |
+| Deployment Groups | `FleetBridgeSnapRevision.Read.All` | | ★ | | ● | ● | | ★ | | | | | | | ★ |
+| Deployment Groups | `FleetBridgeSnapRevision.Create.All` | | | | ● | ● | | | | | | | | | ★ |
+| Deployment Groups | `FleetBridgeSnapRevision.Update.All` | | | | ● | ● | | | | | | | | | ★ |
+| Deployment Groups | `FleetBridgeSnapRevision.Delete.All` | | | | ● | ● | | | | | | | | | ★ |
+| Software | `Snap.Push.Tenant` | | | | | | ● | | | | | | | | ★ |
+| Software | `Snap.Push_Declaration.Tenant` | | | | | | ● | | | | | | | | ★ |
+| Software | `Snap.Download.All` | | ● | | | | ● | ● | ● | | | | | ● | ★ |
+| Software | `Snap.Update.Tenant` | | | | | | | ● | ● | | | | | | ★ |
+| Software | `Snap.UpdateUploadMessage.Tenant` | | | | | | ● | ● | ● | | | | | | ★ |
+| Software | `SnapDeclaration.Create.Tenant` | | | | | | ● | | | | | | | | ★ |
+| Software | `SnapDeclaration.Update.Tenant` | | | | | | ● | | | | | | | | ★ |
+| Software | `SnapDeclaration.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | ● | ★ |
+| Software | `SnapRevision.Create.Tenant` | | | | | | ● | | | | | | | | ★ |
+| Software | `SnapRevision.UpdateStatus.Own` | | | | | | ● | | | | | | | | ★ |
+| Software | `SnapRevision.UpdateStatus.Tenant` | | | | | | | ● | ● | | | | | | ★ |
+| Software | `SnapRevision.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | ● | ★ |
+| Software | `SnapStatus.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | | ★ |
+| Software | `AppStatus.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | | ★ |
+| Software | `AppRevision.Create.All` | | | | | | ● | | | | | | | | ★ |
+| Assertions | `StoreAssertions.Create.All` | | | ● | | | ● | | | | | | | ● | ★ |
+| Assertions | `Assertion.Create.All` | | | | | | | | | | | | | ● | ★ |
+| Assertions | `ModelAssertion.Create.All` | | | | | | | | | | | | | ● | ★ |
+| Assertions | `SystemUserAssertion.Create.All` | | | | | | | | | | | | | ● | ★ |
+| Assets | `Asset.Read.All` | | ● | ● | ● | ● | | ★ | | | | | | | ★ |
+| Assets | `Asset.Read.Tenant` | | | | | | ● | | | ● | | | | | ★ |
+| Assets | `AssetModel.Read.All` | | ★ | | ● | ● | | ★ | | | | | | | ★ |
+| Assets | `AssetModel.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModel.Create.All` | | | | | ● | | | | | | | | | ★ |
+| Assets | `AssetModel.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `SystemAsset.Provision.All` | | | | | | | | | | | | ● | | ★ |
+| Assets | `SystemAsset.Update.All` | | | | | ● | | | | | | | | | ★ |
+| Assets | `SystemAsset.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `SystemAsset.Delete.All` | | | | | ● | | | | | | | | | ★ |
+| Assets | `SystemAsset.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `DataMessage.Download.Own` | | | | ● | ● | | | | | | | | | ★ |
+
+
+## Scope Naming Convention
+
+For engineers who need to interpret permission scope names directly, all scopes follow a consistent three-part pattern:
+
+```
+<Resource>.<Action>.<Target>
+```
+
+| Part | Description | Examples |
+|------|-------------|---------|
+| **Resource** | The type of object being acted upon | `EdgeDevice`, `Snap`, `User`, `Deployment proup (fleet)`, `Asset` |
+| **Action** | The operation being performed | `Read`, `Update`, `Create`, `Delete`, `Download`, `Push`, `RPC` |
+| **Target** | How broadly the permission applies | `Own`, `Tenant`, `All` |
+
+**Target values explained:**
+
+| Target | Meaning |
+|--------|---------|
+| `Own` | Only the resources owned by or assigned to this user |
+| `Tenant` | All resources within the user's organization (tenant) |
+| `All` | All resources across the entire system |
+
+**Examples:**
+
+| Scope | Plain-language meaning |
+|-------|----------------------|
+| `EdgeDevice.Read.All` | View all edge devices in the system |
+| `Snap.Push.Tenant` | Push app packages within this organization |
+| `User.Update.Own` | Edit your own user account only |
+| `Fleet.Delete.All` | Delete any deployment group in the system |
+| `*.*.All` | Wildcard: every action on every resource (Super Admin only) |
+
+
+## Role Decision Guide
+
+Use the questions below to identify the correct role for a new team member. Start at Step 1 and follow the path that matches the situation.
+
+### Step 1 — Is this a human user or a machine/service account?
+
+- **Service account for provisioning new devices on a manufacturing line** → assign [Manufacturing Service](#manufacturing-service)
+- **Service account for an integration or automation tool that reads user data** → assign [Business Application](#business-application)
+- **Human user** → continue to [Step 2](#step-2--what-is-their-primary-area-of-responsibility)
+
+
+### Step 2 — What is their primary area of responsibility?
+
+| Their focus | Next step |
+|-------------|-----------|
+| Managing user accounts and access control | [Step 3](#step-3--user-administration) |
+| Working with physical devices in the field | [Step 4](#step-4--device-operations) |
+| Developing, releasing, or managing software packages | [Step 5](#step-5--software-roles) |
+| Monitoring and reporting only — no changes needed | [Step 6](#step-6--read-only-and-monitoring) |
+| Investigating issues or providing technical support | → assign [System Analyst](#system-analyst) |
+| Managing asset definitions and inventory | → assign [Asset Admin](#asset-admin) |
+| Low-level platform configuration (device models, assertions) | → assign [Core Admin](#core-admin) |
+| Full platform ownership — unrestricted access required | → assign [Super Admin](#super-admin) ⚠️ use sparingly |
+
+
+### Step 3 — User administration
+
+**Do they need to manage user accounts, assign roles, and control access across the platform?**
+
+- **Yes** → assign [User Admin](#user-admin)
+
+
+### Step 4 — Device operations
+
+**Do they need to act on all devices in the system, or only a specific assigned set?**
+
+| Situation | Role |
+|-----------|------|
+| Operate and manage only their own assigned devices and deployment groups | [Device Manager](#device-manager) |
+| Full control of all devices, including relinking and system asset management | [Device Admin](#device-admin) |
+
+
+### Step 5 — Software roles
+
+**What is their primary task in the software lifecycle?**
+
+| Task | Role |
+|------|------|
+| Writing code and uploading app packages to the store | [Software Developer](#software-developer) |
+| Reviewing, rating, and approving app releases | [Software Manager](#software-manager) |
+| Full software administration — approvals, device deployments, and catalogue management | [Software Admin](#software-admin) |
+
+
+### Step 6 — Read-only and monitoring
+
+**They need visibility but should not be able to change anything.**
+
+- → assign [Observer](#observer)
+
+
+## Assigning Roles
+
+Roles are managed in the **User Management** section of the Ecosystem UI. You must hold either the **User Admin** or **Super Admin** role to make changes.
+
+1. Open the Ecosystem UI and navigate to **User Management**.
+2. Select the user you want to update.
+3. Check or uncheck the desired roles.
+4. Save your changes.
+
+To inspect a user's roles from the command line:
+
+```console
+$ m2cp user roles list <user>
+```
+
+```{note}
+The predefined roles described in this guide are created by ML!PA and cannot be modified. User Admins and Super Admins may create **custom roles** with specific permission combinations for specialized use cases not covered by the predefined set. Custom roles are created and managed in the User Management section of the Ecosystem UI.
+```

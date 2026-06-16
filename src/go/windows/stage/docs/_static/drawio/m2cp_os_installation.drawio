@@ -1,0 +1,355 @@
+<mxfile host="drawio-plugin" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" modified="2025-05-26T10:03:15.659Z" etag="n67s2wK6pOun9pqJJqwk" version="22.1.22" type="embed" pages="2">
+  <diagram name="Page-1" id="2MUpPFXid3ULNGS01Geh">
+    <mxGraphModel dx="1127" dy="1936" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-1" value="Breakout Board" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="300" y="-342" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-4" value="" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="1112" y="-402" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-5" value="Edge Device" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="484.14" y="-342" width="205" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-6" value="TPM" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="556.14" y="-301" width="61" height="544" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-9" value="EEPROM" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="484" y="-301" width="61" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-11" value="EMMC" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="628.14" y="-301" width="61" height="750" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-12" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="UnXVcMVvcSiLGPxBhDXL-11" vertex="1">
+          <mxGeometry x="25.5" y="650" width="10" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-14" value="SD: Installer&lt;br&gt;Image" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="319" y="-302" width="61" height="742" as="geometry" />
+        </mxCell>
+        <mxCell id="new-step-1" value="GET /install.sh" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="349" y="-223" as="sourcePoint" />
+            <mxPoint x="913.5" y="-223" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="new-step-3" value="GET /api/state (repeat&lt;br&gt;until installation-mode)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="351.31034482758605" y="199.99800000000027" as="sourcePoint" />
+            <mxPoint x="911" y="199.99800000000027" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="new-step-5" value="GET /api/images" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" source="10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1147.5" y="-156" as="sourcePoint" />
+            <mxPoint x="919" y="-156" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="new-step-6" value="available images list" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1126.5" y="-127" as="targetPoint" />
+            <mxPoint x="909" y="-127" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="new-step-8" value="POST /api/start-installation" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1126.5" y="-69" as="sourcePoint" />
+            <mxPoint x="919" y="-69" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-16" value="fetch hw info" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="349" y="7" as="sourcePoint" />
+            <mxPoint x="509.5" y="7" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-17" value="hw-serial, hw-model" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="349" y="26" as="targetPoint" />
+            <mxPoint x="508.5" y="26" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-20" value="generate device pub-key&lt;br&gt;from endorsment key" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="349.42857142857133" y="102" as="sourcePoint" />
+            <mxPoint x="581.64" y="102" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-21" value="Asset Attestation Key" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="349.31034482758605" y="126" as="targetPoint" />
+            <mxPoint x="581.64" y="126" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-22" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="581.64" y="99" width="10" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-23" value="configure TPM" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0.44;entryY=0.932;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1">
+          <mxGeometry x="-0.0009" relative="1" as="geometry">
+            <mxPoint x="349.1666666666665" y="54.008000000000266" as="sourcePoint" />
+            <mxPoint as="offset" />
+            <mxPoint x="582.9799999999998" y="54.008000000000266" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-24" value="ok" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="349.1666666666665" y="72" as="targetPoint" />
+            <mxPoint x="582" y="72" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-25" value="Installation Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};size=40;" parent="1" vertex="1">
+          <mxGeometry x="849" y="-340" width="131" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-26" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="UnXVcMVvcSiLGPxBhDXL-25" vertex="1">
+          <mxGeometry x="60" y="587" width="10" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-27" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="UnXVcMVvcSiLGPxBhDXL-25" vertex="1">
+          <mxGeometry x="60" y="737" width="10" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="UnXVcMVvcSiLGPxBhDXL-25" vertex="1">
+          <mxGeometry x="60" y="192" width="10" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="UnXVcMVvcSiLGPxBhDXL-25" vertex="1">
+          <mxGeometry x="60" y="140" width="10" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-10" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="UnXVcMVvcSiLGPxBhDXL-25" vertex="1">
+          <mxGeometry x="60" y="300" width="10" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-28" value="Edge Device&#39;s Hardware Serial, Hardware Model, Asset Attestation Key&lt;br&gt;Real Time Device&#39;s Hardware Serials, Hardware Models" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="348.1666666666665" y="255.00000000000045" as="sourcePoint" />
+            <mxPoint x="910" y="255" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-29" value="&lt;div&gt;App Store Service&lt;/div&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="1229" y="-300" width="100" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-31" value="register all hardware as a System" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;entryPerimeter=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="920" y="267" as="sourcePoint" />
+            <mxPoint x="1374.5000000000002" y="266.0000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-32" value="ok" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="920" y="284" as="targetPoint" />
+            <mxPoint x="1374.5" y="283" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-33" value="&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Asset Management Service&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="1329" y="-300" width="101" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-34" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="UnXVcMVvcSiLGPxBhDXL-33" vertex="1">
+          <mxGeometry x="45.5" y="557" width="10" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-37" value="L-IoT Backend" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1229" y="-340" width="201" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-38" value="image url" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="349" y="335.99999999999955" as="targetPoint" />
+            <mxPoint x="909" y="335.99999999999955" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-39" value="flash image" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="349" y="357" as="sourcePoint" />
+            <mxPoint x="653.6399999999999" y="357" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-40" value="ok" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;" parent="1" source="UnXVcMVvcSiLGPxBhDXL-12" target="UnXVcMVvcSiLGPxBhDXL-14" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="349" y="383" as="targetPoint" />
+            <mxPoint x="909" y="383" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-41" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;entryPerimeter=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="349.42857142857133" y="400" as="sourcePoint" />
+            <mxPoint x="909" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-42" value="notify: device prepared" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="UnXVcMVvcSiLGPxBhDXL-41" vertex="1" connectable="0">
+          <mxGeometry x="-0.28" relative="1" as="geometry">
+            <mxPoint x="-31" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-43" value="first boot" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry x="-0.1976" y="2" width="80" relative="1" as="geometry">
+            <mxPoint x="907.9300000000002" y="442.9999999999998" as="sourcePoint" />
+            <mxPoint x="660" y="443" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UnXVcMVvcSiLGPxBhDXL-44" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;fetch image for&lt;br&gt;this hw-serial&lt;br&gt;&lt;/span&gt;&lt;/div&gt;" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="918" y="295" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="948" y="325" />
+            </Array>
+            <mxPoint x="923" y="325" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2" value="Real Time Devices&lt;br&gt;(RTDs)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};size=43;" parent="1" vertex="1">
+          <mxGeometry x="703" y="-342" width="130" height="790" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="2" vertex="1">
+          <mxGeometry x="60" y="484" width="10" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="CoAP broadcast GET /whoami/1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry x="-0.0009" relative="1" as="geometry">
+            <mxPoint x="349.1666666666665" y="148" as="sourcePoint" />
+            <mxPoint as="offset" />
+            <mxPoint x="762.9999999999998" y="148" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6" value="Hardware Model, Hardware Serial" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="349.1666666666665" y="166" as="targetPoint" />
+            <mxPoint x="760" y="166" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="10" value="User" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="1080.25" y="-340" width="93.5" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="attach Edge Device" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" source="10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1146.317" y="-242.96000000000004" as="sourcePoint" />
+            <mxPoint x="349.31034482758605" y="-242.96000000000004" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="16" value="PUT /api/image (select image)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" source="10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1120" y="-110" as="sourcePoint" />
+            <mxPoint x="920" y="-110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="20" value="&amp;nbsp;installation-mode reached" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="350.00380952380965" y="219" as="targetPoint" />
+            <mxPoint x="914" y="219" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="24" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="510.5" y="2" width="9.5" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="25" value="GET /downloads/tools/dev-m2cpctl" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;entryPerimeter=0;" parent="1" source="UnXVcMVvcSiLGPxBhDXL-14" target="UnXVcMVvcSiLGPxBhDXL-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="349.1666666666665" y="-30" as="sourcePoint" />
+            <mxPoint x="900" y="-30" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="26" value="" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="349.1666666666665" y="-13" as="targetPoint" />
+            <mxPoint x="909" y="-13" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="35" value="&lt;br&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="26">
+          <mxGeometry x="-0.0467" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="28" value="&amp;nbsp;PUT&amp;nbsp; /api/start-installation (parameters)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;endFill=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1126.5" y="-89" as="sourcePoint" />
+            <mxPoint x="920" y="-89" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="31" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="581.64" y="48" width="10" height="28" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="0bCltJHCRLlC6HCHKcFI" name="Page-2">
+    <mxGraphModel dx="693" dy="413" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-3" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="155" width="170" height="325" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3MQENeyS-Ttxy3zWYihk-1" target="3MQENeyS-Ttxy3zWYihk-18">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3MQENeyS-Ttxy3zWYihk-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-26" value="eth &quot;office&quot;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3MQENeyS-Ttxy3zWYihk-24">
+          <mxGeometry x="0.0167" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-1" value="Installation Server&lt;br&gt;(e.g. RasPi)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="290" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="3MQENeyS-Ttxy3zWYihk-2" target="3MQENeyS-Ttxy3zWYihk-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-7" value="boots" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3MQENeyS-Ttxy3zWYihk-6">
+          <mxGeometry x="0.1141" relative="1" as="geometry">
+            <mxPoint y="5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="3MQENeyS-Ttxy3zWYihk-2" target="3MQENeyS-Ttxy3zWYihk-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-9" value="eth&lt;br&gt;&quot;install&quot;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3MQENeyS-Ttxy3zWYihk-8">
+          <mxGeometry x="-0.0442" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-2" value="Edge Device" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="290" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-4" value="Breakout Board" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="400" y="155" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-5" value="SD Card with&lt;div&gt;Installer Image&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="190" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-10" value="Real Time Devices" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="390" y="390" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-11" value="Real Time Devices" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-12" value="Real Time Devices" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="410" y="410" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3MQENeyS-Ttxy3zWYihk-2" target="3MQENeyS-Ttxy3zWYihk-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-14" value="discovers via CoAP" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3MQENeyS-Ttxy3zWYihk-13">
+          <mxGeometry x="-0.4526" y="1" relative="1" as="geometry">
+            <mxPoint y="3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-18" value="Archive of Images" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3MQENeyS-Ttxy3zWYihk-21" target="3MQENeyS-Ttxy3zWYihk-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-23" value="configures" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3MQENeyS-Ttxy3zWYihk-22">
+          <mxGeometry x="0.2164" y="-1" relative="1" as="geometry">
+            <mxPoint x="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-21" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="290" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3MQENeyS-Ttxy3zWYihk-25" value="Intranet /&amp;nbsp;&lt;div&gt;Internet&lt;/div&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="150" width="120" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

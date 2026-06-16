@@ -1,0 +1,122 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36" version="26.2.14">
+  <diagram name="Seite-1" id="9chHCYewNtwE3mBg55QE">
+    <mxGraphModel dx="1639" dy="856" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1920" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-1" target="b6HHSBr3NBx7Al8vnCNG-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-1" value="MCU" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="155" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-2" target="b6HHSBr3NBx7Al8vnCNG-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-2" value="m2cp-coap" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="315" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-3" target="b6HHSBr3NBx7Al8vnCNG-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-3" value="m2cp-message-hub" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="475" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-4" target="b6HHSBr3NBx7Al8vnCNG-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-4" value="m2cp-gateway" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="635" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-5" target="b6HHSBr3NBx7Al8vnCNG-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-5" value="m2cp-coap-[a-z]+&lt;br&gt;Custom Parser" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="475" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-6" target="b6HHSBr3NBx7Al8vnCNG-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-6" target="b6HHSBr3NBx7Al8vnCNG-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-6" value="m2cp-gateway&lt;br&gt;Output Buffer" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="795" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-7" target="b6HHSBr3NBx7Al8vnCNG-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-7" value="Data Message Hub" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="955" y="240" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-8" value="Signal Message Hub" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="955" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-9" value="Grafana" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="240" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-20" value="&lt;pre&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(51, 51, 51), rgb(193, 193, 193)); font-family: Helvetica; white-space: normal;&quot;&gt;sudo m2cpctl logs -f m2cp-coap&lt;/span&gt;&lt;/pre&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="281.25" y="130" width="187.5" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-20" target="b6HHSBr3NBx7Al8vnCNG-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-22">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="292.5" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-22" value="&lt;pre&gt;dev-net-protocol-analyzer.tshark&lt;br/&gt;&lt;/pre&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="175" y="410" width="235" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-25" target="b6HHSBr3NBx7Al8vnCNG-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-25" value="&lt;pre&gt;sudo m2cpctl message listen --data&lt;/pre&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="405" y="200" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-27" target="b6HHSBr3NBx7Al8vnCNG-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-27" value="&lt;pre&gt;sudo m2cpctl logs -f m2cp-gateway&lt;/pre&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="565" y="125" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-29" target="b6HHSBr3NBx7Al8vnCNG-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-29" value="&lt;pre&gt;find /var/snap/m2cp-gateway/common/&lt;br/&gt;sudo m2cpctl uplink -h&lt;/pre&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="725" y="500" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-31" target="b6HHSBr3NBx7Al8vnCNG-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-31" value="&lt;pre&gt;m2cp device logs&lt;/pre&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="945" y="580" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-33" target="b6HHSBr3NBx7Al8vnCNG-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-33" value="&lt;pre&gt;m2cp device message data -h&lt;/pre&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="910" y="130" width="210" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-36" target="b6HHSBr3NBx7Al8vnCNG-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-36" value="&lt;pre&gt;sudo m2cpctl logs -f m2cp-coap-[a-z]+&lt;/pre&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="395" y="500" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="505" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b6HHSBr3NBx7Al8vnCNG-40" target="b6HHSBr3NBx7Al8vnCNG-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6HHSBr3NBx7Al8vnCNG-40" value="&lt;pre&gt;picocom --baud 115200 --imap lfcrlf /dev/serial/by-id/...&lt;br/&gt;coap-client ...&lt;/pre&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry y="60" width="430" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

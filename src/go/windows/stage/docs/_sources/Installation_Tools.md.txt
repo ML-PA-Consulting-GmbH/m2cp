@@ -1,0 +1,176 @@
+# Tools Installation
+
+L-IoT comes with a variety of tools and frontends tailored to the needs of different user groups.
+
+Here's a brief overview of the capabilities of the various tools:
+
+|Action                         | Browser UI | Windows/Linux CLI |
+|-------------------------------|------------|-------------------|
+|Manage Users and Roles         | ✅         | ❌                |
+|Create a Deployment Group (DG) | ✅         | ✅                |
+|Add/Remove Devices to/from a DG| ✅         | ✅                |
+|Install/Uninstall/Update Apps on/from a DG | ✅         | ✅                |
+|Push new Apps to the App Store Service| ❌         | ✅                |
+|Make RPC calls to Apps         | ❌         | ✅                |
+|Gain SSH-access into a Device  | ❌         | ✅                |
+|View & query logs              | ❌         | ✅                |
+|Manage Assets          | ✅         | ❌                |
+
+
+## Browser UI
+
+The browser-based version of the Ecosystem UI allows you to easily manage Software, Devices and Assets. 
+
+It's available as soon as the Backend is up and running - no additional installation required. Please request the URL from your project manager.
+
+
+## CLI Tools
+
+*L-IoT* used to be called "ML!PA Ecosystem" / "M2CP" - for that reason, many tools still have "m2cp" in their name. The CLI tool for
+interacting with the Ecosystem is called "m2cp CLI".
+
+The CLI tools are recommended for App developers, offering a powerful interface to interact with the App Store Service and remote Devices. 
+Developers can use the CLI to perform tasks such as list Devices, manage Deployment Groups, (un)install Apps on Devices, push new Apps 
+to the App Store Service, make RPC-calls to Apps, get SSH-access to Devices and access the system-wide logs. 
+**Users and roles can only be managed through the web-based dashboard.**
+
+### Windows CLI Tool
+
+
+The `m2cp` command line tool is available as a `setup.exe` installer for Windows. You can download the [latest
+installer](https://m2cp:m2cp@m2cptools.ml-pa.com/downloads/m2cp-setup-latest.exe)
+from the [m2cptools downloads
+webserver](https://m2cp:m2cp@m2cptools.ml-pa.com/downloads/). If prompted for credentials, use the username `m2cp` and password `m2cp`.
+
+After installation, you can launch _ML!PA M2CP Terminal_ from the Start menu.
+
+### Linux CLI Tools
+
+
+The Linux CLI tools are distributed and updated via [APT repository](https://en.wikipedia.org/wiki/APT_(software)).
+
+Installation:
+
+```bash
+# Install required tools
+sudo apt update
+sudo apt install apt-transport-https
+
+# Add the source of the M2CP repository
+echo "deb [trusted=yes] https://m2cptools.ml-pa.com/public/ jammy main" | sudo tee /etc/apt/sources.list.d/m2cptools.list
+
+# Add the login credentials
+echo "machine https://m2cptools.ml-pa.com/public/ login m2cp password m2cp" | sudo tee /etc/apt/auth.conf.d/m2cptools.conf
+
+# Fetch and install the L-IoT developer package
+sudo apt update
+sudo apt install mlpa-ecosystem
+```
+
+If you are not using a Debian-based Linux distribution, you can still
+download the Debian package, extract its contents, and manually move the files to the appropriate locations.
+
+The [apt repository](https://m2cp:m2cp@m2cptools.ml-pa.com) also
+contains packages of the [Edge Device SDK](/Development_Edge.md#edge-device-sdk).
+
+### Login and Usage
+
+To be able to use the CLI Tool you must first log in to the Backend. There are two available methods: 
+- **Browser-Based Authentication** requires the store's URL along with a valid username and password. 
+- **E-Mail and Public Key Authentication** requires a registered E-Mail address and a ssh public key registered with the account 
+
+For detailed information on all available commands, the CLI includes a built-in manual, which can be accessed using the following commands:
+
+```sh
+$ m2cp  #lists all available sub-commands
+$ m2cp <command> --help  #provides help for a specific command
+```
+
+#### Browser-Based Authentication
+To log in using Browser-Based Authentication, you will need the URL of the App Store UI to specify the App Store Service you wish to access. In the following guide we will use "https://store.company.com:3100/graphql" as an example.
+
+Type the following into the CLI:
+  ```sh
+  $ m2cp user login --store "https://store.company.com:3100/graphql"
+  ```
+A browser window should appear, prompting you to enter your credentials. After entering your credentials, close the browser window. The command line should display:
+  ```sh
+  Logged in successfully.
+  ```
+You only need to provide your credentials once, as the most recent credentials will be stored (in ~/.m2cp/state.json). For subsequent logins, you can simply use the following command:
+```sh
+$ m2cp user login
+```
+
+```{caution}
+As of 05/2024, the implementation requires that **TCP port 3100 on the client machine is not in use.**
+As of 10/2024, browser authentication is **not enabled for all backends** and **only RSA keys** are supported. If you encounter a 404 error, please contact the M2CP team. 
+```
+
+```{tip}
+  If you frequently switch between App Store Services, you can simplify the login process by creating an alias for the App Store UI URL. This can be done using the following command:
+  
+  $ m2cp user login --store <store_url> --alias <choose_your_alias>
+
+  During the next login, you can use the alias as a positional argument:
+
+  $ m2cp user login <your_chosen_alias>
+
+  Note that aliases should not begin with a protocol prefix (e.g., "https://") and must not contain any whitespace. The aliases are stored in a JSON file (~/.m2cp/store-url-aliases.json), which can also be edited using a text editor. The format is simple: key-value pairs, where the key is the alias and the value is the URL:
+
+  {
+  "alias": "protocol://the.url",
+  "ex1": "http://example.com/graphql"
+  }
+```
+
+#### Registered E-Mail and public SSH-key
+This method can only be used if the E-Mail and public key have already been registered.
+
+##### Register public SSH-key
+To register an SSH-key, <span style="color:red">**first log in using Browser-Based Authentication**</span> (see section "[Browser-Based Authentication](#browser-based-authentication)"), then use the following command:
+
+```sh
+$ m2cp user modify
+```
+
+This will allow you to set up your key.
+
+Once your key is registered, you will need your E-Mail, the path to your private key, and the App Store UI URL for the initial login. To log in for the first time using SSH, use the following command:
+
+```sh
+$ m2cp user login --method ssh --ssh-user <your_email> --ssh-key <path_to_your_private_key> --store <url_to_store>
+```
+
+You only need to provide these parameters once, as the most recent ones will be stored (in ~/.m2cp/state.json). For subsequent logins, you can simply use the following command:
+ ```sh 
+$ m2cp user login
+```
+
+```{tip}
+  If you frequently switch between App Store Services, you can simplify the login process by creating an alias for the App Store UI URL. This can be done using the following command:
+  
+  $ m2cp user login --store <store_url> --alias <choose_your_alias>
+
+  During the next login, you can use the alias as a positional argument:
+
+  $ m2cp user login <your_chosen_alias>
+
+  Note that aliases should not begin with a protocol prefix (e.g., "https://") and must not contain any whitespace. The aliases are stored in a JSON file (~/.m2cp/store-url-aliases.json), which can also be edited using a text editor. The format is simple: key-value pairs, where the key is the alias and the value is the URL:
+
+  {
+  "alias": "protocol://the.url",
+  "ex1": "http://example.com/graphql"
+  }
+```
+
+#### Switch Authentication Method
+To switch the authentication method, you can use the login command with the `method` parameter to specify the desired authentication method:
+```sh
+$ m2cp user login --method browser
+```
+Or
+```sh
+$ m2cp user login --method ssh
+```
+

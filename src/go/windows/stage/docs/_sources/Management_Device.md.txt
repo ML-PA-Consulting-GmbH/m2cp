@@ -1,0 +1,560 @@
+# Devices Management
+
+This chapter talks about managing Devices (both Edge Devices and Real Time Devices). _Device Management_ consists of:
+- viewing and editing details of individual Devices (e.g. name, description)
+- organizing Devices into Deployment Groups
+- assigning App Revisions to Deployment Groups, which causes the deployment to contained Devices
+- monitoring health of Devices, messages emitted, bytes sent, uptimes, etc.
+
+This chapter is _not_ about:
+..[initial installation](Installation_Device.md) of a Device
+..preparing Apps for deployment for [Edge Devices](Development_Edge.md) and [Real Time Devices](Development_RTD.md)
+
+The App Store has a generalized concept of a _Device_ (Edge Device or Real Time Device) and offers unified commands for working with all device types.
+
+## List Devices
+
+You can list all Devices using the _m2cp CLI tool_:
+
+```bash
+$ m2cp device list
+```
+
+## Device Details
+
+To query details on a device, you can use:
+```bash
+$ m2cp device info <os-serial>
+```
+
+To fetch even more details, use:
+```bash
+$ m2cp device info <os-serial> --live
+```
+..to also query the Device itself for additional state (e.g. the Devices user accounts and IP addresses)
+
+## Deployment Groups
+
+The App Store is designed to deploy software to _groups of Devices_, not to individual Devices. Those groups are called _Deployment Groups_.
+You can of course create a Deployment Group with just a single Device in it, if you want to deploy something to just that Device.
+
+The App Store has a generalized concept of a _Device_ (Edge Device or Real Time Device) and an _App_ (a Snap for an Edge Device or Firmware for a Real Time Device), treating them uniformly. It's always an _App Revision_ being deployed to a _Device_.
+
+To deploy App Revisions, you must organize Devices into Deployment Groups.
+
+```{admonition} Definition
+A _Deployment Group_ contains a set of Devices with _identical Device Models_ and a set of App Revisions compatible with those Devices. A Deployment Group defines
+the _target installation state_ for the contained Devices. By adding a Device to a Deployment Group you tell the App Store to install exactly those App Revisions on the Device
+that are configured in the group and remove all others.
+```
+
+So let's see the online help for creating a Deployment Group:
+
+```console
+$ m2cp store dgroup create --help
+Create a Deployment Group using one of three approaches:
+
+1. From a model ID:
+   m2cp store dgroup create <name> <modelId>
+
+2. From model details:
+   m2cp store dgroup create <name> <modelType> <modelName> <modelRevision>
+   Valid device types: 'm2cp' or 'edge' for edge devices, 'rtd' for real-time devices
+
+3. From an existing device:
+   m2cp store dgroup create <name> <deviceName or osSerial>
+
+When providing a UUID, the command automatically determines whether it's a device ID
+or model ID.
+
+Usage:
+  m2cp store dgroup create [name] [modelId | modelType modelName modelRevision | deviceName or osSerial] [flags]
+
+Flags:
+  -m, --auto-update-mode string   auto update mode (off, stable, edge) (default "off")
+  -d, --description string        description of the new Deployment Group
+  -h, --help                      help for create
+
+Global Flags:
+      --json   print output as JSON
+```
+
+As you can see, there are multiple ways for creating a Deployment Group - but the result is always the same. An empty Deployment Group
+will be created for Devices of a specific _Device Model_. You can either specify the model directly, or mention a Device whose model is to be used.
+
+If you want to know, which model your existing Device uses, you can find that out with:
+```bash
+$ m2cp device info <id|os-serial|name>
+```
+
+Let's create one!
+
+```bash
+$ m2cp store dgroup create "my-dgroup" 7f3e9d2a-8b41-4c7e-9fa3-1b5e8c42d976
+```
+
+```{warning}
+Don't add Devices to your new Deployment Group before configuring App Revisions!
+Adding a Device instructs the App Store to instantly modify the installation state of that Device -- so make sure, that you configure the desired installation first, before you add Devices.
+```
+
+### Deployment Group's Administrator and Co-Administrators
+
+To protect the devices within a Deployment Group from unauthorized
+changes, the Deployment Group can only be changed by the person who
+created it (called the _Administrator_) or the [Super Admin
+Role](Management_User.md#super-admin). Additionally, the Administrator
+can add other persons (called _Co-Administrator_s), which provides
+them with the same permissions and responsibilities.
+
+Only Administrators can delete Deployment Groups they own, and only if
+the group is empty of devices.
+
+To list the current status of a given Deployment Group:
+
+```console
+$ m2cp store dgroup admin list demo-dgroup
+Task-Id: 61f35ef3-ef8c-43ee-a9e7-cad8369c83d4
+Role        Email                       Name
+Admin       alice@ml-pa.com             Alice
+Co-admin    bob@ml-pa.com               Bob
+```
+
+Note, the information is also printed in the output of `m2cp store
+dgroup info ...`.
+
+
+To add a Co-Administrator, do:
+
+```console
+$ m2cp store dgroup admin add demo-dgroup 'alice@ml-pa.com'
+Task-Id: 0dedcfd0-fc03-4596-a172-97f0cc1952b3
+co-administrator added
+```
+
+Note, this also allows the Co-Administrator to use [Reverse-SSH
+Access](Management_Device.md#reverse-ssh-access) on the device, given
+that he has the [Device Admin Role](Management_User.md#device-admin).
+
+To remove a Co-Administrator, do:
+
+```console
+$ m2cp store dgroup admin remove demo-dgroup 'alice@ml-pa.com'
+Task-Id: 07c8f0fa-1545-47af-9019-8c60fdcceb06
+co-administrator removed
+```
+
+Administrators can transfer their privilege to other users:
+
+```console
+$ m2cp store dgroup admin transfer demo-dgroup 'alice@ml-pa.com'
+...
+```
+
+
+## Deploying an App Revision
+
+
+Let's add App Revisions to our new Deployment Group. To see, which Apps are available, we use:
+
+```bash
+# list apps for Edge Devices
+$ m2cp store app list --type snap
+
+# list apps for Real Time Devices
+$ m2cp store app list --type firmware
+
+```
+
+If we created a Deployment Group for Edge Devices, then any App of type _snap_ can be added, as long as the _architecture_ of the App (e.g. arm64 or amd64) matches
+the architecture of the Device Model underlying our Deployment Group.
+
+If we created a Deployment Group for Real Time Devices, then only a _single app_ can be in the group. Additionally that App must be compatible to the used Device Model.
+
+```bash
+Id                                      Architecture    App Type    Device Model        App Name                Tenant    Description
+f4a8c9d2-1e5b-4a3f-9c72-8b1d6e9f0a45    arm32           firmware    temperature_sensor  temp-sensor             acme      Temperature sensor firmware
+3b7e2f9a-6c4d-4e8f-a1b3-7d9c5f2e8a41    arm32           firmware    multi_sensor        humidity-monitor        acme      Humidity monitoring firmware
+8c1f5a7b-9d2e-4f6a-b3c5-1e8f7a9c4d6b    arm32           firmware    multi_sensor        pressure-gauge          acme      Pressure measurement firmware
+2d9f6c3a-7e1b-4c8f-9a5d-3f8c7b2e9d1a    arm32           firmware    multi_sensor        motion-sensor           acme      PIR motion detection firmware
+7a3e9c5f-2b8d-4f1a-8c6e-9f5a3d7c2b4e    arm32           firmware    multi_sensor        ambient-light           acme      Ambient light measurement firmware
+5f2a8d6c-4e9b-4a7f-b1c8-6d2f9e5a3c7b    arm32           firmware    vibration_monitor   vibration-detector      acme      Industrial vibration monitoring
+```
+The example shows a list of Real Time Device Apps. Each App is bound to a specific Device Model. Some Device Models allow a variety of Apps (i.e. firmware implementing different
+use cases can run on the same hardware) while other Device Models only work with a single App (i.e. only a specific firmware is allowed for that hardware).
+
+Once we found the App(s) that we want to use, we add them to our Deployment Group. This is how it works:
+
+```bash
+$ m2cp store dgroup app add --help
+Add an App of a specific revision to a Deployment Group
+
+Usage:
+  m2cp store dgroup app add [dgroupName|dgroupId appName|appId] [flags]
+
+Flags:
+  -h, --help              help for add
+  -r, --revision string   revision of the App (default: latest) (default "latest")
+```
+
+Let's do it:
+
+```bash
+$ m2cp store dgroup app add "my-dgroup" "my-app" -r 42
+```
+
+Once we added enough App Revisions and made sure, that this is exactly the target installation state that we want, we can add Devices:
+
+```bash
+$ m2cp device dgroup set --help
+set the Deployment Group of a Device
+
+Usage:
+  m2cp device dgroup set [deviceSerial|deviceName dgroupName|dgroupId] [flags]
+```
+
+Let's do it!
+
+```bash
+$ m2cp device dgroup set "my-device" "my-dgroup"
+$ m2cp device dgroup set "my-other-device" "my-dgroup"
+```
+
+Now we can review our Deployment group with
+
+```bash
+$ m2cp store dgroup info "my-dgroup"
+```
+
+..and we can also see, that our Devices now have a Deployment Group set:
+
+```bash
+$ m2cp device info "my-device"
+```
+
+Since the Deployment Group defines a target installation state for your Devices, you might now notice _Pending Installations_ in your Device details.
+The App Store is now working on getting your Devices to the exact installation state defined in the Deployment Group that you assigned.
+
+Now you learned how to deploy Apps to Devices. And you saw, that it makes no difference, if you want to deploy Firmware to a Real Time Device or if you
+want to install a Snap on an Edge Device - it's the exact same mechanism.
+
+## Manually Trigger Deployment
+
+Changes to Deployment Groups _should_ cause the automatic deployment to all affected Devices. If you ever observer an App not being deployed to the target Device
+immedeatly, you can manually trigger a _refresh_, which causes the Device to communicate with the App Store and ask for available updates:
+
+```bash
+$ m2cp device refresh
+Usage:
+  m2cp device refresh <id|os-serial|name> [flags]
+```
+
+## Analyzing Deployment
+
+The mechanism behind the deployment is different for Edge Devices and Real Time Devices.
+
+### Edge Devices
+
+You can query the list of changes to the installation state of your Edge Device using
+```bash
+$ m2cp device snap changes
+Usage:
+  m2cp device snap changes <id|os-serial|name> [flags]
+```
+
+Example output:
+```bash
+$ m2cp device snap changes a9b4c7e2-3f8d-4c1a-9e5b-2d6f8c3a7e9f
+task-id: dec69f87-1b3c-4efb-81f6-e3d34e04ef92
+output:
+    - id: "104"
+      kind: install-snap
+      summary: Install snap "dev-net-coap"
+      status: Done
+      tasks:
+        - id: "699"
+          kind: prerequisites
+          summary: Ensure prerequisites for "dev-net-coap" are available
+          status: Done
+          progress:
+            label: ""
+            done: 1
+            total: 1
+          spawntime: 2025-08-06T15:25:23.797377143Z
+          readytime: 2025-08-06T15:25:23.851204834Z
+        - id: "700"
+          kind: download-snap
+          summary: Download snap "dev-net-coap" (1) from channel "stable"
+          status: Done
+          progress:
+            label: dev-net-coap
+            done: 204800
+            total: 204800
+          spawntime: 2025-08-06T15:25:23.797440143Z
+          readytime: 2025-08-06T15:25:24.605171308Z
+          ...
+```
+
+The output is the raw data fetched from _snapd changes_ on the Edge Device.
+
+You can query details about a specific _change_ using:
+
+```bash
+$ m2cp device snap change
+Usage:
+  m2cp device snap change <device> <change-id> [flags]
+```
+
+### Real Time Devices
+
+To analyze the refresh process of Real Time Devices we have to communicate with both the Real Time Device itself as well as the Edge Device acting as it's proxy.
+
+Let's first look at the Real Time Device
+
+```bash
+$ m2cp device coap "my-rtd" get /whoami/2
+```
+
+If you're running older firmware on your Real Time Device you might want to try:
+
+```bash
+$ m2cp device coap "my-rtd" get /whoami/1
+```
+
+Both commands send a CoAP request to you Real Time Device (relayed via its Edge Device) and return the response.
+
+The output can help you understand, why a firmware that you're trying to install might be rejected - causes can be mismatching signing keys, different vendor ids or similar
+issues that cause the SUIT update mechanism on the Real Time Device to deny the update.
+
+We can also analyze the _known-peers_ state of the responsible Edge Device - let's find out, which one that is:
+
+```bash
+$ m2cp device info "my-rtd"
+Device:
+  ├─ Id:                      effec487-c685-43a4-b0b8-2b1873955331
+  ├─ OS Serial:               49eff07e-32b1-55a7-9bc8-872d6feed2dd
+  ├─ Name:                    my-rtd
+...
+Last Seen Edge Device:
+  ├─ OS Serial:      a9b4c7e2-3f8d-4c1a-9e5b-2d6f8c3a7e9f
+  └─ Name:           my-device
+...
+```
+
+Now we can query the internal state of the firmware-refresh mechanism on the Edge Device:
+
+```bash
+$ m2cp device peers "my-device"
+```
+
+The result is a pretty raw data dump that tells us everything that the Edge Device knows about the Real Time Devices that
+it has seen _in the last days_ and their corresponding state. Most likely you won't need this level of detail.
+
+
+## Deployment History
+
+To see, which changes were done to a Deployment Group, you can query the history:
+
+```bash
+$ m2cp store dgroup history
+Usage:
+  m2cp store dgroup history <deployment-group-name> [flags]
+
+Examples:
+m2cp store dgroup history my-dgroup
+
+Flags:
+      --after string        show only logs newer than this UTC date (format: 2006-01-02T15:04)
+      --before string       show only logs older than this UTC date (format: 2006-01-02T15:04
+  -h, --help                help for history
+  -n, --newer-than string   only print logs newer than given duration (format: 1m, 1h)
+```
+
+The same is available for Devices:
+
+```bash
+$ m2cp device history
+Usage:
+  m2cp device history <device-serial or device-name> [flags]
+
+Flags:
+      --after string        show only logs newer than this UTC date (format: 2006-01-02T15:04)
+  -a, --app string          show only logs with a specific app
+      --before string       show only logs older than this UTC date (format: 2006-01-02T15:04
+      --changes             Show changes only
+  -h, --help                help for history
+  -l, --limit int           limit the number of results to the n newest (default 100)
+  -n, --newer-than string   only print logs newer than given duration (format: 1m, 1h)
+      --snapshots           Show snapshots only
+```
+
+## Toggle RTD Updates
+
+Updates for Real Time Devices are deployed using an Edge Device as a proxy, because RTDs are not directly connected to the App Store.
+
+If you want to disable the RTD update mechanism of a specific Edge Device, so that the attached RTDs don't receive any updates for the time being, you can
+control that by sending an RPC to the Edge Device. You need to know the [OS Serial Number](Glossary.md#os-serial-number) of the Edge Device.
+
+```bash
+m2cp device node rpc --json --command FirmwareUpdatesDisable rpc.m2cp-coap.{os-serial}
+```
+
+```bash
+m2cp device node rpc --json --command FirmwareUpdatesEnable rpc.m2cp-coap.{os-serial}
+```
+
+```bash
+m2cp device node rpc --json --command FirmwareUpdatesStatus rpc.m2cp-coap.{os-serial}
+```
+
+
+
+
+
+
+
+
+
+
+## Device Logs
+
+Logs emitted by Devices are collected in the central logging system.
+
+The software running on the Devices has to actively emit a log message to the messaging system for it to be delivered to the logging system in the Backend.
+
+For Edge Devices this can be achieved by sending SIGNAL messages containing the relevant output - for Real Time Devices log messages need to be sent as protobuf
+payload to the Edge Device acting as proxy, which will forward the messages to the cloud.
+
+The logs can be accessed using the browser UI or the CLI tool.
+
+```{note}
+The permission to read log messaged is included in the [System Analyst](Management_User.md#system-analyst) role.
+```
+
+To access the logs of a Device with the CLI tool:
+
+```sh
+$ m2cp device logs --help
+
+  The "logs" command retrieves logs from a specified device.
+  You can filter the logs by different criteria, such as log level,
+  origin, topic, task ID, and date range. If no OS Serial Number is provided,
+  the command will use a default device or all devices based on the system configuration.
+
+Usage:
+  m2cp device logs [device-serial or device-name] [flags]
+
+Examples:
+
+  # Get logs from a specific device by providing its serial number
+  m2cp device logs abc123
+
+  # Get logs with a log level of WARNING or higher from all devices
+  m2cp device logs --level WARNING
+
+  # Get logs newer than 1 hour with a specific task ID
+  m2cp device logs --newer-than 1h --task mytaskid
+
+  # Search logs by the term "error" within a specific time frame
+  m2cp device logs --after 2024-09-10T00:00 --before 2024-09-11T00:00 --search error --limit 10
+
+Flags:
+      --after string        show only logs newer than this UTC date (format: 2006-01-02T15:04)
+      --before string       show only logs older than this UTC date (format: 2006-01-02T15:04
+  -h, --help                help for logs
+      --level string        only print logs of given level or above (DEBUG, INFO, WARNING, ERROR) (default "INFO")
+  -l, --limit int           limit the number of results to the n newest (default 100)
+  -n, --newer-than string   only print logs newer than given duration (format: 1m, 1h)
+      --origin string       only print logs stemming from signal message with given origin, * allowed as wildcard
+  -s, --search string       search term to filter logs by multiple fields
+  -t, --task string         show only logs with a specific task id
+      --topic string        only print logs stemming from signal message with given topic, * allowed as wildcard
+```
+
+
+## Reverse-SSH Access
+
+If an Edge Device is online, you can establish an SSH connection to gain full access to its Linux console.
+
+For security reasons, Edge Devices don't expose any open ports towards the internet. Instead, a tunneling mechanism
+is used to establish an outgoing connection from the Edge Device to a SSH-Proxy in the Backend which can then be used
+by an authorized administrator to shell into the Edge Device.
+
+For technical details on this mechanism please refer to [SSH-Relay-Service](Tech_Architecture.md#ssh-relay-service) in the technical specification.
+
+Before connecting via SSH, ensure that your SSH public key is registered with the Appstore:
+- Log in to the Appstore using the m2cp CLI tool
+- Configure your SSH key by running: `m2cp user modify --ssh-key "<your-public-key>"`
+- Make sure that you are an Admin or Co-Admin of the Deployment Group that contains the device you want to connect to
+
+If you recently added a new SSH key, it may take some time for all devices to synchronize with it. To speed up this process, run the following command to request a specific device to fetch the updated SSH key from the Appstore:
+
+```console
+m2cp device ssh sync <device-name>
+```
+
+To now initiate a reverse-ssh session:
+
+```bash
+$ m2cp device ssh open <device>
+```
+
+The initial setup can take 1-2 minutes due to docker instances being started in the Backend for this specific tunnel. Once done, the command
+prints details how to connect to the target device.
+
+On the Edge Device you can e.g. interact with the snapd daemon:
+
+```bash
+$ snap list
+$ snap changes
+$ snap logs
+$ snap help
+```
+
+We propose, that you install the App _dev-m2cpctl_ from the App Store, which contains a set of useful developer tools:
+
+```
+$ m2cpctl help
+```
+
+_m2cpctl_ contains a very useful _logs prettifier_ (to be used with sudo!):
+
+```
+$ sudo m2cpctl logs --help
+```
+
+## Advanced Troubleshooting
+
+### TPM DA Lockout Mode
+
+How to check if the TPM chip did a lockout.
+
+Mount the `system-data` partition of the SD card.
+
+Change directory to `/var/log/journal/`. In there is one directory
+with a long hexadecimal as a name. And inside there, is the
+`system.journal`. Do:
+
+```console
+sudo journalctl --file system.journal -u snapd | grep "DA lockout mode"
+```
+
+### Inspecting the state.json
+
+Get the `/system-data/var/lib/snapd/state.json` file from the
+SD-card's `ubuntu-data` partition.
+
+Then use the `snap` application on your local machine to inspect it:
+
+```console
+$ sudo snap debug state ./state.json
+1    Done...
+2    Error...
+$ sudo snap debug state ./state.json --change 2
+...
+0      197  Error...
+$ sudo snap debug state ./state.json --task 197
+...
+```
+
+See also: [Snap Debugging](https://wiki.ubuntuusers.de/snap/Debugging/#Debugging).

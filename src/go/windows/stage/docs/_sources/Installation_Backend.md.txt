@@ -1,0 +1,492 @@
+# Cloud Installation
+
+This section adresses users meant to set up the Backend Services and work directly with the systems APIs. It covers how to install the App Store Service.  Additionally, it explains the data points that are being received and discusses the purpose and usage of the two main interfaces: the Event API and the GraphQL API.
+
+## Installing Backend Services
+
+There are two ways to install the backend services of L-IoT, via bicep or via terraform. The terraform installation is the preferred way. The bicep installation is not feature complete and will be deprecated in the future.
+
+### Azure
+
+#### Requirements
+
+- Resource Group in the determined subscription for each environment (e.g. dev, prod)
+  - ensure at least read access for one technical employee of ML!PA
+- Service Connection to the Resource Group(s) in Azure DevOps
+  - when terraform is used, the service connection needs to have contributor permissions on subscription level
+  - service connection needs to have the 'Microsoft.Authorization/roleAssignments/write' & Microsoft.Authorization/roleDefinitions/write permission, can be aquired through the role ´Role Based Access Control Administrator´
+    - One way to achieve this is to create a custom role with the required permissions and assign it to the service connection. A script can be found in the [ml-pa project](https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac?path=%2Futil%2Fcreate-service-connection-role.ps1).
+- SQL Server Admin Group, in the MS Entra, with at least one technical employee of ML!PA as a member
+  - Name, tenantId and the Sid (object Id) of the group are required to obtain
+- "Appstore Observer" Group, for all people who should have read access to the appstore
+- "Appstore Emergency" Group, for all people who should have emergency (read + write + actions) access to the appstore
+- DevOps Repository for the infrastructure code
+  - It is not required to be a separate repository, but it is recommended, it can also be a subfolder in an existing repository
+  - Permissions to create a new pipeline in the project
+- Access to the container registry, where the docker images of the services are stored
+  - for instructions see section [Container Registry](#container-registry)
+
+#### Terraform
+
+The terraform code provides more options of deployment and is the preferred way to deploy the infrastructure. The terraform code is located in the terraform folder of the [ml-pa project](https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac). A description of the parameters and modules, can be found in the README.md file in the terraform folder.
+
+##### Deployment Requirements
+
+Next to the already mentioned requirements, the following requirements are needed to deploy the infrastructure via terraform:
+
+- A storage account to store the terraform state file. It is recommended to place that storage account in a separate resource group.
+  - The service connection that deploys the infrastructure needs to have the role `Storage Blob Data Contributor` on that storage account.
+- A secrets file in the library from devops, the secrets are described in the readme of the repository.
+  - If secrets are updated, then the the secrets file also need to be updated in the devops library.
+  - Due to the loss of sensitive information, the secrets file should not be stored in the repository.
+- An Azure Devops environment with an approval gate for the deployment needs to be created.
+- A .tfbackend file in the terraform folder, which contains the information about the storage account and the container where the terraform state file is stored. An example file can be found in the terraform folder of the [ml-pa project](https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac?path=/.terraform.tfbackend).
+
+##### Developer Requirements
+
+When using terraform and the automatic deployment it is required to format the terraform code before pushing it to the repository. This can be done with `terraform fmt --recursive` in the terraform folder. The pipeline will fail if the code is not formatted.
+
+##### Steps for a new project - Terraform
+
+1. Copy the files from the terraform folder of the [ml-pa project](https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac) to the new customer project.
+2. Create a new tfvars file in the terraform directory, based on the example file called `dev.tfvars`.
+3. Create a new secretes file in the terraform directory
+   - The `secrets.tfvars` is not tracked in git, so it needs to be created manually. The secrets are described in the readme of the repository. Or the section [constraints on secrets](#constraints-on-secrets) below. An example secrets file can be found in the terraform folder of the [ml-pa project](https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac?path=/.terraform/example-secrets.tfvars).
+4. Create a new tfbackend file in the terraform directory, based on the example file called `$environment-config.azurerm.tfbackend`. Where environment denotes the environment the infrastructure is deployed to, e.g. dev, prod.
+   1. Update the storage account name, container name and key to match the previously created storage account.
+5. Copy the [pipeline file](https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac?path=/.azure-pipelines/terraform-pipeline.yml) from the ml-pa project to the new project.
+   1. Replace the following variables with the new values:
+      - serviceConnection
+      - projectAbbreviation
+      - environment
+   2. If required replace the values of the following variables:
+      - projectAbbreviation
+      - varsFile
+      - secretsVarsFile
+      - terraformDirectory
+   3. Adjust the agent pool.
+   4. Adjust the pipeline trigger.
+   5. (Optional) Adjust the pipeline name.
+6. Update the Subscription and TenantId in the local-provider.tf file to match your deployment destination.
+7. Register the pipeline in Azure DevOps.
+
+##### Steps for existing projects that are not managed by terraform
+
+To be determined.
+
+##### After Deployment Steps - Terraform
+
+In case a MS SQL Server is used, the same [after deployment steps as in bicep](#after-deployment-steps---bicep) are required.
+
+#### Bicep
+
+##### Steps - Bicep
+
+If a new project for the appstore has been acquired, the following steps are required to deploy the resources:
+
+1. Copy the files from the bicep folder of the [ml-pa project](https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac) to the new customer project.
+2. Create a new parameters file for the new project.
+   1. Use the internal.parameters.json as a template
+   2. Replace the 3 letter abbreviation in the parameters file with the new abbreviation. E.g. int -> mlp
+   3. Replace the information about the sql admin.  
+      - login is the name of the group in the MS Entra
+      - tenantId is the tenantId of the group in the MS Entra
+      - sid is the objectId of the group in the MS Entra
+   4. Update the user groups (admin and emergency) with the corresponding object Id.  
+   5. Rename the parameters file to the new project name. E.g. internal.parameters.js on -> mlpa.parameters.json
+3. Copy the [pipeline file](https://ml-pa.visualstudio.com/ML!PA%20IoT%20Software%20Services/_git/mlpa-iot-software-service-iac?path=/.azure-pipelines/appstore3-bicep-pipeline.yml) from the ml-pa project to the new project.
+   1. Replace the following variables with the new values:
+      - projectName
+      - resourceGroupName
+      - serviceConnection
+      - subscriptionId
+   2. Optionally change the following variables:
+      - location (then the short location in the parameters file has to be changed as well)
+      - pathToBicepFiles
+   3. Change the agent pool.  
+   4. (Optional) Create a second stage for prod
+   5. Register Pipeline in Azure DevOps
+   6. Save pipeline secrets, which is every secure parameter.
+      - Secrets can be set, once the pipeline is registered
+      1. Go to the freshly registered pipeline  
+      2. click on edit
+      3. click on variables
+      4. check the box "Keep this value secret"
+   7. (Optional) Change trigger
+4. Execute the pipeline in Azure DevOps. Or create a commit.
+
+##### After Deployment Steps - Bicep
+
+1. Connect to the SQL Server and add the managed identities for the appstore, asset and user database. The identity name is the name of the resource, e.g. "app-as3-int-appstore-svc-dev-euw"
+  
+   ```sql
+   CREATE USER [<identity-name>] FROM EXTERNAL PROVIDER;
+   ALTER ROLE db_datareader ADD MEMBER [<identity-name>];
+   ALTER ROLE db_datawriter ADD MEMBER [<identity-name>];
+   ALTER ROLE db_ddladmin ADD MEMBER [<identity-name>];
+   GO
+   ```
+
+2. Reconnect to the SQL Server and execute the following command for the appstore and user database to enable read and emergency access
+
+   ```sql
+   CREATE USER "Appstore Observer" FROM EXTERNAL PROVIDER;
+   ALTER ROLE db_datareader ADD MEMBER "Appstore Observer";
+   ```
+
+   and
+
+   ```sql
+   CREATE USER "Appstore Emergency" FROM EXTERNAL PROVIDER;
+   ALTER ROLE db_datareader ADD MEMBER "Appstore Emergency";
+   ALTER ROLE db_datawriter ADD MEMBER "Appstore Emergency";
+   ```
+
+3. Copy the web hook URLs of the app services and azure functions into the variable group Appstore Container Web Hooks
+   1. You can find them in the Azure Portal in the respective resource: Deployment ->  Deployment Center -> Webhook URL
+4. Copy the URL of the Update container function into the variable group Appstore Container Web Hooks
+
+## Constraints on secrets
+
+This section describes the constraints on the secrets and configuration of the services, if you are deploying the services in a new envrionment. Specific secret values will not be exposed in this document, and shouldn't be exposed anywhere else.
+Some of the secrets and parameters need to be manually determined ahead of deployment time. In the following sections, we will discuss the constraints on the secrets and configuration of the services. An overview of the secret flow can be seen in the respective mermaid diagram. (Diagram not available in this repository.)
+
+### Secrets
+
+The values of these secrets contain sensitive information and should be kept confidential. One option for deployment is the use of a secret management system, such as HashiCorp Vault, Azure Key Vault, or AWS Secrets Manager.
+
+#### Secrets for firmware update process
+
+As an interim solution, the SUIT manifest signing keys for the firmware update process must be generated manually and then stored in the Key Vault.
+
+1. Generate the Ed25519 key pair
+
+```bash
+openssl genpkey -algorithm Ed25519 -out private_key.pem
+openssl pkey -in private_key.pem -pubout -out public_key.pem
+```
+
+The generated private key must begin with `-----BEGIN PRIVATE KEY-----`.
+
+2. Store the keys in the Key Vault
+
+For the interim setup, upload the very same key pair twice under the following names (two naming schemes referencing the same underlying keys):
+
+- suit-manifest-production-signing-private-key-`<YYYYMMDD-HHMMSS>`
+- suit-manifest-production-signing-public-key-`<YYYYMMDD-HHMMSS>`
+- suit-manifest-signing-production-private-key
+- suit-manifest-signing-production-public-key
+
+Timestamp format
+
+- The timestamp is the key creation date and time in the format `YYYYMMDD-HHMMSS` (24-hour clock)
+- Example: Created on 27 June 2025 at 14:02:12 → `20250627-140212`.
+- Example secret names:
+  - `suit-manifest-production-signing-private-key-20250627-140212`
+  - `suit-manifest-production-signing-public-key-20250627-140212`
+
+#### UserServicePublicSigningKey
+
+The services use an internal JWT token for authorization. To sign the JWT token, the user service use an RSA key pair with 2048 bits. This secret is the public key part of the key pair. Only the base64 part of the key is needed, so no header or footer.
+
+#### UserServiceSigningPrivateKey
+
+The services use an internal JWT token for authorization. To sign the JWT token, the user service use an RSA key pair with 2048 bits. This secret is the private key part of the key pair. Only the base64 part of the key is needed, so no header or footer.
+
+#### customerOpenIdAudienceSecret
+
+The customer can use an OpenID Identity Provider for authentication. This secret is the Audience contained in the JWT token, used for authentication with the customer OpenID Identity Provider.
+
+#### customerOpenIdMetadataAddressSecret
+
+The customer can use an OpenID Identity Provider for authentication. This secret is the Address of the metadata endpoint of the customer OpenID Identity Provider.
+
+#### customerOpenIdValidIssuerSecret
+
+The customer can use an OpenID Identity Provider for authentication. This secret is the Issuer of the JWT token, used for authentication with the customer OpenID Identity Provider.
+
+#### mLPAAzureADAudience
+
+ML!PA uses MS Entra ID for authentication. To enable the ML!PA developers to use the ecosystem, the services need to authenticate with the ML!PA MS Entra ID. This secret is the audience contained in the JWT token.
+
+#### mLPAAzureADTenantId
+
+The tenant Id of the MS Entra ID of ML!PA used by the ML!PA developers to authenticate. It is in a UUID format.
+
+#### reverseSshSvcApiKey
+
+The relay ssh service uses an API key for authentication. This secret is the API key used for authentication with the relay ssh service. 
+Randomly generated long enough stirng secure. Aim for at least 50 chars, the longer the better. Needs to be identical to relaySshLocalDockerApiKeySecret, relaySshLocalDockerApiKeySecret, api-key-snapstore3-dev, api-key-snapstore3-local-docker.
+
+#### relaySshLocalDockerApiKeySecret
+
+The relay ssh service uses an API key for authentication. This secret is the API key used for authentication with the relay ssh service.
+Needs to be equal to reverseSshSvcApiKey. Randomly generated long enough stirng secure. Aim for at least 50 chars, the longer the better.
+
+#### relaySshDockerRegistryPasswordSecret
+
+Password for the docker registry, where the relay ssh docker image is stored.
+
+#### relaySshDockerRegistryUsernameSecret
+
+Username for the docker registry, where the relay ssh docker image is stored.
+
+#### api-key-snapstore3-dev
+
+Needs to be equal to reverseSshSvcApiKey. Random long enough to be secure strings. Aim for at least 50 chars. Needs to be identical to relaySshLocalDockerApiKeySecret.
+
+#### api-key-snapstore3-local-docker
+
+Random long enough to be secure strings. Aim for at least 50 chars.
+
+#### DOCKER_REGISTRY_SERVER_PASSWORD
+
+Password for the docker registry, where the service docker image is stored.
+
+#### DOCKER_REGISTRY_SERVER_USERNAME
+
+Username for the docker registry, where the service docker image is stored.
+
+#### DOCKER_REGISTRY_SERVER_URL
+
+URL of the docker registry, where the service docker image is stored.
+
+#### Device Token Signing Private Key / Device Token Signing Public Key
+
+RSA key pair (2048 bits) used for signing device tokens. Required for device authentication in the IoT ecosystem.
+
+#### assertion_svc_secret_value
+
+Secret value used by the assertion service for internal authentication and authorization.
+
+#### Appstore service Signing Private Key
+
+Private key used by the appstore service for signing internal requests and tokens.
+
+#### Virtual Device Container Registry Password
+
+Password for accessing the container registry where virtual device images are stored.
+
+#### Database Configuration
+
+If the infrastructure is deployed with PostgreSQL, an admin user and password are required to access the database. The configuration requries login and password.
+
+##### RabbitMQ Configuration
+
+If the infrastructure is deployed with RabbitMQ, a user and password are required to access the message broker. The configuration requires username and password.
+
+##### Frontend
+
+With the infrastructure deployment a static web app is deployed. To deploy the code the project manager of ML!PA should contact the Frontend Team to take the necessary steps.
+
+## Container Registry
+
+The container registry is used to store the docker images of the services. The container registry is located in the Azure subscription of ML!PA. The container registry is private and requires authentication to access it. To gain access a new token should be created for each new project. The token needs a scope map assigned. If a suitable scope map does not exist, a new scope map granting access to the repositories required for the project should be created. The permission 'Content/read' is sufficient.
+
+
+## Event API
+
+While the [GraphQL API](#graphql-api) lets you query the current _state_ of the system, the _Event API_ lets you subscribe to _changes_ (events). 
+
+Whenever the state of an entities is changed (creation, modification, deletion), an event is emitted. Events are _thin_, meaning they only contain the _minimum_ information necessary to identify the entity and the change.
+If you need more information about the new state of the entity after the change, you can use the [GraphQL API](#graphql-api) or the [REST API](#rest-api) to query it.
+
+
+The Event API is designed to:
+- Provide instant updates when important events occur (e.g., when a new Device is added)
+- Eliminate the need for constant polling
+- Enable event-driven workflows, allowing services to listen for updates instead of making direct API calls
+
+Messages being received through the Event API are structured as follows:
+
+```
+{
+  "event": "205e8259-b7df-4961-86dd-d46e03f00279",
+  "time": "2024-06-01T00:07:35.555539Z",
+  "entity": "user",
+  "entityId": "b5d1c4fa-9876-4e3a-bf07-d4a2f3c92e4b",
+  "action": "created"
+}
+```
+
+- `event` is a unique identifier for the event
+- `time` is the timestamp of the event in ISO 8601 UTC
+- `entity` is the type of entity that was changed, possible values are ..
+- `entityId` is the unique identifier of the entity that was changed, you can use it to query the new state of the entity using the [GraphQL API](#graphql-api) or the [REST API](#rest-api)
+- `action` is the type of change that occurred, possible values are `created`, `updated`, `deleted`
+
+### Full List of Entities
+
+Here's a full list of entities, that can potentially generate events. As event generation needs to be implemented
+for each entity separately, not all entities are supported yet. If you require us to implement events for a specific entity, please let us know.
+
+| Entity                                      | Events Activated |
+|---------------------------------------------|------------------|
+| app                                         | yes              |
+| appRevision                                 | yes              |
+| appRevisionDelta                            | yes              |
+| appRevisionSnap                             | yes              |
+| appSnap                                     | yes              |
+| appStatus                                   | yes              |
+| assertion                                   | no               |
+| assertionType                               | yes              |
+| asset                                       | yes              |
+| assetAttribute                              | yes              |
+| assetAttributeDataType                      | yes              |
+| assetAttributeModelDefaultValue             | yes              |
+| assetAttributeSet                           | yes              |
+| assetAttributeUnit                          | yes              |
+| assetAttributeValue                         | no               |
+| assetBridgeAssetTag                         | no               |
+| assetModel                                  | yes              |
+| assetModelBridgeAssetAttributeSet           | yes              |
+| assetTag                                    | no               |
+| assetType                                   | yes              |
+| assetTypeTree                               | yes              |
+| assetTypeTreeNode                           | yes              |
+| autoUpdateMode                              | yes              |
+| deploymentGroup                             | yes              |
+| deploymentGroupAdministrator                | yes              |
+| deploymentGroupBridgeAppRevision            | yes              |
+| device                                      | yes              |
+| deviceInstallState                          | no               |
+| deviceInstallStateHistory                   | no               |
+| deviceInstallStateSnapshot                  | no               |
+| deviceModel                                 | yes              |
+| deviceModelRevision                         | yes              |
+| deviceModelRevisionBridgeApp                | no               |
+| deviceSnap                                  | yes              |
+| deviceStatus                                | yes              |
+| deviceType                                  | yes              |
+| domainTenant                                | no               |
+| snapCategory                                | no               |
+| snapNamePolicy                              | no               |
+| snapType                                    | no               |
+| snapVisibilityPolicy                        | no               |
+| storeSetting                                | no               |
+| role                                        | yes              |
+| roleBridgeScope                             | no               |
+| scope                                       | no               |
+| tenant                                      | no               |
+| tenantTokenIssuer                           | no               |
+| tokenCorrelation                            | no               |
+| user                                        | yes              |
+| userBridgeRole                              | no               |
+| userBridgeTenant                            | no               |
+| userChallenge                               | no               |
+| userSession                                 | yes              |
+| userSettings                                | no               |
+| tenant                                      | no               |
+
+
+
+### Receiving Data Points
+Data points from edge Devices are transmitted to the backend, where the ingestion function unpacks them and publishes them on the
+Event API. While events for most entities are published as _thin events_ (i.e. only the entity ID and the action), data points are published as _thick events_. 
+Thick events contain the full data point, including all data fields, in a human-readable format. This allows you to process the data point directly without having to query the GraphQL API for more information.
+
+```
+{
+  "event": "3db2d9fe-2328-45b6-934b-a325aa808151",
+  "time": "2024-06-01T00:07:35.555539Z",
+  "entity": "dataMessage",
+  "entityId": "0907ffab-6d9f-5574-b4c0-a56bbfa3de75",
+  "action": "created",
+  "data": {
+    "device": "0907ffab-6d9f-5574-b4c0-a56bbfa3de75",
+    "topic": "sensor.JiMAAA.oid.104.protobuf",
+    "origin": "sensor.JiMAAA.oid.104.protobuf.m2cp-coap.0907ffab-6d9f-5574-b4c0-a56bbfa3de75",
+    "format": "coap_data_protobuf",
+    "fields": {
+      "time": { "value": "2024-06-01T00:08:48.822539Z", "type": "timestamp" },
+      "foo": { "value": "JiMAAA", "type": "string" },
+      "bar": { "value": "CJDN6bIGEAAYACAAKAAwADgAQLEJSAA=", "type": "binary" }
+    }
+  }
+}
+
+```
+
+- `event` is a unique identifier for the event
+- `time` is the timestamp of when the data point was _received_ by the cloud backend
+- `entity` is _dataMessage_ for data points
+- `entityId` is the id of the DATA message which contained the data point (a DATA message can contain multiple data points!)
+- `action` is _created_ for data points
+- `data` contains the full data point..
+- `data.device` is the [Device ID](Glossary.md#device-id) of the Device that sent the data point
+- `data.topic` is the topic of the data point as set by the app that sent the data point
+- `data.origin` is the full m2cp-address of the sender of the data point (node name + App Name + Device ID)
+- `data.format` is a free text field set by the app that sent the data point to identify the format of the data point
+- `data.fields` contains the actual data fields of the data point. Each field has a name, a value and a type. 
+- `data.fields.time` is the timestamp of the data point (that maps to the `T` field in the table section of the data message)
+- `data.fields.<name>` is additional fields of data 
+
+Available data types are defined in the [Message Format Specification](Tech_Messaging.md#data).
+
+
+
+## GraphQL API
+General data access within L-IoT is structured by seperation of concerns. The [Event API](#event-api) handles real-time updates, ensuring timely notifications, while the GraphQL API provides deep, structured data retrieval. To structure it this way balances real-time event-driven communication with flexible, query-based data access, improving maintainablity and efficiency for users.
+
+The GraphQL API is designed to:
+- Allow clients to request exactly the data they need, reducing unnecessary data transfer
+- Provide a single entry point for accessing all system information
+- Enable efficient data aggregation, allowing related information to be retrieved in a single query
+
+## REST API
+The REST API is another way to access all information in a flexible and query-based way similar to the GraphQL API. 
+The complete REST API documentation is organized into separate HTML files based on the respective services. It is divided into three sections: the REST API documentation for the [User Service](./_static/apidocs/user-api-doc.html), the [Asset Service](./_static/apidocs/asset-api-doc.html), and the [App Store Service](./_static/apidocs/appstore-api-doc.html).
+
+The API follows a structured approach using [YARP](https://github.com/dotnet/yarp) for request routing from the gateway to underlying services.
+
+### Authentication & Authorization
+- The authentication and authorization mechanism is shared with our GraphQL endpoints.
+- All endpoints require authentication unless explicitly mentioned.
+### Swagger API Documentation
+The swagger documentation is also accessible through the gateway:
+```
+https://[gateway-service]/swagger
+```
+### Requests
+Requests to the API gateway are forwarded to backend services based on predefined rules.
+```
+https://[gateway-service]/api/v{version}/{entity}?param1=value1&param2=value2
+https://[gateway-service]/api/v{version}/{entity}/{id}
+```
+- `[gateway-service]`: The same endpoint used for GraphQL but without the `/graphql` postfix
+- `{version}`: API version (e.g., `v1`)
+- `{entity}`: Plural form of entity names
+
+#### Pagination
+The API supports pagination using the following optional query parameters:
+
+| Parameter | Type | Description|
+|-|-|-|
+| pageSize | int? | The number of items per page. If omitted, Items are returned based on the configured max page size.|
+| pageNumber | int? | The page number to retrieve (starting from `1`). |
+| includeTotalCount | bool?| If `true`, includes the total count of records **only when `pageNumber = 1`**. Default is `false`. |
+
+#### Sorting
+The API supports sorting using the `sort` query parameter. Sorting can be applied to one or multiple fields in **ascending (`asc`)** or **descending (`desc`)** order.
+```
+?sort=<field1> <order>, <field2> <order>, ...
+
+/api/v1/users?sort=email
+/api/v1/users?sort=email desc
+/api/v1/users?sort=firstName asc, lastName asc
+```
+#### Filtering
+The API supports filtering using the filter query parameter. Filters can be applied to one or multiple fields with various operators. Grouping conditions using parentheses ( and ) is also supported.
+*   Multiple filters can be combined using `and` / `or`.
+*   Parentheses `(` and `)` can be used to group conditions.
+
+Examples:
+```
+/api/v1/users?filter=email = "user@organization.com"
+/api/v1/users?filter=email eq "user@organization.com"
+/api/v1/users?filter=email neq "user@organization.com"
+/api/v1/users?filter=displayname.contains("foo")
+/api/v1/users?filter=displayname.contains("foo") or displayname.startswith("bar")
+/api/v1/users?filter=(lastname = "foo" and firstName.startswith("bar")) or (lastname != "Jackson")
+/api/v1/users?filter=(modifiedat >= "2025-01-01" || createdat >= "2025-01-01")
+```

@@ -1,0 +1,86 @@
+# Legacy Glossary
+
+This section provides a glossary of terms and concepts underpinning L-IoT (formerly ML!PA Ecosystem / M2CP System). It serves as a reference tool to easily grasp the terminilogy when reading the documentation without needing in-depth study of each individual term.
+
+## dev-m2cpctl
+
+Application that can be used to control L-IoT on the device. It can send CoAP request, listen to traffic on the m2cp-message-hub, pretty-print JSON logs, display uplink status information, print the Edge OS version string or request uptime.
+
+## Fleet
+
+A group of devices that share the same model and identical software architecture. Devices are organized into fleets to facilitate streamlined management. It was renamed to [Deployment Group](Glossary.md#deployment-group).
+
+## M2CP Device
+
+Now: _Edge Device_. A Device running Edge OS that serves as a gateway between Real-Time Devices and the cloud backend, providing messaging capabilities.
+
+## M2CP CLI
+
+Command Line Tool that allows for interaction with the appstore and with remote devices. [Find the instructions on how to install it here.](Installation_Tools.md#cli-tools)
+
+## m2cp-coap
+
+An M2CP Core App that serves as adapter between embedded devices and the M2CP Messaging System. It also manages uptime and initiates shutdown.
+
+## M2CP Control Tools
+
+Term used to refer to the tools within the system that are used for managing (not building).
+
+## M2CP Core Apps
+
+Applications that are necessary to use the M2CP system, such as m2cp-coap, m2cp-message-hub or m2cp-gateway.
+
+## m2cp-gateway
+
+An M2CP Core App acts as a gateway of M2CP messages. Plays a role in device registration, quering device information, software deployment and provides Reverse-SSH functionality.
+
+## m2cp-go
+
+M2CP Application that creates a docker container which can be deployed to build go applications.
+
+## m2cp-listen
+
+M2CP Application that receives and prints out messages to stdout,
+which facilitates a live view of message traffic. It is
+deprecated. Use the CLI's `device message listen` feature instead.
+
+## m2cp-logstat
+
+M2CP Application that archives local message trafic and RPC-Calls.
+
+## m2cp-message-hub
+
+An M2CP Core App that serves as a message broker.
+
+## m2cp-simsensor
+
+M2CP Application that can be used to simulate sensors and generate test data.
+
+## M2CP SDK
+
+Deployed as a Debian package it allows the application to emit data points and signals, to subscribe to signals, call RPC methods of other applications or expose RPC methods to be called from other applications.
+
+## m2cp-sdk-go
+
+M2CP Application that is used to build the State Machine.
+
+## m2cp-snap
+
+M2CP Application that serves as a packaging tool to generate snap packages.
+
+## m2cp-timesync
+
+M2CP application that synchronizes the system time of a device with a NTP server.
+
+## M2CP Toolchain
+
+Term used to describe the complete set of tools utilized within the system.
+
+## Real-Time Device / Peripheral / IoT Device
+
+Devices connecting to the Edge Device, running RIOT OS.
+
+## snapd
+
+An M2CP Core App that is used to install and run all applications.
+

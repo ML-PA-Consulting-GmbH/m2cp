@@ -1,0 +1,544 @@
+# Virtual Edge Devices
+
+1. [What is a Virtual Device?](#what-is-a-virtual-device)
+2. [Prerequisites](#prerequisites)
+    1. [Installation of Docker](#installation-of-docker)
+3. [Usage of Virtual Devices](#usage-of-virtual-devices)
+    1. [List Virtual Devices](#list-virtual-devices)
+    2. [Create a Virtual Device](#create-a-virtual-device)
+    3. [Delete a Virtual Device](#delete-a-virtual-device)
+    4. [Start/Stop a Virtual Device](#startstop-a-virtual-device)
+    5. [Attach to a Virtual Device](#attach-to-a-virtual-device)
+    6. [Install an App from Local Host in a Virtual Device](#install-an-app-from-local-host-in-a-virtual-device)
+    7. [Copy Files from Host to the Virtual Device](#copy-files-from-host-to-the-virtual-device)
+    8. [Copy Files from Virtual Device to Host](#copy-files-from-virtual-device-to-host)
+4. [Testing or Debugging applications with a Virtual Device](#testing-or-debugging-applications-with-a-virtual-device)
+    1. [Testing CoAP clients against m2cp-coap](#testing-coap-clients-against-m2cp-coap)
+        1. [CoAP clients sending from the Host Machine](#coap-clients-sending-from-the-host-machine)
+        2. [CoAP clients sending from Ethernet-connected Devices](#coap-clients-sending-from-ethernet-connected-devices)
+    2. [Debugging Applications in a Virtual Device](#debugging-applications-in-a-virtual-device)
+        1. [Debugging Applications from Localhost](#debugging-applications-from-localhost)
+        2. [Debugging Applications from inside the Virtual Device](#debugging-applications-from-inside-the-virtual-device)
+        3. [Test an App on a Virtual Device](#test-an-app-on-a-virtual-device)
+
+## What is a Virtual Device?
+
+A Virtual Edge Device (="virtual device") is a Docker-based image built to behave _very similar_ to a real, physiscal Edge Device.
+The image is built on Ubuntu 22 and can install and run amd64 Edge Device Apps. It has all the messaging capabilities as normal Edge Device
+and is thus ideal for App Development. With m2cp-coap installed it can also be used for Real Time Device development, acting as a bridge to the Backend. 
+
+It's created with the essential Apps preinstalled:
+
+- snapd
+- m2cp-gateway
+- m2cp-message-hub
+- core snaps
+
+
+Virtual devices are particularly useful for testing and debugging Edge Device Apps.
+They share most features of a regular Edge Device and offer some additional development features that physical devices do not have.
+Just like normal devices, they:
+- can be interacted with via the M2CP CLI
+- can be managed via Deployment Group
+- have a regular application lifecycle (install, refresh, and delete are handled automatically by m2cp-gateway)
+- support full M2CP messaging
+- have application sandbox enabled
+
+Additional to normal devices, they also allow for:
+- debugging applications in an L-IoT context
+- connecting to CoAP, Snapd, and M2CP Messaging from the host system, as a those specific ports are exposed to the host
+
+However, they are also limited in some ways:
+- no TPM support
+- no Reverse-SSH (but direct access is more powerful anyway, see [attaching to a virtual device](#attach-to-a-virtual-device))
+- connected hardware related features are not available (connected peripherals, sensors, etc.)
+- applications need to be compiled for amd64, as the virtual device is running on a x86_64 architecture
+
+## Prerequisites
+
+- Docker (Version 27.0.0 or later)
+- m2cp CLI
+- M2CP developer account
+- Access to the ML!PA Azure Container Registry
+  If you are missing any prerequisite, please contact ML!PA.
+```{note}
+In the case that you have a RabbitMQ or LavinMQ instance running
+locally, we recommend stopping it. It is not mandatory to stop it, but
+the local instance might hide a connection problem with the Virtual
+Device.
+```
+
+To install the m2cp CLI on Windows, follow the instructions in the [Installation_Tools.md#windows-cli-tool](/Installation_Tools.md#windows-cli-tool) section.
+
+To install the m2cp CLI on Linux, follow the instructions in the [Installation_Tools.md#linux-cli-tools](/Installation_Tools.md#linux-cli-tools) section.
+
+### Installation of Docker
+
+#### Instructions for Linux
+
+Follow the instructions on the [docker website](https://docs.docker.com/engine/install/ubuntu/). We recommend to install docker via the [APT repository method](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository).
+After installation, add your user to the `docker` group to avoid having to use `sudo` for every docker command.
+```console
+$ sudo usermod -aG docker $USER
+```
+Log out and back in to apply the changes.
+
+#### Instructions for Windows
+
+Download and install the Docker Desktop installer [from the docker website](https://hub.docker.com/editions/community/docker-ce-desktop-windows). If not already installed, it will also install WSL2 (Windows Subsystem for Linux). Multiple reboots may be required during the installation process.
+
+## Usage of Virtual Devices
+
+Virtual devices can be managed and interacted with using the `m2cp` CLI. All commands have an interactive mode that requests required and frequently used options, but flags can be used for each command to provide the option directly. In this section only interactive mode is used as, e.g., passing container names is very cumbersome.
+
+### List Virtual Devices
+
+To list all virtual devices, run the following command:
+```console
+$ m2cp device virtual list
+```
+This command will list all locally existing virtual devices and their status.
+
+### Create a Virtual Device
+
+To create a virtual device, run the following command:
+```console
+$ m2cp device virtual create
+```
+This command will ask for the following information:
+
+**Name**: Allowed characters are a-z, A-Z, 0-9, and dashes (`-`). As naming scheme for virtual devices, please use `dev-<your-name>-<any-suffix>`. For example, `dev-janos-coap` or `dev-janos-vd`.
+
+**CoAP**: If enabled, the virtual device will expose port 5683 to the host. This is useful for debugging and testing CoAP applications. Only one started virtual device can have CoAP enabled at a time. If multiple devices with enabled CoAP exist, only one will start successfully. It's recommended to enable it only for one device
+
+**Default Deployment Group**: If enabled, a default Deployment Group with the same name as the device will be created containing all applications that are installed on the device. This is enabled by default.
+
+The default Deployment Group has by default auto updates enabled and set to `stable`. To change this, use the flag  `-m/--auto-update-mode` for the `create` command. Possible values are `stable`, `edge` and `off`. If the auto mode is set to `stable`, the apps in the Deployment Group get updated automatically if a new stable version is available. If it is set to `edge`, the apps get updated automatically if a new edge, or stable version is available. If it is set to `off`, the apps do not get updated automatically and have to be updated manually.
+
+Create a new virtual device, named, e.g., `dev-alice-test`. You can
+change the name of the device to your liking. The device name has
+following structure: `dev-<username>-<name>` where `<name>` can be set
+to the users liking.
+```
+$ m2cp device virtual create dev-alice-test --yes
+Creating device 'dev-alice-test' as container 'M2CP_LOCAL_DEVICE_DEV_dev-alice-test_STORE_mlpa-dev'
+```
+This will download the virtual device image and start it. It will be
+enabled to start automatically when you boot your system.
+The created virtual devices can be list with `m2cp device virtual
+list`. It should look very similar to:
+```
+$ m2cp device virtual list
+Name              Store       OS Serial Number                        Debugging Ports                           Running    Container
+dev-alice-test    mlpa-dev    ec6a5341-b268-466e-bb76-97440b329870    snapd=20000, rabbitmq=20001, ssh=20002    true       M2CP_LOCAL_DEVICE_DEV_dev-alice-test_STORE_mlpa-dev
+```
+```{note}
+Please note that the ports in `Debugging Ports` numbers may differ to
+your system.
+```
+
+At this point the virtual device is successfully set up.
+
+### Delete a Virtual Device
+
+To delete a virtual device, run the following command:
+```console
+$ m2cp device virtual delete
+```
+It lists all existing virtual devices and requests to select the one you want to delete. This will
+- delete the container
+- delete the Deployment Group, if it was created and the device is the only one in the Deployment Group
+- unset the device name from the backend
+- unset the store activity from the backend
+
+### Start/Stop a Virtual Device
+
+To start or stop a virtual device, run the following command:
+```console
+$ m2cp device virtual start
+```
+or
+```console
+$ m2cp device virtual stop
+```
+A virtual device will stay in the last state it was set to. If you stop a device, it will stay stopped until you start it again.
+
+### Attach to a Virtual Device
+
+Attaching means to get console access of the device. In the background, this simply connects to the underlying container.
+To attach to a virtual device, run the following command:
+```console
+$ m2cp device virtual attach
+```
+
+### Install an App from Local Host in a Virtual Device
+
+To install an App from your local host in a virtual device, run the following command:
+```console
+$ m2cp device virtual push <path-to-snap>
+```
+It will be installed with the `--dangerous` flag, as the App is not signed by the store. Handy when testing a locally built App.
+
+### Copy Files from Host to the Virtual Device
+
+As the virtual device is running in a docker container, you can copy files from your host to the virtual device using the `docker cp` command.
+```console
+$ docker cp <path-to-file> <container-name>:<path-in-container>
+```
+To get the container name, use the `virtual device list` command.
+
+### Copy files from Virtual Device to Host
+
+To copy files from the virtual device to the host, use the `docker cp` command as well.
+```console
+$ docker cp <container-name>:<path-in-container> <path-to-file>
+```
+To get the container name, use the virtual device list command.
+
+## Testing or Debugging Applications with a Virtual Device
+
+To view application logs, we can use the command line tool `m2cpctl`. It is provided by the `dev-m2cpctl` app and is available in all virtual devices.
+The usage for `logs` is as follows:
+```console
+m2cpctl logs <service> [flags]
+
+Flags:
+  -f, --follow               follow logs
+  -h, --help                 help for logs
+  -l, --level string         minimum log level to display (default "debug")
+  -m, --module stringArray   filter logs by module (* wildcards allowed, ^ to exclude)
+  -n, --numlines int         print number of lines
+      --raw                  print raw logs as received from 'journalctl'
+  -s, --search stringArray   filter logs by content (* wildcards allowed, ^ to exclude)
+
+Global Flags:
+      --debug   print debug output
+      --json    print output as JSON
+
+
+```
+To view the logs of an application, [attach to the virtual device](#attach-to-a-virtual-device) and execute:
+```console
+$ m2cpctl logs <app-name>
+```
+To follow the logs, use the `-f`-flag.
+
+### Testing CoAP clients against m2cp-coap
+
+```{attention}
+This section expects and requires a running virtual device with the **CoAP option enabled**!
+```
+
+There are two ways to test CoAP clients against m2cp-coap:
+- You have a CoAP client on your host machine, and want to send CoAP messages to m2cp-coap
+- You have a CoAP client on an Ethernet-connected device, and want to send CoAP messages to m2cp-coap in the virtual device
+
+m2cp-coap offers a few endpoints by default. A portion of them are listed below:
+- Method: `GET` Path: `/whoami/1` Description: Returns the current time from the Linux system
+- Method: `GET` Path: `/t/1` Description: Returns information about the current device and coap server
+- Method: `POST` Path: `/hello/1` Description: Is called by sensors as a heartbeat, notifying the server that they are still alive
+
+To view all incoming messages to m2cp-coap, [attach to the virtual device](#attach-to-a-virtual-device) and run the following command:
+```console
+$ m2cpctl logs m2cp-coap -f --module server*
+```
+#### CoAP clients sending from the Host Machine
+
+To send CoAP messages from your host machine to m2cp-coap running inside the virtual device, send the CoAP messages to `localhost:5683` and they will be forwarded to the virtual device with enabled CoAP.
+
+**Instructions for Linux** <a id="coap-sending-from-host-machine-linux"></a>
+
+On Linux, a CoAP client is included in the `libcoap` package. To install it, execute:
+```console
+$ sudo apt install libcoap3-bin
+```
+```{note}
+Depending on your Linux distribution, `libcoap3-bin` may not be available. Then, try `libcoap2-bin` instead.
+```
+The CoAP client is then available with the command `coap-client-notls`. To test, if m2cp-coap is reachable, you can send a simple `/whoami/1` request:
+```console
+$ coap-client-notls -m get 'coap://localhost:5683/whoami/1'
+```
+A successful response will look like this:
+```json
+{"sn":0,"edge_device_serial":"aa2db3fb-4670-5a8d-b105-c84587c81a62","board":"unknown","app":"m2cp-coap","app_ver":"2.18.3-dev","app_rev":3}
+```
+
+If you want to see the request that `m2cp-cop` receives, open another terminal and [attach to the virtual device](#attach-to-a-virtual-device) and run the following command:
+```console
+$ m2cpctl logs m2cp-coap -f --module server*
+```
+If you send the CoAP request again, you should see the request in the logs. It should look like this:
+```console
+2024-11-12T16:35:18Z[debug](server@[::]:5683) 172.17.0.1:59023 -> Code: GET, Token: 01, Path: /whoami/1, Type: Confirmable, MessageID: 103
+2024-11-12T16:35:18Z[debug](server@[::]:5683) handler: /whoami/1, body:
+```
+
+**Instructions for Windows**<a id="coap-sending-from-host-machine-windows"></a>
+
+No instructions are provided for Windows, as the `libcoap` package is not available for Windows. If you have a CoAP client for Windows, you can use it to send CoAP messages to `localhost:5683`. See the Linux instructions for an example request and how to see the messages in m2cp-coap!
+
+#### CoAP clients sending from Ethernet-connected Devices
+
+If, for example, an embedded device is connected to your machine via Ethernet and sending out CoAP messages a few things have to be configured.
+We assume that the connected device is sending CoAP requests/messages to a specific IP address. This address needs to be set on your host machine, so that it is reachable under this IP address. Otherwise, your host machine will ignore the requests and not forward them to the virtual device.
+
+If your device sends requests to, e.g., `fdea:dbee:f::1`, you have to set this address to the ethernet interface, where the device is connected to. This is done differently on Linux and Windows. The next section explains how to do it.
+
+
+**Instructions for Linux** <a id="coap-sending-from-ethernet-device-linux"></a>
+
+Make sure, that your device is connected via Ethernet to your machine.
+
+On Linux, you have to set it via your default network configuration tool of your distribution. For Ubuntu, it is `NetworkManager`.
+```{attention}
+Do not set the IP address via the `ip` command, as this will very likely get overwritten by your default network configuration tool after a few seconds.
+```
+With the following steps we first identify the network interface where the device is connected to and then set the IP address to it.
+
+To list all available network interfaces, execute:
+```console
+$ nmcli connection show
+```
+The output should look like this:
+```console
+NAME                UUID                                  TYPE      DEVICE           
+br-da4681fcabfd     43f9862f-c662-48f3-8ee6-e8ca46e2410f  bridge    br-da4681fcabfd               
+ml-pa               142beb40-d892-477b-ae20-099c4cd70869  vpn       --                            
+Wired connection 1  9684dd0c-828f-314e-a92f-3d23c2aadc30  ethernet  enp1s0f0              
+Wired connection 2  58dc789a-6de0-368a-8c95-ca230e6fcaf7  ethernet  enxf4a80d3690e7 
+```
+The interface name is listed in the column `DEVICE`. The correct interface should be of type `ethernet`. If you have multiple to choose from, e.g., because you have an ethernet port on your docking station and for the laptop itself, you can differentiate them by the `DEVICE` column. Network interfaces on Linux have a specific naming scheme. Ethernet interfaces start with `en`. If it is followed by:
+- a `p`, it is a PCI device. That is usually the port of your laptop.
+- an `x`, the rest of the name is the MAC address of the device. That can be, for example, be the port of a docking station.
+
+For example, if you have connected the device to the port of your laptop, and a device in this list starts with `enp`, it is very likely the correct interface.
+
+An alternative way is to disconnect the device and run the command again. The ethernet interface that has `---` in the `DEVICE` column is the one where the device was connected to.
+```{note}
+For more information about predictable network interface device names, refer to the [Red Hat article](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/networking_guide/sec-understanding_the_predictable_network_interface_device_names). For a more detailed and technically advanced explanation, see the [manual page on network device naming schemes](https://www.freedesktop.org/software/systemd/man/latest/systemd.net-naming-scheme.html) from the freedesktop project.
+
+```
+
+If you have identified the correct interface, remember the `NAME` of the connection. It is the first column of the output. Next, we set the IP address to the interface with the following command:
+```console
+$ sudo nmcli connection modify "<CONNECTION>" ipv6.method manual ipv6.addresses <address>/<prefix-length>
+```
+Replace `<CONNECTION>` with the `NAME` of the connection and `<address>/<prefix-length>` with the IP address and prefix length of the device. For example, if the device has the IP address `fdea:dbee:f::1`, the command could look like this:
+```console
+$ sudo nmcli connection modify "Wired connection 1" ipv6.method manual ipv6.addresses fdea:dbee:f::1/64
+```
+
+```{note}
+Sometimes, the network interface is getting disabled after a few minutes. What seems to help is to also disable ipv4 for the connection:
+```console
+$ sudo nmcli connection modify "<CONNECTION>" ipv4.method disabled
+```
+
+Let's check if the IP address is set correctly:
+```console
+$ ip -6 addr show <interface>
+```
+Replace `<interface>` with the name of the interface. Interface name this time, not the connection name.
+
+The output can look like this:
+```console         
+2: enp1s0f0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    inet6 fdea:dbee:f::1/64 scope global noprefixroute 
+       valid_lft forever preferred_lft forever
+    inet6 fe80::86d2:9b11:246b:70a4/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+```
+
+The device should now be able to send CoAP messages to the IP address of your host machine. The host machine will forward them to the virtual device. To view incoming messages, [attach to the virtual device](#attach-to-a-virtual-device) and run the following command:
+```console
+$ m2cpctl logs m2cp-coap -f --module server*
+```
+The output can look like this:
+```console
+2024-11-19T13:59:15Z[debug](server@[::]:5683) 172.17.0.1:33751 -> Code: POST, Token: , Path: /hello/1, Type: NonConfirmable, MessageID: 10530, PayloadLen: 30
+2024-11-19T13:59:15Z[debug](server@[::]:5683) handler: /hello/1, body: {"uptime":60, "id":4294967295}
+```
+
+**Instructions for Windows** <a id="coap-sending-from-ethernet-device-windows"></a>
+
+Make sure, that your device is connected via Ethernet to your machine.
+
+On Windows, alongside the IP we additionally have to configure the category of the network connection and the firewall to properly allow traffic from the device to m2cp-coap.
+Start a PowerShell as administrator (or use [gsudo](https://github.com/gerardog/gsudo) for every command)
+
+First, we list all network interfaces
+```powershell
+PS> netsh interface ipv6 show interfaces
+```
+
+We need to find the ethernet interface where the device is connected to. `Ethernet` is usually the name of the ethernet port of a laptop.
+
+It can look like this:
+```console
+Idx     Met         MTU          State                Name
+---  ----------  ----------  ------------  ---------------------------
+  1          75  4294967295  connected     Loopback Pseudo-Interface 1
+ 19           1        1500  disconnected  Local Area Connection
+ 13          30        1500  connected     Wi-Fi
+ 10          35        1500  connected     Ethernet
+  7          25        1500  disconnected  Wi-Fi 2
+ 12          65        1500  disconnected  Bluetooth Network Connection
+ 46        5000        1500  connected     vEthernet (WSL (Hyper-V firewall))
+ ```
+To identify the correct interface, connect and disconnect your device so that you can see, which interface connects and disconnects in the `State` field. If you found the correct interface, remember the `Idx` of the interface and the `Name` field.
+
+Next, we set the IP address to the interface
+```powershell
+PS> netsh interface ipv6 add address interface=<interface_name> address=<address>
+```
+Replace `<interface-name>` with the name of the interface and `<address>` with the IP address that your device sends the messages to. For example, if the device has the IP address `fdea:dbee:f::1`, the command could look like this:
+```powershell
+PS> netsh interface ipv6 add address interface="Ethernet" address=fdea:dbee:f::1
+```
+
+Next, we need to change the network category of the connection. We set it to `private`. Replace `<Idx>` with the `Idx` of the interface.
+```powershell
+PS> Set-NetConnectionProfile -InterfaceIndex <Idx> -NetworkCategory Private
+```
+```{attention}
+Setting the network category is *not persisted between reboots*. If you reboot your machine, you have to set it again!
+```
+
+As a final step, we need to add a rule to the Windows firewall to allow CoAP traffic from the device to m2cp-coap.
+```powershell
+PS> New-NetFirewallRule -DisplayName "Allow CoAP from device" -Direction Inbound -LocalPort 5683 -Protocol UDP -Action Allow -RemoteAddress "LocalSubnet" -InterfaceAlias "<interface-name>"
+```
+(optional) If you also want to allow ICMPv6 pings, you can add a rule for that as well
+```powershell
+PS> New-NetFirewallRule -DisplayName "Allow ICMPv6 from device" -Direction Inbound -Protocol ICMPv6 -Action Allow -RemoteAddress "LocalSubnet" -InterfaceAlias "<interface-name>"
+```
+
+The device should now be able to send CoAP messages to the IP address of your host machine. The host machine will forward them to the virtual device. To view incoming messages, [attach to the virtual device](#attach-to-a-virtual-device) and run the following command:
+```console
+$ m2cpctl logs m2cp-coap -f --module server*
+```
+The output can look like this:
+```console
+2024-11-19T13:59:15Z[debug](server@[::]:5683) 172.17.0.1:33751 -> Code: POST, Token: , Path: /hello/1, Type: NonConfirmable, MessageID: 10530, PayloadLen: 30
+2024-11-19T13:59:15Z[debug](server@[::]:5683) handler: /hello/1, body: {"uptime":60, "id":4294967295}
+```
+
+```{note}
+If you are done working with the device and want to undo the changes, you can use the following commands:
+```powershell
+PS> netsh interface ipv6 delete address interface=<interface-name> address=<address>
+PS> Remove-NetFirewallRule -DisplayName "Allow CoAP from device"
+PS> Remove-NetFirewallRule -DisplayName "Allow ICMPv6 from device"
+```
+
+```{tip}
+**Some additional tips for Windows**:
+There is also a UI for the firewall, which makes it easy to view and manage rules. To open:
+1. Press `Win` + `R`
+2. Enter `wf.msc` and press `Enter`
+
+To view the network category of connections, use:
+```powershell
+PS> Get-NetConnectionProfile
+```
+
+### Debugging Applications in a Virtual Device
+
+```{note}
+This section is only relevant for developers and written in mind of Linux as the host OS. It may work on Windows as well, but the instructions are not tested.
+```
+
+Virtual devices allows to debug applications in a M2CP context. This means they can use the messaging of a virtual device. However, we do not yet have a way to run the application in the same environment as a real M2CP App, which is sandboxed and has a limited view and access to the system.
+
+We currently have two ways to debug applications in a virtual device:
+- Run the application on localhost (not inside the virtual device) and use the exposed ports of the virtual device to connect to the M2CP messaging of the virtual device. This is useful for most M2CP applications
+- Run the application inside the virtual device, and connect directly to the device's messaging. This is a bit more complicated but very useful when, for example, debugging `snapd`
+
+#### Debugging Applications from Localhost
+
+To debug an application from localhost, you need to set two environment variables, `M2CP_VIRTUAL_DEVICE` and `SNAP_NAME`.`M2CP_VIRTUAL_DEVICE` is the snapd port of the virtual device. Each virtual device has a different port. To get it execute the following command:
+```console
+$ m2cp device virtual list
+```
+It shows an output like this:
+```console
+$ m2cp device virtual list
+Alias            Store         OS Serial Number                           Debugging Ports                           Running    Container Name
+dev-janos-vd     local         d97e56cc-3396-5eec-8990-3485e15f8d55    snapd=20000, rabbitmq=20001, ssh=20002    true       M2CP_VIRTUAL_DEVICE_dev-janos-vd_STORE_local
+dev-janos-test   local         74b0a8eb-bcdd-53fd-a362-85719de0e2f4    snapd=20004, rabbitmq=20005, ssh=20006    true       M2CP_VIRTUAL_DEVICE_dev-janos-test_STORE_local
+```
+If we want to debug an application on the `dev-janos-vd` virtual device, we have to set the environment variable `M2CP_VIRTUAL_DEVICE` to `20000`. For the device  `dev-janos-test`, we have to set it to `20004`.
+
+This variable is not persisted in the terminal, and you need to set it e.g. each time, you start a new terminal emulator.
+
+The `SNAP_NAME` is the name of the snap/application you want to debug.
+
+If the variables are set, the Edge Device SDK will recognize this and hook into the virtual device on the given port.
+If you have log outputs enabled, the Edge Device SDK will print out a message that it uses a virtual device:
+```
+[08:31:57 WRN] using virtual m2cp device on ports 20000/20001
+```
+The exact message can differ depending on the used SDK.
+
+#### Debugging Applications from inside the Virtual Device
+
+```{attention}
+These instructions are written for users of the Goland IDE. If you are using another IDE, the method is the same but how to execute it is different.
+```
+
+The idea behind this method is to run and debug the application in the virtual device via SSH. We have three steps to make this possible:
+- Set a password for the root user in the virtual device
+- Find the IP address of the virtual device container
+- Configure a run configuration in Goland with a remote target
+    - Set the environment variable `SNAP_NAME`
+
+First, choose a virtual device you want to debug an application in. Use `m2cp device virtual list` to get the list of virtual devices and remember the container name of the device.
+
+1. [Attach to the virtual device](#attach-to-a-virtual-device) and set a password for the root user with `passwd`
+2. Leave the virtual device
+3. Find the IP address of the virtual device container: `docker inspect <container-name> | grep \"IPAddress\"`
+   This will show the IP address of the container twice. Remember any of them.
+4. Open the application you want to debug in Goland
+5. Have a runnable run configuration for the application and open the configuration menu of the run configuration
+6. Set the environment variable `SNAP_NAME` to the name of the snap/application you want to debug
+7. At the top, there should be `Run on` listed. Click on `Manage targets`
+8. Click on `+` to add a new target of type `SSH`
+9. As host, use the IP address of the virtual device container and for the user `root`
+10. Press on next
+11. Enter the password you set for the root user
+12. Press on next and finish
+13. Select the newly created target in the run configuration and press `OK`
+14. Run the application in debug mode
+
+#### Test an App on a Virtual Device
+Say, you have an application packaged as an M2CP App and want to test it in
+your Virtual Device. The process is the same as with normal devices:
+* Push the application to the store
+* Add the application to the Deployment Group that contains your Virtual Device
+* Trigger your device to refresh
+  The details of these steps are explained in greater detail in the
+  M2CP CLI Management
+  Tool section.  Now
+  your application is running in the L-IoT environment of the virtual
+  device!
+  If you want to view the console logs of your app, you have to attach
+  to the virtual device.  Attaching to a virtual device means that you
+  enter the Docker container of the virtual device. You are then in the
+  container environment and every command is executed in the virtual
+  device.  To attach, use:
+```console
+$ m2cp device virtual attach
+```
+It will give you a list of all your running virtual devices to choose
+which to attach to by number.
+Once you are attached, you can see the logs of your application with:
+```console
+$ snap logs {your-snap-name}
+```
+A list of all installed snaps can be viewed with `snap list`.  To
+leave the Virtual Device environment again, execute `exit`.
+```{note}
+It is not possible to enter the Virtual Device via SSH login. Please
+use `m2cp device virtual attach` instead.
+```

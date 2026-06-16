@@ -1,0 +1,260 @@
+# Asset Management
+
+## Concept of Assets
+
+Assets are the representation of physical entities managed by the
+system. Asset management is performed through the [m2cp CLI
+tool](Installation_Tools.md#cli-tools) or the browser-based [Ecosystem
+UI](Installation_Tools.md#browser-ui). This section is focussed only
+on the parts that are relevant to managing Edge Devices and Real-Time
+Devices on the command line. From this perspective, there are only
+three types of assets: _System Asset_, _Edge Device Asset_, and _Real
+Time Device Asset_. Assets are organized in a hierarchy. The root of
+the hierarchy is always a System Asset. Edge Device Assets and Real
+Time Device Assets are always children of System Assets.
+
+The three types of assets are always derived from an asset model. For
+example, if you have many physical entities of the same type and they
+differ only by their serial numbers, they are organized as multiple
+system assets, all associated with a single system asset model.
+
+
+## Relevant User Roles
+
+The [Core Admin](Management_User.md#core-admin) is responsible for
+creating and managing System Asset Models.  The [Asset
+Admin](Management_User.md#asset-admin) is responsible for creating and
+managing System Asset derived from available System Asset Models.  So
+if you want to follow the following sections, please be sure you have
+appropriate permission.
+
+
+## Asset Management with the CLI
+
+To manage assets, the CLI has a set of asset commands. See `m2cp asset
+--help` and `m2cp asset model --help`. The following paragraphs will
+guide you through some typical usecases. The CLI syntax matches `m2cp`
+version 1.6.0 and later.
+
+
+### Working with Asset Models
+
+To **list all existing asset models**, filtered by type, do:
+
+```console
+$ m2cp asset model list --sys
+$ m2cp asset model list --ed
+$ m2cp asset model list --rtd
+```
+
+where `--sys` filters for System Asset Models, `--ed` for Edge Device
+Models, and `--rtd` for Real Time Device Models.
+
+This will print the `id` of the respective asset model, which will be
+required later.
+
+To **get information on one specific asset model**, do:
+
+```console
+$ m2cp asset model info <the-id>
+Task-Id: de69f6a0-c743-4be3-90a8-9e66cfe26423
+
+Asset Model:
+  ├─ Asset Model Id:           <the-id>
+  ├─ Asset Model Name:         Example Assembly
+  ├─ Asset Model Description:  Contains Logic Board, CAN Board, USB-LTE-Stick
+  └─ Tenant                    mlpa
+```
+
+To **create a new asset model**, you have to give the asset type (`ed` for
+Edge Device, `rtd` for Real Time Device or `sys` for System), a name
+and a description.
+
+```console
+$ m2cp asset model create <type> <name> [description]
+```
+
+We recommend that the name contains information on which project it
+belongs to and the description might explain which components the
+system consists of. The name and the description can always be
+modified later.
+
+To **modify an existing asset model**, do:
+
+```console
+$ m2cp asset model modify <the-id> --name 'New name' --description 'The new description'
+```
+
+
+### Working with Assets
+
+To **list all existing assets**, filtered by type, do:
+
+```console
+$ m2cp asset list --sys
+$ m2cp asset list --ed
+$ m2cp asset list --rtd
+```
+
+This will print the `id` of the respective asset type, which will be
+required later.
+
+To **get information on one specific asset**, do:
+
+```console
+$ m2cp asset info <the-id>
+Task-Id: e14bc567-8690-4006-a2a5-eb6d8a2a40fd
+
+Asset:
+  ├─ Asset Id:           <the-id>
+  ├─ Asset Type:         System
+  ├─ Asset Model Id:     4007eef7-bc82-4bc8-4d08-08ddd41e4906
+  ├─ Asset Model Name:   Test Assembly
+  ├─ Asset Serial:       909ceece-3f1c-4b82-aac8-43426d0f8f68
+  ├─ Asset Name:         Example Assembly 123
+  └─ Tenant              mlpa
+```
+
+```{note}
+The `m2cp asset info` command has the `--system` flag to display not
+only the asset refered to by `<the-id>` but all linked assets as well.
+```
+
+
+To **create a new asset**, you have to give an existing Asset Model's Id
+(of the matching asset type), the [Hardware Serial
+Number](Glossary.md#hardware-serial-number) of the device, and an
+asset name.
+
+```console
+$ m2cp asset create <model-id> <hw-serial> <asset-name> [asset-description] [flags]
+```
+
+We recommend that the name contains information on which project it
+is. If the device has an [attestation
+key](Glossary.md#asset-attestation-key), it can be given by the
+`--attestation-key` as a base64 encoded string.
+
+The name and attestation key can always be modified later.
+
+```{note} 
+The **hardware serial number is immutable** and cannot be modified! If
+you have entered a wrong [Hardware Serial
+Number](Glossary.md#hardware-serial-number) by accident, please create
+another asset.
+``` 
+
+To **modify an existing asset**, do:
+
+```console
+$ m2cp asset modify <the-id> --name 'New name' --attestation-key '...'
+```
+
+
+### Linking Assets
+
+It is expected that Edge Device Assets and Real Time Device Assets are
+linked to a System Asset.
+
+To **link an asset** to a system asset, do:
+
+```console
+$ m2cp asset link <system-asset-id> <device-asset-id>
+```
+
+To **unlink an asset** from a system asset, do:
+
+```console
+$ m2cp asset unlink <system-asset-id> <device-asset-id>
+```
+
+Note, all the assets refered to must exist in advance and System
+Assets cannot be linked to System Assets recursively.
+
+
+### Searching and Finding Assets
+
+#### By Hardware Serial Number, Asset ID, or Asset Name
+
+Assets can be found by their [Hardware Serial
+Number](Glossary.md#hardware-serial-number), Asset ID, or Asset Name.
+
+Say a given Assembly has the Hardware Serial Number `12345` printed on
+it. To **find the matching asset**, do:
+
+```console
+$ m2cp asset find 12345
+```
+
+It will print all the available information on the asset, if any
+matching asset was found.
+
+Similarly, you may replace `12345` by the Asset ID (given as a UUID
+string) or the Asset Name (given as a quoted string):
+
+```console
+$ m2cp asset find f97709d3-5067-4001-642a-08ddf1ee1b1b
+$ m2cp asset find 'Example LOGIC 1.01, 12345'
+```
+
+
+#### By Edge OS Serial Number
+
+The `m2cp device info` prints information on the Asset:
+
+```console
+$ m2cp device info ad823865-b57c-597d-8710-dba39107e952
+```
+
+where `ad823865-b57c-597d-8710-dba39107e952` is the Edge [OS Serial
+Number](Glossary.md#os-serial-number).
+
+Since the amount of output from the above command is a lot, here is
+how to filter for the Asset related information:
+
+```console
+$ m2cp device info ad823865-b57c-597d-8710-dba39107e952 --json | jq '.output.System'
+```
+
+
+## Asset Creation during the installation process
+
+During the standard installation process, assets will be automatically
+discovered and created. For the detailed process description, see
+[Initial Provisioning of an Edge Device & OS
+Installation](Tech_Lifecycle_ED.md#initial-provisioning-of-an-edge-device--os-installation).
+
+This process uses the command:
+
+```console
+$ m2cp asset system register '{...}'
+```
+
+which you **must not run manually**! The argument is a JSON string
+which may change without notice and additionally some information is
+injected in the installation process by the Installation Server.
+
+
+## Disable the Asset Service Pre-Registration Requirement
+
+When a device connects to a store, it is checked whether its Asset is
+known. If it is not registered and matching, the device cannot
+connect. This check can be disabled per device model:
+
+```console
+$ m2cp store model modify <the-model-id> --pre-reg "false"
+```
+
+It can be enabled again:
+
+```console
+$ m2cp store model modify <the-model-id> --pre-reg "true"
+```
+
+Instead of `the-model-id` you can also give the tripplet of `modelType
+modelName modelRevision`.
+
+
+## Asset Management with the Ecosystem Web-UI
+
+This section will be written at a later time.

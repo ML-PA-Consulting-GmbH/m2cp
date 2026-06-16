@@ -1,0 +1,28 @@
+# Introduction
+
+```{figure} /_static/m2cp_ecosystem.png
+:alt: iMX8Mplus
+:width: 500px
+:align: center
+:name: mlpa-ecosystem-overview
+
+L-IoT Overview
+```
+
+*L-IoT* is a comprehensive system that encompasses all layers, from hardware to software, with a focus on vendor independence, customizability, security, and usability. Its primary purpose is to gather data points from embedded devices, process them locally, push the results to the cloud, and provide online analysis and visualization to unlock powerful insights.
+
+The system is highly adaptable, capable of integrating seamlessly into diverse embedded device infrastructures and cloud services. Alternatively, it can be purchased alongside tailored embedded devices optimized for specific environments.
+
+What sets *L-IoT* apart is its fully licensable source code and self-hosting capabilities. Once acquired, there are no ongoing dependencies on the vendor (MLPA), giving customers complete freedom to modify and expand the system to meet their unique needs. Its modular, containerized architecture allows for flexible component selection and configuration, ensuring applications run in isolated environments. This design enhances both security and efficiency, particularly for remote software updates.
+
+Another standout feature is the integrated central logging system, which consolidates logs from all connected devices into a central database. This simplifies troubleshooting and facilitates detailed analysis, making it an invaluable tool for system management.
+
+This documentation provides a comprehensive guide to understanding L-IoT. It explains how the system functions, the roles and interactions of its components, and how to effectively utilize it. It also covers contributing to the system and troubleshooting potential issues. The guide spans everything from basic definitions, functionalities, and workflows to an in-depth exploration of the system's architecture and development possibilities.
+
+The documentation begins with a glossary of terms designed to serve as a quick reference. You don’t need to memorize the terms, as you can easily look them up while reading. Throughout the sections, glossary terms are highlighted with links for convenience. 
+
+The *L-IoT* toolchain provides a comprehensive set of tools for interacting with the system. There's multiple ways to interact with the System:
+- browser-based Ecosystem UI, preferable for many administrative tasks
+- CLI tools for Windows and Linux, preferable for advanced users and automization
+- Direct API interaction with GraphQL or REST API, for connecting your own project with the Ecosystem
+

@@ -1,0 +1,234 @@
+# Glossary
+
+## App
+
+Any software package managed and distributed by the [App Store Service](#app-store-service). There are two types of Apps: 1) firmware updates for [Real Time Devices](#real-time-device) and 2) snap packages for [Edge Devices](#edge-device). Apps and assigned to [Deployment Groups](#deployment-group) for delivery to devices.
+
+## App Store Registration
+
+The process where a [Device](#device), after being flashed and connecting to the platform for the first time, communicates with the [App Store Service](#app-store-service). During registration, the service verifies the device, generates identifiers (like [OS Serial Number](#os-serial-number) for Edge Devices), performs security handshakes, and links the Device record to its pre-registered Asset record using the [Device ID](#device-id).
+
+## App Store Service
+
+A [Backend Service](#backend-services) responsible for managing the entire software lifecycle for connected devices. It handles [Apps](#app) (upload, verification, storage), defines device compatibility ([Device Type](#device-type), [Device Model](#device-model), [Device Model Revision](#device-model-revision), [Architecture](#architecture)), manages [Deployment Groups](#deployment-group), and orchestrates the secure delivery of software updates to eligible [Devices](#device). Currently, this service is not tenant-aware at the device level.
+
+## App Store UI
+
+The section within the [Ecosystem UI](#ecosystem-ui) used to upload, manage, review, and assign [Apps](#app) to [Deployment Groups](#deployment-group).
+
+## Architecture
+
+Refers to the processor architecture of a [Device](#device), managed by the [App Store Service](#app-store-service). Those are ARM64 (for physical [Edge Devices](#edge-device)) and AMD64 (used for virtual devices in testing/development, which are not represented in the Asset Service). [Architecture](#architecture) is a critical factor for software compatibility.
+
+## Asset
+
+An individual instance of an [Asset Model](#asset-model) tracked within the [Asset Service](#asset-service). It represents a specific physical entity. Each [Device](#device) that runs on physical hardware is linked to a corresponding Asset which represents that specific [Device Hardware](#device-hardware) in the [Asset Service](#asset-service).
+
+## Asset Attestation Key
+
+The public portion of a cryptographic key pair that is (usually, but not necessarily) generated within a Trusted Platform Module (TPM). It is stored as an asset property in the [Asset Service](#asset-service) before the device is added to the [App Store Service](#app-store-service). This key can be used to prove the identity of a piece of hardware. It is used when the OS running on that hardware wants to authorize with the [App Store Service](#app-store-service).
+
+## Asset Hierarchy
+
+The parent-child structure used within the [Asset Service](#asset-service) to organize [Assets](#asset). Allows modelling physical or logical relationships (e.g., an [Edge Device](#edge-device) asset being a child of a "System" asset). Each asset can have only one direct parent.
+
+## Asset Management UI
+
+The section within the Ecosystem UI used to view, organize, and manage Assets, Asset Types, Asset Models, and Asset Hierarchies.
+
+## Asset Model
+
+A specific template or model within an [Asset Type](#asset-type), defined in the [Asset Service](#asset-service) (e.g., the "Gateway_123" model under the "Edge Device" Asset Type). For IoT devices, an Asset Model is automatically created in the Asset Service when a corresponding [Device Model Revision](#device-model-revision) is created in the [App Store Service](#app-store-service), and it includes the *Device Model Revision ID* as a link.
+
+## Asset Name
+
+The identifier used for an [Asset](#asset) within the [Asset Service](#asset-service) and displayed in the Asset/Device Overview sections of the UI. For assets representing [Devices](#device) synced from the [App Store Service](#app-store-service), this name is automatically generated in the format: [Asset Model Name]-[OS Serial Number].
+
+**NOTE**: The [Device Name](#device-name) and the [Asset Name](#asset-name) are independent. One is the name of a software instance, and the latter is the representation of the device hardware. [Asset Admin](Management_User.md#asset-admin) can potentially rename assets in the Asset Service.
+
+## Asset Service
+
+A Backend Service responsible for managing the inventory of physical and logical entities ([Assets](#asset)). It tracks [Asset Types](#asset-type), [Asset Models](#asset-model), individual Assets, their status, and their relationships ([Asset Hierarchy](#asset-hierarchy)). It provides the data for the Asset Overview and Device Overview sections in the UI. This service is tenant aware.
+
+## Asset Type
+
+A user-defined category used in the [Asset Service](#asset-service) to classify [Assets](#asset) (e.g., "Edge Device", "Wagon", "Sensor Array", "Room").
+
+## Asset Type Category
+
+A system-defined classification (enum) assigned to each [Asset Type](#asset-type) in the [Asset Service](#asset-service). Possible values are Edge device, Real time device, and Asset. This category is used by the UI to filter which items appear in the "Asset Overview" (shows Asset category) versus the "Device Overview" (shows Edge device and Real time device categories).
+
+## Backend Services
+
+The collection of server-side applications that provide the core functionality of the platform, supporting the UI. It includes the [App Store Service](#app-store-service), [Asset Service](#asset-service) and [User Service](#user-service).
+
+## Deployment Group
+
+A named collection of [Devices](#device) within the [App Store Service](#app-store-service), used to manage software distribution. [Apps](#app) are assigned to Deployment Groups, and all devices within that group are targeted to receive those specific Apps (or updates). Devices in a deployment group must be of the exact same Device Model.
+
+## Device
+
+The representation of a specific piece of hardware within the [App Store Service](#app-store-service), primarily defined by its software compatibility characteristics ([Device Type](#device-type), [Device Model](#device-model), [Device Model Revision](#device-model-revision), [Architecture](#architecture)). The App Store Service manages software deployments to these Devices.
+
+## Device ID
+
+A unique internal identifier (Universally Unique Identifier) generated by the platform's database when a device's corresponding [Asset](#asset) is first created/registered in the [Asset Service](#asset-service). It serves as the primary technical link (primary key) connecting the Asset record in the Asset Service with the [Device](#device) record in the [App Store Service](#app-store-service). This ID is generally not visible or used directly by users in the UI.
+
+## Device Hardware
+
+Hardware of an [Edge Device](#edge-device) or [Real Time Device](#real-time-device).
+
+## Device Management
+
+One of the platform's key capabilities, encompassing the commissioning, organization (e.g., via [Asset Hierarchy](#asset-hierarchy) or [Deployment Groups](#deployment-group)), and monitoring of [Devices](#device) and other [Assets](#asset). Primarily managed through the [Asset Service](#asset-service) (for inventory/status) and [App Store Service](#app-store-service) (for software grouping/deployment).
+
+## Device Model
+
+Every [Device](#device) has a Device Model which describes its compatibility profile (e.g. processor architecture).
+
+## Device Model Name
+
+The name of the [Device Model](#device-model). This is a user-defined string that is used to identify the Device Model in the [App Store Service](#app-store-service).
+
+## Device Model Revision
+
+Existing [Device Models](#device-model) can't be modified. When a new variant is required, it is created under the same name but with a higher Device Model Revision (i.e. a higher version number).
+
+## Device Name
+
+An optional, user-defined name that can be assigned to a [Device](#device) within the [App Store Service](#app-store-service).
+
+**NOTE:** The Device Name and the [Asset Name](#asset-name) are independent. One is the name of a software instance, and the latter is the representation of the Device Hardware.
+
+## Device Type
+
+A logical classification used in the [App Store Service](#app-store-service) to categorize [Devices](#device) based on their fundamental role or capability (e.g., "Edge Device", "Real Time Device").
+
+## Ecosystem UI
+
+A browser-based frontend to review and manage the components inside [L-IoT](#l-iot). It contains the [App Store UI](#app-store-ui) and the [Asset Management UI](#asset-management-ui) as subsections.
+
+## Edge Device
+
+A type of [Device](#device), more powerful than a [Real Time Device](#real-time-device), running [Edge OS](#edge-os) and multiple applications ([Apps](#app) delivered as snaps), and often acting as a gateway for other devices.
+
+(Replaces the overloaded legacy term "the M2CP" when referring to the device itself).
+
+## Edge Device SDK
+
+An installable system component packaged as a Debian package that bundles modules and their dependencies to simplify the integration of messaging into Apps. The ML!PA Edge Device SDK is available in both Go and Python, but we recommend using the Go version.
+
+## Edge OS
+
+A family of Linux based OS maintained by ML!PA running on [Edge Devices](#edge-device).
+
+## Firmware Package
+
+A type of [App](#app) distributed to [Real Time Devices](#real-time-device), containing the complete software image for the device's operation.
+
+## Hardware Model
+
+A specific hardware design or configuration, referring to a series of devices that share the same components, architecture, and wiring.
+
+## Hardware Model Name
+
+The name of the [Hardware Model](#hardware-model). This is a user-defined string that is used to identify the Hardware Model. Legacy term: 'board'
+
+## Hardware Vendor
+
+The name of the vendor of the hardware. Used to uniquely identify a specific piece of hardware.
+
+## Hardware Model Revision
+
+LEGACY: If a modification is made to an existing hardware design, the Hardware Model Revision can be incremented to express this.
+
+## Hardware Serial Number
+
+The unique identifier of the [Device Hardware](#device-hardware) of an [Edge Device](#edge-device) or a [Real Time Device](#real-time-device).
+
+## MCU ID
+
+The _MCU ID_ is required, if multiple MCUs are contained in a single
+piece of hardware. In that case, multiple [Real Time
+Device](#real-time-device)s share the same [Hardware Serial
+Number](#hardware-serial-number) and require the MCU ID for unique
+identification, e.g. for the firmware update mechanism. The MCU ID
+value is a string.
+
+## M2CP
+
+Legacy name of L-IoT. The term "the M2CP" used to refer to an Edge Device. Many Apps and tools still contain an m2cp- prefix due to this heritage
+
+## m2cp-coap
+
+Edge Device application acting as a gateway towards Real Time Devices
+
+## m2cp-gateway
+
+Edge Device application acting as a gateway towrads the Cloud Backend
+
+## m2cp-message-hub
+
+Local message broker on Edge Device which allows Edge Device apps to communicate with each other.
+
+## L-IoT
+
+L-IoT (formerly ML!PA Ecosystem) is an IoT management platform designed for clients who need to manage their IoT devices.
+
+Software development and distribution is supported by the use of the SDKs (e.g. Radio Network, Bluetooth, Security Features) and Toolchains (e.g. Build Tool) needed to quickly build reliable Applications for [Edge Devices](#edge-device).
+
+Additionally, the platform enables users to monitor [Devices](#device) (data points collection and logs), manage [Assets](#asset) and users and control devices remotely (RPC).
+
+## OS Serial Number
+
+A unique identifier for a Device in the App Store. The value is a UUID
+string.
+
+For Edge Devices this ID is deterministically derived from the [Asset
+Attestation Key](#asset-attestation-key), the [Device Model
+Name](#device-model-name), and the [Device Model
+Revision](#device-model-revision). Thus the [Edge
+Device](#edge-device) will always receive the same OS Serial Number
+even when reinstalling the same OS.
+
+If there is no TPM available to generate the [Asset Attestation
+Key](#asset-attestation-key), then a fallback mechanism is
+implemented. If the block devices provide deterministic identifiers,
+then these will be included in the calculation, else the MAC addresses
+of network interfaces will be used. If all the efforts fail, then an a
+random UUID is used.
+
+For [Real Time Devices](#real-time-device) the OS Serial Number is
+deterministically calculated from the hardware properties. The
+calculation is described in detail in the [Firmware Updates Data
+Formats section](Tech_Lifecycle_RTD.md#data-formats).
+
+
+## Real Time Device
+
+A type of Device, simpler than an [Edge Device](#edge-device), running dedicated firmware and not a full operating system. Often sensors or actuators connected to an Edge Device. Represented as both a [Device](#device) (App Store Service) and an [Asset](#asset) (Asset Service, with category Real time device). Does not have an [OS Serial Number](#os-serial-number) or [Asset Attestation Key](#asset-attestation-key). It is identified by a [Hardware Serial Number](#hardware-serial-number) and the [MCU ID](#mcu-id), if multiple
+RTDs share the same Hardware Serial Number.
+
+## Real Time Device SDK
+
+A library in C that can be used to develop firmware.
+
+## Snapd
+
+An Edge OS core app originally built by Canonical that is used to install, run and update all applications on [Edge Devices](#edge-device). ([Snapd Github Link](https://github.com/canonical/snapd))
+
+## Snap Package
+
+A type of containerized [App](#app) format typically used for distributing applications to [Edge Devices](#edge-device) running a compatible Linux OS.
+
+## Tenant
+
+An isolated environment within the platform, typically representing a single customer or organizational unit. The [Asset Service](#asset-service) is tenant-aware (users see only their tenant's assets), while in [App Store Service](#app-store-service) users will see devices across tenants.
+
+## User Service
+
+A Backend Service responsible for managing user authentication, authorization, and user account management within the platform. It handles user roles, permissions, and access control across the ecosystem.
+
+## Virtual Device
+
+A Docker container for AMD64 whose instances behave very much like a real [Edge Devices](#edge-device) – a very useful tool for App developers. Virtual Devices are managed by the [App Store Service](#app-store-service) but are not represented as [Assets](#asset) in the [Asset Service](#asset-service) and are therefore not visible in the standard Asset/Device Overview UI sections.

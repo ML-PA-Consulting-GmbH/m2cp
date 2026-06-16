@@ -1,0 +1,72 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.2.2 Chrome/134.0.6998.178 Electron/35.1.2 Safari/537.36" version="26.2.2">
+  <diagram name="Page-1" id="paiPJk4frLfsEko_mAZ_">
+    <mxGraphModel dx="1703" dy="996" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-3" value="Client" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="70" width="260" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-5" value="Create &lt;code data-end=&quot;282&quot; data-start=&quot;267&quot;&gt;HubConnection&lt;/code&gt; with URL" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="4D5PFxwWEacKtTYuIWuT-3">
+          <mxGeometry x="20" y="40" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-6" value="Send &lt;code data-end=&quot;368&quot; data-start=&quot;356&quot;&gt;/negotiate&lt;/code&gt; request" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="4D5PFxwWEacKtTYuIWuT-3">
+          <mxGeometry x="20" y="90" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-10" value="&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td data-col-size=&quot;sm&quot; data-end=&quot;458&quot; data-start=&quot;454&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td data-col-size=&quot;md&quot; data-end=&quot;514&quot; data-start=&quot;458&quot;&gt;Pick best transport (WebSockets → SSE → Long Polling)&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="4D5PFxwWEacKtTYuIWuT-3">
+          <mxGeometry x="20" y="140" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-13" value="&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td data-col-size=&quot;sm&quot; data-end=&quot;587&quot; data-start=&quot;583&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td data-col-size=&quot;md&quot; data-end=&quot;641&quot; data-start=&quot;587&quot;&gt;Open transport channel (WebSocket/SSE/Long Polling)&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="4D5PFxwWEacKtTYuIWuT-3">
+          <mxGeometry x="20" y="190" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-16" value="&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td data-col-size=&quot;sm&quot; data-end=&quot;696&quot; data-start=&quot;692&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td data-col-size=&quot;md&quot; data-end=&quot;761&quot; data-start=&quot;696&quot;&gt;Send &lt;strong data-end=&quot;724&quot; data-start=&quot;703&quot;&gt;Handshake request&lt;/strong&gt; (protocol info: JSON / MessagePack)&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="4D5PFxwWEacKtTYuIWuT-3">
+          <mxGeometry x="20" y="240" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-19" value="Invoke hub methods / receive server calls" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="4D5PFxwWEacKtTYuIWuT-3">
+          <mxGeometry x="20" y="290" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-4" value="Signalr Server" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="70" width="280" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-7" value="Responds with transports + connectionId" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="4D5PFxwWEacKtTYuIWuT-4">
+          <mxGeometry x="17.5" y="90" width="245" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-11" value="Responds with transports + connectionId" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="4D5PFxwWEacKtTYuIWuT-4">
+          <mxGeometry x="17.5" y="140" width="245" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-14" value="Responds with transports + connectionId" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="4D5PFxwWEacKtTYuIWuT-4">
+          <mxGeometry x="17.5" y="190" width="245" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-17" value="Send &lt;strong data-end=&quot;790&quot; data-start=&quot;768&quot;&gt;Handshake response&lt;/strong&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="4D5PFxwWEacKtTYuIWuT-4">
+          <mxGeometry x="17.5" y="240" width="245" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-20" value="Can push messages to client" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="4D5PFxwWEacKtTYuIWuT-4">
+          <mxGeometry x="17.5" y="290" width="245" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-21" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="4D5PFxwWEacKtTYuIWuT-19" target="4D5PFxwWEacKtTYuIWuT-20">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="540" as="sourcePoint" />
+            <mxPoint x="450" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-22" value="Communication phase begins" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1;fontColor=#006600;" vertex="1" connectable="0" parent="4D5PFxwWEacKtTYuIWuT-21">
+          <mxGeometry x="0.1733" y="1" relative="1" as="geometry">
+            <mxPoint x="-17" y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;shape=link;dashed=1;" edge="1" parent="1" source="4D5PFxwWEacKtTYuIWuT-6" target="4D5PFxwWEacKtTYuIWuT-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;shape=link;dashed=1;" edge="1" parent="1" source="4D5PFxwWEacKtTYuIWuT-10" target="4D5PFxwWEacKtTYuIWuT-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;shape=link;dashed=1;" edge="1" parent="1" source="4D5PFxwWEacKtTYuIWuT-13" target="4D5PFxwWEacKtTYuIWuT-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4D5PFxwWEacKtTYuIWuT-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;shape=link;dashed=1;" edge="1" parent="1" source="4D5PFxwWEacKtTYuIWuT-16" target="4D5PFxwWEacKtTYuIWuT-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,193 @@
+# Devices Installation
+
+## Provisioning Process of Externally Produced Edge Devices
+
+If ML!PA manufactured your Edge Devices, the provisioning process - including operation system installation and App Store registration - has already been completed.
+
+However, if you manufacture devices based on the ML!PA design yourself or have them produced externally, ML!PA provides an installer image that you can write to an SD card and use to provision your device automatically.
+
+Below is a step-by-step guide to walk you through the process:
+
+1. Retrieve the latest installer-image for your platform (e.g. imx8mp) from ML!PA or your projects sharepoint:
+    - imx8mp installer image: imx8mp-installer.img.xz
+    - imx93 installer image: imx93-installer.img.xz
+1. Decompress the image and write it on an SD card
+1. Insert the SD Card into the device and configure the device to boot from the SD card instead of the eMMC
+1. Activate the Serial Console using Serial/UART converter to monitor the process via console
+1. Boot the device
+    - The installer downloads the latest install script from the provisioning station.
+    - The installer reads the device EEPROM and generates the TPM public key.
+    - The installer discovers RTDs using multicast CoAP `GET /whoami/2` (RTD Details) and uses `GET /whoami/1` as a legacy fallback.
+      If the same RTD answers to both endpoints, the installer deduplicates by `hw_serial` and prefers `/whoami/2`.
+    - The provisioning station registers these assets with the backend, and then the installer flashes the selected OS image to the eMMC.
+    - Once the installation is complete, the device will automatically shut down
+    - Observe the progress in the serial console.
+      Example Output:
+    ```
+    [   69.848490] install.sh[652]: Device connected. Platform: imx8mp, eMMC: /dev/mmcblk2
+    [   70.058110] install.sh[652]: Flashing local image: imx8mp-m2cp-uc-mlpa-minimal.img.xz
+    [  208.094807] install.sh[671]: 0+259865 records in
+    [  208.095468] install.sh[671]: 0+259865 records out
+    [  208.095760] install.sh[671]: 2644575744 bytes (2.6 GB, 2.5 GiB) copied, 138.027 s, 19.2 MB/s
+    [  208.096716] install.sh[652]: Flashing complete and verified
+    [  210.716742] imx2-wdt 30280000.watchdog: Device shutdown: Expect reboot!
+    [  210.724648] reboot: Power down
+    ```
+1. Set the Boot Mode back from the SD card to the EMMC and Restart the device
+1. Wait for the login prompt
+   Example Output:
+    ```
+    M2CP-OS based on Ubuntu Core 20  (ttymxc0)10c7d404-76fa-5731-ba3e-fcccaeb68648 login:
+    ```
+   Then take a note of the hostname which is the Edge Device serialnumber that was associated by the App Store
+1. The device can now be discovered in the App Store using `m2cp device info <serialnumber>`
+
+
+
+### Installing Edge OS
+
+
+#### Install on M2CP Hardware
+
+```{note}
+The installation on Raspberry Pi is deprecated since 2024-03.
+```
+
+Steps for installing Edge OS an ML!PA produced M2CP Hardware:
+
+1. Ask the M2CP Team for a download link of a compatible installation image.
+1. Copy the image to your SD card. See also [how to test
+   SD-cards](#test-sd-card-of-a-device).
+1. Insert the SD card into your compatible device.
+1. Connect the device to the internet.
+1. Connect power to start the device and wait until the initial
+   installation is finished.
+   The first installation takes longer than a normal boot process.
+   Afterwards the hostname of the device will be set to its OS Serial Number
+   (a UUID) and `m2cp device list` will show the device as online.
+
+
+
+### Test SD Card of a Device
+This is the procedure to determine if a given SD-card is "good enough"
+for production or development use.
+
+
+1. The SD-card is listed when attached to the computer.  `udevadm
+   monitor` will print something about a block device or `dmesg` will
+   notice it as well:
+
+   ```
+   $ udevadm monitor
+   ...
+   UDEV  [15308.585990] change   /devices/pci0000:00/0000:00:08.3/0000:05:00.4/usb10/10-1/10-1.3/10-1.3.2/10-1.3.2:1.0/host0/target0:0:0/0:0:0:0/block/sda (block)
+
+   $ dmesg -w
+   ...
+   [15376.113576] sd 0:0:0:0: [sda] 62586880 512-byte logical blocks: (32.0 GB/29.8 GiB)
+   [15376.114336] sda: detected capacity change from 0 to 62586880
+   [15376.114991]  sda: sda1
+   ```
+
+1. The capacity matches the printed label Mind the difference between
+   the bases Kilo (1000) and Kibi (1024).  Using `fdisk`:
+
+   ```
+   Festplatte /dev/sda: 29,84 GiB, 32044482560 Bytes, 62586880 Sektoren
+   Festplattenmodell: STORAGE DEVICE
+   Einheiten: Sektoren von 1 * 512 = 512 Bytes
+   Sektorgröße (logisch/physikalisch): 512 Bytes / 512 Bytes
+   E/A-Größe (minimal/optimal): 512 Bytes / 512 Bytes
+   Festplattenbezeichnungstyp: dos
+   Festplattenbezeichner: 0x00000000
+   ```
+
+   Also `lsblk` can be used:
+
+   ```
+   $ lsblk /dev/sda
+   NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+   sda      8:0    1 29,8G  0 disk
+   └─sda1   8:1    1 29,8G  0 part /media/jakob.duebel@ml-pa.loc/9016-4EF8
+   ```
+
+1. It can be written to without errors when using `dd`{#writing-images-to-storage} or any other
+   tool to write to it.
+
+   ```
+   $ time sudo dd bs=4M if=./m2cp-sil0.img of=/dev/sdX status=progress oflag=sync conv=fdatasync
+   ```
+
+   There are other tools to accomplish the same result: `cp`, `ddrescue`, `dcfldd`...
+
+   ```
+   $ time sudo dcfldd if=./m2cp-sil0.img conv=sync of=/dev/sdX hash=sha1 && sync
+   $ time sude ddrescue --force ./m2cp-sil0.img /dev/sdX mapfile && sync
+   ```
+
+1. Writing speed is in the expected range.  Compare the [speed classes
+   on Wikipedia](https://en.wikipedia.org/wiki/SD_card#Card_speed_class_ratings).  For
+   cards rated "V10", I usually observe 31-33 MB/s, when writing with
+   `dd bs=4M`.
+
+1. The written data matches the original data.  Note, a card should
+   only considered broken if multiple attempts of writing yield to
+   mismatches.
+
+   `cmp` will only print to stdout, if the files differ. If in doubt,
+   check its return value.
+
+   ```
+   $ sudo cmp --bytes $(stat -c %s m2cp-sil0.img) /dev/sda m2cp-sil0.img
+   $ echo $?
+   0
+   ```
+
+
+### OS Image Inspection
+
+How to inspect a given operating system image.
+
+#### EdgeDeviceSerial
+
+Where can the OS Serial Number be retrieved from?
+
+On the `system-data` partition, look into the `/var/lib/snapd/state.json`.
+
+```console
+$ cd /media/me/ubuntu-data/system-data/var/lib/snapd
+$ sudo cat state.json | jq '.data.auth.device.serial'
+"c4fdc165-1789-5245-976b-12de782381e1"
+```
+
+This is the EdgeDeviceSerial of the device.
+
+#### Build Information
+
+On a running system, you can use a RPC to retrieve the build date:
+
+```console
+$ m2cp device node rpc -c OperationSystemBuildInformation  rpc.m2cp-gateway.7d7e947e-b0e2-59be-9682-4f40d2cec547 --json | jq '.output.response.responses[0].results[0].value | fromjson'
+{
+  "build-yaml-file-path": "/var/lib/snapd/seed/systems/20240322/build.yaml",
+  "build-yaml": {
+    "date": "2024-03-22",
+  }
+}
+```
+
+```{note}
+If the `build.yaml` does not exist, the given image is older
+than 2024-04-01.
+```
+
+```{note}
+Please note, that the `20240322` part of the filepath depends on the
+Ubuntu Core snapshot mechanism and not on the M2CP Team's image build
+process.
+```
+
+On a SD card, you can find the build information on the `ubuntu-seed`
+partition in the `/systems/20240820/build.yaml` file, where `20240820`
+is the actual build data as generated by `date +"%Y%m%d"`.
+

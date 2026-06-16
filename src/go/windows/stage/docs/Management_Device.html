@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>8. Devices Management &mdash; L-IoT Documentation  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/drawio.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/MLPA-FavIcon-neg-weiss.ico"/>
+    <link rel="canonical" href="http://apu.ml-pa.loc/docs/customers/Management_Device.html" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Edge Device Development" href="Development_Edge.html" />
+    <link rel="prev" title="7. Software Management" href="Management_Software.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: black" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            L-IoT Documentation
+          </a>
+              <div class="version">
+                Version 1.14.8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Manual</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Tools.html">2. Tools Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Tools.html#browser-ui">2.1. Browser UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Tools.html#cli-tools">2.2. CLI Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#windows-cli-tool">2.2.1. Windows CLI Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#linux-cli-tools">2.2.2. Linux CLI Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#login-and-usage">2.2.3. Login and Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Backend.html">3. Cloud Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#installing-backend-services">3.1. Installing Backend Services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#azure">3.1.1. Azure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#constraints-on-secrets">3.2. Constraints on secrets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#secrets">3.2.1. Secrets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#container-registry">3.3. Container Registry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#event-api">3.4. Event API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#full-list-of-entities">3.4.1. Full List of Entities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#receiving-data-points">3.4.2. Receiving Data Points</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#graphql-api">3.5. GraphQL API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#rest-api">3.6. REST API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#authentication-authorization">3.6.1. Authentication &amp; Authorization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#swagger-api-documentation">3.6.2. Swagger API Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#requests">3.6.3. Requests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Device.html">4. Devices Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Device.html#provisioning-process-of-externally-produced-edge-devices">4.1. Provisioning Process of Externally Produced Edge Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#installing-edge-os">4.1.1. Installing Edge OS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#test-sd-card-of-a-device">4.1.2. Test SD Card of a Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#os-image-inspection">4.1.3. OS Image Inspection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_User.html">5. User Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#quick-reference">5.1. Quick Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#roles-in-detail">5.2. Roles in Detail</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#default">5.2.1. Default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#observer">5.2.2. Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#system-analyst">5.2.3. System Analyst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#device-manager">5.2.4. Device Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#device-admin">5.2.5. Device Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-developer">5.2.6. Software Developer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-manager">5.2.7. Software Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-admin">5.2.8. Software Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#asset-admin">5.2.9. Asset Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#user-admin">5.2.10. User Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#business-application">5.2.11. Business Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#manufacturing-service">5.2.12. Manufacturing Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#core-admin">5.2.13. Core Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#super-admin">5.2.14. Super Admin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#rolepermission-scope-matrix">5.3. Role–Permission Scope Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#scope-naming-convention">5.4. Scope Naming Convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#role-decision-guide">5.5. Role Decision Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-1-is-this-a-human-user-or-a-machine-service-account">5.5.1. Step 1 — Is this a human user or a machine/service account?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-2-what-is-their-primary-area-of-responsibility">5.5.2. Step 2 — What is their primary area of responsibility?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-3-user-administration">5.5.3. Step 3 — User administration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-4-device-operations">5.5.4. Step 4 — Device operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-5-software-roles">5.5.5. Step 5 — Software roles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-6-read-only-and-monitoring">5.5.6. Step 6 — Read-only and monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#assigning-roles">5.6. Assigning Roles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Asset.html">6. Asset Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#concept-of-assets">6.1. Concept of Assets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#relevant-user-roles">6.2. Relevant User Roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-management-with-the-cli">6.3. Asset Management with the CLI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#working-with-asset-models">6.3.1. Working with Asset Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#working-with-assets">6.3.2. Working with Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#linking-assets">6.3.3. Linking Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#searching-and-finding-assets">6.3.4. Searching and Finding Assets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-creation-during-the-installation-process">6.4. Asset Creation during the installation process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#disable-the-asset-service-pre-registration-requirement">6.5. Disable the Asset Service Pre-Registration Requirement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-management-with-the-ecosystem-web-ui">6.6. Asset Management with the Ecosystem Web-UI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Software.html">7. Software Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#uploading-app-revisions">7.1. Uploading App Revisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#review">7.2. Review</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#deployment">7.3. Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#the-ml-pa-release-process">7.4. The ML!PA release process</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#steps-to-create-a-release">7.4.1. Steps to create a release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#contents-of-a-release-package">7.4.2. Contents of a release package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#security-updates">7.4.3. Security Updates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">8. Devices Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#list-devices">8.1. List Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#device-details">8.2. Device Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deployment-groups">8.3. Deployment Groups</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#deployment-groups-administrator-and-co-administrators">8.3.1. Deployment Group’s Administrator and Co-Administrators</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#deploying-an-app-revision">8.4. Deploying an App Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#manually-trigger-deployment">8.5. Manually Trigger Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#analyzing-deployment">8.6. Analyzing Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#edge-devices">8.6.1. Edge Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#real-time-devices">8.6.2. Real Time Devices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#deployment-history">8.7. Deployment History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#toggle-rtd-updates">8.8. Toggle RTD Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#device-logs">8.9. Device Logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reverse-ssh-access">8.10. Reverse-SSH Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-troubleshooting">8.11. Advanced Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tpm-da-lockout-mode">8.11.1. TPM DA Lockout Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inspecting-the-state-json">8.11.2. Inspecting the state.json</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Development_Edge.html">1. Edge Device Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#learning-path-for-app-developers">1.1. Learning Path for App Developers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#tools-for-app-development">1.2. Tools for App Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#build-applications-in-go-with-m2cp-go">1.2.1. Build Applications in Go with m2cp-go</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#package-applications-with-m2cp-snap">1.2.2. Package applications with m2cp-snap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#run-existing-software-within-an-m2cp-app-using-the-state-machine">1.2.3. Run existing software within an M2CP App using the State Machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#m2cp-app-crafting">1.3. M2CP App Crafting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-building-m2cp-apps">1.3.1. Questions and Answers: Building M2CP Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-debugging-m2cp-apps">1.3.2. Questions and Answers: Debugging M2CP Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-m2cp-app-deployment">1.3.3. Questions and Answers: M2CP App Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#upload-new-software-to-the-store">1.4. Upload new Software to the store</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#rate-a-version">1.4.1. Rate a version</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#edge-device-sdk">1.5. Edge Device SDK</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#installing-the-edge-device-sdk">1.5.1. Installing the Edge Device SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#setting-up-dev-environment">1.5.2. Setting Up Dev Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#using-the-edge-device-sdk">1.5.3. Using the Edge Device SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#tutorials">1.5.4. Tutorials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#python-edge-device-sdk">1.5.5. Python Edge Device SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#gpio">1.6. GPIO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#gpio-tools">1.6.1. GPIO Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#using-state-machine-with-gpio">1.6.2. Using State Machine with GPIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#gpio-led-blinking">1.6.3. GPIO LED Blinking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#rename-a-network-interface">1.7. Rename a Network Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#manual-remote-procedure-calls-rpc">1.8. Manual Remote Procedure Calls (RPC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-discovery">1.8.1. Node discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-information">1.8.2. Node information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-rpc">1.8.3. Node RPC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#json-mode">1.8.4. JSON mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#protect-edge-devices-via-basic-firewall">1.9. Protect Edge Devices via Basic Firewall</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Virtual_Devices.html">2. Virtual Edge Devices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#what-is-a-virtual-device">2.1. What is a Virtual Device?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#prerequisites">2.2. Prerequisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#installation-of-docker">2.2.1. Installation of Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#usage-of-virtual-devices">2.3. Usage of Virtual Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#list-virtual-devices">2.3.1. List Virtual Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#create-a-virtual-device">2.3.2. Create a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#delete-a-virtual-device">2.3.3. Delete a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#start-stop-a-virtual-device">2.3.4. Start/Stop a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#attach-to-a-virtual-device">2.3.5. Attach to a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#install-an-app-from-local-host-in-a-virtual-device">2.3.6. Install an App from Local Host in a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#copy-files-from-host-to-the-virtual-device">2.3.7. Copy Files from Host to the Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#copy-files-from-virtual-device-to-host">2.3.8. Copy files from Virtual Device to Host</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#testing-or-debugging-applications-with-a-virtual-device">2.4. Testing or Debugging Applications with a Virtual Device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#testing-coap-clients-against-m2cp-coap">2.4.1. Testing CoAP clients against m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#debugging-applications-in-a-virtual-device">2.4.2. Debugging Applications in a Virtual Device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Development_RTD.html">3. Real Time Device Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#identifying-devices">3.1. Identifying Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-device-name">3.1.1. From Device Name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-hardware-serial-number">3.1.2. From Hardware Serial Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-hardware-assembly-number">3.1.3. From Hardware Assembly Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#by-device-type">3.1.4. By Device Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#creating-device-models">3.2. Creating Device Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#uploading-firmware">3.3. Uploading Firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#assigning-firmware-to-real-time-devices">3.4. Assigning Firmware to Real-time Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#creating-a-new-deployment-group-for-a-real-time-device">3.4.1. Creating a new Deployment Group for a Real-time Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#adding-the-app-to-the-deployment-group">3.4.2. Adding the app to the deployment group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#adding-the-device-to-the-deployment-group">3.4.3. Adding the device to the deployment group</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#monitoring-firmware-deployment">3.5. Monitoring Firmware Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#debugging-problem-scenarios">3.5.1. Debugging Problem Scenarios</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#legacy">3.6. Legacy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#id1">3.6.1. Uploading Firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#prerequisites">3.6.2. Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#firmware-files">3.6.3. Firmware Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#packaging-tool">3.6.4. Packaging Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#deployment">3.6.5. Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#validation">3.6.6. Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Networking.html">4. CoAP and Networking</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#lan-addresses">4.1. LAN Addresses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#contacting-modules">4.2. Contacting Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#common-coap-endpoints">4.3. Common CoAP endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#whoami-1">4.3.1. /whoami/1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#uptime-1">4.3.2. /uptime/1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#power-management">4.4. Power Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#m2cp-coaps-part-in-power-management">4.4.1. m2cp-coap’s part in power management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#apps-uptime-requests">4.4.2. App’s uptime requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#getuptimerequests-rpc">4.4.3. getUptimeRequests RPC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#dev-m2cpctl-integration">4.4.4. dev-m2cpctl integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Messages.html">5. Messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#monitoring-messages">5.1. Monitoring Messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#using-the-m2cp-device-message-listen-cli-command">5.1.1. Using the m2cp device message listen CLI Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#monitoring-with-azure-iot-hub-explorer">5.1.2. Monitoring with Azure IoT Hub Explorer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#conclusion">5.1.3. Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#data-flow-debugging">5.2. DATA Flow Debugging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#mcus">5.2.1. MCUs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#ingoing-packets-analysis">5.2.2. Ingoing Packets Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-coap">5.2.3. m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-message-hub">5.2.4. m2cp-message-hub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-coap-a-z-custom-parser">5.2.5. m2cp-coap-[a-z]+ Custom Parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-gateway">5.2.6. m2cp-gateway</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-gateway-uplink-output-buffer">5.2.7. m2cp-gateway Uplink Output Buffer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#inspecting-data-messages-in-the-cloud">5.2.8. Inspecting DATA messages in the cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#inspecting-signal-messages-in-the-cloud">5.2.9. Inspecting SIGNAL messages in the cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#data-visualization">5.2.10. Data Visualization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="APIs_Backend.html">6. Backend APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="APIs_Backend.html#user-service">6.1. User Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="APIs_Backend.html#app-store-service">6.2. App Store Service</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Technical Specification</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Architecture.html">2. Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#edge-system">2.1. Edge System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#edge-device">2.1.1. Edge Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#real-time-devices">2.1.2. Real Time Devices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#cloud-backend">2.2. Cloud Backend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#gateway-service">2.2.1. Gateway Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#user-service">2.2.2. User Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#log-service">2.2.3. Log Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#asset-service">2.2.4. Asset Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#signalr-hub-service">2.2.5. SignalR Hub Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#domain-event-exporter-service">2.2.6. Domain Event Exporter Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#app-store-service">2.2.7. App Store Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#assertion-service">2.2.8. Assertion Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#ssh-relay-service">2.2.9. SSH Relay Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#service-bus">2.2.10. Service Bus</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#id33">2.3. User Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Lifecycle_ED.html">3. Edge Device Lifecycle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#building-an-os-image">3.1. Building an OS Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#initial-provisioning-of-an-edge-device-os-installation">3.2. Initial Provisioning of an Edge Device &amp; OS Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#registration-of-an-edge-device-with-the-appstore">3.3. Registration of an Edge Device with the Appstore</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_ED.html#terminology">3.3.1. Terminology:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#authorization-of-an-edge-device">3.4. Authorization of an Edge Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#software-update">3.5. Software Update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#establishing-the-messaging-uplink">3.6. Establishing the Messaging Uplink</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#re-installation-of-the-os">3.7. Re-Installation of the OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#re-registration-with-a-different-appstore">3.8. Re-Registration with a different Appstore</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Lifecycle_RTD.html">4. Real Time Device Lifecycle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_RTD.html#firmware-updates-1-0-legacy">4.1. Firmware Updates 1.0 (Legacy)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_RTD.html#firmware-updates-2-0-current">4.2. Firmware Updates 2.0 (current)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#update-cycle">4.2.1. Update Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#data-formats">4.2.2. Data Formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#endpoints">4.2.3. Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#edge-cases">4.2.4. Edge Cases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Messaging.html">5. Messaging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#typical-message-routing">5.1. Typical Message Routing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#log-message-linux-app-to-cloud">5.1.1. Log Message Linux App to Cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#log-message-rtos-to-cloud">5.1.2. Log Message RTOS to Cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#local-to-device-rpc-via-backend">5.1.3. Local To Device RPC via Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#app-to-app-rpc-on-a-device">5.1.4. App To App RPC on a Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#device-to-device-rpc-via-ip">5.1.5. Device To Device RPC via IP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#data-points-to-data-visualization">5.2. Data Points to Data Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#m2cp-messaging-protocol">5.3. M2CP Messaging Protocol</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#changelog">5.3.1. Changelog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#message-format">5.3.2. Message Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#message-routing">5.3.3. Message Routing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#nodes-and-remote-procedure-calls-rpc">5.4. Nodes and Remote Procedure Calls (RPC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-discovery">5.4.1. Node discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-information">5.4.2. Node information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-rpc">5.4.3. Node RPC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Glossary</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">1. Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app">1.1. App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-registration">1.2. App Store Registration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-service">1.3. App Store Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-ui">1.4. App Store UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#architecture">1.5. Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset">1.6. Asset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-attestation-key">1.7. Asset Attestation Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-hierarchy">1.8. Asset Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-management-ui">1.9. Asset Management UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-model">1.10. Asset Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-name">1.11. Asset Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-service">1.12. Asset Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-type">1.13. Asset Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-type-category">1.14. Asset Type Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#backend-services">1.15. Backend Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#deployment-group">1.16. Deployment Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device">1.17. Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-id">1.18. Device ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-hardware">1.19. Device Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-management">1.20. Device Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model">1.21. Device Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model-name">1.22. Device Model Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model-revision">1.23. Device Model Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-name">1.24. Device Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-type">1.25. Device Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#ecosystem-ui">1.26. Ecosystem UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-device">1.27. Edge Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-device-sdk">1.28. Edge Device SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-os">1.29. Edge OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#firmware-package">1.30. Firmware Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model">1.31. Hardware Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model-name">1.32. Hardware Model Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-vendor">1.33. Hardware Vendor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model-revision">1.34. Hardware Model Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-serial-number">1.35. Hardware Serial Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#mcu-id">1.36. MCU ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp">1.37. M2CP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-coap">1.38. m2cp-coap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-gateway">1.39. m2cp-gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-message-hub">1.40. m2cp-message-hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#l-iot">1.41. L-IoT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#os-serial-number">1.42. OS Serial Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#real-time-device">1.43. Real Time Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#real-time-device-sdk">1.44. Real Time Device SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#snapd">1.45. Snapd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#snap-package">1.46. Snap Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#tenant">1.47. Tenant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#user-service">1.48. User Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#virtual-device">1.49. Virtual Device</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Legacy_Glossary.html">2. Legacy Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#dev-m2cpctl">2.1. dev-m2cpctl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#fleet">2.2. Fleet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-device">2.3. M2CP Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-cli">2.4. M2CP CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-coap">2.5. m2cp-coap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-control-tools">2.6. M2CP Control Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-core-apps">2.7. M2CP Core Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-gateway">2.8. m2cp-gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-go">2.9. m2cp-go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-listen">2.10. m2cp-listen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-logstat">2.11. m2cp-logstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-message-hub">2.12. m2cp-message-hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-simsensor">2.13. m2cp-simsensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-sdk">2.14. M2CP SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-sdk-go">2.15. m2cp-sdk-go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-snap">2.16. m2cp-snap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-timesync">2.17. m2cp-timesync</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-toolchain">2.18. M2CP Toolchain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#real-time-device-peripheral-iot-device">2.19. Real-Time Device / Peripheral / IoT Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#snapd">2.20. snapd</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Revision History</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Revision_History.html">1. Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">L-IoT Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">8. </span>Devices Management</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="devices-management">
+<h1><span class="section-number">8. </span>Devices Management<a class="headerlink" href="#devices-management" title="Permalink to this heading"></a></h1>
+<p>This chapter talks about managing Devices (both Edge Devices and Real Time Devices). <em>Device Management</em> consists of:</p>
+<ul class="simple">
+<li><p>viewing and editing details of individual Devices (e.g. name, description)</p></li>
+<li><p>organizing Devices into Deployment Groups</p></li>
+<li><p>assigning App Revisions to Deployment Groups, which causes the deployment to contained Devices</p></li>
+<li><p>monitoring health of Devices, messages emitted, bytes sent, uptimes, etc.</p></li>
+</ul>
+<p>This chapter is <em>not</em> about:
+…<a class="reference internal" href="Installation_Device.html"><span class="std std-doc">initial installation</span></a> of a Device
+…preparing Apps for deployment for <a class="reference internal" href="Development_Edge.html"><span class="std std-doc">Edge Devices</span></a> and <a class="reference internal" href="Development_RTD.html"><span class="std std-doc">Real Time Devices</span></a></p>
+<p>The App Store has a generalized concept of a <em>Device</em> (Edge Device or Real Time Device) and offers unified commands for working with all device types.</p>
+<section id="list-devices">
+<h2><span class="section-number">8.1. </span>List Devices<a class="headerlink" href="#list-devices" title="Permalink to this heading"></a></h2>
+<p>You can list all Devices using the <em>m2cp CLI tool</em>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>list
+</pre></div>
+</div>
+</section>
+<section id="device-details">
+<h2><span class="section-number">8.2. </span>Device Details<a class="headerlink" href="#device-details" title="Permalink to this heading"></a></h2>
+<p>To query details on a device, you can use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>info<span class="w"> </span>&lt;os-serial&gt;
+</pre></div>
+</div>
+<p>To fetch even more details, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>info<span class="w"> </span>&lt;os-serial&gt;<span class="w"> </span>--live
+</pre></div>
+</div>
+<p>…to also query the Device itself for additional state (e.g. the Devices user accounts and IP addresses)</p>
+</section>
+<section id="deployment-groups">
+<h2><span class="section-number">8.3. </span>Deployment Groups<a class="headerlink" href="#deployment-groups" title="Permalink to this heading"></a></h2>
+<p>The App Store is designed to deploy software to <em>groups of Devices</em>, not to individual Devices. Those groups are called <em>Deployment Groups</em>.
+You can of course create a Deployment Group with just a single Device in it, if you want to deploy something to just that Device.</p>
+<p>The App Store has a generalized concept of a <em>Device</em> (Edge Device or Real Time Device) and an <em>App</em> (a Snap for an Edge Device or Firmware for a Real Time Device), treating them uniformly. It’s always an <em>App Revision</em> being deployed to a <em>Device</em>.</p>
+<p>To deploy App Revisions, you must organize Devices into Deployment Groups.</p>
+<div class="admonition-definition admonition">
+<p class="admonition-title">Definition</p>
+<p>A <em>Deployment Group</em> contains a set of Devices with <em>identical Device Models</em> and a set of App Revisions compatible with those Devices. A Deployment Group defines
+the <em>target installation state</em> for the contained Devices. By adding a Device to a Deployment Group you tell the App Store to install exactly those App Revisions on the Device
+that are configured in the group and remove all others.</p>
+</div>
+<p>So let’s see the online help for creating a Deployment Group:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>store<span class="w"> </span>dgroup<span class="w"> </span>create<span class="w"> </span>--help
+<span class="go">Create a Deployment Group using one of three approaches:</span>
+
+<span class="go">1. From a model ID:</span>
+<span class="go">   m2cp store dgroup create &lt;name&gt; &lt;modelId&gt;</span>
+
+<span class="go">2. From model details:</span>
+<span class="go">   m2cp store dgroup create &lt;name&gt; &lt;modelType&gt; &lt;modelName&gt; &lt;modelRevision&gt;</span>
+<span class="go">   Valid device types: &#39;m2cp&#39; or &#39;edge&#39; for edge devices, &#39;rtd&#39; for real-time devices</span>
+
+<span class="go">3. From an existing device:</span>
+<span class="go">   m2cp store dgroup create &lt;name&gt; &lt;deviceName or osSerial&gt;</span>
+
+<span class="go">When providing a UUID, the command automatically determines whether it&#39;s a device ID</span>
+<span class="go">or model ID.</span>
+
+<span class="go">Usage:</span>
+<span class="go">  m2cp store dgroup create [name] [modelId | modelType modelName modelRevision | deviceName or osSerial] [flags]</span>
+
+<span class="go">Flags:</span>
+<span class="go">  -m, --auto-update-mode string   auto update mode (off, stable, edge) (default &quot;off&quot;)</span>
+<span class="go">  -d, --description string        description of the new Deployment Group</span>
+<span class="go">  -h, --help                      help for create</span>
+
+<span class="go">Global Flags:</span>
+<span class="go">      --json   print output as JSON</span>
+</pre></div>
+</div>
+<p>As you can see, there are multiple ways for creating a Deployment Group - but the result is always the same. An empty Deployment Group
+will be created for Devices of a specific <em>Device Model</em>. You can either specify the model directly, or mention a Device whose model is to be used.</p>
+<p>If you want to know, which model your existing Device uses, you can find that out with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>info<span class="w"> </span>&lt;id<span class="p">|</span>os-serial<span class="p">|</span>name&gt;
+</pre></div>
+</div>
+<p>Let’s create one!</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>store<span class="w"> </span>dgroup<span class="w"> </span>create<span class="w"> </span><span class="s2">&quot;my-dgroup&quot;</span><span class="w"> </span>7f3e9d2a-8b41-4c7e-9fa3-1b5e8c42d976
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Don’t add Devices to your new Deployment Group before configuring App Revisions!
+Adding a Device instructs the App Store to instantly modify the installation state of that Device – so make sure, that you configure the desired installation first, before you add Devices.</p>
+</div>
+<section id="deployment-groups-administrator-and-co-administrators">
+<h3><span class="section-number">8.3.1. </span>Deployment Group’s Administrator and Co-Administrators<a class="headerlink" href="#deployment-groups-administrator-and-co-administrators" title="Permalink to this heading"></a></h3>
+<p>To protect the devices within a Deployment Group from unauthorized
+changes, the Deployment Group can only be changed by the person who
+created it (called the <em>Administrator</em>) or the <a class="reference internal" href="Management_User.html#super-admin"><span class="std std-ref">Super Admin
+Role</span></a>. Additionally, the Administrator
+can add other persons (called _Co-Administrator_s), which provides
+them with the same permissions and responsibilities.</p>
+<p>Only Administrators can delete Deployment Groups they own, and only if
+the group is empty of devices.</p>
+<p>To list the current status of a given Deployment Group:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>store<span class="w"> </span>dgroup<span class="w"> </span>admin<span class="w"> </span>list<span class="w"> </span>demo-dgroup
+<span class="go">Task-Id: 61f35ef3-ef8c-43ee-a9e7-cad8369c83d4</span>
+<span class="go">Role        Email                       Name</span>
+<span class="go">Admin       alice@ml-pa.com             Alice</span>
+<span class="go">Co-admin    bob@ml-pa.com               Bob</span>
+</pre></div>
+</div>
+<p>Note, the information is also printed in the output of <code class="docutils literal notranslate"><span class="pre">m2cp</span> <span class="pre">store</span> <span class="pre">dgroup</span> <span class="pre">info</span> <span class="pre">...</span></code>.</p>
+<p>To add a Co-Administrator, do:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>store<span class="w"> </span>dgroup<span class="w"> </span>admin<span class="w"> </span>add<span class="w"> </span>demo-dgroup<span class="w"> </span><span class="s1">&#39;alice@ml-pa.com&#39;</span>
+<span class="go">Task-Id: 0dedcfd0-fc03-4596-a172-97f0cc1952b3</span>
+<span class="go">co-administrator added</span>
+</pre></div>
+</div>
+<p>Note, this also allows the Co-Administrator to use <a class="reference internal" href="#reverse-ssh-access"><span class="std std-ref">Reverse-SSH
+Access</span></a> on the device, given
+that he has the <a class="reference internal" href="Management_User.html#device-admin"><span class="std std-ref">Device Admin Role</span></a>.</p>
+<p>To remove a Co-Administrator, do:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>store<span class="w"> </span>dgroup<span class="w"> </span>admin<span class="w"> </span>remove<span class="w"> </span>demo-dgroup<span class="w"> </span><span class="s1">&#39;alice@ml-pa.com&#39;</span>
+<span class="go">Task-Id: 07c8f0fa-1545-47af-9019-8c60fdcceb06</span>
+<span class="go">co-administrator removed</span>
+</pre></div>
+</div>
+<p>Administrators can transfer their privilege to other users:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>m2cp<span class="w"> </span>store<span class="w"> </span>dgroup<span class="w"> </span>admin<span class="w"> </span>transfer<span class="w"> </span>demo-dgroup<span class="w"> </span><span class="s1">&#39;alice@ml-pa.com&#39;</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="deploying-an-app-revision">
+<h2><span class="section-number">8.4. </span>Deploying an App Revision<a class="headerlink" href="#deploying-an-app-revision" title="Permalink to this heading"></a></h2>
+<p>Let’s add App Revisions to our new Deployment Group. To see, which Apps are available, we use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># list apps for Edge Devices</span>
+$<span class="w"> </span>m2cp<span class="w"> </span>store<span class="w"> </span>app<span class="w"> </span>list<span class="w"> </span>--type<span class="w"> </span>snap
+
+<span class="c1"># list apps for Real Time Devices</span>
+$<span class="w"> </span>m2cp<span class="w"> </span>store<span class="w"> </span>app<span class="w"> </span>list<span class="w"> </span>--type<span class="w"> </span>firmware
+</pre></div>
+</div>
+<p>If we created a Deployment Group for Edge Devices, then any App of type <em>snap</em> can be added, as long as the <em>architecture</em> of the App (e.g. arm64 or amd64) matches
+the architecture of the Device Model underlying our Deployment Group.</p>
+<p>If we created a Deployment Group for Real Time Devices, then only a <em>single app</em> can be in the group. Additionally that App must be compatible to the used Device Model.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Id<span class="w">                                      </span>Architecture<span class="w">    </span>App<span class="w"> </span>Type<span class="w">    </span>Device<span class="w"> </span>Model<span class="w">        </span>App<span class="w"> </span>Name<span class="w">                </span>Tenant<span class="w">    </span>Description
+f4a8c9d2-1e5b-4a3f-9c72-8b1d6e9f0a45<span class="w">    </span>arm32<span class="w">           </span>firmware<span class="w">    </span>temperature_sensor<span class="w">  </span>temp-sensor<span class="w">             </span>acme<span class="w">      </span>Temperature<span class="w"> </span>sensor<span class="w"> </span>firmware
+3b7e2f9a-6c4d-4e8f-a1b3-7d9c5f2e8a41<span class="w">    </span>arm32<span class="w">           </span>firmware<span class="w">    </span>multi_sensor<span class="w">        </span>humidity-monitor<span class="w">        </span>acme<span class="w">      </span>Humidity<span class="w"> </span>monitoring<span class="w"> </span>firmware
+8c1f5a7b-9d2e-4f6a-b3c5-1e8f7a9c4d6b<span class="w">    </span>arm32<span class="w">           </span>firmware<span class="w">    </span>multi_sensor<span class="w">        </span>pressure-gauge<span class="w">          </span>acme<span class="w">      </span>Pressure<span class="w"> </span>measurement<span class="w"> </span>firmware
+2d9f6c3a-7e1b-4c8f-9a5d-3f8c7b2e9d1a<span class="w">    </span>arm32<span class="w">           </span>firmware<span class="w">    </span>multi_sensor<span class="w">        </span>motion-sensor<span class="w">           </span>acme<span class="w">      </span>PIR<span class="w"> </span>motion<span class="w"> </span>detection<span class="w"> </span>firmware
+7a3e9c5f-2b8d-4f1a-8c6e-9f5a3d7c2b4e<span class="w">    </span>arm32<span class="w">           </span>firmware<span class="w">    </span>multi_sensor<span class="w">        </span>ambient-light<span class="w">           </span>acme<span class="w">      </span>Ambient<span class="w"> </span>light<span class="w"> </span>measurement<span class="w"> </span>firmware
+5f2a8d6c-4e9b-4a7f-b1c8-6d2f9e5a3c7b<span class="w">    </span>arm32<span class="w">           </span>firmware<span class="w">    </span>vibration_monitor<span class="w">   </span>vibration-detector<span class="w">      </span>acme<span class="w">      </span>Industrial<span class="w"> </span>vibration<span class="w"> </span>monitoring
+</pre></div>
+</div>
+<p>The example shows a list of Real Time Device Apps. Each App is bound to a specific Device Model. Some Device Models allow a variety of Apps (i.e. firmware implementing different
+use cases can run on the same hardware) while other Device Models only work with a single App (i.e. only a specific firmware is allowed for that hardware).</p>
+<p>Once we found the App(s) that we want to use, we add them to our Deployment Group. This is how it works:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>store<span class="w"> </span>dgroup<span class="w"> </span>app<span class="w"> </span>add<span class="w"> </span>--help
+Add<span class="w"> </span>an<span class="w"> </span>App<span class="w"> </span>of<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>revision<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>Deployment<span class="w"> </span>Group
+
+Usage:
+<span class="w">  </span>m2cp<span class="w"> </span>store<span class="w"> </span>dgroup<span class="w"> </span>app<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>dgroupName<span class="p">|</span>dgroupId<span class="w"> </span>appName<span class="p">|</span>appId<span class="o">]</span><span class="w"> </span><span class="o">[</span>flags<span class="o">]</span>
+
+Flags:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">              </span><span class="nb">help</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>add
+<span class="w">  </span>-r,<span class="w"> </span>--revision<span class="w"> </span>string<span class="w">   </span>revision<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>App<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>latest<span class="o">)</span><span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="s2">&quot;latest&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Let’s do it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>store<span class="w"> </span>dgroup<span class="w"> </span>app<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;my-dgroup&quot;</span><span class="w"> </span><span class="s2">&quot;my-app&quot;</span><span class="w"> </span>-r<span class="w"> </span><span class="m">42</span>
+</pre></div>
+</div>
+<p>Once we added enough App Revisions and made sure, that this is exactly the target installation state that we want, we can add Devices:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>dgroup<span class="w"> </span><span class="nb">set</span><span class="w"> </span>--help
+<span class="nb">set</span><span class="w"> </span>the<span class="w"> </span>Deployment<span class="w"> </span>Group<span class="w"> </span>of<span class="w"> </span>a<span class="w"> </span>Device
+
+Usage:
+<span class="w">  </span>m2cp<span class="w"> </span>device<span class="w"> </span>dgroup<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="o">[</span>deviceSerial<span class="p">|</span>deviceName<span class="w"> </span>dgroupName<span class="p">|</span>dgroupId<span class="o">]</span><span class="w"> </span><span class="o">[</span>flags<span class="o">]</span>
+</pre></div>
+</div>
+<p>Let’s do it!</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>dgroup<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;my-device&quot;</span><span class="w"> </span><span class="s2">&quot;my-dgroup&quot;</span>
+$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>dgroup<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;my-other-device&quot;</span><span class="w"> </span><span class="s2">&quot;my-dgroup&quot;</span>
+</pre></div>
+</div>
+<p>Now we can review our Deployment group with</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>store<span class="w"> </span>dgroup<span class="w"> </span>info<span class="w"> </span><span class="s2">&quot;my-dgroup&quot;</span>
+</pre></div>
+</div>
+<p>…and we can also see, that our Devices now have a Deployment Group set:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>info<span class="w"> </span><span class="s2">&quot;my-device&quot;</span>
+</pre></div>
+</div>
+<p>Since the Deployment Group defines a target installation state for your Devices, you might now notice <em>Pending Installations</em> in your Device details.
+The App Store is now working on getting your Devices to the exact installation state defined in the Deployment Group that you assigned.</p>
+<p>Now you learned how to deploy Apps to Devices. And you saw, that it makes no difference, if you want to deploy Firmware to a Real Time Device or if you
+want to install a Snap on an Edge Device - it’s the exact same mechanism.</p>
+</section>
+<section id="manually-trigger-deployment">
+<h2><span class="section-number">8.5. </span>Manually Trigger Deployment<a class="headerlink" href="#manually-trigger-deployment" title="Permalink to this heading"></a></h2>
+<p>Changes to Deployment Groups <em>should</em> cause the automatic deployment to all affected Devices. If you ever observer an App not being deployed to the target Device
+immedeatly, you can manually trigger a <em>refresh</em>, which causes the Device to communicate with the App Store and ask for available updates:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>refresh
+Usage:
+<span class="w">  </span>m2cp<span class="w"> </span>device<span class="w"> </span>refresh<span class="w"> </span>&lt;id<span class="p">|</span>os-serial<span class="p">|</span>name&gt;<span class="w"> </span><span class="o">[</span>flags<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="analyzing-deployment">
+<h2><span class="section-number">8.6. </span>Analyzing Deployment<a class="headerlink" href="#analyzing-deployment" title="Permalink to this heading"></a></h2>
+<p>The mechanism behind the deployment is different for Edge Devices and Real Time Devices.</p>
+<section id="edge-devices">
+<h3><span class="section-number">8.6.1. </span>Edge Devices<a class="headerlink" href="#edge-devices" title="Permalink to this heading"></a></h3>
+<p>You can query the list of changes to the installation state of your Edge Device using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>snap<span class="w"> </span>changes
+Usage:
+<span class="w">  </span>m2cp<span class="w"> </span>device<span class="w"> </span>snap<span class="w"> </span>changes<span class="w"> </span>&lt;id<span class="p">|</span>os-serial<span class="p">|</span>name&gt;<span class="w"> </span><span class="o">[</span>flags<span class="o">]</span>
+</pre></div>
+</div>
+<p>Example output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>snap<span class="w"> </span>changes<span class="w"> </span>a9b4c7e2-3f8d-4c1a-9e5b-2d6f8c3a7e9f
+task-id:<span class="w"> </span>dec69f87-1b3c-4efb-81f6-e3d34e04ef92
+output:
+<span class="w">    </span>-<span class="w"> </span>id:<span class="w"> </span><span class="s2">&quot;104&quot;</span>
+<span class="w">      </span>kind:<span class="w"> </span>install-snap
+<span class="w">      </span>summary:<span class="w"> </span>Install<span class="w"> </span>snap<span class="w"> </span><span class="s2">&quot;dev-net-coap&quot;</span>
+<span class="w">      </span>status:<span class="w"> </span>Done
+<span class="w">      </span>tasks:
+<span class="w">        </span>-<span class="w"> </span>id:<span class="w"> </span><span class="s2">&quot;699&quot;</span>
+<span class="w">          </span>kind:<span class="w"> </span>prerequisites
+<span class="w">          </span>summary:<span class="w"> </span>Ensure<span class="w"> </span>prerequisites<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s2">&quot;dev-net-coap&quot;</span><span class="w"> </span>are<span class="w"> </span>available
+<span class="w">          </span>status:<span class="w"> </span>Done
+<span class="w">          </span>progress:
+<span class="w">            </span>label:<span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">            </span><span class="k">done</span>:<span class="w"> </span><span class="m">1</span>
+<span class="w">            </span>total:<span class="w"> </span><span class="m">1</span>
+<span class="w">          </span>spawntime:<span class="w"> </span><span class="m">2025</span>-08-06T15:25:23.797377143Z
+<span class="w">          </span>readytime:<span class="w"> </span><span class="m">2025</span>-08-06T15:25:23.851204834Z
+<span class="w">        </span>-<span class="w"> </span>id:<span class="w"> </span><span class="s2">&quot;700&quot;</span>
+<span class="w">          </span>kind:<span class="w"> </span>download-snap
+<span class="w">          </span>summary:<span class="w"> </span>Download<span class="w"> </span>snap<span class="w"> </span><span class="s2">&quot;dev-net-coap&quot;</span><span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span>from<span class="w"> </span>channel<span class="w"> </span><span class="s2">&quot;stable&quot;</span>
+<span class="w">          </span>status:<span class="w"> </span>Done
+<span class="w">          </span>progress:
+<span class="w">            </span>label:<span class="w"> </span>dev-net-coap
+<span class="w">            </span><span class="k">done</span>:<span class="w"> </span><span class="m">204800</span>
+<span class="w">            </span>total:<span class="w"> </span><span class="m">204800</span>
+<span class="w">          </span>spawntime:<span class="w"> </span><span class="m">2025</span>-08-06T15:25:23.797440143Z
+<span class="w">          </span>readytime:<span class="w"> </span><span class="m">2025</span>-08-06T15:25:24.605171308Z
+<span class="w">          </span>...
+</pre></div>
+</div>
+<p>The output is the raw data fetched from <em>snapd changes</em> on the Edge Device.</p>
+<p>You can query details about a specific <em>change</em> using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>snap<span class="w"> </span>change
+Usage:
+<span class="w">  </span>m2cp<span class="w"> </span>device<span class="w"> </span>snap<span class="w"> </span>change<span class="w"> </span>&lt;device&gt;<span class="w"> </span>&lt;change-id&gt;<span class="w"> </span><span class="o">[</span>flags<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="real-time-devices">
+<h3><span class="section-number">8.6.2. </span>Real Time Devices<a class="headerlink" href="#real-time-devices" title="Permalink to this heading"></a></h3>
+<p>To analyze the refresh process of Real Time Devices we have to communicate with both the Real Time Device itself as well as the Edge Device acting as it’s proxy.</p>
+<p>Let’s first look at the Real Time Device</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>coap<span class="w"> </span><span class="s2">&quot;my-rtd&quot;</span><span class="w"> </span>get<span class="w"> </span>/whoami/2
+</pre></div>
+</div>
+<p>If you’re running older firmware on your Real Time Device you might want to try:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>coap<span class="w"> </span><span class="s2">&quot;my-rtd&quot;</span><span class="w"> </span>get<span class="w"> </span>/whoami/1
+</pre></div>
+</div>
+<p>Both commands send a CoAP request to you Real Time Device (relayed via its Edge Device) and return the response.</p>
+<p>The output can help you understand, why a firmware that you’re trying to install might be rejected - causes can be mismatching signing keys, different vendor ids or similar
+issues that cause the SUIT update mechanism on the Real Time Device to deny the update.</p>
+<p>We can also analyze the <em>known-peers</em> state of the responsible Edge Device - let’s find out, which one that is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>info<span class="w"> </span><span class="s2">&quot;my-rtd&quot;</span>
+Device:
+<span class="w">  </span>├─<span class="w"> </span>Id:<span class="w">                      </span>effec487-c685-43a4-b0b8-2b1873955331
+<span class="w">  </span>├─<span class="w"> </span>OS<span class="w"> </span>Serial:<span class="w">               </span>49eff07e-32b1-55a7-9bc8-872d6feed2dd
+<span class="w">  </span>├─<span class="w"> </span>Name:<span class="w">                    </span>my-rtd
+...
+Last<span class="w"> </span>Seen<span class="w"> </span>Edge<span class="w"> </span>Device:
+<span class="w">  </span>├─<span class="w"> </span>OS<span class="w"> </span>Serial:<span class="w">      </span>a9b4c7e2-3f8d-4c1a-9e5b-2d6f8c3a7e9f
+<span class="w">  </span>└─<span class="w"> </span>Name:<span class="w">           </span>my-device
+...
+</pre></div>
+</div>
+<p>Now we can query the internal state of the firmware-refresh mechanism on the Edge Device:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>peers<span class="w"> </span><span class="s2">&quot;my-device&quot;</span>
+</pre></div>
+</div>
+<p>The result is a pretty raw data dump that tells us everything that the Edge Device knows about the Real Time Devices that
+it has seen <em>in the last days</em> and their corresponding state. Most likely you won’t need this level of detail.</p>
+</section>
+</section>
+<section id="deployment-history">
+<h2><span class="section-number">8.7. </span>Deployment History<a class="headerlink" href="#deployment-history" title="Permalink to this heading"></a></h2>
+<p>To see, which changes were done to a Deployment Group, you can query the history:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>store<span class="w"> </span>dgroup<span class="w"> </span><span class="nb">history</span>
+Usage:
+<span class="w">  </span>m2cp<span class="w"> </span>store<span class="w"> </span>dgroup<span class="w"> </span><span class="nb">history</span><span class="w"> </span>&lt;deployment-group-name&gt;<span class="w"> </span><span class="o">[</span>flags<span class="o">]</span>
+
+Examples:
+m2cp<span class="w"> </span>store<span class="w"> </span>dgroup<span class="w"> </span><span class="nb">history</span><span class="w"> </span>my-dgroup
+
+Flags:
+<span class="w">      </span>--after<span class="w"> </span>string<span class="w">        </span>show<span class="w"> </span>only<span class="w"> </span>logs<span class="w"> </span>newer<span class="w"> </span>than<span class="w"> </span>this<span class="w"> </span>UTC<span class="w"> </span>date<span class="w"> </span><span class="o">(</span>format:<span class="w"> </span><span class="m">2006</span>-01-02T15:04<span class="o">)</span>
+<span class="w">      </span>--before<span class="w"> </span>string<span class="w">       </span>show<span class="w"> </span>only<span class="w"> </span>logs<span class="w"> </span>older<span class="w"> </span>than<span class="w"> </span>this<span class="w"> </span>UTC<span class="w"> </span>date<span class="w"> </span><span class="o">(</span>format:<span class="w"> </span><span class="m">2006</span>-01-02T15:04
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">                </span><span class="nb">help</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">history</span>
+<span class="w">  </span>-n,<span class="w"> </span>--newer-than<span class="w"> </span>string<span class="w">   </span>only<span class="w"> </span>print<span class="w"> </span>logs<span class="w"> </span>newer<span class="w"> </span>than<span class="w"> </span>given<span class="w"> </span>duration<span class="w"> </span><span class="o">(</span>format:<span class="w"> </span>1m,<span class="w"> </span>1h<span class="o">)</span>
+</pre></div>
+</div>
+<p>The same is available for Devices:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span><span class="nb">history</span>
+Usage:
+<span class="w">  </span>m2cp<span class="w"> </span>device<span class="w"> </span><span class="nb">history</span><span class="w"> </span>&lt;device-serial<span class="w"> </span>or<span class="w"> </span>device-name&gt;<span class="w"> </span><span class="o">[</span>flags<span class="o">]</span>
+
+Flags:
+<span class="w">      </span>--after<span class="w"> </span>string<span class="w">        </span>show<span class="w"> </span>only<span class="w"> </span>logs<span class="w"> </span>newer<span class="w"> </span>than<span class="w"> </span>this<span class="w"> </span>UTC<span class="w"> </span>date<span class="w"> </span><span class="o">(</span>format:<span class="w"> </span><span class="m">2006</span>-01-02T15:04<span class="o">)</span>
+<span class="w">  </span>-a,<span class="w"> </span>--app<span class="w"> </span>string<span class="w">          </span>show<span class="w"> </span>only<span class="w"> </span>logs<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>app
+<span class="w">      </span>--before<span class="w"> </span>string<span class="w">       </span>show<span class="w"> </span>only<span class="w"> </span>logs<span class="w"> </span>older<span class="w"> </span>than<span class="w"> </span>this<span class="w"> </span>UTC<span class="w"> </span>date<span class="w"> </span><span class="o">(</span>format:<span class="w"> </span><span class="m">2006</span>-01-02T15:04
+<span class="w">      </span>--changes<span class="w">             </span>Show<span class="w"> </span>changes<span class="w"> </span>only
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">                </span><span class="nb">help</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">history</span>
+<span class="w">  </span>-l,<span class="w"> </span>--limit<span class="w"> </span>int<span class="w">           </span>limit<span class="w"> </span>the<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>results<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>n<span class="w"> </span>newest<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="m">100</span><span class="o">)</span>
+<span class="w">  </span>-n,<span class="w"> </span>--newer-than<span class="w"> </span>string<span class="w">   </span>only<span class="w"> </span>print<span class="w"> </span>logs<span class="w"> </span>newer<span class="w"> </span>than<span class="w"> </span>given<span class="w"> </span>duration<span class="w"> </span><span class="o">(</span>format:<span class="w"> </span>1m,<span class="w"> </span>1h<span class="o">)</span>
+<span class="w">      </span>--snapshots<span class="w">           </span>Show<span class="w"> </span>snapshots<span class="w"> </span>only
+</pre></div>
+</div>
+</section>
+<section id="toggle-rtd-updates">
+<h2><span class="section-number">8.8. </span>Toggle RTD Updates<a class="headerlink" href="#toggle-rtd-updates" title="Permalink to this heading"></a></h2>
+<p>Updates for Real Time Devices are deployed using an Edge Device as a proxy, because RTDs are not directly connected to the App Store.</p>
+<p>If you want to disable the RTD update mechanism of a specific Edge Device, so that the attached RTDs don’t receive any updates for the time being, you can
+control that by sending an RPC to the Edge Device. You need to know the <a class="reference internal" href="Glossary.html#os-serial-number"><span class="std std-ref">OS Serial Number</span></a> of the Edge Device.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>m2cp<span class="w"> </span>device<span class="w"> </span>node<span class="w"> </span>rpc<span class="w"> </span>--json<span class="w"> </span>--command<span class="w"> </span>FirmwareUpdatesDisable<span class="w"> </span>rpc.m2cp-coap.<span class="o">{</span>os-serial<span class="o">}</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>m2cp<span class="w"> </span>device<span class="w"> </span>node<span class="w"> </span>rpc<span class="w"> </span>--json<span class="w"> </span>--command<span class="w"> </span>FirmwareUpdatesEnable<span class="w"> </span>rpc.m2cp-coap.<span class="o">{</span>os-serial<span class="o">}</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>m2cp<span class="w"> </span>device<span class="w"> </span>node<span class="w"> </span>rpc<span class="w"> </span>--json<span class="w"> </span>--command<span class="w"> </span>FirmwareUpdatesStatus<span class="w"> </span>rpc.m2cp-coap.<span class="o">{</span>os-serial<span class="o">}</span>
+</pre></div>
+</div>
+</section>
+<section id="device-logs">
+<h2><span class="section-number">8.9. </span>Device Logs<a class="headerlink" href="#device-logs" title="Permalink to this heading"></a></h2>
+<p>Logs emitted by Devices are collected in the central logging system.</p>
+<p>The software running on the Devices has to actively emit a log message to the messaging system for it to be delivered to the logging system in the Backend.</p>
+<p>For Edge Devices this can be achieved by sending SIGNAL messages containing the relevant output - for Real Time Devices log messages need to be sent as protobuf
+payload to the Edge Device acting as proxy, which will forward the messages to the cloud.</p>
+<p>The logs can be accessed using the browser UI or the CLI tool.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The permission to read log messaged is included in the <a class="reference internal" href="Management_User.html#system-analyst"><span class="std std-ref">System Analyst</span></a> role.</p>
+</div>
+<p>To access the logs of a Device with the CLI tool:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>logs<span class="w"> </span>--help
+
+<span class="w">  </span>The<span class="w"> </span><span class="s2">&quot;logs&quot;</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span>retrieves<span class="w"> </span>logs<span class="w"> </span>from<span class="w"> </span>a<span class="w"> </span>specified<span class="w"> </span>device.
+<span class="w">  </span>You<span class="w"> </span>can<span class="w"> </span>filter<span class="w"> </span>the<span class="w"> </span>logs<span class="w"> </span>by<span class="w"> </span>different<span class="w"> </span>criteria,<span class="w"> </span>such<span class="w"> </span>as<span class="w"> </span>log<span class="w"> </span>level,
+<span class="w">  </span>origin,<span class="w"> </span>topic,<span class="w"> </span>task<span class="w"> </span>ID,<span class="w"> </span>and<span class="w"> </span>date<span class="w"> </span>range.<span class="w"> </span>If<span class="w"> </span>no<span class="w"> </span>OS<span class="w"> </span>Serial<span class="w"> </span>Number<span class="w"> </span>is<span class="w"> </span>provided,
+<span class="w">  </span>the<span class="w"> </span><span class="nb">command</span><span class="w"> </span>will<span class="w"> </span>use<span class="w"> </span>a<span class="w"> </span>default<span class="w"> </span>device<span class="w"> </span>or<span class="w"> </span>all<span class="w"> </span>devices<span class="w"> </span>based<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>system<span class="w"> </span>configuration.
+
+Usage:
+<span class="w">  </span>m2cp<span class="w"> </span>device<span class="w"> </span>logs<span class="w"> </span><span class="o">[</span>device-serial<span class="w"> </span>or<span class="w"> </span>device-name<span class="o">]</span><span class="w"> </span><span class="o">[</span>flags<span class="o">]</span>
+
+Examples:
+
+<span class="w">  </span><span class="c1"># Get logs from a specific device by providing its serial number</span>
+<span class="w">  </span>m2cp<span class="w"> </span>device<span class="w"> </span>logs<span class="w"> </span>abc123
+
+<span class="w">  </span><span class="c1"># Get logs with a log level of WARNING or higher from all devices</span>
+<span class="w">  </span>m2cp<span class="w"> </span>device<span class="w"> </span>logs<span class="w"> </span>--level<span class="w"> </span>WARNING
+
+<span class="w">  </span><span class="c1"># Get logs newer than 1 hour with a specific task ID</span>
+<span class="w">  </span>m2cp<span class="w"> </span>device<span class="w"> </span>logs<span class="w"> </span>--newer-than<span class="w"> </span>1h<span class="w"> </span>--task<span class="w"> </span>mytaskid
+
+<span class="w">  </span><span class="c1"># Search logs by the term &quot;error&quot; within a specific time frame</span>
+<span class="w">  </span>m2cp<span class="w"> </span>device<span class="w"> </span>logs<span class="w"> </span>--after<span class="w"> </span><span class="m">2024</span>-09-10T00:00<span class="w"> </span>--before<span class="w"> </span><span class="m">2024</span>-09-11T00:00<span class="w"> </span>--search<span class="w"> </span>error<span class="w"> </span>--limit<span class="w"> </span><span class="m">10</span>
+
+Flags:
+<span class="w">      </span>--after<span class="w"> </span>string<span class="w">        </span>show<span class="w"> </span>only<span class="w"> </span>logs<span class="w"> </span>newer<span class="w"> </span>than<span class="w"> </span>this<span class="w"> </span>UTC<span class="w"> </span>date<span class="w"> </span><span class="o">(</span>format:<span class="w"> </span><span class="m">2006</span>-01-02T15:04<span class="o">)</span>
+<span class="w">      </span>--before<span class="w"> </span>string<span class="w">       </span>show<span class="w"> </span>only<span class="w"> </span>logs<span class="w"> </span>older<span class="w"> </span>than<span class="w"> </span>this<span class="w"> </span>UTC<span class="w"> </span>date<span class="w"> </span><span class="o">(</span>format:<span class="w"> </span><span class="m">2006</span>-01-02T15:04
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">                </span><span class="nb">help</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>logs
+<span class="w">      </span>--level<span class="w"> </span>string<span class="w">        </span>only<span class="w"> </span>print<span class="w"> </span>logs<span class="w"> </span>of<span class="w"> </span>given<span class="w"> </span>level<span class="w"> </span>or<span class="w"> </span>above<span class="w"> </span><span class="o">(</span>DEBUG,<span class="w"> </span>INFO,<span class="w"> </span>WARNING,<span class="w"> </span>ERROR<span class="o">)</span><span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="s2">&quot;INFO&quot;</span><span class="o">)</span>
+<span class="w">  </span>-l,<span class="w"> </span>--limit<span class="w"> </span>int<span class="w">           </span>limit<span class="w"> </span>the<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>results<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>n<span class="w"> </span>newest<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="m">100</span><span class="o">)</span>
+<span class="w">  </span>-n,<span class="w"> </span>--newer-than<span class="w"> </span>string<span class="w">   </span>only<span class="w"> </span>print<span class="w"> </span>logs<span class="w"> </span>newer<span class="w"> </span>than<span class="w"> </span>given<span class="w"> </span>duration<span class="w"> </span><span class="o">(</span>format:<span class="w"> </span>1m,<span class="w"> </span>1h<span class="o">)</span>
+<span class="w">      </span>--origin<span class="w"> </span>string<span class="w">       </span>only<span class="w"> </span>print<span class="w"> </span>logs<span class="w"> </span>stemming<span class="w"> </span>from<span class="w"> </span>signal<span class="w"> </span>message<span class="w"> </span>with<span class="w"> </span>given<span class="w"> </span>origin,<span class="w"> </span>*<span class="w"> </span>allowed<span class="w"> </span>as<span class="w"> </span>wildcard
+<span class="w">  </span>-s,<span class="w"> </span>--search<span class="w"> </span>string<span class="w">       </span>search<span class="w"> </span>term<span class="w"> </span>to<span class="w"> </span>filter<span class="w"> </span>logs<span class="w"> </span>by<span class="w"> </span>multiple<span class="w"> </span>fields
+<span class="w">  </span>-t,<span class="w"> </span>--task<span class="w"> </span>string<span class="w">         </span>show<span class="w"> </span>only<span class="w"> </span>logs<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>task<span class="w"> </span>id
+<span class="w">      </span>--topic<span class="w"> </span>string<span class="w">        </span>only<span class="w"> </span>print<span class="w"> </span>logs<span class="w"> </span>stemming<span class="w"> </span>from<span class="w"> </span>signal<span class="w"> </span>message<span class="w"> </span>with<span class="w"> </span>given<span class="w"> </span>topic,<span class="w"> </span>*<span class="w"> </span>allowed<span class="w"> </span>as<span class="w"> </span>wildcard
+</pre></div>
+</div>
+</section>
+<section id="reverse-ssh-access">
+<h2><span class="section-number">8.10. </span>Reverse-SSH Access<a class="headerlink" href="#reverse-ssh-access" title="Permalink to this heading"></a></h2>
+<p>If an Edge Device is online, you can establish an SSH connection to gain full access to its Linux console.</p>
+<p>For security reasons, Edge Devices don’t expose any open ports towards the internet. Instead, a tunneling mechanism
+is used to establish an outgoing connection from the Edge Device to a SSH-Proxy in the Backend which can then be used
+by an authorized administrator to shell into the Edge Device.</p>
+<p>For technical details on this mechanism please refer to <a class="reference internal" href="Tech_Architecture.html#ssh-relay-service"><span class="std std-ref">SSH-Relay-Service</span></a> in the technical specification.</p>
+<p>Before connecting via SSH, ensure that your SSH public key is registered with the Appstore:</p>
+<ul class="simple">
+<li><p>Log in to the Appstore using the m2cp CLI tool</p></li>
+<li><p>Configure your SSH key by running: <code class="docutils literal notranslate"><span class="pre">m2cp</span> <span class="pre">user</span> <span class="pre">modify</span> <span class="pre">--ssh-key</span> <span class="pre">&quot;&lt;your-public-key&gt;&quot;</span></code></p></li>
+<li><p>Make sure that you are an Admin or Co-Admin of the Deployment Group that contains the device you want to connect to</p></li>
+</ul>
+<p>If you recently added a new SSH key, it may take some time for all devices to synchronize with it. To speed up this process, run the following command to request a specific device to fetch the updated SSH key from the Appstore:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">m2cp device ssh sync &lt;device-name&gt;</span>
+</pre></div>
+</div>
+<p>To now initiate a reverse-ssh session:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>ssh<span class="w"> </span>open<span class="w"> </span>&lt;device&gt;
+</pre></div>
+</div>
+<p>The initial setup can take 1-2 minutes due to docker instances being started in the Backend for this specific tunnel. Once done, the command
+prints details how to connect to the target device.</p>
+<p>On the Edge Device you can e.g. interact with the snapd daemon:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>snap<span class="w"> </span>list
+$<span class="w"> </span>snap<span class="w"> </span>changes
+$<span class="w"> </span>snap<span class="w"> </span>logs
+$<span class="w"> </span>snap<span class="w"> </span><span class="nb">help</span>
+</pre></div>
+</div>
+<p>We propose, that you install the App <em>dev-m2cpctl</em> from the App Store, which contains a set of useful developer tools:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ m2cpctl help
+</pre></div>
+</div>
+<p><em>m2cpctl</em> contains a very useful <em>logs prettifier</em> (to be used with sudo!):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo m2cpctl logs --help
+</pre></div>
+</div>
+</section>
+<section id="advanced-troubleshooting">
+<h2><span class="section-number">8.11. </span>Advanced Troubleshooting<a class="headerlink" href="#advanced-troubleshooting" title="Permalink to this heading"></a></h2>
+<section id="tpm-da-lockout-mode">
+<h3><span class="section-number">8.11.1. </span>TPM DA Lockout Mode<a class="headerlink" href="#tpm-da-lockout-mode" title="Permalink to this heading"></a></h3>
+<p>How to check if the TPM chip did a lockout.</p>
+<p>Mount the <code class="docutils literal notranslate"><span class="pre">system-data</span></code> partition of the SD card.</p>
+<p>Change directory to <code class="docutils literal notranslate"><span class="pre">/var/log/journal/</span></code>. In there is one directory
+with a long hexadecimal as a name. And inside there, is the
+<code class="docutils literal notranslate"><span class="pre">system.journal</span></code>. Do:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo journalctl --file system.journal -u snapd | grep &quot;DA lockout mode&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="inspecting-the-state-json">
+<h3><span class="section-number">8.11.2. </span>Inspecting the state.json<a class="headerlink" href="#inspecting-the-state-json" title="Permalink to this heading"></a></h3>
+<p>Get the <code class="docutils literal notranslate"><span class="pre">/system-data/var/lib/snapd/state.json</span></code> file from the
+SD-card’s <code class="docutils literal notranslate"><span class="pre">ubuntu-data</span></code> partition.</p>
+<p>Then use the <code class="docutils literal notranslate"><span class="pre">snap</span></code> application on your local machine to inspect it:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>snap<span class="w"> </span>debug<span class="w"> </span>state<span class="w"> </span>./state.json
+<span class="go">1    Done...</span>
+<span class="go">2    Error...</span>
+<span class="gp">$ </span>sudo<span class="w"> </span>snap<span class="w"> </span>debug<span class="w"> </span>state<span class="w"> </span>./state.json<span class="w"> </span>--change<span class="w"> </span><span class="m">2</span>
+<span class="go">...</span>
+<span class="go">0      197  Error...</span>
+<span class="gp">$ </span>sudo<span class="w"> </span>snap<span class="w"> </span>debug<span class="w"> </span>state<span class="w"> </span>./state.json<span class="w"> </span>--task<span class="w"> </span><span class="m">197</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+<p>See also: <a class="reference external" href="https://wiki.ubuntuusers.de/snap/Debugging/#Debugging">Snap Debugging</a>.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Management_Software.html" class="btn btn-neutral float-left" title="7. Software Management" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Development_Edge.html" class="btn btn-neutral float-right" title="1. Edge Device Development" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, ML!PA.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

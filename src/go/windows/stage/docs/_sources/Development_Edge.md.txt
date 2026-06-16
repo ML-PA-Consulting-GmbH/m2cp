@@ -1,0 +1,4172 @@
+# Edge Device Development
+
+This section offers guidance on developing applications for deployment on devices. These applications are delivered to edge devices using snap-packages, a container format for
+snapd based operating systems such as Ubuntu-Core or a Yocto-Linux with snapd. Snaps are self-contained, including all required dependencies, and are executed in a sandboxed environment.
+That way, they cannot interfere with other snaps or the system itself. Additionally, snaps are
+read-only, preventing to be tampered with or to modify their own files.
+
+Should a snap require additional permissions -- such as access to GPIO pins, USB
+devices, etc. -- those must be given explicitly.
+
+Each snap also includes a dedicated, writable area for data persistence, which is accessible only to the snap itself.
+
+The following subsections will walk you through essential tools for application development, detailed steps to build aan application, instructions for publishing software to the App Store, guidance on enabling messaging via the Edge Device SDK, and practical advice for working with GPIO.
+
+## Learning Path for App Developers
+To become familiar with L-IoT regarding App Development and receive an introduction into how applications would be developed within the system, it is recommended to walk through the following learning path:
+
+1. Set up your IDE such as [Visual Studio Code](https://code.visualstudio.com/download) and ensure that [GoLang](https://gobyexample.com/hello-world) can be compiled. If using VSC, install the needed [GoLang Extension](https://code.visualstudio.com/docs/languages/go) to implement with Go.
+1. Ensure that you are working with some kind of Linux system. For installment or further information, look into [Windows Subsystem for Linux](https://learn.microsoft.com/de-de/windows/wsl/install), [Ubuntu in a Virtual Machine](https://ubuntu.com/tutorials/how-to-run-ubuntu-desktop-on-a-virtual-machine-using-virtualbox#1-overview) or a [native Linux System](https://www.linux.org/).
+1. [Install the M2CP Toolchain](Installation_Tools.md) and ensure that [M2CP CLI](Installation_Tools.md#cli-tools) can be used.
+1. [Create a Virtual Device](Virtual_Devices.md#virtual-edge-devices) and [find your VD in the App Store](Management_Device.md#list-devices). Ensure that [Docker](Virtual_Devices.md#installation-of-docker) needs to be installed as a prerequisite.
+1. [Install an App](Management_Device.md#deployment-groups) on the virtual device. We recommend installing m2cp-simsensor to be able to use it in future examples.
+1. [Install the Edge Device SDK](#installing-the-edge-device-sdk) for GoLang for Linux.
+1. Follow the [Hello World App Tutorial](#emitting-a-hello-world-signal) to develop your first application that publishes a signal which is by default forwarded to the cloud.
+1. Follow the [Subscribe to a Signal Tutorial](#subscribing-to-a-signal) to develop an application that subscribes to the signal your other application sends.
+1. Follow the [Simulated Sensor Tutorial](#ramp-a-simulated-sensor) to develop an application that emits data.
+1. Use m2cp-simsensor to view datapoints being live transmitted and fetch transmitted data from the cloud.
+1. [Send log messages from your application](#send-log-messages-to-the-cloud) and view them in the cloud
+1. [Implement a simple RPC endpoint in your application](#get-or-set-period-length-of-rampgo-with-rpc) and call that endpoint using the M2CP CLI
+
+## Tools for App Development
+
+### Build Applications in Go with m2cp-go
+
+When compiling go applications, the result of the compilation depends on
+the environment in which the go compiler is run - especially the version
+of the go compiler and the operating system. To ensure that the
+resulting binary is deterministicly reproducible, we recommend to build
+go applications in a clearly defined environment. Our best practice is
+to build go applications in a standardized Docker container.
+
+To simplify this process, we provide the `m2cp-go` tool.
+
+m2cp-go is a compact tool that creates a Docker container based on
+Ubuntu 20 (focal), which can be employed to build go applications. It
+has an identical syntax to the typical go command.
+
+To use this tool, type `m2cp-go build -o <output_path_for_compiled_binary_file>`.
+
+You might need to define the environment variables `GOOS` (=linux) and `GOARCH` (arm64 or amd64) before executing this command.
+Also, ensure that you are executing the command inside a valid Git repository. If you're only testing and not working within a real repository, you can simulate one by creating an empty .git folder using `mkdir .git`. However, for regular application development, always work within a properly initialized Git repository.
+
+What m2cp-go does is diligently pass all arguments given to the
+standard go compiler, running a fixed version of go (1.21) in a
+predefined environment (Ubuntu 20 focal). Its function is thus
+primarily to regulate and facilitate the working of the go compiler.
+
+### Package applications with m2cp-snap
+
+m2cp-snap is a lightweight packaging tool used to generate snap
+packages directly, bypassing [Canonical
+Snapcraft](https://snapcraft.io/). A snap file is a
+[SquashFS](https://en.wikipedia.org/wiki/SquashFS) compressed
+directory.  Inside is a "snap/" subdirectory that houses the package
+configuration and metadata files, such as the requisite
+"snap.yaml". The `m2cp-snap` tool generates a snap package by simply
+updating the version number (in "snap.yaml") and compressing the
+directory containing all the package files.
+
+
+```{attention}
+The user of `m2cp-snap` is responsible for placing all the necessary
+files at the correct locations and that all binaries are compiled for
+the correct architecture.
+```
+
+1. To start packaging, you can create a blank project, by running:
+
+   ```console
+   $ mkdir test-snap
+   $ cd test-snap
+   $ m2cp-snap init
+   m2cp-snap init creates a snap folder structure
+   Project Name: test-snap
+   Architecture: arm64
+   Creating directories for the Project: testsnap with archictecture: arm64
+   Project creation successfull.
+   ```
+
+   It will create the following directory structure (as required):
+
+   ```
+   ./snap
+   ./snap/arm64
+   ./snap/arm64/bin
+   ./snap/arm64/snap
+   ./snap/arm64/snap/command-chain
+   ./snap/arm64/snap/command-chain/snapcraft-runner
+   ./snap/arm64/meta
+   ./snap/arm64/meta/snap.yaml
+   ```
+
+   The package can also contain e.g. `./snap/amd64/` for binaries of the
+   AMD architecture.
+
+2. Copy the binaries to be packaged into the `./snap/arm64/bin/`
+   directory.
+
+3. Adapt the package metadata and configuration in
+   `./snap/arm64/meta/snap.yaml` to your needs.  Especially, change
+   the `summary`, `description` and `command` values.
+
+   The binaries in `./snap/arm64/bin/` will be copied to the root of
+   the package, thus the `command` does not require any directory prefix.
+
+   You might also want to add a `plugs` list as a sibling to the
+   `command` to allow the packaged application to use [supported interfaces defined by
+   snapd](https://snapcraft.io/docs/supported-interfaces).
+
+4. To build the application, run:
+
+   ```console
+   $ m2cp-snap <version> [TARGET_ARCH]
+   ```
+
+   where `<version>` is the version (preferable as [Semantic
+   Versioning](https://semver.org/)). The `TARGET_ARCH` is
+   optional. When omitted, then an application for each defined architecture
+   is build.
+
+   The resulting application will be
+   `./bin/<arch>/<name>_<version>_<arch>.snap`, e.g.
+   `./bin/arm64/m2cp-testsnap_0.0.1_arm64.snap`.
+
+
+### Run existing software within an M2CP App using the State Machine
+
+If you have preexisting software which you want to package,
+so that you can execute it in a controlled manner and have the ability
+to trigger the execution remotely, then the State Machine is the right
+tool for you. M2CP Apps provide a confined environment. The State Machine helps you define exactly how your application should run within that confinement, ensuring it follows a specific process.
+
+The State Machine is a generic tool designed to manage the execution
+of applications inside an M2CP App in an organized process.
+Similar to the [finite-state
+machine](https://en.wikipedia.org/wiki/Finite-state_machine)
+mathematical model of computation, you can define states and
+transitions.  Applications are executed when a state is entered,
+either immediately or waiting for interaction. The next state will
+depend on the application's exit code. When packaged as an M2CP App, all
+this provides a flexible way, to manage e.g. the remote-update of
+firmware.
+
+The state machine is built using the m2cp-sdk-go and can be controlled
+using the M2CP CLI.
+
+**Contents of this chapter**
+1. [Concept of a State Machine](#concept-of-a-state-machine)
+2. [State Definitions](#state-definition)
+3. [Configuring a State Machine](#configuring-a-state-machine)
+4. [Remote Control Using M2CP Messaging RPCs](#remote-control-using-m2cp-messaging-rpcs)
+5. [Remote Control Using M2CP CLI](#remote-control-using-m2cp-cli)
+6. [State Machine Commands](#state-machine-commands)
+7. [Usage in Testing Environment](#usage-in-testing-environment)
+8. [Packaging and Deploying to Embedded Device](#packaging-and-deploying-to-embedded-device)
+9. [Tutorial: Building a Snap Package with a State Machine](#tutorial-building-an-m2cp-app-package-with-state-machine)
+
+
+#### Concept of a State Machine
+
+A state machine consists of *states* (visualized as boxes) and
+*transitions* (visualized as arrows between boxes). Three mandatory
+states exist: **start**, **success**, and **failed**. More states can
+be defined as needed. The set of possible transitions consists of
+**onSuccess**, **onError**, and **onReset** and is
+fixed. **onSuccess** and **onError** simply depends on the state's
+action return code. The **onReset** transition happens, if there is no
+known previous state (e.g. at start) or when the system recovers after
+interruption (e.g. after a power-outage). State machines must only
+transition from the current state into a *single* next state. One
+example of a minimal state machine to show all those features is:
+
+```{mermaid}
+stateDiagram
+    direction LR
+    [*] --> start: onReset
+    start --> success: onSuccess
+    start --> failed: onError
+```
+
+Apart from its `name` and its outgoing transitions, a state stores a
+human-readable `description`, an `actionType` and optionally
+`actionParameters`. There are two possible values for `actionType`:
+
+1. `syscall`: If the machine enters a state of this action type, it
+   will execute the command defined in the `actionParameters`
+   field. The exit code of the command will determine its success; an
+   exit code of `0` is considered a success, every other exit code is
+   a failure.
+
+2. `waitForTrigger`: This action type places the state machine in a
+   waiting loop until a user sends the `TriggerExecution` RPC call. It
+   will continue with the `onSuccess` transition.
+
+
+#### State definition
+
+State Machine uses YAML files to define these states and transitions,
+providing a user-friendly and easily maintainable configuration
+method. All you need to do is create a YAML configuration file that
+outlines the states, actions, and transitions for your specific
+use-case. The State Machine will then execute the actions in the
+specified order and manage transitions between states based on the
+defined criteria.
+
+
+#### Configuring a State Machine
+
+The YAML configuration file must follow a specific structure:
+
+- `states`: A list of state objects with the following properties:
+    - `name`: The unique name of the state as a string.
+    - `description`: A brief description of the state.
+    - `actionType`: The type of action to perform in the
+      state. Supported actions are "syscall" and "waitForTrigger".
+    - `actionParameters`: Parameters for the action. For "syscall"
+      action types, this field should specify the command to be
+      executed.
+    - `onSuccess`: The name of the next state when the action is successful.
+    - `onError`: The name of the next state when the action fails.
+    - `onReset`: The name of the next state when a reset action is performed.
+
+
+#### Remote Control Using M2CP Messaging RPCs
+
+You can interact with the running State Machine through the following
+five RPC methods:
+
+* `GetCurrentState`: Returns the machine's current state.
+* `TriggerExecution(state)`: If the machine's current state equals the
+  given `state`-parameter, then the statemachine transitions along the
+  **onSuccess** path, else trigger is ignored. The other transitions
+  **onError** and **onReset** are irrelevant to the `waitForTrigger`
+  action type.
+* `GetLogs`: Retrieves the logs of the state machine.
+* `GetStates`: Returns a list of all states
+* `JumpToState(state)`: cancel the execution of the current state and
+  force a jump to the given state. Use this with care.
+
+#### Remote Control Using M2CP CLI
+
+For convenience, the `m2cp` CLI tool has integrated support to run the
+RPCs of a State Machine in a
+simple way from the command line:
+
+```
+$ m2cp device node statemachine <address> <command> [state]
+```
+
+where
+
+* `address` is the m2cp-address of a statemachine-endpoint
+  node. E.g. `statemachine.m2cp-statemachine.$DEVICE_SERIAL`.
+
+* `command` is one of "state", "states", "logs", "jump", "trigger"
+
+#### State Machine Commands:
+
+* **state**: query the current state of the state machine
+* **states**: query all states of the state machine (returns the full
+  configuration file)
+* **logs**: query run logs of the state machine
+* **jump [state]**: jump to [state] (this forces the state machine to
+  abort the current execution and jump to the given state, it then
+  continues execution from there)
+* **trigger [state]**: if the statemachine is at [state] and currently
+  waiting for a user trigger, this command will cause it to continue
+
+
+
+#### Usage in Testing Environment
+
+Before deploying your state machine to an embedded device, it's a good
+idea to gather experience using it on your local development machine
+(PC).
+
+To do that, you need:
+
+1. state machine binary for amd64 (type `$ m2cp-statemachine` to see,
+   if it's installed. If not, install the `mlpa-ecosystem` Debian package)
+2. a running m2cp [Virtual Device](Virtual_Devices.md#usage-of-virtual-devices) (this
+   is needed for the state machine to be reachable via M2CP Messaging)
+3. a folder containing a configuration file for the state machine as
+   well as binaries to be executed by the state machine
+4. a path, where the state machine can store its current state and log
+   files
+
+Starting on your local state machine:
+
+```bash
+#!/bin/bash
+
+# set this to the path of the state machine config and binaries
+export SNAP=/path/to/config
+
+# set this path to a folder for storing the state machine state and logs
+export SNAP_DATA=/path/to/persistent/data
+
+# we're simulating a snap container, so we need to give it a name
+export SNAP_NAME="test-application"
+
+# set to the port of the virtual device to use
+export M2CP_VIRTUAL_DEVICE=20000
+
+/usr/bin/m2cp-statemachine
+```
+
+The state machine will start up, load it's configuration and start
+operating. It will connect to the [virtual
+device](Virtual_Devices.md) - behaving as if running in an M2CP App
+inside the virtual device.
+
+It will print it's m2cp-address to the console
+(e.g. `statemachine.test-application.<uuid>`).
+
+![image.png](/_static/image-9be7b4da-6e96-4b8f-899d-1053062127fa.png)
+
+You can now interact with the state machine using the `m2cp` CLI
+tool. Let's assume, the address of the state machine is
+`statemachine.statemachine-example.687b3550-86b1-4d15-8580-945af1f5063e`
+as in the example screenshot.
+
+```
+# get the current state of the state machine
+$ m2cp device node statemachine <address> state
+```
+
+Use `$ m2cp device node statemachine --help` to list all available commands.
+
+
+#### Packaging and Deploying to Embedded Device
+
+The state machine is distributed as a binary with the [developer
+support package](/Installation_Tools.md). The state
+machine binary can be found at `/usr/bin/m2cp-statemachine`. It is
+supposed to be packaged into an M2CP App along with custom executables for
+the use case.
+
+1. Create a YAML configuration file that defines your states, their
+   actions, and the transitions between them.
+1. Collect all the executables you want to trigger using the state
+   machine in a folder
+1. Create a snapcraft.yaml file
+1. Build your M2CP App package
+1. Deploy it to a device
+1. Use the m2cp CLI tool to communicate withe the state machine
+
+#### Tutorial: Building an M2CP App Package with State Machine
+
+In this tutorial we will create a simple update tool which uses the
+state machine for remote control.
+
+##### State machine Configuration
+
+The idea for our update tool is as follows:
+
+```{mermaid}
+stateDiagram
+    direction LR
+    start --> install: TriggerExecution
+    install --> success: onSuccess
+    install --> rollback: onError
+    install --> rollback: onReset
+    rollback --> start: onSuccess
+    rollback --> failed: onError
+```
+
+At start, the machine is waiting for a RPC trigger. On the trigger
+event, it runs the update procedure, which will be a small shell
+script. On success, we are done. On failure, we perform a rollback,
+which is another shell script. If this succeeds, we are back, where we
+started, else we and at the `failed` state, which is final.
+
+This looks simple, but we should make a few things clear straight
+away. M2CP Apps are read-only. It is by design, that you cannot download a
+executable file and run it within the M2CP App environment. So the
+statemachine can only operate with binaries that are built into the
+M2CP App ahead of time. Once you happen to need a newer version of a
+binary, you must build a new M2CP App for that.  Given this, it is
+correct, that for our example statemachine there is no transition to
+leave the "success" state. There is no point in leaving it, once the
+M2CP App's purpose is done.
+
+When the final state is reached, the M2CP App will continue to run as a
+daemon. This is by design as well. Though the running daemon consumes
+a few CPU cycles, it comes with some benefit: You can request the
+statemachine's current state or the logs of what happened before
+reaching this state. And if you prepared your M2CP App with some debug or
+recovery tool, you could manually force the statemachine to jump into
+another state for manual remote operation.
+
+Now let's translate our plan into the configuration file. Write the
+following into a file called `states.yaml`:
+
+```yaml
+states:
+  - name: start
+    description: "The starting point."
+    actionType: waitForTrigger
+    onSuccess: install
+
+  - name: install
+    description: "Try to install the payload."
+    actionType: syscall
+    actionParameters: "$SNAP/install.sh"
+    onSuccess: success
+    onError: rollback
+    onReset: rollback
+
+  - name: rollback
+    description: "Try to get back to a clean start."
+    actionType: syscall
+    actionParameters: "sleep 3; echo done"
+    onSuccess: start
+    onError: start
+
+  - name: success
+
+  - name: failed
+```
+
+There is one cycle in our graph (start, install, rollback, start, ...)
+but not all of those states are of `actionType: syscall`. Since the
+"start" state waits for a trigger signal, we are not in the danger of
+a uncontrolled endless loop.
+
+
+##### Executables
+
+In this step we collect all the binaries needed in our M2CP App package in
+our project folder.
+
+For the actual "installer binaries" we use simple dummy shell
+scripts. The `install` state uses a `install.sh` file and the
+`rollback` state uses some inline shell script.
+
+The contents of the `install.sh` script are:
+
+```
+#!/bin/sh
+# Installation process dummy. Succeeds 100% of the time.
+exit 0
+```
+
+```{attention}
+Note, if you build your actual executable, make sure it is compatible
+with the target machine architecture!
+```
+
+We also need to copy the state machine executable to the project
+folder:
+
+```
+$ cp /usr/bin/cross/arm64/m2cp-statemachine ./statemachine
+```
+
+The project folder should now contain:
+
+```
+states.yaml
+install.sh
+statemachine
+```
+
+```{attention}
+The `statemachine` binary and the `install.sh` both must have file permissions to be executed!
+E.g. do `chmod a+x install.sh`.
+```
+
+
+##### Building an M2CP App
+
+Create a directory named `snap`. Write a `snap/snapcraft.yml` with the
+contents:
+
+```
+name: state-machine-tutorial   # the name of your M2CP App package
+base: core20
+version: 0.0.1
+summary: State machine tutorial
+description: |
+ Installer application based on State Machine.
+
+grade: stable
+confinement: strict
+
+architectures:
+  - build-on: amd64
+    run-on: arm64
+
+apps:
+  statemachine:
+    daemon: simple
+    restart-condition: on-failure
+    restart-delay: 30s
+    command: statemachine
+
+parts:
+  statemachine:
+    plugin: dump
+    source-type: local
+    source: .
+    stage:
+        - statemachine
+        - states.yaml
+        - install.sh
+```
+
+
+What you should have now in your current directory:
+
+```
+snap/snapcraft.yaml
+install.sh
+states.yaml
+statemachine
+```
+
+Just a quick check, that the `statemachine`'s architecture matches the
+target environment:
+
+```
+$ file statemachine
+statemachine: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV), statically linked, Go BuildID=IeP-WcA8yCLwxXCg9w8-/GQKDJvEoF1temTFsywBj/QmSKW_vd9Jxct8aZa0OZ/bkCgBsgXeahf2cMII6zb, with debug_info, not stripped
+```
+
+`ARM aarch64` a.k.a. `arm64` is correct for this example.
+
+Build the M2CP App:
+
+```
+$ snapcraft --debug --use-lxd
+...
+```
+
+##### Deploy to device
+
+Now you can deploy the M2CP App package to a device using the m2cp CLI
+tool.
+
+
+##### Communicate with state machine
+
+Once the M2CP App package is installed on a device, you can try to find
+it:
+
+```
+$ m2cp device node list <serial>
+```
+
+Will list all rpc endpoints on the device with the given serial
+number. You should see the statemachine running as:
+`statemachine.state-machine-tutorial.<serial>`.  Now you can interact
+with it. For example:
+
+```
+$ m2cp device node statemachine <address> state
+```
+
+will return the state of the state machine running at the given
+address.  Please refer to `$ m2cp device node statemachine --help` for further
+commands.
+
+
+## M2CP App Crafting
+Every Linux application can be packaged as a M2CP App. To create a M2CP App, developers typically use a
+tool called [Snapcraft](https://snapcraft.io/snapcraft), which builds the package according to
+a clearly defined `snapcraft.yaml` file. This file contains
+meta information such as the application name, version and required dependencies,
+along with information about the build process and required additional permissions. [Canonical provides instructions on how to create this file.](https://snapcraft.io/docs/get-started).
+
+To create an M2CP App file from a directory much faster, ML!PA developed an alternative tool `m2cp-snap`. However, this method requires the user to take on more responsibility, as it does not automatically verify the M2CP App's configuration. It's a highly efficient tool for power-users
+or CI/CD pipelines. When having an existing M2CP App as template, the M2CP App
+can be unpacked using `unsquashfs`, modifed as needed (e.g. updating a binary)
+and then be repackaged using `m2cp-snap`. This takes only seconds compared to
+minutes when using Snapcraft.
+
+Here is a collection of questions and answers organized by categories: Building, Debugging and Deployment.
+
+
+### Questions and Answers: Building M2CP Apps
+
+This subchapter includes explanations for the following questions:
+1. [How can an M2CP App assign a static IP address to a network interface?](#how-can-an-m2cp-app-assign-a-static-ip-address-to-a-network-interface)
+
+
+
+#### How can an M2CP App assign a static IP address to a network interface?
+
+Assume, we want to build an M2CP App, that provides a service that has to
+be available on a defined network address. There are multiple ways to
+achive this.
+
+In this example we will use the following `test-interface.sh` script
+as an application, that requires a specific IP address (first argument)
+to be assigned on a specific network interface (second argument):
+
+```{code-block} bash
+:caption: Contents of `test-interface.sh`
+#!/bin/sh
+ADDR=$1
+INTERFACE=$2
+ip addr show dev $INTERFACE | grep --quiet "$ADDR"
+```
+
+For example, if we run the script to check that the IPv4 address
+`127.0.0.1` is assigned to the interface named `lo`, the script will
+succeed:
+
+```console
+$ test-interface.sh "127.0.0.1" lo
+$ echo $?
+0
+```
+
+And if we check for the unassigned IPv4 address `127.0.0.2`, it will exit
+with a failure:
+
+```console
+$ test-interface.sh "127.0.0.2" lo
+$ echo $?
+1
+```
+
+Of course, this will work with IPv6 addresses as well!
+
+Now we will use this script in an application to demonstrate different
+possibilities of setting up the required network interface
+configuration.
+
+
+##### Using Netplan Configuration
+
+```{attention}
+Netplan is not compatible with the Edge OS based on image version 4.7.0.
+```
+
+The recommended way of configuration is
+[Netplan](https://netplan.io/). See also its
+[documentation](https://netplan.readthedocs.io/en/stable/).
+
+To sum up the rules of Netplan:
+
+* Configuration resides in `/etc/netplan/`
+* Configuration filenames must end with `.yaml`
+* Files are evaluated in lexicographical order
+* Last configuration takes effect
+
+
+
+By default, a initial network configuration exists in
+`/etc/netplan/00-snapd-config.yaml`.  It states that all interfaces
+use DHCP to get a IPv4 address.
+
+```{code-block} yaml
+:caption: Default contents of `/etc/netplan/00-snapd-config.yaml`
+# This is the initial network config.
+# It can be overwritten by cloud-init or console-conf.
+network:
+    version: 2
+    ethernets:
+        all-en:
+            match:
+                name: "en*"
+            dhcp4: true
+        all-eth:
+            match:
+                name: "eth*"
+            dhcp4: true
+```
+
+Another way to look at the current network configuration, is to run
+`netplan get`:
+
+```console
+$ netplan get
+network:
+  version: 2
+  ethernets:
+    all-en:
+      match:
+        name: "en*"
+      dhcp4: true
+    all-eth:
+      match:
+        name: "eth*"
+      dhcp4: true
+```
+
+````{attention}
+2024-01: The following instructions did not work for us, whenever a
+configuration file contained a glob (like the star in `eth*`) to match an interface name!
+The recommended fix is to remove globs from the default configuration. Change the contents of
+`/etc/netplan/00-snapd-config.yaml` to the following (or similar
+according to you requirements):
+
+```yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: true
+    eth1:
+      dhcp4: true
+```
+
+````
+
+
+````{danger}
+Be sure to test your configuration before using it in production!  A
+typo in a configuration key may result in the device getting no IP,
+thus effectivly locking you out!
+
+To test a configuration, it is possible to run:
+
+```yaml
+$ netplan try --config-file /tmp/untested-netplan-config.yaml
+```
+
+On error, `netplan`'s exit code will be **different from zero**.
+
+````
+
+
+So we want do define the IPv6 address `fd80::df7:2023:1:1/128` on device
+`eth0`. Therefore, we create the file `101-custom-config.yaml` with
+the following contents:
+
+
+```{code-block} yaml
+:caption: Contents of `/etc/netplan/01-example-snap-config.yaml`
+# custom configuration to add static addresses, created by example-snap
+network:
+  version: 2
+  ethernets:
+    eth0:
+      addresses:
+        - fd80::df7:2023:1:1/128
+```
+
+```{note}
+It is a good idea, to add a comment in the file, by which application it was
+created. Second, it is also a good idea, to add the application name in the
+file name, if possible.
+```
+
+To package this configuration in a M2CP App, we need to achieve the
+following:
+
+* Our `test-interface.sh` script must be the command in the `snap.yaml`'s `apps` section
+* The command must have the required plugs assigned
+* Configure and remove hooks must be added
+* The hook scripts must be executable
+* The hooks must have the required plugs assigned
+
+Now we progress step by step. As the result, the contents of the M2CP App
+will be afterwards (with the interesting parts highlighted):
+
+```{code-block} console
+---
+caption: Contents of the project directory
+emphasize-lines: 5, 8, 9, 10
+---
+$ unsquashfs -l build/bin/arm64/example-network-configurator_0.0.0_arm64.snap
+squashfs-root
+squashfs-root/etc
+squashfs-root/etc/netplan
+squashfs-root/etc/netplan/01-custom-config.yaml
+squashfs-root/meta
+squashfs-root/meta/hooks
+squashfs-root/meta/hooks/configure
+squashfs-root/meta/hooks/remove
+squashfs-root/meta/snap.yaml
+squashfs-root/snap
+squashfs-root/snap/command-chain
+squashfs-root/snap/command-chain/snapcraft-runner
+squashfs-root/test-interface.sh
+```
+
+In the `snap.yaml`, we add the `command` to run
+`test-interface.sh` with the plugs
+[`network`](https://snapcraft.io/docs/network-interface) and
+[`network-setup-control`](https://snapcraft.io/docs/network-setup-control-interface):
+
+```{code-block} yaml
+---
+caption: App section of the `snap.yaml`
+lineno-start: 14
+---
+apps:
+  test:
+    command: test-interface.sh fd80::df7:2023:1:1 eth0
+    plugs:
+      - network
+      - network-setup-control
+```
+
+Next, we define the
+[configure](https://snapcraft.io/docs/supported-snap-hooks)
+and [remove
+hook](https://snapcraft.io/docs/supported-snap-hooks)
+with the required plugs:
+
+```{note}
+Notice, we do not use the `install` hook here, because the `install`
+hook is **not** triggered on `snap refresh`! So if we would update the
+Netplan configuration in our application, chances are high that the change
+will not take effect, due to the application being refreshed instead of being
+uninstalled and installed again. Therefore, we use the `configure`
+hook, which is called both on install and refresh.
+```
+
+```{danger}
+You are responsible to ensure that every system file that is added by
+a hook is also removed! Also in the case of Netplan it is not enough
+to remove a configuration file, you must run `netplan apply` as well.
+If the `remove` hook is not complete, it is possible to bring
+invalid configuration to a system, even if the installation fails and
+is rolled back!
+```
+
+
+```{code-block} yaml
+---
+caption: Hook section of the `snap.yaml`
+lineno-start: 21
+emphasize-lines: 7, 13
+---
+hooks:
+  configure:
+    plugs:
+      - network
+      - network-control
+      - network-setup-control
+      - m2cp-network-config
+  remove:
+    plugs:
+      - network
+      - network-control
+      - network-setup-control
+      - m2cp-network-config
+```
+
+The `m2cp-network-config` is a custom definition, that is defined as:
+
+```{code-block} yaml
+---
+caption: Plugs section of the `snap.yaml`
+lineno-start: 29
+emphasize-lines: 2
+---
+plugs:
+  m2cp-network-config:
+    interface: system-files
+    read:
+      - /etc/netplan/01-custom-config.yaml
+    write:
+      - /etc/netplan
+      - /etc/netplan/01-custom-config.yaml
+```
+
+This allows the configure script to write the network configuration to
+`/etc/netplan`, where Netplan will find it.
+
+Next up is the contents of the `configure` hook script. It creates the
+destination directory `/etc/netplan`, copies the
+`01-custom-config.yaml` into its place, and finally it calls `netplan
+apply` to apply the changes immediately:
+
+```{code-block} bash
+---
+caption: Contents of the `configure` hook script
+lineno-start: 1
+---
+#!/bin/sh
+
+set -eu
+
+mkdir -p /etc/netplan
+cp $SNAP/etc/netplan/01-custom-config.yaml /etc/netplan/01-custom-config.yaml
+
+netplan --debug apply
+```
+
+Since the configure hook creates a file, we need another hook to remove
+the Netplan configuration file, when the application is removed. This is the
+`remove` hook script:
+
+```{code-block} bash
+---
+caption: Contents of the `remove` hook script
+lineno-start: 1
+---
+#!/bin/sh
+
+set -eu
+
+rm -f /etc/netplan/01-custom-config.yaml
+
+netplan --debug apply
+```
+
+
+All the hook scripts must be executable!
+
+Finally, once this test application is installed, we can run the example
+program and witness, that the exit code is `0`, which means, the IP is
+actually set!
+
+```console
+$ sudo example-network-configurator.test
+ip addr show dev eth0 | grep --quiet fd80::df7:2023:1:1
+$ echo $?
+0
+```
+
+
+```{note}
+Currently, there seems to be no simple way of retrieving the installed version of
+Netplan! See also: [How to check netplan
+version?](https://askubuntu.com/questions/1483904/how-to-check-netplan-version)
+```
+
+
+### Questions and Answers: Debugging M2CP Apps
+
+This chapter contains explanations for the following questions:
+1. [What happened to a running M2CP App?](#what-happened-to-a-running-m2cp-app)
+2. [How to manually inspect contents of some M2CP App?](#how-to-manually-inspect-contents-of-some-m2cp-apps)
+3. [How to "get inside" a M2CP App?](#how-to-get-inside-a-m2cp-app)
+4. [How to inspect environment variables from the perspective of a M2CP App?](#how-to-inspect-environment-variables-from-the-perspective-of-a-m2cp-app)
+5. [How to check that all dynamically linked libraries are available to a M2CP App?](#how-to-check-that-all-dynamically-linked-libraries-are-available-to-a-m2cp-app)
+6. [How to investigate plug/slot interface errors?](#how-to-investigate-plugslot-interface-errors)
+7. [How to find help working with the snap tool?](#how-to-find-help-for-the-snap-tool)
+8. [How to profile CPU usage?](#how-to-profile-cpu-usage)
+
+#### What happened to a running M2CP App?
+
+You can look at the log of an application. Remote-SSH into the device and do:
+
+```console
+user@d09b1153-f9ff-4c3d-97d2-46976208dd92:~$ snap logs m2cp-statemachine
+2023-08-04T11:22:51Z m2cp-statemachine.m2cp-statemachine[3606072]: address: statemachine.m2cp-statemachine.d09b1153-f9ff-4c3d-97d2-46976208dd92
+...
+```
+
+Note, you can also follow the log, using `snap logs -f
+m2cp-statemachine`. New lines will appear as soon as they are logged.
+
+
+#### How to manually inspect contents of some M2CP Apps?
+
+If you locally have the application file of the given application, you can look into
+the package using:
+
+```console
+$ unsquashfs -lls m2cp-statemachine_0.0.5_arm64.snap
+drwxr-xr-x root/root               101 2023-07-20 13:44 squashfs-root
+-rwxr-xr-x root/root                74 2023-07-20 13:44 squashfs-root/install.sh
+-rwxr-xr-x root/root           8708023 2023-07-20 13:44 squashfs-root/m2cp-statemachine
+drwxr-xr-x root/root                32 2023-07-20 13:44 squashfs-root/meta
+-rw-r--r-- root/root               500 2023-07-20 13:44 squashfs-root/meta/snap.yaml
+drwxr-xr-x root/root                36 2023-07-13 10:10 squashfs-root/snap
+drwxr-xr-x root/root                39 2023-07-13 10:10 squashfs-root/snap/command-chain
+-rwxr-xr-x root/root               224 2023-07-13 10:10 squashfs-root/snap/command-chain/snapcraft-runner
+-rw-r--r-- root/root               548 2023-07-20 13:44 squashfs-root/states.yaml
+```
+
+You can see user rights, owners and sizes of files. And you can see
+the file paths in relation to the `$SNAP` root directory.
+
+```{attention}
+Especially make sure, that all binaries and shell script, that shall
+be executed, have the right to be executed by the user `root`. `chmod
+u+x` is _not_ done automatically during the build process.
+```
+
+If you happen to not possess a copy of an application, you can download the
+application of a specific revision and architecture from the Appstore:
+
+```console
+$ m2cp store snap download m2cp-statemachine arm64 -revision 5 --output the_destination_file_path.snap
+saved snap file with 4292608 bytes to ./the_destination_file_path.snap
+```
+
+When you investigate a running application, you can look at the mount-points:
+
+```console
+$ mount | grep m2cp-statemachine
+/var/lib/snapd/snaps/m2cp-statemachine_5.snap on /snap/m2cp-statemachine/5 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+```
+
+These locations should be read-only.
+
+```console
+root@d09b1153-f9ff-4c3d-97d2-46976208dd92:/home/username# find /snap/m2cp-statemachine/5
+/snap/m2cp-statemachine/5
+/snap/m2cp-statemachine/5/install.sh
+/snap/m2cp-statemachine/5/m2cp-statemachine
+/snap/m2cp-statemachine/5/meta
+/snap/m2cp-statemachine/5/meta/snap.yaml
+/snap/m2cp-statemachine/5/snap
+/snap/m2cp-statemachine/5/snap/command-chain
+/snap/m2cp-statemachine/5/snap/command-chain/snapcraft-runner
+/snap/m2cp-statemachine/5/states.yaml
+root@d09b1153-f9ff-4c3d-97d2-46976208dd92:/home/username# ls -l /snap/m2cp-statemachine/5
+total 8506
+-rwxr-xr-x 1 root root      74 Jul 20 11:44 install.sh
+-rwxr-xr-x 1 root root 8708023 Jul 20 11:44 m2cp-statemachine
+drwxr-xr-x 2 root root      32 Jul 20 11:44 meta
+drwxr-xr-x 3 root root      36 Jul 13 08:10 snap
+-rw-r--r-- 1 root root     548 Jul 20 11:44 states.yaml
+```
+
+The paths to the writeable locations are stored in environment
+variables (e.g. `SNAP_DATA`, `SNAP_USER_DATA`, etc. See also
+[Environment
+variables](https://snapcraft.io/docs/environment-variables)). But
+these variables are only defined within the snap environment. Read on
+next section.
+
+
+#### How to "get inside" a M2CP App?
+
+First stop the service:
+
+```console
+$ sudo snap stop m2cp-statemachine
+Stopped.
+```
+
+Then run it manually and attach to its shell environment. Now e.g. the
+`SNAP_DATA` environment variables is defined:
+
+```console
+$ sudo snap run --shell m2cp-statemachine
+root@d09b1153-f9ff-4c3d-97d2-46976208dd92:/home/jakob.duebel# echo $SNAP_DATA
+/var/snap/m2cp-statemachine/5
+root@d09b1153-f9ff-4c3d-97d2-46976208dd92:/home/jakob.duebel# ls -l $SNAP_DATA
+total 4
+-rw-r--r-- 1 root root 1163 Aug  4 12:18 log.txt
+```
+
+```{attention}
+Add the `--shell` flag _before_ the snap name. Else it is ignored!
+```
+
+
+#### How to inspect environment variables from the perspective of a M2CP App?
+
+Remote-SSH into the device. Start a shell within the application environment
+and run `env`. It's a lot of output, so ideally `grep` for something
+more specific:
+
+```console
+$ sudo snap run --shell m2cp-statemachine
+root@d09b1153-f9ff-4c3d-97d2-46976208dd92:/home/username# env | grep SNAP_
+SNAP_REVISION=5
+SNAP_REAL_HOME=/root
+SNAP_USER_COMMON=/root/snap/m2cp-statemachine/common
+SNAP_INSTANCE_KEY=
+SNAP_CONTEXT=2bNvFgQV-D-fzMAOH6Z_PM9Rd0eWY_ALq71iViX9tRDdsRqdIU7G
+SNAP_ARCH=arm64
+SNAP_INSTANCE_NAME=m2cp-statemachine
+SNAP_USER_DATA=/root/snap/m2cp-statemachine/5
+SNAP_SAVE_DATA=/var/lib/snapd/save/snap/m2cp-statemachine
+SNAP_REEXEC=
+SNAP_COMMON=/var/snap/m2cp-statemachine/common
+SNAP_VERSION=0.0.5
+SNAP_LIBRARY_PATH=/var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
+SNAP_COOKIE=2bNvFgQV-D-fzMAOH6Z_PM9Rd0eWY_ALq71iViX9tRDdsRqdIU7G
+SNAP_DATA=/var/snap/m2cp-statemachine/5
+SNAP_NAME=m2cp-statemachine
+```
+
+
+#### How to check that all dynamically linked libraries are available to a M2CP App?
+
+Run the application's confinement shell and use the `ldd` command on any
+binary.
+
+```console
+$ sudo snap run --shell demo-emit-signal
+# cd $SNAP
+/snap/demo-emit-signal/x1# ldd demo-emit-signal
+```
+
+Any mention of "not found" means that a library is missing.
+
+
+#### Problem with "cannot exec snapcraft-runner"
+
+```console
+$ sudo snap run --shell demo-emit-signal.demo-emit-signal
+cannot snap-exec: cannot exec "/snap/demo-emit-signal/x2/command-chain/snapcraft-runner": no such file or directory
+```
+
+If the path to the `snapcraft-runner`, as written in the `snap.yaml`,
+exists and the file permissions allow execution of the file, then
+watch out for Carriage Returns at the line ends. All the files must
+not contain CR-LF whitespace!
+
+To fix line-ends in all YAML files in your repository, run:
+
+```console
+$ find . -type f -name "*.yaml" -print0 | xargs -0 dos2unix
+```
+
+
+#### How to investigate plug/slot interface errors?
+
+Remote-SSH into the device.  Attach to the snap's shell. Now you have
+two useful options: `journalctl` and `dmesg`.
+
+With `journalctl` it is useful to filter for messages of `snapd`:
+
+```console
+root@d09b1153-f9ff-4c3d-97d2-46976208dd92:/home/username# SYSTEMD_LOG_LEVEL=debug journalctl -u snapd* -f
+...
+```
+
+For messages of the kernel and [AppArmor](https://apparmor.net/),
+`dmesg` can help:
+
+```console
+root@d09b1153-f9ff-4c3d-97d2-46976208dd92:/home/username# dmesg
+```
+
+
+#### How to find help for the `snap` tool?
+
+Simply run `snap help` or `snap help <command>`.
+
+
+#### How to profile CPU usage?
+
+If the application is written in Go, follow the following steps to use
+the `pprof` package, that is a Go built-in:
+
+1. Import the `net/http/pprof` package, e.g.:
+
+   ```go
+   import (
+       ...
+       _ "net/http/pprof" // Importing for side effects
+   )
+   ```
+
+2. Start the pprof server in your code. E.g., add the following to
+   your `main()` function:
+
+   ```go
+   go func() {
+       log.Println(http.ListenAndServe("localhost:6060", nil)) // Expose pprof on port 6060
+   }()
+   ```
+
+3. Run your program on the target system.
+
+4. Enable CPU Profiling. You can enable CPU profiling by sending an
+   HTTP request to
+   `http://localhost:6060/debug/pprof/profile?seconds=30`, where
+   `seconds=30` means it will profile for 30 seconds. You can increase
+   the duration if needed.
+
+   ```console
+   $ sudo dev-net.curl -o cpu.pprof http://localhost:6060/debug/pprof/profile?seconds=30
+   ```
+
+5. Copy the `cpu.pprof` to your machine where `go` is installed.
+
+6. Analyze the Profile:
+
+   ```console
+   $ go tool pprof cpu.pprof
+   (pprof) top
+   ```
+
+   This will bring you into an interactive command-line interface
+   where you can run several commands, such as:
+
+    * `top` -- Shows the top functions consuming CPU.
+    * `list <function_name>` -- Shows the source code for the given
+      function along with CPU time statistics.
+
+
+#### How to profile heap memory usage?
+
+Similar to [how to profile CPU usage](#how-to-profile-cpu-usage), you
+can take a snapshot of the current memory usage by using a different
+URL:
+
+```console
+$ sudo dev-net.curl -o mem.pprof http://localhost:6060/debug/pprof/heap
+```
+
+
+### Questions and Answers: M2CP App Deployment
+
+This chapter provides answers to the following questions:
+1. [How to check, that an M2CP App is installed on a given device?](#how-to-check-that-an-m2cp-app-is-installed-on-a-given-device)
+2. [How to tracne the installation process?](#how-to-trace-the-installation-process)
+3. [How to check, that an M2CP App is actually running on a given device?](#how-to-check-that-an-m2cp-app-is-actually-running-on-a-given-device)
+
+#### How to check, that an M2CP App is installed on a given device?
+
+Say the device' serial is `d09b1153-f9ff-4c3d-97d2-46976208dd92`.
+You can ask for a list of installed applications:
+
+```console
+$ export DEVICE_SERIAL=d09b1153-f9ff-4c3d-97d2-46976208dd92
+$ m2cp device info $DEVICE_SERIAL
+...
+Snaps:
+Brand    Base      Name                           Set                    Version      Revision    Planned Action
+...
+mlpa     core20    m2cp-statemachine              test                   0.0.5        5           -
+```
+
+
+Alternatively, you can remote-SSH into the device and run `snap list`:
+
+```console
+$ m2cp device ssh open $DEVICE_SERIAL
+...
+$ ssh -i /home/jakob.duebel@ml-pa.loc/.ssh/id_rsa jakob.duebel@localhost -p 59301 -oStrictHostKeyChecking=no -o "ProxyCommand=ssh -i /home/jakob.duebel@ml-pa.loc/.ssh/id_rsa -oStrictHostKeyChecking=no -W %h:%p sshjumpuser@20.224.210.60"
+Welcome to Ubuntu 20.04.5 LTS (GNU/Linux 5.15.71 aarch64)
+...
+user@d09b1153-f9ff-4c3d-97d2-46976208dd92:~$ snap list
+Name                         Version    Rev  Tracking       Publisher  Notes
+...
+m2cp-statemachine            0.0.5      5    latest/stable  mlpa✓      -
+```
+
+And you can ask for information on a specific installed application:
+
+```console
+$ snap info m2cp-statemachine
+name:      m2cp-statemachine
+summary:   Test statemachine application
+publisher: mlpa✓
+contact:   snapstore@ml-pa.com
+license:   unset
+description: |
+  A state machine for testing `m2cp device node statemachine` functions.
+services:
+  m2cp-statemachine: simple, enabled, active
+snap-id:      59471b1374bb4fc2bcb1277b9b299a96
+tracking:     latest/stable
+refresh-date: 15 days ago, at 11:45 UTC
+installed:    0.0.5 (5) 4MB -
+```
+
+
+#### How to trace the installation process?
+
+When logged into the device via remote SSH, you can list the changes
+that happened recently:
+
+```console
+user@d09b1153-f9ff-4c3d-97d2-46976208dd92:~$ snap changes
+ID   Status  Spawn                   Ready                   Summary
+256  Done    today at 11:21 UTC      today at 11:21 UTC      Revert "m2cp-statemachine" snap
+257  Done    today at 11:22 UTC      today at 11:22 UTC      Refresh "m2cp-statemachine" snap
+```
+
+Use the `ID` to gather more information on a specific change:
+
+```console
+user@d09b1153-f9ff-4c3d-97d2-46976208dd92:~$ snap tasks 257
+Status  Spawn               Ready               Summary
+Done    today at 11:22 UTC  today at 11:22 UTC  Ensure prerequisites for "m2cp-statemachine" are available
+Done    today at 11:22 UTC  today at 11:22 UTC  Prepare snap "" (5)
+Done    today at 11:22 UTC  today at 11:22 UTC  Run pre-refresh hook of "m2cp-statemachine" snap if present
+Done    today at 11:22 UTC  today at 11:22 UTC  Stop snap "m2cp-statemachine" services
+Done    today at 11:22 UTC  today at 11:22 UTC  Remove aliases for snap "m2cp-statemachine"
+Done    today at 11:22 UTC  today at 11:22 UTC  Make current revision for snap "m2cp-statemachine" unavailable
+Done    today at 11:22 UTC  today at 11:22 UTC  Copy snap "m2cp-statemachine" data
+Done    today at 11:22 UTC  today at 11:22 UTC  Setup snap "m2cp-statemachine" (5) security profiles
+Done    today at 11:22 UTC  today at 11:22 UTC  Make snap "m2cp-statemachine" (5) available to the system
+Done    today at 11:22 UTC  today at 11:22 UTC  Automatically connect eligible plugs and slots of snap "m2cp-statemachine"
+Done    today at 11:22 UTC  today at 11:22 UTC  Set automatic aliases for snap "m2cp-statemachine"
+Done    today at 11:22 UTC  today at 11:22 UTC  Setup snap "m2cp-statemachine" aliases
+Done    today at 11:22 UTC  today at 11:22 UTC  Run post-refresh hook of "m2cp-statemachine" snap if present
+Done    today at 11:22 UTC  today at 11:22 UTC  Start snap "m2cp-statemachine" (5) services
+Done    today at 11:22 UTC  today at 11:22 UTC  Clean up "m2cp-statemachine" (5) install
+Done    today at 11:22 UTC  today at 11:22 UTC  Run configure hook of "m2cp-statemachine" snap if present
+Done    today at 11:22 UTC  today at 11:22 UTC  Run health check of "m2cp-statemachine" snap
+Done    today at 11:22 UTC  today at 11:22 UTC  Handling re-refresh of "m2cp-statemachine" as needed
+
+......................................................................
+Handling re-refresh of "m2cp-statemachine" as needed
+
+2023-08-04T11:22:53Z INFO No re-refreshes found.
+```
+
+If there were errors, the "Status" would not be "Done".
+
+
+#### How to check, that an M2CP App is actually running on a given device?
+
+Remote-SSH into the device and look at the service's "Current" status:
+
+```console
+user@d09b1153-f9ff-4c3d-97d2-46976208dd92:~$ snap services
+Service                                              Startup  Current   Notes
+...
+m2cp-statemachine.m2cp-statemachine                  enabled  active    -
+```
+
+"Active" means, the service is running.
+
+You can as well `restart` or `stop` services. See also `snap help`.
+
+## Upload new Software to the store
+
+We push a new application to the store, we assume an arm64 application 'hello-world' with version 7.5
+
+```console
+$ m2cp store snap push hello-world.snap "new feature: foo bar"
+pushed snap 'hello-world' version '7.5' as revision '2' (20480 bytes)
+```
+
+Let's list the versions of hello-world:
+
+```console
+# list all versions of hello-world arm64 in the store
+$ m2cp store snap list hello-world arm64
+Name:         hello-world
+Architecture: arm64
+TenantId:     226df810-b146-459e-bc64-defdfc5e6062
+Summary:      The 'hello-world' of snaps
+Description:  This is a simple snap example
+Base:        core20
+SnapId:      68302458270e8b95de2255c15722ac94
+Created:     2024-02-19T17:59:11.008Z
+AssertionId: c0d0b4ab-7283-47ab-9f6a-08dc3d076aaf
+
+Message         Rating     Revision    Size       Uploaded                    Version
+Initial push    Stable     1           20.0 KB    2024-02-19T17:59:11.269Z    7.4
+hello again     Unrated    2           20.0 KB    2024-03-05T14:35:32.959Z    7.5
+```
+
+### Rate a version
+
+Our new version is not _rated_, yet. Unrated versions are not available for installation. An administrator with
+the role [Software Manager](Management_User.md#software-manager) must rate the version, before it can be installed on devices. We reference the new
+version by its revision number (2):
+
+```console
+$ m2cp store snap rate set hello-world arm64 2 stable
+Rating updated
+```
+
+When we list the versions again, we see that the rating was stored:
+
+```console
+$ m2cp store snap info hello-world arm64
+Message         Rating    Revision    Size       Uploaded                    Version
+Initial push    Stable    1           20.0 KB    2024-02-19T17:59:11.269Z    7.4
+hello again     Stable    2           20.0 KB    2024-03-05T14:35:32.959Z    7.5
+```
+
+Now the new version is available for installation on devices. But before we do that, we need to create a Deployment Group, because
+software is always deployed to Deployment Groups, not to individual devices.
+
+**To create a test Deployment Group and upload the software on it, see section "Using the System".**
+
+
+## Edge Device SDK
+
+
+The _Edge Device SDK_ makes enabling any application for
+[M2CP Messaging](Messages.md#messages) easy.
+
+Currently, the Edge Device SDK is available as a Golang implementation. We
+recommend the Golang Edge Device SDK for developing embedded applications.
+The Edge Device SDK provides messaging
+functionality in two ways:
+
+1. First it provides a [publish–subscribe
+   pattern](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern)
+   for transferring messages between applications on the same device.
+
+2. Second, it provides remote procedure calls (RPCs). RPCs enables
+   local applications (e.g. the `m2cp` CLI) to interact with a
+   specific application on a specific remote device, where the
+   transfer is handled transparently.
+
+**Contents of this chapter**
+1. [Installing the Edge Device SDK](#installing-the-edge-device-sdk)
+2. [Setting Up Dev Environment](#setting-up-dev-environment)
+    1. [Prerequisites to Set Up Dev Environment](#prerequisites-to-set-up-dev-environment)
+    2. [Setup](#setup)
+    3. [Application Development Example](#application-development-example)
+        1. [Testing Emit and Subscribe](#testing-emit-and-subscribe)
+        2. [Remote Procedure Calls](#remote-procedure-calls-rpcs)
+3. [Using the Edge Device SDK](#using-the-edge-device-sdk)
+    1. [Understanding m2cp-addresses](#understanding-m2cp-addresses)
+    2. [Automatic Naming](#automatic-naming)
+    3. [Predefined RPC Methods](#predefined-rpc-methods)
+        1. [NodeDocumentation()](#nodedocumentation)
+        2. [NodeUptime()](#nodeuptime)
+        3. [NodeMemoryUsage()](#nodememoryusage)
+    4. [Aggregation in DATA-Messages](#aggregation-in-data-messages)
+    5. [Requesting Application Runtime](#requesting-application-runtime)
+4. [Tutorials](#tutorials)
+    1. [Prerequisites Needed for Tutorials](#prerequisites-needed-for-tutorials)
+    2. [Understanding a Go Project](#understanding-a-go-project)
+    3. [Error Handling and Debugging](#error-handling-and-debugging)
+    4. [Setting Up the Tutorial Project](#setting-up-the-tutorial-project)
+    5. Tutorial: [Emitting a "Hello World Signal"](#emitting-a-hello-world-signal)
+    6. [Best Practices for Logging in Apps](#best-practices-for-logging-in-apps)
+    7. Tutorial: [Subscribing to a Signal](#subscribing-to-a-signal)
+    8. Tutorial: [Ramp: A Simulated Sensor](#ramp-a-simulated-sensor)
+        1. [Send Log Messages to the Cloud](#send-log-messages-to-the-cloud)
+    9. Tutorial: [Square: A Simple Transformer](#square-a-simple-transformer)
+    10. Tutorial: [Get or Set Period Length of ramp.go with RPC](#get-or-set-period-length-of-rampgo-with-rpc)
+        1. [Local RPC Calls](#local-rpc-calls)
+5. [Python Edge Device SDK](#python-edge-device-sdk)
+
+### Installing the Edge Device SDK
+
+The Edge Device SDK for Go is deployed as a Debian package named
+`mlpa-m2cp-sdk-go`.
+
+If you run a Debian-based Linux distribution, please follow the
+[installation steps to add our APT
+repository](/Installation_Tools.md#linux-cli-tools). Then search for
+`mlpa-m2cp-sdk-go` and install any version with `apt`:
+
+```console
+$ apt search ^mlpa-m2cp-sdk-go
+...
+$ sudo apt install mlpa-m2cp-sdk-go-deb-6.4.1-dev
+```
+
+You can install multiple versions of the Go-SDK at the same time. The
+`mlpa-m2cp-sdk-go` metapackage contains a set of the latest SDK
+releases for your convenience.
+
+Else, if you run any other operating system, please contact the M2CP
+team to get a copy of the Edge Device SDK Debian package. Then
+install using:
+
+```console
+$ sudo dpkg -i mlpa-m2cp-sdk-go-<version>.deb
+```
+
+
+Now the Edge Device SDK is installed at `/usr/lib/mlpa/sdk/go/<version>` and can
+be used in your Go projects.
+
+Edit the `go.mod` file of your Go project and add the Edge Device SDK, specifying
+the version to use. Use the following code example and replace /usr/lib/mlpa/sdk/go/<mark><X.X.X.></mark>-dev with the Edge Device SDK version that you have installed:
+
+```Golang
+module main
+
+go 1.21
+
+require (
+    // This line makes the "m2cp" module available within your Go project
+    // Please specify the version number of the Edge Device SDK you have installed (with a leading "v")
+    m2cp v0.0.0
+
+    // ... other requirements of your project ...
+)
+
+require (
+    // ... list of current indirect requirements ...
+)
+
+// This line links the module name "m2cp" to the installed Edge Device SDK
+// Please specify the version number of the Edge Device SDK you have installed, e.g. /usr/lib/mlpa/sdk/go/7.9.1.-dev
+replace m2cp => /usr/lib/mlpa/sdk/go/<X.X.X.>-dev
+```
+```{note}
+If you're not sure, which versions of the Edge Device SDK you have installed,
+use `$ ls /usr/lib/mlpa/sdk/go` to list them. You should always use
+the latest version.
+It's a good idea to upgrade your app to a newer Edge Device SDK version from time to time, as the Edge Device SDK evolves.
+```
+
+Now you can use the Edge Device SDK inside your Go project. Example application:
+
+```go
+package main
+
+import (
+    "fmt"
+    "m2cp"
+)
+
+func main() {
+    fmt.Println("Hello, M2CP!")
+    fmt.Println("SDK version: %s", m2cp.GetVersion())
+}
+```
+
+
+### Setting Up Dev Environment
+
+#### Prerequisites to Set Up Dev Environment
+
+* This guide has been tested with Linux (Ubuntu 22.04.2 LTS). It requires only an internet
+  connection. No remote-login, no special development hardware.
+
+* You have a copy of the `m2cp` CLI-tool.
+  The following will only work, if you installed it correctly:
+  ```console
+  $ type m2cp
+  m2cp is ~/bin/m2cp
+  $ m2cp version
+  m2cp version v0.1.7-feat/20230606_better_logs-2023-06-07_10-09
+  ```
+
+* You have Docker installed, and its status is "active (running)". The minimum required version of Docker is 23.
+  ```console
+  $ docker --version
+  Docker version 23.0.6, build ef23cbc
+  $ systemctl status docker | head -n3
+  ● docker.service - Docker Application Container Engine
+       Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+       Active: active (running) since Tue 2023-06-13 09:00:34 CEST; 6h ago
+  ```
+
+* You received a copy of the ML!PA Edge Device SDK. For the Go programming
+  language, this will be a Debian package of source code.
+
+#### Setup
+
+We need to have a virtual device for the following examples. What a
+virtual device is and how to set it up is explained in [Virtual
+Device](Virtual_Devices.md#usage-of-virtual-devices). Please follow the instructions
+there.
+
+To continue, please have a running virtual device.
+
+#### Application Development Example
+
+Say, you just booted your computer. You need to `m2cp user login`
+again, like in the setup. The virtual device is persistent and will be
+started as well. It is not only listed on `m2cp device virtual list`
+but also with the "normal" devices, and it should be online (although
+it is missing its name `test-dev` in this table, therefore we filter
+by serial):
+
+```console
+$ m2cp device list | grep ec6a5341-b268-466e-bb76-97440b329870
+ec6a5341-b268-466e-bb76-97440b329870    amd64                              2023-06-14 14:50    true
+```
+
+Please pay attention that the device *is online*. (If not, try to
+start it with `m2cp device virtual start`.)
+
+Quickly check, the environment variable is still set to the correct port:
+
+```console
+$ echo $M2CP_VIRTUAL_DEVICE
+20000
+```
+
+
+##### Testing Emit and Subscribe
+
+Just to see, that emit and subscribe is working, you can use the
+tutorial applications `ramp` to emit messages and `subscribe` to
+receive those and print them to the console. These applications can be
+build from the code in `M2CP.2_sdk/go/tutorial/`. (In the case of
+programming languages, please ask the M2CP Team for options.)
+
+On the one hand, we use `ramp` to generate a
+[signal](Tech_Messaging.md#message-format)
+and on the other hand we start `subscribe` to subscribe to all
+messages and print them to stdout.
+
+Start listening to messages:
+```console
+receiver$ pwd
+~/Downloads/git/M2CP.2_sdk/go/tutorial/subscribe
+receiver$ go build .
+receiver$ export M2CP_VIRTUAL_DEVICE=20000
+receiver$ ./subscribe
+15:13:32.000|INFO|subscribe-main| Subscribe to any SIGNAL! Using SDK version: 7.9.0-dev (Strg+c to exit) (/home/jakob.duebel@ml-pa.loc/Downloads/git/M2CP/main/Documentation/source/code/examples/golang/subscribe/subscribe.go:23)
+...
+```
+
+Start sending messages:
+
+```console
+sender$ pwd
+~/Downloads/git/M2CP.2_sdk/go/tutorial/emit
+sender$ go build .
+sender$ export M2CP_VIRTUAL_DEVICE=20000
+sender$ ./emit
+15:14:50.000|INFO|emit-main| Hello, this is the m2cp-tutorial. Using SDK version: 7.9.0-dev (/home/jakob.duebel@ml-pa.loc/Downloads/git/M2CP/main/Documentation/source/code/examples/golang/emit/emit.go:24)
+```
+
+On the side of `subscribe`, you will notice the signal being printed as:
+```
+15:16:06.000|INFO|subscribe-main| INFO: message, Hello, World!. (/home/jakob.duebel@ml-pa.loc/Downloads/git/M2CP/main/Documentation/source/code/examples/golang/subscribe/subscribe.go:33)
+```
+
+##### Remote Procedure Calls (RPCs)
+
+Say, you have prepared some code, that uses the messaging functions of the Edge Device SDK and is ready for a test run.
+For example, we use `rpc2emit` from the Go Tutorials, which receives RPC calls and translates them to signals.
+```console
+$ pwd
+~/Downloads/git/M2CP.2_sdk/go/examples/rpc2emit
+$ go build .
+$ export SNAP_NAME=rpc2emit
+$ ./rpc2emit
+4:52PM [info] LoggerConsole() initialized
+4:52PM [info] M2CP RPC2emit (Ctrl+c to exit)
+4:52PM [warn] M2CP_VIRTUAL_DEVICE is set, using port 20001 for RabbitMQ module: networks.NetworkContext
+4:52PM [debug] subs: sys-broadcast@M2CPSDK-Signals(amq.gen-PU3xA6cK8nKBfyYyfzl9_A) module: networks.rmq.Subscriber
+4:52PM [debug] lstn: amq.gen-PU3xA6cK8nKBfyYyfzl9_A module: networks.rmq.Subscriber
+4:52PM [warn] M2CP_VIRTUAL_DEVICE is set, using port 20001 for RabbitMQ module: networks.NetworkContext
+4:52PM [warn] M2CP_VIRTUAL_DEVICE is set, using port 20001 for RabbitMQ module: networks.NetworkConnection
+4:52PM [debug] lstn: command.rpc2emit.ec6a5341-b268-466e-bb76-97440b329870 module: networks.rmq.Subscriber
+4:52PM [warn] M2CP_VIRTUAL_DEVICE is set, using port 20001 for RabbitMQ module: networks.NetworkConnection
+4:52PM [debug] lstn: response.rpc2emit.ec6a5341-b268-466e-bb76-97440b329870 module: networks.rmq.Subscriber
+4:52PM [info] domain: rpc2emit.ec6a5341-b268-466e-bb76-97440b329870
+4:52PM [info] Node address: rpc2emit.rpc2emit.ec6a5341-b268-466e-bb76-97440b329870
+...
+```
+SNAP_NAME can be set to stop the SDK from generating a name to increase readability of the address.
+Keep this process running. Start a new terminal emulator and do (with the node address as above):
+
+```console
+$ m2cp device node list ec6a5341-b268-466e-bb76-97440b329870
+Nodes:
+Address
+rpc.m2cp-gateway.ec6a5341-b268-466e-bb76-97440b329870
+rpc2emit.rpc2emit.ec6a5341-b268-466e-bb76-97440b329870
+```
+
+Now look at the exposed RPC methods of the `rpc2emit.rpc2emit.ec6a5341-b268-466e-bb76-97440b329870` node:
+```console
+$ m2cp device node info rpc2emit.rpc2emit.ec6a5341-b268-466e-bb76-97440b329870
+Name:     NodeDocumentation
+Type:
+Get a list of all available RPC commands of this node together with their call and return schemes.
+Parameters:
+- no parameter fields
+Returns: Get documentation of all RPC commands
+- documentation (string, required=true)     - json object with all available RPC commands of this node
+
+Name:     NodeMemoryUsage
+Type:
+Get the current memory in MBytes used by this plugin
+Parameters:
+- no parameter fields
+Returns: Get memory usage of the node
+- memoryUsageAct (int, required=true)     - current memory usage in MBytes used by this plugin
+
+Name:     NodeUptime
+Type:
+Get the current uptime of this plugin
+Parameters:
+- no parameter fields
+Returns: Get uptime of the node
+- uptime (int, required=true)     - current uptime of this plugin in seconds
+
+Name:     EmitSignalBroadcast
+Type:
+desc
+Parameters:
+- name (string, required=true)     - string-param
+- value (string, required=true)     - string-param
+Returns: desc-returns
+- no return fields
+
+Name:     EmitData
+Type:
+desc
+Parameters:
+- number (int, required=true)     - int-param
+Returns: desc-returns
+- no return fields
+
+Name:     EmitSignal
+Type:
+desc
+Parameters:
+- name (string, required=true)     - string-param
+- value (string, required=true)     - string-param
+Returns: desc-returns
+- no return fields
+```
+
+How to use these RPC methods is described in the subsection about [manual RPC calls](#manual-remote-procedure-calls-rpc).
+
+### Using the Edge Device SDK
+
+The Edge Device SDK allows your app to participate in M2CP Messaging:
+
+- emit data points
+- emit signals
+- subscribe to signals
+- call RPC methods of other apps
+- expose RPC methods to be called from other apps
+
+The M2CP Messaging Network is a network. To participate you first need
+to connect:
+
+```csharp
+var connection = await M2CPSDK.NewEmbeddedDevice();
+```
+
+This will create a connection and automatically find out the app name
+and the device name for constructing the address the the application.
+
+#### Understanding m2cp-addresses
+
+Each participant in the network has an _m2cp-address_. An app called
+"foo" running on a device called "bar" would have the address
+`foo.bar`. An app can have multiple endpoints sending and receiving
+messages - think of them like "subdomains" of a website. Endpoints of
+the "foo" app could be called `a.foo.bar` and `b.foo.bar`. Having
+multiple endpoints allows you to organize the features of your app and
+make the functionality more understandable to other developers.
+
+#### Automatic naming
+
+_Device name:_
+
+On real embedded devices running _Edge OS_, the device name is
+acquired from querying _snapd_ and asking for the OS Serial Number. When
+running on a development machine, the host name of the machine is used
+instead.
+
+_App name:_
+
+On real embedded devices, apps run inside of M2CP App-containers, which
+have a `$SNAP` environmental variable set to the name of the
+application. This name is used by the Edge Device SDK for building the address. On
+development machines, you can either set `$SNAP` or leave it to the
+SDK to generate a random name.
+
+All nodes (endpoints) will have an address of the format
+`<nodename>.<appname>.<devicename>`.
+
+
+#### Predefined RPC methods
+
+When activating the RPC feature of the Edge Device SDK for a participant, some
+methods are automatically provided by the Edge Device SDK itself. These
+pre-implemented RPC methods allow developers to retrieve useful
+information about the node and its available RPC calls.
+
+The Edge Device SDK automatically provides the following RPC methods for any
+RPC-enabled node:
+
+##### NodeDocumentation()
+
+**Summary:** Returns human- and machine-readable documentation of all
+RPC methods available for a node.
+
+**Returns:** A JSON object containing all available RPC methods of the
+node, with their call and return schemes.
+
+This documentation is automatically generated from the comments and
+data types of the RPC methods. Developers can use this information to
+learn about the available RPC methods and their expected input and
+output formats.
+
+##### NodeUptime()
+
+**Summary:** Returns the uptime of the node.
+
+**Returns:** An integer representing the uptime in Unix time
+(seconds).
+
+The uptime is calculated as the difference between the current Unix
+timestamp and the Unix timestamp when the node was started. This
+information can be useful for monitoring the performance and stability
+of the node.
+
+##### NodeMemoryUsage()
+
+**Summary:** Returns the current memory usage in MBytes.
+
+**Returns:** An integer representing the current memory usage in
+MBytes.
+
+This method retrieves the memory usage of the node by accessing the
+WorkingSet64 property of the Process class, which provides the number
+of bytes currently held in the working set of the process. The result
+is then converted to MBytes for a more human-readable format.
+
+#### Aggregation in DATA-messages
+
+When sending a single data point as a DATA-message, a lot of overhead is generated compared to the
+size of the actual payload, as a full message with headers and metadata needs to be constructed, queued, sent to the hub,
+queued there again, delivered to a recipient and parsed. When sending data points in high frequency, this can
+lead to a lot of network traffic and processing overhead.
+
+Therefor the Edge Device SDK supports data aggregation. The format of DATA messages is structured like a table, with a data format
+defining the columns of the table and the actual data points being the rows. This allows for a single message to contain
+multiple data points, which can be sent in a single message, reducing the overhead.
+
+Data aggregation can be configured _per node_ and _per data format_. Each queue for a specific node-format combination
+will use the lowest of the two settings for aggregation. You should consider the node settings as the default for
+all data formats send by this node and the data format settings as exception, lowering the aggregation for a specific
+format.
+
+A node has two settings for controlling aggregation:
+
+```golang
+node.SetDataQueueMaxAge(duration time.Duration)
+node.SetDataQueueMaxCount(int)
+```
+
+To configure the aggregation for a specific data format, you can use the following methods:
+
+```golang
+dataFormat.SetDataQueueMaxAge(duration time.Duration)
+dataFormat.SetDataQueueMaxCount(int)
+```
+
+FYI: as of today, the defaults for these two values (in both node and format) are set to
+
+```golang
+dataQueueMaxAge:   5000 * time.Millisecond,
+dataQueueMaxCount: 100
+```
+
+The default values are subject to change in future versions of the Edge Device SDK.
+
+
+#### Requesting Application Runtime
+
+Some projects include a Power Management MCU, that is able to cut the
+power in order to save energy. The Edge Device SDK provides a way for a
+application, to request the runtime it requires to finish their job.
+
+Internally, m2cp-coap is in charge
+of negotiating with the Power Management MCU and it will collect all
+requests and forward only the maximum value. Also it will rate-limit
+the amount of requests, so users of the Edge Device SDK can request runtime as
+often as they want to, without overloading the MCU.
+
+The signature of the `RequestAppRuntime` function is:
+
+```golang
+func RequestAppRuntime(ctp m2cp.ContextPlus, identifier string, seconds int)
+```
+
+where `ctp` is the ubiquitous context, `identifier` is the label of
+whom requested the runtime and `seconds` is the duration of the
+runtime in seconds. `seconds` is limited to `0` minimum and `1000`
+maximum. The application does not have to take into account the
+duration of e. g. the system shutdown -- only its own requirements.
+
+One established simple strategy is to request a maximum amount at
+start and employ Go's `defer` statement to request a minimum amount
+when done:
+
+```golang
+import (
+    "m2cp/contextplus"
+    "m2cp/uptime"
+)
+
+func doTheJob(ctp m2cp.ContextPlus) {
+    uptime.RequestAppRuntime(ctp, "MyAppId", 1000)
+    defer uptime.RequestAppRuntime(o.ctp, "DeviceKeyHandler", 0)
+
+    r := rand.Intn(100)
+    time.Sleep(time.Duration(r) * time.Second)
+}
+```
+
+So in this example, no matter how long the random sleep time will
+actually be, the requested runtime is reset to minimum at the end of
+the scope.
+
+
+### Tutorials
+
+The following tutorials will demonstrate how to use the Edge Device SDK to develop Apps that are enabled for messaging in Golang.
+
+```{note}
+A copy of all the source codes in this tutorial can be found in the <a
+href="file:///usr/share/doc/mlpa/mlpa-m2cp-dev/doc/code/examples/golang/">examples
+directory
+<span class="pre">/usr/share/doc/mlpa/mlpa-m2cp-dev/doc/code/examples/golang/</span></a>. Specific
+files are also linked at the end of each section.
+```
+This chapter will lead you through the process from
+- [Ensuring Prerequisites Needed for Tutorials](#prerequisites-needed-for-tutorials)
+- [Understanding a Go Project](#understanding-a-go-project)
+- [Error Handling and Debugging](#error-handling-and-debugging)
+- [Setting Up the Tutorial Project](#setting-up-the-tutorial-project)
+- Tutorial: [Emitting a "Hello World Signal"](#emitting-a-hello-world-signal)
+- [Best Practices for Logging in Apps](#best-practices-for-logging-in-apps)
+- Tutorial: [Subscribing to a Signal](#subscribing-to-a-signal)
+- Tutorial: [Ramp: A Simulated Sensor](#ramp-a-simulated-sensor)
+- Tutorial: [Square: A Simple Transformer](#square-a-simple-transformer)
+- Tutorial: [Get or Set Period Length of ramp.go with RPC](#get-or-set-period-length-of-rampgo-with-rpc)
+
+
+#### Prerequisites Needed for Tutorials
+
+* You need a internet connection. Not only for the setup, permanently.
+
+* You need to know your way around with the command line in the Bash
+  shell. You can follow this tutorial with a simple text editor or
+  with your favorite IDE, that's up to you.
+
+* Your system is Linux. In this example we use Ubuntu 22.04.2 LTS,
+  though the exact distribution should not matter.
+
+* The [Go Programming Language](https://go.dev/) is installed. We
+  require version 1.21 or later. You can check if it is installed
+  correctly:
+
+  ```console
+  $ go version
+  go version go1.22.0 linux/amd64
+  ```
+
+#### Understanding a Go Project
+Each tutorial will be structured as an individual application stored in a dedicated project folder. For simplicity, it is recommended to have a tutorials/ directory with subfolders for each project.
+
+A typical Go project consists of:
+
+- Go source files (.go)
+- A module definition file (go.mod)
+- A dependency checksum file (go.sum)
+- Other related files
+
+Go includes a built-in module system that manages dependencies, ensuring your project runs consistently across different environments.
+
+When you compile a Go script, it produces an executable binary (.exe), which contains everything needed to run the application. The Go source file must contain a main package and a main function, as that is where the execution starts when you run it.
+
+The go.mod file defines the Go module and includes:
+
+- The module name (used as the import path).
+- The minimum Go version required.
+- A list of project dependencies and their versions (e.g.,Edge Device SDK version).
+
+The go.sum file stores checksums to verify the integrity of dependencies listed in go.mod. If go.sum contains incorrect or missing checksums, Go may fail to verify dependencies when building or running the project.
+
+If you encounter dependency issues, run:
+```
+go mod tidy
+```
+This command helps by:
+
+- Removing unused dependencies (if go.mod still lists imports you've deleted).
+- Adding missing dependencies (if go.mod was manually edited or the project was cloned incompletely).
+- Regenerating go.sum with the correct checksums.
+
+Now, let's start creating our first application.
+
+#### Error Handling and Debugging
+
+If you encounter errors while following these tutorials, take it as an opportunity to practice error handling and debugging. Make sure you're using an IDE that simplifies this process—having the right tools is the key to efficient development.
+We recommend using Visual Studio Code (VSC) because it's a lightweight, free, and open-source IDE. However, if you're open to paying for a license, consider [GoLand](https://www.jetbrains.com/de-de/go/), which offers built-in features that streamline debugging.
+
+If you've installed VSC as your IDE and added the Go extension, you'll also need to install the Go Debugging Tools. You can do this in one of two ways:
+You can either open the terminal in VSC and run
+```
+go install github.com/go-delve/delve/cmd/dlv@latest
+```
+
+or you can open the Command Palette (shortcut: Ctrl+P), search for "Go: Install/Update Tools", and select dlv Delve Debugger from the list.
+
+To start debugging, click "Run and Debug" in the vertical menu on the left, or use the shortcut Ctrl+Shift+D.
+Before running the debugger, set breakpoints in your script by clicking in the left margin next to the line of code where you want the execution to pause. When the debugger runs, the script will stop at the breakpoint, allowing you to inspect variables in the variable window to the left, navigate through the code by using the buttons that appear above your code, and monitor how values change to ensure everything behaves as expected.
+
+```{figure} /_static/debugging_go_with_vsc.png
+:alt: iMX8Mplus
+:width: 500px
+:align: center
+:name: debugging-go-with-vsc
+
+Debugging Go with VSC
+```
+
+In the figure above, you can see that a debug configuration can be selected when running the debugger. In the provided example, the chosen configuration is "Ramp Debug."
+Debug configurations are defined in a launch.json file. This file can contain multiple configurations that specify how the debugger should start and run the program in debugging mode. You can create different configurations based on your needs, such as debugging a standard application, running unit tests, passing specific command-line arguments, and more.
+
+For more details on how to define a launch.json file, refer to the [VSC documentation](https://code.visualstudio.com/docs/editor/debugging-configuration).
+
+Additionally, it is a common convention in Go for functions to return both a result and an error object. To make debugging easier, be sure to log these errors as part of your scripts.
+
+#### Setting up the tutorial project
+
+For this tutorial we will use `$TUTORIAL` to describe the path to the
+project root directory. Of course, you can choose that path on your
+own. First we change into that directory, create a new directory named
+`emit` and also change into that:
+
+```console
+$ cd $TUTORIAL
+$ mkdir emit && cd emit
+```
+
+Let's initialize a new Go module in this directory:
+
+```console
+$ go mod init example.com/mlpa/emit
+go: creating new go.mod: module example.com/mlpa/emit
+```
+
+Next you create a file `emit.go` with the following content:
+
+```{code-block} go
+---
+caption: emit.go
+lineno-start: 1
+---
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    fmt.Println("Tutorial.")
+}
+```
+
+This code snippet can be compiled with `go build` and the result is
+named `emit` and is a executable file:
+
+```console
+$ go build .
+$ file emit
+emit: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, Go BuildID=gNA6kJSmTZE8o1FEJI3M/LSiGzprQfBNASL3tPC6v/JX5gMbgewSQi0ySQrUU2/eAV-_jantnxbA6TgPijB, with debug_info, not stripped
+$ ./emit
+Tutorial.
+```
+
+Now please follow the steps in [Installing the
+SDK](#installing-the-edge-device-sdk) and edit the
+`$TUTORIAL/emit/go.mod` file accordingly. Afterwards `go mod tidy`
+should end without warning.
+
+```console
+$ go mod tidy
+```
+
+````{note}
+Please ignore the warnings related to the "m2cp" module path, e.g.:
+
+```console
+go: example.com/mlpa/emit imports
+	m2cp: malformed module path "m2cp": missing dot in first path element
+```
+````
+
+Back to our `emit.go` code snippet. Add the `"m2cp"` module to the `import`
+block and use `m2cp.GetVersion()` to test that the import works correctly:
+
+```{code-block} go
+---
+caption: emit.go
+lineno-start: 3
+emphasize-lines: 3, 8
+---
+package main
+
+import (
+    "fmt"
+    "m2cp"
+)
+
+func main() {
+    fmt.Println("Tutorial.")
+    fmt.Println("SDK version:", m2cp.GetVersion())
+}
+```
+
+Let's build and execute the program:
+
+```console
+$ go run emit.go
+Tutorial.
+SDK version: 7.9.0-dev
+```
+
+This shows, the Edge Device SDK is imported correctly and we can move on.
+
+
+#### Emitting a "Hello, World!" signal
+
+```{note}
+Please follow the steps in [Setting Up Dev
+Environment](#setting-up-dev-environment)
+until the section "Application Development Example". If the
+`M2CP_VIRTUAL_DEVICE` variable is set correctly, you can continue
+here.
+```
+
+We like to work on the `main()` function, so it will emit a single
+signal with the value `"Hello, world!"` and simply end afterwards.
+
+To send messages, we need to create a connection to the
+M2CP Messaging Network first. Creating such a network connection
+requires a `contextplus` object to be passed. What is _contextplus_?
+It's a multi-purpose module mainly needed for logging but also to pass
+a shutdown-signal to all subprocesses if you want to shut down the
+program.
+
+```{code-block} go
+---
+caption: emit.go
+lineno-start: 3
+emphasize-lines: 5, 9-13
+---
+package main
+
+import (
+    "m2cp"
+    "m2cp/m2cp_new"
+)
+
+func main() {
+    // create a ContextPlus Object to manage the context of the application
+    context := m2cp_new.ContextPlus()
+    context = context.SetModule("emit-main")
+    context.SetLogLevel(m2cp.LogLevelInfo)
+    context.LogInfo("Hello, this is the m2cp-tutorial. Using SDK version: %s", m2cp.GetVersion())
+}
+```
+
+This creates a new `context` object, configures its logger to print
+"greeter-main" next to each log entry, sets the log level to "LogLevelInfo" and then outputs
+the log message. You should use the logger `context.Log...("...")`
+instead of `fmt.Printf("...")` in your M2CP projects. This creates log
+outputs with time stamps, e.g.:
+
+```console
+09:35:36.000|INFO|emit-main| Hello, this is the m2cp-tutorial. Using SDK version: 7.9.0-dev (/home/jakob.duebel@ml-pa.loc/Downloads/git/M2CP/main/Documentation/source/code/examples/golang/emit/emit.go:24)
+```
+
+```{note}
+If the code runs on a ARM64 machine, the Edge Device SDK assumes that this is a
+production device and it will print logs in JSON format. The decision
+is made on the value of the `runtime.GOARCH`.
+```
+
+```{admonition} Troubleshoot
+If importing m2cp or m2cp_new results in errors, particularly those mentioning go.sum, try running the following command in the console:
+go mod tidy
+Then, attempt to execute the command again.
+```
+
+Next, we create a network connection to the M2CP Messaging Network:
+
+```{code-block} go
+---
+caption: emit.go
+lineno-start: 3
+emphasize-lines: 6, 16-18
+---
+package main
+
+import (
+    "fmt"
+    "m2cp/m2cp_new"
+    "m2cp/networks"
+)
+
+func main() {
+    // create a ContextPlus Object to manage the context of the application
+    context := m2cp_new.ContextPlus()
+    context = context.SetModule("emit-main")
+    context.SetLogLevel(m2cp.LogLevelInfo)
+    context.LogInfo("Hello, this is the m2cp-tutorial. Using SDK version: %s", m2cp.GetVersion())
+
+    // Establish a Network Connection
+    connection, _ := networks.NewNetworkConnection(context)
+    defer connection.Close()
+}
+```
+
+This requires the additional `"m2cp/networks"` import statement. If you're using a modern IDE for Golang, the import statements
+are added automatically.
+
+The `NewNetworkConnection` constructor creates a new `connection`
+object. (It also returns an error object, but we ignore the error
+handling for now and use the `_` [blank
+identifier](https://go.dev/doc/effective_go#blank).) Then, the `defer`
+statement makes sure, that the `connection` finally is closed before
+the application ends.
+
+```{admonition} Troubleshoot
+To establish a network connection for your virtual device, ensure that the environment variable $M2CP_VIRTUAL_DEVICE is set correctly. You can verify this by running the following command in the console:
+m2cp device virtual list
+Identify the port listed as the Snapd port for your virtual device, as this should be assigned to $M2CP_VIRTUAL_DEVICE. To check the current value of the variable, enter:
+echo $M2CP_VIRTUAL_DEVICE
+If the output is empty or does not match the Snapd port of your virtual device, update it using the following command:
+export $M2CP_VIRTUAL_DEVICE=<snapd_port_of_virtual_device>.
+```
+
+If you're still receiving error messages, read the logs - completely and with attention. In many cases this helps a lot, as errors are typically printed to the terminal.
+
+Third, we use the `connection` to create a node on the network:
+
+```{code-block} go
+---
+caption: emit.go
+lineno-start: 9
+emphasize-lines: 12-13
+---
+func main() {
+    // create a ContextPlus Object to manage the context of the application
+    context := m2cp_new.ContextPlus()
+    context = context.SetModule("emit-main")
+    context.SetLogLevel(m2cp.LogLevelInfo)
+    context.LogInfo("Hello, this is the m2cp-tutorial. Using SDK version: %s", m2cp.GetVersion())
+
+    // Establish a Network Connection
+    connection, _ := networks.NewNetworkConnection(context)
+    defer connection.Close()
+
+    // Create a node
+    node, _ := connection.NewNode("greeter")
+}
+```
+
+The parameter of `NewNode("greeter")` specifies the name of the
+endpoint and will be part of the [M2CP Messaging
+Address](Tech_Messaging.md#address-format) of
+the node, but more on that later on.  This `node` is able to emit
+signals:
+
+```{code-block} go
+---
+caption: emit.go
+lineno-start: 3
+emphasize-lines: 7,25-29
+---
+package main
+
+import (
+    "fmt"
+    "m2cp/m2cp_new"
+    "m2cp/messages"
+    "m2cp/networks"
+    "time"
+)
+
+func main() {
+    // create a ContextPlus Object to manage the context of the application
+    context := m2cp_new.ContextPlus()
+	context = context.SetModule("emit-main")
+	context.SetLogLevel(m2cp.LogLevelInfo)
+	context.LogInfo("Hello, this is the m2cp-tutorial. Using SDK version: %s", m2cp.GetVersion())
+
+    // Establish a Network Connection
+	connection, _ := networks.NewNetworkConnection(context)
+	defer connection.Close()
+
+    // Create a node
+	node, _ := connection.NewNode("greeter")
+
+    // Emit a Signal
+	name := "message"
+	value := "Hello, World!"
+	level := messages.SignalType_Info
+	_ = node.EmitSignal(name, value, level)
+
+	context.Sleep(1 * time.Second)
+}
+```
+
+The arguments `name` and `value` can set to arbitrary values.
+Although the signature is `func (n *node) EmitSignal(name, value,
+level string) error` without a special type for `level`, it will only
+work with specific constants for `level`. Those are defined as
+constants in the `messages` module.
+
+Delivering messages takes time -- so we wait 1 second before quitting
+the application. And we use `context.Sleep(...)` instead of
+`time.Sleep(...)`, so the sleep would be canceled when the context
+ends.
+
+Finally we can build and run our `emit.go` application:
+
+```console
+$ echo $M2CP_VIRTUAL_DEVICE  # make sure, that a virtual device is configured - otherwise we can't send messages
+20000
+$ go build .
+$ ./emit
+10:48:16.000|INFO|emit-main| Hello, this is the m2cp-tutorial. Using SDK version: 7.9.0-dev (/home/jakob.duebel@ml-pa.loc/Downloads/git/M2CP/main/Documentation/source/code/examples/golang/emit/emit.go:24)
+```
+
+
+````{caution}
+If the `M2CP_VIRTUAL_DEVICE` is not set
+correctly, the application will not work, because it cannot connect to
+the M2CP network that comes with the virtual device.  For example:
+```console
+$ export M2CP_VIRTUAL_DEVICE=1234
+$ ./emit
+Tutorial.
+10:28AM [info] LoggerConsole() initialized
+panic: failed getting snapd serial: Get "http://127.0.0.1:1234/v2/assertions/serial": dial tcp 127.0.0.1:1234: connect: connection refused
+```
+````
+
+
+````{danger}
+Also note, the application crashes badly, because we skipped the error
+handling in the example for brevity. From now on, we will handle
+errors properly! Therefore, we invent a function
+```go
+func handleError(err error) {
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "error: %v\n", err)
+        os.Exit(1)
+    }
+}
+```
+and use that on each returned `err` object.
+````
+
+You can [download `emit.go`](/code/examples/golang/emit/emit.go) to
+your computer.
+
+
+##### How to observe the signal is actually sent?
+
+* Start the `m2cp device message listen` command, which is included in our [M2CP Toolchain](/Installation_Tools.md). The Usage
+  is explained in [Tech_Messaging.md#message-routing](Tech_Messaging.md#message-routing).
+
+* Use the code from the `subscribe.go` example in the next chapter.
+
+#### Best Practices for Logging in Apps
+
+We recommend using the logger integrated into the ContextPlus module of the Edge Device SDK, as it generates logs in a standardized format which is compatible with the rest of the m2cp toolchain.
+
+The m2cp.ContextPlus object provides built-in logging functionality across four log levels:
+
+|Logging Type	|Description|
+|---------------|-----------|
+|Debug	|Useful details for debugging, but not always essential|
+|Info	|General information, such as uplink status|
+|Warning|	Indicates something behaved unexpectedly, but not fatally|
+|Error	|Indicates a failure or something that didn't work as intended|
+
+In the tutorial above, the Info log level was used. These levels are hierarchical, meaning a logger set to a certain level will capture all higher-priority messages as well. For example, if logging is set to Info, it will also capture Warning and Error, but not Debug.
+
+To log messages at all levels, use a ContextPlus object and set the log level to Debug:
+```go
+context := m2cp_new.ContextPlus() // create ContextPlus object
+context.SetLogLevel(m2cp.LogLevelDebug)
+context.LogInfo("Log general information here")
+context.LogDebug("Log debug details here")
+context.LogWarn("Log a warning if something works differently than expected")
+context.LogError("Log an error if something fails")
+```
+This would produce output similar to the following:
+```
+14:40:35.000|INFO|logging-main| Log general information here (<path_to_src>/line)
+14:40:35.000|DEBUG|logging-main| Log debug details here (<path_to_src>/line)
+14:40:35.000|WARNING|logging-main| Log a warning if something works differently than expected (<path_to_src>/line)
+14:40:35.000|ERROR|logging-main| Log an error if something fails (<path_to_src>/line)
+```
+
+To improve log traceability across different parts of your system, you can create branched sub-contexts with custom names:
+```go
+childContext := context.BranchWithName("YourComponentName")
+```
+
+Sub-contexts inherit all settings from their parent, but you can override specific settings like the log level:
+```go
+context := m2cp_new.ContextPlus() // create ContextPlus object
+context.SetLogLevel(m2cp.LogLevelInfo)
+context.LogInfo("Log general information here")
+context.LogDebug("This will not be logged.")
+
+childContext := context.BranchWithName("YourComponentName")
+childContext.SetLogLevel(m2cp.LogLevelDebug)
+childContext.LogDebug("This will be logged")
+```
+The resulting output would look like this:
+
+```
+15:17:40.000|INFO|logging-main| Log general information here (<path_to_src>/line)
+15:17:40.000|DEBUG|YourComponentName| This will be logged (<path_to_src>/line)
+```
+
+To learn how to view log messages in the cloud, see [Device Logs](Management_Device.md#device-logs).
+
+
+#### Subscribing to a signal
+
+Now we want to build an application that subscribes to any signal, waits in a busy-loop and prints out the signal's `name` and `value`, each time it receives a signal.
+
+Start a new module in `subscribe/subscribe.go`. Again, create a `go.mod` and add the required "m2cp" module. Enter the code (familiar from above) into `subscribe.go`:
+
+```{code-block} go
+---
+caption: subscribe.go
+lineno-start: 1
+---
+package main
+
+import (
+    "fmt"
+    "m2cp"
+    "m2cp/contextplus"
+    "m2cp/networks"
+)
+
+func handleError(err error) {
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "error: %v\n", err)
+        os.Exit(1)
+    }
+}
+
+func main() {
+    // create a ContextPlus Object to manage the context of the application
+	context := m2cp_new.ContextPlus()
+	context = context.SetModule("subscribe-main")
+	context.SetLogLevel(m2cp.LogLevelInfo)
+	context.LogInfo("Subscribe to any SIGNAL! Using SDK version: %s (Strg+c to exit)", m2cp.GetVersion())
+
+    // Establish a Network Connection
+	connection, err := networks.NewNetworkConnection(context)
+	handleError(err)
+	defer connection.Close()
+}
+```
+
+As we only want to listen -- but not to send anything -- we don't need
+to create a node. All we need is a network connection.
+
+The signature of the needed function is `SubscribeSignals(topics
+[]string, handler SignalHandler) error`; `topics` is an array, because
+we can subscribe to multiple topics at once; each `topic` is a string,
+that is compared with the sender's topic (see also [Topic
+Wildcards](Tech_Messaging.md#wildcards)); `handler` is a
+function, which is called each time, a matching signal is
+received. The wildcard to receive any topic is `"#"`, but we like to
+receive only messages from the "greeter" node, so we use
+`"greeter.#"`. With all this information, we change the code to:
+
+```{code-block} go
+---
+caption: subscribe.go
+lineno-start: 16
+emphasize-lines: 13-17
+---
+func main() {
+    // create a ContextPlus Object to manage the context of the application
+    context := m2cp_new.ContextPlus()
+    context = context.SetModule("subscribe-main")
+    context.SetLogLevel(m2cp.LogLevelInfo)
+    context.LogInfo("Subscribe to any SIGNAL! Using SDK version: %s (Strg+c to exit)", m2cp.GetVersion())
+
+    // Establish a Network Connection
+    connection, err := networks.NewNetworkConnection(context)
+    handleError(err)
+    defer connection.Close()
+
+    // Subscribe to signal with topic "greeter/"
+    handleSignal := func(signal m2cp.SignalMessage) {
+    }
+    err = connection.SubscribeSignals([]string{"greeter/"}, handleSignal)
+    handleError(err)
+}
+```
+
+Right now, the `handleSignal` function does nothing. We want to change that and have it log the received signal's `name`, `value`, and `level` (only the `handleSignal` function changes):
+
+```go
+// Define function to log signal information
+handleSignal := func(signal m2cp.SignalMessage) {
+	name := signal.GetName()
+	value := signal.GetContent()
+	level := signal.GetType()
+	context.LogInfo(fmt.Sprintf("%s: %s, %s.", level, name, value))
+}
+```
+
+The signal handler is in place. But the program ends immediately instead of waiting for signals. Therefor we need to add a "forever" loop at the end (just to clarify that the application is running, not hanging, we print a `.` every second):
+
+```{code-block} go
+---
+caption: subscribe.go
+lineno-start: 3
+emphasize-lines: 6,31-37,42-50
+---
+package main
+
+import (
+	"fmt"
+	"m2cp"
+	"m2cp/m2cp_new"
+	"m2cp/networks"
+	"os"
+	"time"
+)
+
+func handleError(err error) {
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		os.Exit(1)
+	}
+}
+
+func main() {
+    // create a ContextPlus Object to manage the context of the application
+	context := m2cp_new.ContextPlus()
+	context = context.SetModule("subscribe-main")
+	context.SetLogLevel(m2cp.LogLevelInfo)
+	context.LogInfo("Subscribe to any SIGNAL! Using SDK version: %s (Strg+c to exit)", m2cp.GetVersion())
+
+    // Establish a Network Connection
+	connection, err := networks.NewNetworkConnection(context)
+	handleError(err)
+	defer connection.Close()
+
+    // Define a function to log signal information
+	handleSignal := func(signal m2cp.SignalMessage) {
+		name := signal.GetName()
+		value := signal.GetContent()
+		level := signal.GetType()
+		context.LogInfo(fmt.Sprintf("%s: %s, %s.", level, name, value))
+	}
+    // Subscribe to a signals with topic "greeter/"
+	err = connection.SubscribeSignals([]string{"greeter/"}, handleSignal)
+	handleError(err)
+
+    // Indicate activity by printing "." every second as long as operation is running
+	for {
+		select {
+		case <-context.Done():
+			return
+		default:
+			context.Sleep(1 * time.Second)
+			fmt.Print(".")
+		}
+	}
+}
+```
+
+Build and run that:
+
+```console
+$ go build .
+$ export M2CP_VIRTUAL_DEVICE=20000
+$ ./subscribe
+12:41:15.000|INFO|subscribe-main| Subscribe to any SIGNAL! Using SDK version: 7.9.0-dev (Strg+c to exit) (/home/jakob.duebel@ml-pa.loc/Downloads/git/M2CP/main/Documentation/source/code/examples/golang/subscribe/subscribe.go:23)
+...
+```
+
+Meanwhile, if you run `emit/emit.go` now from another shell, the emitted signal will be logged by the subscriber, as:
+
+```console
+12:42:06.000|INFO|subscribe-main| INFO: message, Hello, World!. (/home/jakob.duebel@ml-pa.loc/Downloads/git/M2CP/main/Documentation/source/code/examples/golang/subscribe/subscribe.go:33)
+```
+
+And you received your expected message "Hello, World!".
+
+
+You can [download the complete version of
+`subscribe.go`](/code/examples/golang/subscribe/subscribe.go) to your
+computer.
+
+
+#### Ramp: A Simulated Sensor
+
+Apart from sending signals, the Edge Device SDK also allows for emitting data. Next we will build an application that will emit numbers from a repetitive sequence as data. We call it `ramp.go`.
+
+We start with:
+```{code-block} go
+---
+caption: ramp.go
+lineno-start: 1
+emphasize-lines: 33
+---
+package main
+
+import (
+    "fmt"
+    "m2cp"
+    "m2cp/m2cp_new"
+    "m2cp/messages"
+    "m2cp/networks"
+    "os"
+    "time"
+)
+
+func handleError(err error) {
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "error: %v\n", err)
+        os.Exit(1)
+    }
+}
+
+func main() {
+    // create a ContextPlus Object to manage the context of the application
+    context := m2cp_new.ContextPlus()
+    context = context.SetModule("ramp-main")
+    context.SetLogLevel(m2cp.LogLevelInfo)
+    context.LogInfo("Ramp! Using SDK version: %s (Strg+c to exit)", m2cp.GetVersion())
+
+    // Establish a Network Connection
+    connection, err := networks.NewNetworkConnection(context)
+    handleError(err)
+    defer connection.Close()
+
+    // Create a Node "ramp"
+    node, err := connection.NewNode("ramp")
+    handleError(err)
+    node.SetDataQueueMaxCount(0)
+}
+```
+
+Data, unlike signals, can be aggregated prior to sending, which basically means,
+if you call `EmitDataRow()` three times, only one bundle containing three rows will be sent over the wire.
+This is useful to save protocol overhead. However, for developing, we can effectivly turn aggregation off,
+by limiting the size of the output queue with `node.SetDataQueueMaxCount(0)`.
+
+Next we come up with some simple generator for the periodic number sequence.
+Only the `main()` function is effected:
+
+```{code-block} go
+---
+caption: ramp.go
+lineno-start: 19
+emphasize-lines: 18-27
+---
+func main() {
+    // Create a ContextPlus Object to manage the context of the application
+    context := m2cp_new.ContextPlus()
+    context = context.SetModule("ramp-main")
+    context.SetLogLevel(m2cp.LogLevelInfo)
+    context.LogInfo("Ramp! Using SDK version: %s (Strg+c to exit)", m2cp.GetVersion())
+
+    // Establish a Network Connection
+    connection, err := networks.NewNetworkConnection(context)
+    handleError(err)
+    defer connection.Close()
+
+    // Create a Node "ramp"
+    node, err := connection.NewNode("ramp")
+    handleError(err)
+    node.SetDataQueueMaxCount(0)
+
+    // Create a for-loop that runs 5 times and each time prints the loop counter, sleeps for 1 second and prints a dot
+    period := 5
+    for {
+        for counter := 0; counter < period; counter++ {
+            fmt.Print(counter)
+
+            time.Sleep(1 * time.Second)
+            fmt.Print(".")
+        }
+    }
+}
+```
+This will print one number of the sequence per second, like "0.1.2.3.4.0.1.2." and so forth.
+
+Now we want to send these numbers as data to the M2CP network.
+This requires two steps: First we define the `DataFormat`, then we produce a `DataRow` of this format and fill it with data. We are also required to import `"m2cp/messages"`.
+
+```{code-block} go
+---
+caption: ramp.go
+lineno-start: 19
+emphasize-lines: 15-20,25-30
+---
+func main() {
+    context := m2cp_new.ContextPlus()
+    context = context.SetModule("ramp-main")
+    context.SetLogLevel(m2cp.LogLevelInfo)
+    context.LogInfo("Ramp! Using SDK version: %s (Strg+c to exit)", m2cp.GetVersion())
+
+    connection, err := networks.NewNetworkConnection(context)
+    handleError(err)
+    defer connection.Close()
+
+    node, err := connection.NewNode("ramp")
+    handleError(err)
+    node.SetDataQueueMaxCount(0)
+
+    // Define Constants and Fields for Data Format
+    const name = "number"
+    fields := []m2cp.DataField{
+        messages.NewDataFieldInt(name),
+    }
+    format, err := messages.NewDataFormat("any-unique-format-id", fields...)
+    handleError(err)
+
+    // Create an infinite for-loop
+    for {
+            // Create a for-loop that runs 5 times and each time creates a new row of data with a key-value-pair, where the key is "number" and the value is the loop counter, sends the data to the node and prints out the value to the console.
+        period := 5
+        for counter := 0; counter < period; counter++ {
+            row, err := format.NewRow(map[string]interface{}{
+                name: counter,
+            })
+            handleError(err)
+            err = node.EmitDataRow(row)
+            handleError(err)
+
+            // pauses iteration for 1 second and prints "." in between the values
+            time.Sleep(1 * time.Second)
+            fmt.Print(".")
+        }
+    }
+}
+```
+
+With only one single value, this example does not exhaust the
+potential of emitting data.  Think of tables with header and body: The
+`DataField` defines each data field's name and type like a header;
+each `DataRow` has to match this definition; and depending on the
+`SetDataQueueMaxCount(N)` configuration, table body slices of `N` rows
+will be sent to the M2CP network.
+
+In the code example above, the `DataFormat` was created by
+`NewDataFormat(formatID string, ...)` with a unique ID named
+`any-unique-format-id` for the `formatID`. The `formatID` basicly
+defines, in which queue the data row goes for aggregation, so any
+other string would be fine. Just notice that if the `formatID` is not
+constant during the lifetime of the application, there will be
+unnecessary CPU and memory overhead for creating a new message queue
+each time the `formatID` changes.
+
+You can [download the complete version of
+`ramp.go`](/code/examples/golang/ramp/ramp.go) to your computer.
+
+##### Send Log Messages to the Cloud
+When following the tutorial, log messages are visible in real time using `m2cp device message listen`, but they are not stored and therefore cannot be reviewed later. To persist logs, they must be sent to the cloud. This requires using a node that is configured to forward log messages to the cloud.
+
+To do this, choose the contextPlus object from which you want to send log messages. Then, select or create a network connection within that context, and select or create a node associated with that connection.
+
+To configure this node to send logs to the cloud, use the **ConfigureLogToCloud** function provided in the `m2cp/contextplus` package:
+
+```{code-block} go
+    // Create a Node to log messages to the cloud - we name it "log"
+    node, err := connection.NewNode("log")
+    if node, err := connection.NewNode("log"); err == nil {
+        contextplus.ConfigureLogToCloud(node, m2cp.LogLevelDebug)
+        }
+```
+
+Inside this function, specify the node that should transmit the logs to the cloud, and define the minimum log level that should be sent.
+
+
+#### Square: A Simple Transformer
+
+As the next step we like to build an application, that is receiving and
+sending at the same time.  It subscribes to numbers that are sent from
+the `ramp.go` generator. For each number it will calculate the square
+and then emit the result as a new signal.
+
+We start a new file `square.go`, which is very similar to our `subscribe.go` code,
+but we change two
+things: First, this time we want to use the `SubscribeData()` method,
+and second we want to subscribe from a specific topic, instead of the
+`#` wildcard:
+
+```{code-block} go
+---
+caption: square.go
+lineno-start: 1
+emphasize-lines: 28-29
+---
+import (
+    "fmt"
+    "m2cp"
+    "m2cp/m2cp_new"
+    "m2cp/networks"
+    "time"
+)
+
+func handleError(err error) {
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "error: %v\n", err)
+        os.Exit(1)
+    }
+}
+
+func main() {
+    context := m2cp_new.ContextPlus()
+	context = context.SetModule("square-main")
+	context.SetLogLevel(m2cp.LogLevelInfo)
+	context.LogInfo("Square! Using SDK version: %s (Strg+c to exit)", m2cp.GetVersion())
+
+    connection, err := networks.NewNetworkConnection(context)
+    handleError(err)
+    defer connection.Close()
+
+    handleData := func(data m2cp.DataMessage) {
+    }
+    const topic = "ramp/"
+    err = connection.SubscribeData([]string{topic}, handleData)
+    handleError(err)
+
+    for {
+        select {
+            case <-context.Done():
+                return
+            default:
+                context.Sleep(1 * time.Second)
+                fmt.Print(".")
+		}
+    }
+}
+```
+
+The `ramp.go` application sends data to the `data/ramp/` topic.  More
+on topics is explained in [Message Routing](Tech_Messaging.md#message-routing).
+
+Next step is to unpack the number from rows. Once we have a number, we
+calculate the square and then simply log the original number and its
+square:
+
+```{code-block} go
+---
+caption: square.go
+lineno-start: 16
+emphasize-lines: 11-17
+---
+func main() {
+    context := m2cp_new.ContextPlus()
+    context = context.SetModule("square-main")
+    context.SetLogLevel(m2cp.LogLevelInfo)
+    context.LogInfo("Square! Using SDK version: %s (Strg+c to exit)", m2cp.GetVersion())
+
+    connection, err := networks.NewNetworkConnection(context)
+    handleError(err)
+    defer connection.Close()
+
+    handleData := func(data m2cp.DataMessage) {
+        for _, row := range data.GetRows() {
+            number := *row.GetFieldInt("number")
+            numberSquared := number * number
+            context.LogInfo(fmt.Sprintf("square(%v) = %v", number, numberSquared))
+        }
+    }
+    const topic = "ramp/"
+    err = connection.SubscribeData([]string{topic}, handleData)
+    handleError(err)
+
+    for {
+        select {
+            case <-context.Done():
+                return
+            default:
+                context.Sleep(1 * time.Second)
+                fmt.Print(".")
+		}
+    }
+}
+```
+
+Now if we start `ramp.go` in on shell, and `square.go` in another shell, we can observe:
+
+```
+.3:39PM [info] square(0) = 0
+.3:39PM [info] square(1) = 1
+.3:39PM [info] square(2) = 4
+.3:39PM [info] square(3) = 9
+.3:39PM [info] square(4) = 16
+.3:39PM [info] square(0) = 0
+.3:39PM [info] square(1) = 1
+.3:39PM [info] square(2) = 4
+```
+
+Finally, we want to forward the calculated square values with `EmitSignal`.
+Similar to our `emit.go` example, we add a `node` and use the the `EmitSignal()` method. Since `EmitSignal()` only accepts values of type`string`, we need to explicitly convert our integer to string:
+
+```{code-block} go
+---
+caption: square.go
+lineno-start: 3
+emphasize-lines: 7,21-22,30-31
+---
+import (
+    "fmt"
+    "m2cp"
+    "m2cp/contextplus"
+    "m2cp/messages"
+    "m2cp/networks"
+    "strconv"
+    "time"
+)
+
+func main() {
+    context := m2cp_new.ContextPlus()
+    context = context.SetModule("square-main")
+    context.SetLogLevel(m2cp.LogLevelInfo)
+    context.LogInfo("Square! Using SDK version: %s (Strg+c to exit)", m2cp.GetVersion())
+
+    connection, err := networks.NewNetworkConnection(context)
+    handleError(err)
+    defer connection.Close()
+
+    node, err := connection.NewNode("rpc")
+    handleError(err)
+
+    handleData := func(data m2cp.DataMessage) {
+        for _, row := range data.GetRows() {
+            number := *row.GetFieldInt("number")
+            numberSquared := number * number
+            context.LogInfo(fmt.Sprintf("square(%v) = %v", number, numberSquared))
+
+            err = node.EmitSignal("number", strconv.Itoa(numberSquared), messages.SignalType_Info)
+            handleError(err)
+        }
+    }
+    const topic = "ramp/"
+    err = connection.SubscribeData([]string{topic}, handleData)
+    handleError(err)
+
+    for {
+        select {
+            case <-context.Done():
+                return
+            default:
+                context.Sleep(1 * time.Second)
+                fmt.Print(".")
+		}
+    }
+}
+```
+
+
+You can [download the complete version of
+`square.go`](/code/examples/golang/square/square.go) to your computer.
+
+
+#### Get or Set Period Length of ramp.go with RPC
+
+It would be nice, if we had a way to get or set the period length of our `ramp.go` example, while it is running. In this section we will achieve that by using RPCs.
+
+First we alter our previous `ramp.go` code example. The `period` variable needs to in scope for multiple functions, so it becomes a global variable. In the `main()` function, we add a `CommandHandler` and set it as the node's command handler. We specify the two commands `getPeriod()` and `setPeriod()` and add their implementation.
+
+
+```{code-block} go
+---
+caption: ramp.go
+lineno-start: 1
+emphasize-lines: 9-10,14,16-32,34-50,65,68-72
+---
+package main
+
+import (
+    "fmt"
+    "m2cp"
+    "m2cp/contextplus"
+    "m2cp/messages"
+    "m2cp/networks"
+    "m2cp/rpc"
+    "m2cp/rpc/rpctypes"
+    "time"
+)
+
+var period = 5
+
+func getPeriod() m2cp.RpcCommand {
+    cmd, err := rpc.NewRpcCommand(
+        "GetPeriod",
+        "Get the current ramp period.",
+        "Returns a single integer.",
+        nil,
+        []m2cp.RpcParameter{
+            rpc.NewRpcParameter(m2cp.TypeInt, "period", "the current period length", false),
+        },
+        func(parameters m2cp.RpcParameters) m2cp.RpcResult {
+            res := rpctypes.NewRpcResultSuccess("Success")
+            res.SetInt("period", period)
+            return res
+        })
+        handleError(err)
+    return cmd
+}
+
+func setPeriod() m2cp.RpcCommand {
+    cmd, err := rpc.NewRpcCommand(
+        "SetPeriod",
+        "Set the ramp period.",
+        "",
+        []m2cp.RpcParameter{
+            rpc.NewRpcParameter(m2cp.TypeInt, "period", "the new period length", false),
+        },
+        nil,
+        func(parameters m2cp.RpcParameters) m2cp.RpcResult {
+            period = parameters.GetInt("period", 5)
+            res := rpctypes.NewRpcResultSuccess("Success")
+            return res
+        })
+        handleError(err)
+    return cmd
+}
+
+func main() {
+    context := m2cp_new.ContextPlus()
+    context = context.SetModule("ramp-main")
+    context.SetLogLevel(m2cp.LogLevelInfo)
+    context.LogInfo("Ramp! Using SDK version: %s (Strg+c to exit)", m2cp.GetVersion())
+
+    connection, err := networks.NewNetworkConnection(context)
+    handleError(err)
+    defer connection.Close()
+
+    node, err := connection.NewNode("ramp")
+    handleError(err)
+    node.SetDataQueueMaxCount(0)
+    context.LogInfo("Node address: %s", node.GetAddress())
+
+    handler, err := rpc.NewRpcHandler(
+        getPeriod(),
+        setPeriod())
+    handleError(err)
+    node.SetRpcHandler(handler)
+
+    const name = "number"
+    fields := []m2cp.DataField{
+        messages.NewDataFieldInt(name),
+    }
+    format, err := messages.NewDataFormat("a673ab02-160a-4db9-a44e-71e82b3c4235", fields...)
+    handleError(err)
+
+    for {
+        for counter := 0; counter < period; counter++ {
+            row, _ := format.NewRow(map[string]interface{}{
+                name: counter,
+            })
+            err = node.EmitDataRow(row)
+            handleError(err)
+            time.Sleep(1 * time.Second)
+            fmt.Print(".")
+        }
+    }
+}
+```
+
+Let's compare the signature of `NewRpcCommand` function
+
+```go
+func NewRpcCommand(
+    name string,
+    description string,
+    descriptionReturns string,
+    callParams, returnParams []m2cp.RpcParameter,
+    f func(parameters m2cp.RpcParameters) m2cp.RpcResult,
+) (m2cp.RpcCommand, error)
+```
+
+with the `getPeriod()` function, to gain a better understand of what is happening:
+
+```go
+func getPeriod() m2cp.RpcCommand {
+    cmd, err := rpc.NewRpcCommand(
+        "GetPeriod",                    // RPC name
+        "Get the current ramp period.", // function description
+        "Returns a single integer.",    // return value description
+        nil,                            // no call parameters
+        []m2cp.RpcParameter{
+            rpc.NewRpcParameter(m2cp.TypeInt, "period",
+                                            "the current period length", false),
+        },                              // one return parameter
+        func(parameters m2cp.RpcParameters) m2cp.RpcResult {
+            res := rpctypes.NewRpcResultSuccess("Success")
+            res.SetInt("period", period)
+            return res
+        })                  // the function that is triggered with the RPC call
+        handleError(err)
+    return cmd
+}
+```
+
+We build and run it like before:
+
+```
+$ go build .
+$ export M2CP_VIRTUAL_DEVICE=20000
+$ export SNAP_NAME=m2cp_ramp
+./ramp
+```
+From the logging, we see, the node address is `ramp.m2cp_ramp.ec6a5341-b268-466e-bb76-97440b329870`.
+Alternatively, we can use `m2cp` to list the discoverable RPC nodes:
+
+```
+$ m2cp device node list dev-my-vdevice
+    - rpc.m2cp-gateway.0f2de2a3-dc03-40d5-a446-687b4ede7be2
+    - ramp.m2cp_ramp.ec6a5341-b268-466e-bb76-97440b329870
+```
+
+For each of those Nodes, we can retrieve their RPC functions:
+
+```
+$ m2cp device node info ramp.m2cp_ramp.ec6a5341-b268-466e-bb76-97440b329870
+- name: NodeMemoryUsage
+  type: ""
+  description: Get the current memory in MBytes used by this plugin
+  description-returns: ""
+  parameters: null
+  returns:
+    memoryUsageAct:
+        description: current memory usage in MBytes used by this plugin
+        name: memoryUsageAct
+        optional: false
+        type: int
+- name: NodeUptime
+  type: ""
+  description: Get the current uptime of this plugin
+  description-returns: ""
+  parameters: null
+  returns:
+    uptime:
+        description: current uptime of this plugin in seconds
+        name: uptime
+        optional: false
+        type: int
+- name: NodeDocumentation
+  type: ""
+  description: Get a list of all available RPC commands of this node together with their call and return schemes.
+  description-returns: ""
+  parameters: null
+  returns:
+    documentation:
+        description: json object with all available RPC commands of this node
+        name: documentation
+        optional: false
+        type: string
+- name: GetPeriod
+  type: ""
+  description: Get the current ramp period
+  description-returns: ""
+  parameters: null
+  returns:
+    period:
+        description: the current period length
+        name: period
+        optional: false
+        type: int
+- name: SetPeriod
+  type: ""
+  description: Set the ramp period
+  description-returns: ""
+  parameters:
+    period:
+        description: new period length
+        name: period
+        optional: false
+        type: int
+  returns: null
+```
+
+Now that we know the address and the parameters, we can use the `m2cp`
+CLI tool to send RPCs to the running `ramp.go` application. To get the
+size of the `period`, do:
+
+```console
+$ m2cp device node rpc ramp.m2cp_ramp.ec6a5341-b268-466e-bb76-97440b329870 -c GetPeriod
+Task-Id: 4da117b0-cb77-4dc4-8df8-9c2bb21993c8
+commandId: c360bcdc-5116-49ca-a242-c99701e9e813
+responses:
+    - error: 0
+      message: Success
+      results:
+        - key: period
+          value: "5"
+```
+The interesting part is the `results: value: "5"` part at the end.
+
+To set the size of the `period`, do:
+
+```console
+$ m2cp device node rpc ramp.m2cp_ramp.ec6a5341-b268-466e-bb76-97440b329870 -c SetPeriod -p period=3
+Task-Id: b1666b11-8502-4e55-ae1e-6af9e4316978
+commandId: 4ff16158-8b9a-41ce-b752-773af5ec2c8f
+responses:
+    - error: 0
+      message: Success
+      results: []
+```
+
+Now if you check again the output of `square.go`, it will have changed, since the period length of ramp changed:
+```
+.3:42PM [info] square(0) = 0
+.3:42PM [info] square(1) = 1
+.3:42PM [info] square(2) = 4
+.3:42PM [info] square(0) = 0
+.3:42PM [info] square(1) = 1
+.3:42PM [info] square(2) = 4
+.3:42PM [info] square(0) = 0
+.3:42PM [info] square(1) = 1
+...
+```
+
+You can [download the complete version of
+`ramp.go`](/code/examples/golang/ramp/ramp.go) to your computer.
+
+##### Local RPC Calls
+
+Not only can the Edge Device SDK be used to expose RPC endpoints, it's also possible to call those commands with the help of the SDK.
+In this example we will write an app which calls the RPC endpoint of another app running on the same device.
+For this, we create `random.go`, an app that, on receiving an RPC, chooses a random number between -100 and 0 and returns the square of it.
+
+```{code-block} go
+---
+caption: random.go
+lineno-start: 1
+emphasize-lines: 24-26, 35-36, 39-44
+---
+package main
+
+import (
+    "fmt"
+    "m2cp"
+    "m2cp/m2cp_new"
+    "m2cp/messages"
+    "m2cp/networks"
+    "m2cp/rpc"
+    "m2cp/rpc/rpctypes"
+    "math/rand"
+    "os"
+    "strconv"
+    "time"
+)
+
+func handleError(err error) {
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "error: %v\n", err)
+        os.Exit(1)
+    }
+}
+
+func randRange(min, max int) int {
+    return rand.Intn(max-min) + min
+}
+
+func randomSquare() m2cp.RpcCommand {
+    cmd, err := rpc.NewRpcCommand(
+        "RandomSquare",
+        "Generates a random squared number",
+        "The base and square",
+        nil,
+        []m2cp.RpcParameter{
+            rpc.NewRpcParameter(m2cp.TypeInt, "base", "random square base", false),
+            rpc.NewRpcParameter(m2cp.TypeInt, "square", "squared base", false),
+        },
+        func(parameters m2cp.RpcParameters) m2cp.RpcResult {
+            res := rpctypes.NewRpcResultSuccess("Success")
+            base := randRange(-100, 0)
+            square := base * base
+            res.SetInt("base", base)
+            res.SetInt("square", square)
+            return res
+        },
+    )
+    handleError(err)
+    return cmd
+}
+
+func main() {
+    context := m2cp_new.ContextPlus()
+    context = context.SetModule("random")
+    context.LogInfo("Random! Using SDK version: %s (Strg+c to exit)", m2cp.GetVersion())
+
+    connection, err := networks.NewNetworkConnection(context)
+    handleError(err)
+    defer connection.Close()
+
+    node, err := connection.NewNode("rpc")
+    handleError(err)
+    context.LogInfo("Node address %s", node.GetAddress())
+
+    handler, err := rpc.NewRpcHandler(randomSquare())
+    node.SetRpcHandler(handler)
+
+    for {
+        time.Sleep(1 * time.Second)
+        fmt.Print(".")
+    }
+}
+```
+The important part is the provided RPC command. It polls a random integer between -100 and 0 and squares it, returning both base and result.
+We return both values, so that it's easier to validate that the operation worked.
+Now, calculating the square is a very complicated process (it really isn't but let's just assume it for the sake of the exercise),
+Luckily, we already have an app which can calculate a square of a given number, but only does it for arriving data messages.
+Let's expose an RPC endpoint for calculating a square in `square.go`
+
+
+```{code-block} go
+---
+caption: square.go
+lineno-start: 17
+emphasize-lines: 14,17,20-24,45-49
+---
+func handleError(err error) {
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "error: %v\n", err)
+        os.Exit(1)
+    }
+}
+
+func squareOf() m2cp.RpcCommand {
+    cmd, err := rpc.NewRpcCommand(
+        "SquareOf",
+        "Calculate the square of a number",
+        "Base and result of the square operation",
+        []m2cp.RpcParameter{
+            rpc.NewRpcParameter(m2cp.TypeInt, "base", "The number to be squared", false),
+        },
+        []m2cp.RpcParameter{
+            rpc.NewRpcParameter(m2cp.TypeInt, "square", "The squared number", false),
+        },
+        func(parameters m2cp.RpcParameters) m2cp.RpcResult {
+            number := parameters.GetInt("base", 0)
+            square := number * number
+            res := rpctypes.NewRpcResultSuccess("Success")
+            res.SetInt("square", square)
+            return res
+        },
+    )
+    handleError(err)
+    return cmd
+}
+
+func main() {
+    context := m2cp_new.ContextPlus()
+    context = context.SetModule("subscribe-main")
+    context.LogInfo("Subscribe to any SIGNAL! Using SDK version: %s (Strg+c to exit)", m2cp.GetVersion())
+
+    connection, err := networks.NewNetworkConnection(context)
+    handleError(err)
+    defer connection.Close()
+
+    node, err := connection.NewNode("square")
+    handleError(err)
+
+    //left out handling of incoming data for brevity
+
+    handler, err := rpc.NewRpcHandler(
+        squareOf(),
+    )
+    handleError(err)
+    node.SetRpcHandler(handler)
+
+    for {
+        time.Sleep(1 * time.Second)
+        fmt.Print(".")
+    }
+}
+```
+The exposed RPC command is quite simple. It receives a number as argument and returns the square of it.
+Transforming incoming data is still possible, just not shown in this code block for a more compact view.
+Now going back to `random.go` we want to use the exposed endpoint to calculate our square.
+The Edge Device SDK provides us with the functions to call RPC command.
+
+```{code-block} go
+---
+caption: random.go
+lineno-start: 16
+emphasize-lines: 1, 14-19, 30-43, 59
+---
+func randomSquare(node m2cp.Node) m2cp.RpcCommand {
+    cmd, err := rpc.NewRpcCommand(
+        "RandomSquare",
+        "Generates a random squared number",
+        "The base and square",
+        nil,
+        []m2cp.RpcParameter{
+            rpc.NewRpcParameter(m2cp.TypeInt, "base", "random square base", false),
+            rpc.NewRpcParameter(m2cp.TypeInt, "square", "squared base", false),
+        },
+        func(parameters m2cp.RpcParameters) m2cp.RpcResult {
+            res := rpctypes.NewRpcResultSuccess("Success")
+            base := randRange(-100, 0)
+            square, err := getSquareOf(node, base)
+
+            if err != nil {
+                res = rpctypes.NewRpcResultError("Call to square failed", m2cp.RpcErrorCodeFailed)
+                return res
+            }
+
+            res.SetInt("base", base)
+            res.SetInt("square", square)
+            return res
+        },
+    )
+    handleError(err)
+    return cmd
+}
+
+func getSquareOf(node m2cp.Node, base int) (int, error) {
+    to := messages.NewAddress("square.square.local", "")
+    command := "SquareOf"
+    resultChan, err := node.RemoteProcedureCall(
+        to,
+        command,
+        map[string]string{"base": strconv.Itoa(base)},
+    )
+    if err != nil {
+        return -1, err
+    }
+    result := <-resultChan
+    return result.GetInt("square", -1), nil
+}
+
+func main() {
+    context := m2cp_new.ContextPlus()
+    context = context.SetModule("random")
+    context.LogInfo("Random! Using SDK version: %s (Strg+c to exit)", m2cp.GetVersion())
+
+    connection, err := networks.NewNetworkConnection(context)
+    handleError(err)
+    defer connection.Close()
+
+    node, err := connection.NewNode("rpc")
+    handleError(err)
+    context.LogInfo("Node address %s", node.GetAddress())
+
+    handler, err := rpc.NewRpcHandler(
+        randomSquare(node),
+    )
+
+    node.SetRpcHandler(handler)
+
+    for {
+        time.Sleep(1 * time.Second)
+        fmt.Print(".")
+    }
+}
+```
+We changed the body of the function, executed on the RPC call. It still generates a random negative integer but doesn't
+calculate the square itself. Instead, it calls `getSquareOf(...)` which itself executes an RPC on the locally running square app.
+For this, it needs a node, which is passed through to from the main function.
+
+```go
+func getSquareOf(node m2cp.Node, base int) (int, error) {
+    to := messages.NewAddress("square.m2cp_square.local", "")
+    command := "SquareOf"
+    resultChan, err := node.RemoteProcedureCall(
+        to,
+        command,
+        map[string]string{"base": strconv.Itoa(base)},
+    )
+    if err != nil {
+        return -1, err
+    }
+    result := <-resultChan
+    return result.GetInt("square", -1), nil
+}
+```
+`Node.RemoteProcedureCall()` expects three arguments, an Address where to send the command to, the command name and the parameters.
+When creating the address, the device id can be abbreviated with `"local"` when the receiving node is on the same device.
+The Edge Device SDK will take care of translating the address.
+The parameters will be passed as key-value-pairs.
+The result will be written into a channel from which can be read, if there was no error.
+
+Now we can test the two applications with the m2cp-cli tool. First we need to compile and start both applications in two terminals.
+
+```console
+$ go build .
+$ export M2CP_VIRTUAL_DEVICE=20000
+$ export SNAP_NAME=m2cp_square
+$ ./square
+```
+```console
+$ go build .
+$ export M2CP_VIRTUAL_DEVICE=20000
+$ export SNAP_NAME=m2cp_random
+$ ./random
+```
+
+The important address for us is now the one of the random node which in this case is: `random.m2cp_random.ec6a5341-b268-466e-bb76-97440b329870`.
+If needed, you can use `m2cp device node info` to verify the RPC endpoints, we will skip that part now and just call the `RandomSquare` endpoint as we know the name from the source code.
+```console
+$ m2cp device node rpc random.m2cp_random.ec6a5341-b268-466e-bb76-97440b329870 -c RandomSquare
+Task-Id: dc40fc97-ed55-4108-9454-a0e83943a17e
+commandId: 027ed2dd-1757-4860-ba38-d9498674665e
+responses:
+    - error: 0
+      message: Success
+      results:
+        - key: base
+          value: "-26"
+        - key: square
+          value: "676"
+```
+So it works as expected. `random` creates a random negative base and uses the RPC endpoint of `square` to calculate the result.
+
+That's it! Congratulations, you completed the M2CP Go-SDK Tutorial.
+
+### Python Edge Device SDK
+
+In addition to the Golang SDK, a Python Edge Device SDK is available. HOWEVER: This Edge Device SDK is in a very early unstable phase.
+It wraps the Golang Edge Device SDK and exposes certain functionality. Only a small part of the Golang Edge Device SDK is exposed that way so it's usage is limited for now and should only be done after counseling with the Team developing L-IoT.
+
+#### Installation
+The Python Edge Device SDK is available for Python versions 3.10 - 3.13 for Linux systems with glibc version 2.31 and higher. This includes all systems of Ubuntu 20 and higher.
+The Python Edge Device SDK can be installed via pip and Poetry.
+
+For pip:
+```bash
+$ pip install --index-url https://m2cp:m2cp@m2cptools.ml-pa.com/pypi/simple/ m2cp.sdk
+```
+
+For Poetry:
+
+```bash
+$ poetry source add --priority=supplemental m2cp  https://m2cptools.ml-pa.com/pypi/simple/
+
+$ poetry config http-basic.m2cp m2cp m2cp
+
+$ poetry add --source m2cp m2cp.sdk
+```
+
+For poetry there might be some issues with python version constraints. If this happens, try setting the python version required in your project to `^3.1x` instead of `>=3.1x` (where `3.1x` is your local version).
+
+#### Usage
+
+As the package wraps the Golang Edge Device SDK the underlying concepts are the same. However the functionality is wrapped in a more python-native way. Also some functionality is additionally hidden from the user or straight not supported yet. As it is in an early stage, not a full tutorial is provided. However, there are two example scripts that demonstrate the usage.
+
+
+For sending signals and data:
+```python
+import m2cp.sdk as m2cp
+import datetime
+
+print(m2cp.get_version())
+
+# For enabling m2cp.sdk debug logs, uncomment the following line.
+# This has to be done before creating any nodes.
+# m2cp.set_log_level(m2cp.LogLevel.DEBUG)
+
+# Create a new node for emitting signals.
+# You can create multiple nodes if you want to emit signals on different channels.
+# You don't need to create too many nodes. One should be enough for you atm.
+node = m2cp.new_node("log")
+node.emit_signal("test", "test", m2cp.LogLevel.INFO)
+
+# Create a node for sending data to the cloud.
+# You can create multiple nodes if you want to send data on different channels.
+# You don't need to create too many nodes. One should be enough for you atm.
+node = m2cp.new_node("data")
+
+
+# Define the fields of the data format.
+# You only have to do this once for each data format you need.
+
+fields = [
+    m2cp.DataField("name", m2cp.FieldType.STRING),
+    m2cp.DataField("age", m2cp.FieldType.UINT32),
+    m2cp.DataField("date", m2cp.FieldType.DATETIME),
+]
+fmt = m2cp.new_data_format(fields)
+
+
+# Create a new data row with the fields defined above.
+row = fmt.new_row({
+    "name": "John",
+    "age": 42,
+    "date": datetime.datetime.now(),
+}
+)
+
+# Emit the data row from the node.
+node.emit_data_row(row)
+```
+
+For subscribing to signals and data messages:
+```python
+import m2cp.sdk as m2cp
+import time
+
+print(m2cp.get_version())
+
+# Define a callback function for handling signals. This can also be done as a lambda function or a nested function.
+def on_signal(signal: m2cp.SignalMessage):
+    print(f"Received {signal.get_name()}")
+    print(f"Type: {signal.get_level()}")
+    print(f"Content: {signal.get_content()}")
+    header = signal.get_header()
+
+    print(f"Timestamp: {header.get_timestamp()}")
+
+
+m2cp.subscribe_signals(["#"], on_signal)
+
+
+# Define a callback function for handling data. This can also be done as a lambda function or a nested function.
+#! Note: Inspecting the rows is not yet supported in the SDK.
+def on_data(data: m2cp.DataMessage):
+    print(f"Received data on topic: \"{data.get_header().get_topic()}\" from: {data.get_header().get_origin()} ")
+    fields = data.get_format().get_fields()
+    for field in fields:
+        print(f"    Name: {field.get_name()}")
+        print(f"    Type: {field.get_level()}")
+
+
+m2cp.subscribe_data(["#"], on_data)
+
+# sleep for 10 seconds
+time.sleep(10)
+```
+
+## GPIO
+
+GPIO pins control external devices, and these pins can be managed using standard Linux tools.
+
+The following subchapters cover these topics:
+1. [GPIO Tools](#gpio-tools)
+    1. [Building GPIO Tools](#building-gpio-tools)
+    2. [Using GPIO Tools](#using-gpio-tools)
+        1. [Finding GPIO Chips](#finding-gpio-chips)
+        2. [Identifying GPIO Pins](#identifying-gpio-pins)
+        3. [Monitoring GPIO Pins](#monitoring-gpio-pins)
+        4. [Getting GPIO Values](#getting-gpio-values)
+        5. [Setting GPIO Values](#setting-gpio-values)
+2. [Using State Machine with GPIO](#using-state-machine-with-gpio)
+    1. [Modify Configuration for GPIO access](#modify-configuration-for-gpio-access)
+        1. [Example of a snapcraft.yaml file]
+    2. [Add the required binaries to your M2CP App container](#add-the-required-binaries-to-your-m2cp-app-container)
+    3. [Use State Machine to Control GPIO](#use-state-machine-to-control-gpio)
+    4. [Testing the Functionality](#testing-the-functionality)
+3. [GPIO LED Blinking](#gpio-led-blinking)
+
+
+### GPIO Tools
+
+GPIO pins control external devices, and these pins can be managed using standard Linux tools.
+
+
+#### Building GPIO Tools
+
+If you want to incorporate GPIO tools into your project, you'll need to build them from the sources.
+
+To do this, use an Ubuntu 20 docker or machine. Using a later version of Ubuntu or a different Linux distribution could cause compatibility issues when running the binaries on the M2CP hardware or older Ubuntu versions.
+
+Here's how to build the GPIO tools for arm64 on your amd64 Ubuntu 20 machine from the sources:
+
+```{code-block} bash
+# Download the sources
+`wget https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/snapshot/libgpiod-1.6.4.tar.gz`
+# Extract the sources
+`tar xfvz libgpiod-1.6.4.tar.gz`
+# Enter the directory
+`cd libgpiod-1.6.4`
+# Configure and build the gpiod tools
+ac_cv_func_malloc_0_nonnull=yes ./autogen.sh --enable-tools=yes --host=armv8 CC=aarch64-linux-gnu-gcc --prefix=$(pwd)/out/
+make all install
+```
+
+The binaries are located in `$(pwd)/out/bin/`
+
+#### Using GPIO Tools
+
+##### Finding GPIO Chips
+You can find GPIO chips and their corresponding pins with the `gpiodetect` command:
+
+```
+$ sudo ./gpiodetect
+gpiochip0 [30200000.gpio] (32 lines)
+gpiochip1 [30210000.gpio] (32 lines)
+gpiochip2 [30220000.gpio] (32 lines)
+gpiochip3 [30230000.gpio] (32 lines)
+gpiochip4 [30240000.gpio] (32 lines)
+```
+
+##### Identifying GPIO Pins
+
+Use the following command to identify GPIO pins:
+
+```
+$ sudo ./gpiofind
+```
+
+##### Monitoring GPIO Pins
+
+You can monitor GPIO pins using the `gpiomon` command:
+
+```
+$ sudo ./gpiomon
+```
+
+##### Getting GPIO Values
+
+To get the value of a specific GPIO, use the `gpioget` command:
+
+```
+$ sudo ./gpioget
+```
+
+##### Setting GPIO Values
+
+You can set the value of a specific GPIO with the `gpioset` command. For example, to set pin 5 on chip 0 to HIGH, use:
+
+```
+sudo ./gpioset gpiochip0 5=0
+```
+
+And to set pin 5 on chip 0 to LOW, use:
+
+```
+sudo ./gpioset gpiochip0 5=1
+```
+
+Please note, that against intuition, the value 0 sets the pin to HIGH and the value 1 sets the pin to LOW.
+
+
+### Using State Machine with GPIO
+
+
+#### Modify Configuration for GPIO access
+
+In the statemachine app part add or append the plugs with plug:  `gpio-memory-control`
+
+##### Example of a snapcraft.yaml file
+```
+name: gpiodstatemachine
+version: 1.0.0
+summary: GPIOD tools for core20 with statemachine
+description: |
+ GPIOD Tools for core20
+confinement: strict
+base: core20
+architectures:
+  - build-on: [ amd64 ,arm64]
+    run-on: [ arm64 ]
+apps:
+ gpiodstatemachine:
+  command: statemachine
+  daemon: simple
+  restart-condition: always
+  plugs: [gpio-memory-control]
+
+parts:
+ gpiodstatemachine:
+  plugin: nil
+  source: .
+  override-build: |
+    mkdir -p $SNAPCRAFT_PART_INSTALL/bin
+    wget https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/snapshot/libgpiod-1.6.4.tar.gz
+    tar xfvz libgpiod-1.6.4.tar.gz
+    cd libgpiod-1.6.4
+    ac_cv_func_malloc_0_nonnull=yes ./autogen.sh --enable-tools=yes --host=armv8 CC=aarch64-linux-gnu-gcc --prefix=$SNAPCRAFT_PART_INSTALL/
+    make all install
+    cp /root/project/statemachine $SNAPCRAFT_PART_INSTALL
+    cp /root/project/states.yaml $SNAPCRAFT_PART_INSTALL
+  build-packages:
+    - gcc-aarch64-linux-gnu
+    - cpp-aarch64-linux-gnu
+    - g++-aarch64-linux-gnu
+    - bison
+    - flex
+    - wget
+    - dh-autoreconf
+    - pkg-config
+    - autoconf-archive
+```
+the statemachine binary and the states.yaml should in the root folder of the snapcraft.yaml file
+```
+<project-root>
+├── snapcraft.yaml
+├── statemachine
+└── states.yaml
+```
+and create an M2CP App package with `snapcraft --use-lxd`
+
+#### Add the required binaries to your M2CP App container
+
+Please configure your snapcraft.yaml so that the GPIO binaries (e.g. `gpioset`, `gpiodetect`, ...)
+are added to the $SNAP/bin folder of your M2CP App container. The example above shows how the binaries can be built
+from source and added to the M2CP App container using snapcraft.
+
+
+#### Use State Machine to control GPIO
+
+Example usage in statemachine configuration (states.yaml):
+```
+  - name: gpiosethigh
+    description: "Set gpio 5 to high on gpiochip0"
+    actionType: syscall
+    actionParameters: "$SNAP/bin/gpioset gpiochip0 5=0"
+    onSuccess: success
+    onError: rollback
+    onReset: rollback
+    maxTransitionCount: 10
+
+  - name: gpiosetlow
+    description: "Set gpio 5 to low on gpiochip0"
+    actionType: syscall
+    actionParameters: "$SNAP/bin/gpioset gpiochip0 5=1"
+    onSuccess: success
+    onError: rollback
+    onReset: rollback
+    maxTransitionCount: 10
+
+  - name: gpiodetect
+    description: "Retrive gpiochips on the device"
+    actionType: syscall
+    actionParameters: "$SNAP/bin/gpiodetect"
+    onSuccess: success
+    onError: rollback
+    onReset: rollback
+    maxTransitionCount: 10
+```
+
+#### Testing the Functionality
+
+1) Build your M2CP App and install it on your device
+1) Find out the node address of the statemachine controlling the GPIOs
+1) Run the statemachine with the following command (based on the example above): `m2cp device node statemachine <node-address> jump gpiodetect`
+1) To retrieve the logs of it as successful you can run: `m2cp device node statemachine <node-address> logs`
+
+
+### GPIO LED Blinking
+
+Example to blink an LED on a gpiochip line with gpiod Save the follow
+to a file like `gpiochip.c` and compile it with:
+
+`gcc -o gpiochip gpiochip.c -lgpiod`
+
+
+```c
+#include <gpiod.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#ifndef CONSUMER
+#define CONSUMER        "Consumer"
+#endif
+
+int main(int argc, char **argv)
+{
+        if( argc < 3 ) {
+                printf("Usage: gpiochip chipId line \n");
+                printf("Example:  ./gpiochip gpiochip4 5\n");
+                return 0;
+        }
+
+        char *chipname = argv[1];
+        unsigned int line_num = atoi(argv[2]);  // GPIO Pin Line
+        unsigned int val;
+        struct gpiod_chip *chip;
+        struct gpiod_line *line;
+        int i, ret;
+
+        chip = gpiod_chip_open_by_name(chipname);
+        if (!chip) {
+                printf("Open chip %s failed\n", chipname);
+                goto end;
+        }
+
+        line = gpiod_chip_get_line(chip, line_num);
+        if (!line) {
+                printf("Get line failed %u\n",line_num);
+                goto close_chip;
+        }
+
+        ret = gpiod_line_request_output(line, CONSUMER, 0);
+        if (ret < 0) {
+                printf("Request line %u as output failed\n", ret);
+                goto release_line;
+        }
+
+        /* Blink 20 times */
+        val = 0;
+        for (i = 20; i > 0; i--) {
+                ret = gpiod_line_set_value(line, val);
+                if (ret < 0) {
+                        printf("Set line %u output %u failed\n", line_num, ret);
+                        goto release_line;
+                }
+                printf("Output %u on line #%u of gpiochip %s\n", val, line_num, chipname);
+                sleep(1);
+                val = !val;
+        }
+release_line:
+        gpiod_line_release(line);
+close_chip:
+        gpiod_chip_close(chip);
+end:
+        return 0;
+}
+```
+
+use `gpiodetect` to list available chipIDs on the device:
+
+```console
+$ sudo apt install -y gpiod
+
+$ gpiodetect
+gpiochip0 [pinctrl-bcm2835] (54 lines)
+gpiochip1 [raspberrypi-exp-gpio] (8 lines)
+```
+## Rename a Network Interface
+
+In case you use a USB-to-Ethernet-Adapter, your interface name might
+contain part of the MAC-Address. However, e.g. the `m2cp-coap` application
+requires this interface to be named `eth1`. To persistently fix the
+name, manually add a file at the location
+`etc/systemd/network/10-fix-usb-interface-name.link` with the
+contents:
+
+```ini
+[Match]
+Path=*-usb-*:*.1:*
+
+[Link]
+NamePolicy=
+Name=eth1
+```
+
+The full string that is matched by the `Path=*-usb-*:*1:*` pattern can be retrieved with
+```console
+$ udevadm info /sys/class/net/YOUR_ORIGINAL_INTERFACE_NAME | grep ID_PATH
+E: ID_PATH=pci-0000:05:00.4-usb-0:1.1:1.0
+```
+
+Alternatively, the configuration could be matched by MAC-Address,
+which is device-dependent though.  See also the [systemd.link network
+device configuration
+documentation](https://www.freedesktop.org/software/systemd/man/latest/systemd.link.html).
+
+## Manual Remote Procedure Calls (RPC)
+
+When developing and managing applications or diagnosing system performance issues, manually executing RPC calls to specific nodes may be necessary. These calls can help detect offline or misconfigured nodes, update firmware or network settings, and test specific actions. Each device contains multiple nodes, which act as endpoints for a running application participating in m2cp messaging. An application may have multiple endpoints, each representing different features and assigned a globally unique address known as an [m2cp address](Tech_Messaging.md#m2cp-messaging-protocol).
+
+
+To enable M2CP Messaging for an application, please refer to the [Edge Device SDK](#edge-device-sdk) section.
+
+### Node discovery
+
+
+List all nodes running on a device either by name or by serial:
+
+```
+$ m2cp device node list <device-name>
+$ m2cp device node list <device-serial>
+```
+
+
+### Node information
+
+Each node is equipped with an auto-documentation command. You can
+retrieve this documentation from a node using: `$ m2cp device node info <address>`
+
+This will receive and print a documentation of available rpc-commands
+from that node.
+
+### Node RPC
+
+You can use `m2cp` for sending RPC messages to nodes. See `m2cp device node rpc --help`.
+
+### JSON mode
+
+1) Prepare a JSON file ("example.json") containing the command, e.g.:
+   `{ "Command": "NodeUptime", "Parameters": null }`
+   or
+   `{ "Command": "GetDeviceSnapdLogs, "Parameters": [{"name": "m2cpd", "lines": "10"}]  }`
+   (Make sure, that all values are strings: `"lines": 10` is wrong, `"lines": "10"` is correct)
+
+
+2) find a device to send the command to
+   `$ m2cp device list`
+
+3) find a node on a device to send the command to
+   `$ m2cp device node list <device-serial>` or `m2cp device node list <device-name>`
+
+4) Send the command to the device
+   `$ cat example.json | m2cp device node rpc --stdin <node-address>`
+
+Here are some elablorated examples of RPC calls:
+
+Get the online status of a device:
+
+```
++ DEVICE_SERIAL=96e40acf-7854-5dd6-a480-1cddecc9b1e7
+$ echo '{ "Command": "DeviceOnlineStatus", "Parameters": null }' | \
+    m2cp device node rpc --json --stdin rpc.m2cp-gateway.96e40acf-7854-5dd6-a480-1cddecc9b1e7 | \
+    jq
+{
+  "commandId": "13d563ed-cdf9-4f4a-8740-7dd1f93a60c9",
+  "responses": [
+    {
+      "error": 0,
+      "message": "success",
+      "results": [
+        {
+          "key": "online",
+          "value": "true"
+        }
+      ]
+    }
+  ]
+}
+```
+
+Retrieve the IP addresses per interface from a device:
+
+```
+$ echo '{ "Command": "DeviceInfo", "Parameters": null }' | \
+    m2cp device node rpc --json --stdin rpc.m2cp-gateway.96e40acf-7854-5dd6-a480-1cddecc9b1e7 | \
+    jq '.responses[0].results[0].value | fromjson' | \
+    jq .ipaddresses
+{
+  "eth0": [
+    "192.168.0.17",
+    "10.0.1.47",
+    "2001:1438:400c:7720:522d:f4ff:fe2d:6d95",
+    "fe80::522d:f4ff:fe2d:6d95"
+  ],
+  "lo": [
+    "127.0.0.1",
+    "fd00:c0a9:cafe::1",
+    "::1"
+  ]
+}
+```
+
+Retrieve the hardware serial from a device:
+
+```
+$ echo '{ "Command": "DeviceInfo", "Parameters": null }' | \
+    m2cp device node rpc --json --stdin rpc.m2cp-gateway.96e40acf-7854-5dd6-a480-1cddecc9b1e7 | \
+    jq '.responses[0].results[0].value | fromjson' | \
+    jq '."hardware-serial"'
+"0"
+```
+
+
+## Protect Edge Devices via Basic Firewall
+This firewall is a security feature that blocks all network traffic except HTTPS (port 443). It is packaged as a Snap and can be activated by installing it onto a device, where it will automatically run at boot.
+
+The package includes a configuration file snap.yaml, a remove hook file that deletes the rules when the snap is removed from the device, and a Bash script that defines the firewall rules.
+
+The configuration file contains general information, specifies interfaces for system resource access, defines the package's applications, outlines the architecture it's designed for, lists expected prerequisites, the operating system it's based on, the level of confinement, and the release stability, as shown below:
+
+```
+name: demo-firewall-control
+version: 1.0.0
+summary: Firewall settings demo
+description: 'Firewall settings demo'
+
+plugs:
+  demo-firewall-control-file:
+    interface: system-files
+    read:
+      - /etc/network/if-up.d/firewall
+    write:
+      - /etc/network
+      - /etc/network/if-up.d
+      - /etc/network/if-up.d/firewall
+
+apps:
+  demo-firewall-control:
+    command: demo-firewall-control.sh
+    daemon: oneshot
+    plugs:
+      - firewall-control
+      - demo-firewall-control-file
+
+hooks:
+  remove:
+    plugs:
+      - firewall-control
+      - demo-firewall-control-file
+
+architectures:
+- arm64
+assumes:
+- command-chain
+base: core24
+confinement: strict
+grade: stable
+```
+
+The bash script is as follows:
+```bash
+#!/bin/bash
+
+set -xeu
+
+# firewall file rules location
+FIREWALL_RULES_FILE="/etc/network/if-up.d/firewall"
+
+if [ ! -f "${FIREWALL_RULES_FILE}" ]; then
+    # clear all routes
+    iptables -t nat -F
+    iptables -t mangle -F
+    iptables -F
+    iptables -X
+    iptables -t filter -F
+    iptables -t filter -X
+    # add input rules
+    iptables -A INPUT -i lo -j ACCEPT # Allow local traffic
+    iptables -A INPUT -p icmp --icmp-type echo-request -j REJECT # Drop all pings going in
+    iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+    # add output rules
+    iptables -A OUTPUT -p icmp --icmp-type echo-request -j DROP # Drop all pings going out
+    iptables -A OUTPUT -o lo -j ACCEPT # Allow local traffic
+    iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT # Accept only 443 to communicate with the appstore
+    # saving rules to file
+    iptables-save > "${FIREWALL_RULES_FILE}" # Save this to a file
+else
+    # clear all rules
+    iptables -t nat -F
+    iptables -t mangle -F
+    iptables -F
+    iptables -X
+    # restore rules from file
+    iptables-restore < "${FIREWALL_RULES_FILE}" # Reload it after every boot
+fi
+```
+This script ensures that if a firewall rules file already exists, it will reload the saved rules instead of manually applying them again. If the rules file is missing, the script will:
+- Flush all existing rules to ensure a clean state before applying new rules
+- Delete any user-defined chains
+- Accept all local traffic
+- Block outgoing and incoming ping requests (ICMP)
+- Restrict network access to only HTTPS traffic
+
+To modify the firewall rules, edit the Bash script accordingly.
+
+The remove script file
+```bash
+#!/bin/sh
+
+set -xeu
+
+FIREWALL_RULES_FILE="/etc/network/if-up.d/firewall"
+
+# clear all routes
+iptables -t nat -F
+iptables -t mangle -F
+iptables -F
+iptables -X
+iptables -t filter -F
+iptables -t filter -X
+
+# remove firewall file
+rm -rf "${FIREWALL_RULES_FILE}"
+```
+This file removes all firewall rules and deletes the file created by the script. It is executed only once, when the snap is removed from the system.
+
+Follow these steps to activate the firewall on your device:
+1. Build the package:
+    1. Create necessary directories: `mkdir -p demo-firewall-control/meta/hooks`
+    1. Add the configuration file snap.yaml: `vim demo-firewall-control/meta/snap.yaml` and insert the YAML content here
+    1. Add the firewall script: `vim demo-firewall-control/demo-firewall-control.sh` and insert the Bash script content here
+    1. Make the script executable: `chmod a+x demo-firewall-control/demo-firewall-control.sh`
+    1. Add a hook file remove: `vim demo-firewall-control/meta/hooks/remove` and insert the remove script content here
+    1. Make the script executable: `chmod a+x demo-firewall-control/meta/hooks/remove`
+    1. Build the Snap package: `snapcraft pack demo-firewall-control`
+    1. Install the snap package: `sudo snap install demo-firewall-control.snap --dangerous`
+1. [Push the package to the store](#upload-new-software-to-the-store)
+1. [Install it on the devices of a Deployment Group](Management_Device.md#deployment-groups)
+1. To verify the firewall is working, try [accessing the protected device via SSH](Management_Device.md#reverse-ssh-access). This should fail. Processes running on the same system using the loopback interface should still be running. Placing an [RPC Call](#local-rpc-calls) should also be possible.

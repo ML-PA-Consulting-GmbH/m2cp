@@ -1,0 +1,102 @@
+# Software Management
+
+The chapter is _not_ about deploying new software to actual Devices (that is discussed in [Devices Management](Management_Device.md)). It focusses on _releasing_ software, _not on installing_ software.
+
+[Software Managers](Management_User.md#software-manager) act as gate keepers of the App Store. When a [Software Developer](Management_User.md#software-developer) 
+uploaded a new App Revision to the App Store it must first pass a review by a Software Manager and before it is allowed to the store. 
+
+The Software Manager lists the App Revisions contributed by Software Developers that were not rated, yet. 
+
+The browser UI is the recommended interface for this job - but the CLI can also be used:
+
+```bash 
+$ m2cp store app rate list "unrated"
+```
+
+Each unrated App Revision must receive a rating:
+
+
+| Rating       | Description                                                                                                                        |
+|--------------|------------------------------------------------------------------------------------------------------------------------------------|
+| unrated      | The App had not yet received a rating.                                                                                             |
+| experimental | The App has not yet surpassed Quality Assurance. It should not be used in production environments.                                 |
+| stable       | The App has passed review and testing, is fully functional, and is approved for deployment on production Devices.                  |
+| edge         | The App may work but is not yet fully validated. Suitable for testing on non-critical Devices.                                     |
+| deprecated   | The App is no longer actively supported or recommended for use. It may still function but is scheduled for removal or replacement. |
+| broken       | The App has known issues or failures that prevent it from functioning correctly. It should not be deployed.                        |
+| denied       | The App has been reviewed and explicitly rejected. It does not meet quality standards.                                             | 
+
+
+Once rated, an App Revision is either denied access to the store - or becomes visible in the App Store and is now available for installation on Devices. 
+
+## Uploading App Revisions
+
+New App Revisions are uploaded by Software Developers using:
+
+```bash
+# Real Time Device Apps
+$ m2cp store app push
+
+# Edge Device Apps
+$ m2cp store snap push
+```
+
+## Review 
+Roles: [Software Manager](Management_User.md#software-manager), [Software Admin](Management_User.md#software-admin)
+[Software Managers](Management_User.md#software-manager) and [Software Admins](Management_User.md#software-admin) review software (App Revisions) uploaded by [Software Developers](Management_User.md#software-developer). They read the upload message and communicate with 
+[Software Developer](Management_User.md#software-developer) who made the upload to evaluate, if the uploaded package fullfils all quality requirements. They can demand to see testing protocols
+or any other proof, that the expected quality is given. Then they write a description for the release and select a rating - or deny the release. 
+
+## Deployment
+
+Now that the App Revision is available for deployment to Devices. Here the [Device Managers](Management_User.md#device-manager) and [Device Admins](Management_User.md#device-admin) take over - they know best, which Device should 
+receive which Update. See [Devices Management](Management_Device.md) for furth information. 
+
+
+## The ML!PA release process
+ 
+ML!PA provides a set of System Apps and Edge OS images. The release process is the same for both:
+
+### Steps to create a release
+
+1. Developers contribute to the project by working on feature branches and submitting PRs to the main branch.
+1. PRs are reviewed and merged into the main branch.
+1. The CI system automatically builds release candidate packages from the main branch, assigning semantic version numbers.
+1. A project manager selects a release candidate and submits it to the automated testing system.
+1. Upon successful testing, the test reports are added to the release candidate.
+1. The project manager prepares release notes and change logs.
+1. A quality manager reviews and signs the release package.
+1. The release is archived and made available to customers.
+
+### Contents of a release package
+
+A release package is a tar file containing:
+
+| Path        | Description                                                                  |
+|-------------|------------------------------------------------------------------------------|
+| README.md   | Contains release notes and change logs.                                      |
+| build.sh    | Script to (re)build all artifacts in the /bin/ directory.                   |
+| /bin/       | Contains binary artifacts.                                                   |
+| /src/       | Contains source code.                                                        |
+| /src/tools/ | Includes build tools.                                                        |
+| /sbom/      | Contains compiled Software Bill of Materials.                                |
+| /sbom/src   | Contains source materials for SBOM generation.                               |
+| /docs/      | Includes a snapshot of the current user manual.                              |
+| /reports/   | Contains test reports.                                                       |
+| /build/     | Working directory created during build execution (can be deleted after build).|
+
+### Security Updates
+
+For Edge Device Apps and Edge OS Images, ML!PA implements the following security update process:
+
+1. The Edge Team holds a scheduled call every two weeks to discuss security updates.
+1. The team runs automated scans for available updates in supported projects.
+1. The team performs manual checks for updates in other components (e.g., kernel updates, patches, upstream projects).
+1. The team creates user stories for affected applications and assigns them to the responsible developers.
+1. Developers update the applications and create new releases.
+1. The new releases undergo testing, receive signatures, and are published.
+1. The user stories are marked as completed.
+ 
+
+
+

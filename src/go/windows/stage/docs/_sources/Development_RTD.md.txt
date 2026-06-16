@@ -1,0 +1,461 @@
+# Real Time Device Development
+
+This chapter contains practical information for developers of
+applications (firmware) for Real Time Devices.
+
+
+## Identifying Devices
+
+In the sections below, we refer to Real Time Devices by [OS Serial
+Number](Glossary.md#os-serial-number). There are multiple ways to
+retrieve that from other identifiers.
+
+
+### From Device Name
+
+If the [Device Name](Glossary.md#device-name) is given, just run:
+
+```console
+$ m2cp device info <the device name>
+...
+OS Serial: ...
+```
+
+Sometimes device names contain the [Hardware Serial
+Number](Glossary.md#hardware-serial-number), but this is a convention
+that is not required.
+
+
+### From Hardware Serial Number
+
+If the [Hardware Serial Number](Glossary.md#hardware-serial-number) is
+given, you can search for the [Asset](Glossary.md#asset) that
+represents this device:
+
+```console
+$ m2cp asset find <the hardware serial>
+...
+  Device OS Serial: <the OS serial number>
+```
+
+The `find` command may return multiple assets. Look for the one of
+type "Real Time Device" with the matching Hardware Serial Number. If
+it has a "Device OS Serial" entry, this the OS Serial Number we are
+looking for. If the "Device OS Serial" entry is missing, then the
+asset for the Real Time Device is not properly configured!
+
+
+### From Hardware Assembly Number
+
+If the Real Time Device is hidden in its housing, the Assembly Number
+must be readable on the housing. The assembly number should be linked
+to an asset, so we can search for it:
+
+```console
+$ m2cp asset find <the assembly number>
+...
+```
+
+The OS Serial Number is then to be retrieved from the assembly's child
+assets.
+
+
+### By Device Type
+
+As a last resort, list all devices and filter by type for Real-time
+Devices only:
+
+```console
+$ m2cp device list --type rtd
+Serial
+<the OS serial> ...
+```
+
+````{note}
+Before CLI version 1.8.0 you can had to filter by CPU
+architecture. Only Real-time Devices have the value `arm32`:
+
+```console
+$ m2cp device list --arch arm32
+Serial
+<the OS serial> ...
+```
+````
+
+The listing will contain the OS Serial of your device. But if the
+device info metadata does not give you any hint, then you can't
+identify your device.
+
+
+## Creating Device Models
+
+Device Models are created implicitly by the App Store. There is currently no manual process to create them. A new Device Model is automatically created when:
+
+- **Firmware Upload:** When uploading firmware with a `device-model` value in `meta/firmware.yaml` that doesn't exist yet, the App Store creates the Device Model automatically.
+- **Firmware Refresh:** When a device with an unknown model name is reported during a firmware refresh, the model is created on-the-fly.
+
+In both cases, the App Store also creates an initial Device Model Revision. The architecture is determined either by the architecture field when a new firmware is uploaded, or by information reported during firmware refresh.
+
+
+## Uploading Firmware
+
+The App Store has a generalized concept of _Devices_ and _Apps_. The firmware of a Real Time Device is seen as the _App_ running on the Device.
+That's why in the following we'll be talking of deploying firmware as an _App_. 
+
+To deploy firmware to RTDs, a developer must first create a firmware package as a correctly formatted uncompressed tar file:
+
+```
+fw0.bin
+fw1.bin
+meta/firmware.yaml
+```
+
+The files `fw0.bin` and `fw1.bin` are the actual firmware. The file `meta/firmware.yaml` contains meta information:
+
+```yaml
+app-name: <string>     # App name for this firmware
+app-summary: The power board controls the power supply
+app-version: <semver>  # Semver version of this upload
+device-model: <string> # Device Model Name that this App is built for
+offset:
+  0: <uint>            # Byte offset for slot 0 
+  1: <uint>            # Byte offset for slot 1
+
+# optional fields for expert developers
+vendor-id: <string>    # default: generate from store owner details
+class-id: <uuid>       # default: generate from vendor-id und device-model
+architecture: <string> # default: arm32
+bootable: <bool>       # default: false
+```
+
+When a developer uploads a firmware tar with an App name not yet known to the App Store Service, the App Store will create a new App with that name and
+consider the upload to be its first App Revision. The fields _name_, _architecture_ and _summary_ are used to create the App Declaration.
+
+All consequently uploaded App Revisions for this App Declaration must have the same values for _name_ and _architecture_ to be accepted.
+
+To upload the packaged firmware use the [M2CP CLI](Installation_Tools.md#cli-tools)
+
+```bash 
+$ m2cp store app push <tarfile> "<upload message>"
+
+# Optionally you can directly rate the app and set a description, which makes it available for installation 
+$ m2cp store app push <tarfile> "<upload message>" --description "<proper description of this revision>" --rating "<deprecated|broken|experimental|edge|stable>" 
+```
+
+After uploading the new _App Revision_ (i.e. your firmware) you can deploy it to your RTD with the generic tools [managing Devices](Management_Device.md). 
+
+
+## Assigning Firmware to Real-time Devices
+
+After the firmware (or "app") is available in the store, three steps
+need to happen to make the app run on one or more devices:
+
+1. First, a deployment group for the device must exist.
+2. Second, the app must be added to the deployment group.
+3. Third, the device must be within that deployment group.
+
+Only then the app will be installed automatically, once the device is
+ready for updates. The steps are described in detail in the following.
+
+
+### Creating a new Deployment Group for a Real-time Device
+
+To create a new deployment group for a given device, the [Device Model
+Name](Glossary.md#device-model-name) and [Device Model
+Revision](Glossary.md#device-model-revision) must be known.
+
+With the OS Serial Number given, you can look at the device info and
+retrieve its model name and revision:
+
+```console
+$ m2cp device info <the OS serial>
+...
+Model Name:     <the model name>
+Model Revision: <the model revision>
+```
+
+Now you are able to create a matching deployment group:
+
+```console
+$ m2cp store dgroup create <the dgroup name> rtd <the model name> <the model revision>
+```
+
+In the following, we will refer to that deployment group by name `<the
+dgroup name>` for legibility. But generally we recommend to refer to
+it by ID, which is immutable.
+
+
+### Adding the app to the deployment group
+
+To add the application to the deployment group, we need to know the
+application's name and revision in advance. You man look that up by:
+
+```console
+$ m2cp store app list --arch arm32
+... <the app name>
+$ m2cp store app info <the app name> arm32
+...
+App Revisions
+<the app revision>
+```
+
+Now you can add the application to the deployment group named `<the
+dgroup name>`:
+
+```console
+$ m2cp store dgroup app add <the dgroup name> <the app name> <the app revision>
+```
+
+
+### Adding the device to the deployment group
+
+You set the deployment group of a given device by:
+
+```console
+$ m2cp device dgroup set <the OS serial> <the dgroup name>
+```
+
+Note, the device' model name and model revision must match the
+deployment group's model name and model revision!
+
+
+## Monitoring Firmware Deployment
+
+To observe the current state of firmware deployment to _RTDs_, use the command `m2cp store dgroup info` giving the _RTDs_ deployment group as parameter:
+```bash
+$ m2cp store dgroup info <deployment-group>
+```
+This shows the currently targeted App (Firmware) version for the deployment group lists its Devices with information on:
+- Pending update actions
+- Last uptime
+
+Then, a new App Revision can be set and a refresh is triggered automatically (wip).
+You can also trigger the refresh for each _RTD_ individually, using the command:
+```bash
+$ m2cp device refresh <..>
+```
+
+Now the Apps (Firmware) will be deployed to the _RTDs_. However, only when an _RTD_ reboots, the process is complete. While still on the old partition `m2cp store dgroup info` will show a pending update for the Device. The decision when to reboot lies with the RTD, implementations differ with use cases
+To reboot _RTDs_ manually one can use:
+```bash
+$ m2cp device reboot
+```
+To get an insight on the success of the update, without waiting for the next reboot, one can view the last result of the update attempt from the _ED_ to the _RTD_ using one of the following methods:
+- `device history <OS Serial> --changes` shows the update attempts and their results, this is the most user-friendly way (but wip).
+- Execute command `m2cp device peers` (or `listKnownPeers` RPC) on the _ED_ the _RTD_ is connected to. The last update result is shown in the fields `Last Update Result` of the respective _RTD_.
+If the result is a success, the update was successful and the _RTD_ will eventually reboot to the new firmware.
+If the result is an error, the update most likely failed. However, there are some scenarios where the result shows an error or nothing, but the update was successful. See [Debugging Problem Scenarios](#debugging-problem-scenarios) for details.
+
+
+### Debugging Problem Scenarios
+#### Successive Firmware App refreshes
+If after a successful refresh, another one is triggered and the respective _RTD_ didn't reboot inbetween, _m2cp-coap_ will deliver the firmware to the _RTD_ again. 
+As the _RTD_ already received it, it will reply with an error. As the first update was successful, the _RTD_ will eventually reboot and show the new version. So the update is generally successful, but the `Last Update Result` value will be set to an error. The error code will be `-5: Sequence number less or equal to current sequence number`. One can trigger a reboot manually to verify it was this issue that caused this behaviour.
+
+
+#### _RTD_ does not receive an update from the _App Store_
+Because of a misunderstanding, it can happen, that an _RTD_ does not receive an update from the _App Store_.
+To verify this is happening, one can use the RPC command `getLastRefreshCall` on the _ED_ the _RTD_ is connected to:
+
+```bash
+$ m2cp device node rpc <node> -c getLastRefreshCall 
+```
+
+````{note}
+To find out the correct _ED_ use the command:
+```bash
+$ m2cp device info <RTD>
+```
+The field `Last Seen Edge Device` shows the _ED_ the _RTD_ was last seen on.
+````
+
+This shows the last refresh call made by the _ED_ to the _App Store_, including the response from the _App Store_ (see [Refresh Call](Tech_Lifecycle_RTD.md#refresh-call)).
+If the response does not contain an update action for the _RTD_ in question, the _RTD_ was most likely not correctly assigned to the deployment group.
+
+A cause for confusion can be, that the same physical _RTD_ can appear as two different _RTDs_ in the list of Known Devices of an _ED_. Once as legacy _RTD_ and once as modern _RTD_. 
+
+```{note}
+This is because an _RTD_ interacting with the _m2cp-coap_ server using legacy endpoints will be reported with a different OS Serial than one interacting using modern endpoints. 
+So it will cause two Devices to appear in the list of Known Devices, even though they are the same physical device.
+This is because the legacy endpoints don't report enough information to conform to the new standards.
+There are two situations in which this can occur:
+- The _RTD_ changed its Firmware App to a version that supports the modern endpoints. _m2cp-coap_ will retain the information about the legacy _RTD_ for a while.
+- The _RTD_ supports both legacy and modern endpoints. In this case, _m2cp-coap_ will receive information from both endpoints and thus create two different _RTDs_ in the list of Known Devices.
+```
+
+However only one of the two _RTDs_ will be reported to the _App Store_ during the refresh call. 
+- If the last seen timestamps of the two _RTDs_ are at least five minutes apart, the older one is filtered out from the list of Known Devices.
+- If the last seen timestamps of the two _RTDs_ are less than five minutes apart, the legacy one is filtered out from the list of Known Devices.
+
+So if the legacy one is the only one that is assigned to a deployment group, the Device will not receive updates.
+To debug this, use the `--unfiltered` option of the `m2cp device peers` command to view all Known Devices, including the filtered out ones to compare it with the output of the RPC `getLastRefreshCall`.
+```bash
+$ m2cp device peers --unfiltered <ED>
+...
+
+$ m2cp device node rpc <node> -c getLastRefreshCall
+...
+```
+
+
+#### Issues with the Firmware Apps or Manifest.
+Here are some known issues that can cause the update to fail, even though the _RTD_ received the firmware:
+  - **Wrong offset:** The offset specified in the `meta/firmware.yaml` file is wrong. This can only be clarified when looking in the _RTDs_ logs and triggering a refresh.
+  - **Missing keys:** The firmware is missing a required key to verify the firmware. The known keys are persisted in the _Known RTDs_ list of the _ED_ and can be viewed using the `listKnownPeers` RPC command.
+However, legacy firmware does not report keys.
+  - **Update Result is sent to the wrong endpoint:** This is an issue that is present in some older firmware versions. The RTD sends the update result to the legacy endpoint instead of the modern one. This doesn't change the outcome of the update but makes it harder to observe. 
+There are two ways to find out this is happening. Inb both cases the result information can be used from the legacy endpoint:
+  - Get the full list of Known Devices using `m2cp device peers --unfiltered` and check if both a legacy and a modern variant of the _RTD_ are present. If so, check the `Last Update Result` of both. If the legacy one shows a success and the modern nothing, this is most likely the issue.
+  - Advanced: Inspect the logs of the _m2cp-coap_ server (see below) during a refresh request. Look out for update results being sent to the legacy endpoint after the update was announced to the modern endpoint. The logs can be hard to read, so ask for assistance if needed.
+
+
+#### Further investigation
+##### Observe the logs of the _m2cp-coap_ server
+SSH into the _ED_:
+```bash
+$ m2cp device ssh open <ED>
+```
+Show the logs of the _m2cp-coap_ server:
+```bash
+sudo dev-m2cpctl.m2cpctl logs m2cp-coap -f -m "coap://fw/*" -m "coap://suit/*" -m "coap://hello/*" -m "fw-refresh*"
+```
+Trigger a refresh of the _RTD_:
+```bash
+$ m2cp device refresh <RTD>
+```
+From `m2cp-coap 6.1.0` onwards, the log level can be modified using the RPC "setLogLevel". This allows you to increase the log level to "debug" to see more detailed logs.
+
+##### Observe the logs on the RTD 
+requires attaching to the RTD via a serial console. Differs from device to device.
+
+## Legacy
+
+### Uploading Firmware 
+
+The embedded IoT devices built by ML!PA typically run on Riot-OS. As administrators typically don't have direct access to
+a peripheral device (e.g. a sensor board), firmware updates use the M2CP-Device as an intermediary. Firmware is
+deployed to the M2CP-Device via the appstore and then offered to the peripheral devices. Successful installations
+are reported back to the appstore.
+
+Multiple firmware files for multiple peripherals of multiple versions can be deployed as a single snap package. The
+package contains metadata, specifying which firmware file is intended for which class of peripherals or which individual
+peripherals.
+
+The packaging and deployment is a highly automated process -- which will be described in detail in the following chapter,
+not because a user needs to know the details, but because it's valuable knowledge to understand how the system works.
+
+We'll also explain, how to package firmware as a snap package and how to validate, if the firmware was properly deployed.
+
+### Prerequisites
+
+- Linux (Debian/Ubuntu based)
+- firmware files to be deployed
+- m2cp developer tools for Linux [must be installed](Installation_Tools.md#cli-tools)
+
+
+### Firmware Files
+
+Our firmware is build based on SUIT (Software Updates for Internet of Things). The process for generating the firmware
+files is out of the scope of this document. We'll assume to have a set of valid firmware files.
+
+Example:
+
+``` 
+hwr-0_fwt-22_fwr-202402300_fws-0.bin
+hwr-0_fwt-22_fwr-202402300_fws-1.bin
+hwr-0_fwt-22_fwr-202402300.mani
+hwr-0_fwt-22_fwr-202402301_fws-0.bin
+hwr-0_fwt-22_fwr-202402301_fws-1.bin
+hwr-0_fwt-22_fwr-202402301.mani
+hwr-0_fwt-22_fwr-202402302_fws-0.bin
+hwr-0_fwt-22_fwr-202402302_fws-1.bin
+hwr-0_fwt-22_fwr-202402302.mani
+```
+
+Each firmware consists of three files:
+
+- a `.mani` file containing the manifest
+- a `_fws-0.bin` and a `_fws-1.bin` file containing the firmware payload for slots 0 and 1 of the peripheral
+
+The filenames encode, which class of peripherals the firmware is intended for:
+
+```
+hwr-<HARDWARE_REVISION>_fwt-<FIRMWARE_TYPE>_fwr-<FIRMWARE_VERSION>_fws-0.bin
+hwr-<HARDWARE_REVISION>_fwt-<FIRMWARE_TYPE>_fwr-<FIRMWARE_VERSION>_fws-1.bin
+hwr-<HARDWARE_REVISION>_fwt-<FIRMWARE_TYPE>_fwr-<FIRMWARE_VERSION>.mani
+```
+
+It's crucial, that the filenames are correct, as they are parsed by the packaging tool.
+
+### Packaging Tool
+
+To package the firmware files, we use the `m2cp-coap-manager` tool, which is contained in the [developers tools for
+Linux](Installation_Tools.md#linux-cli-tools). This CLI tool scans a given path for firmware files and packages them into a snap package
+with a custom name and version number.
+
+The package will contain the firmware files, additional metadata derived from the firmware file names and a deployment
+tool, which will push the firmware -- not directly to the peripheral! -- but to the _m2cp-coap_ server on the M2CP device.
+This server maintains an archive of all available firmware files and offers them to the peripherals via a CoAP endpoint.
+
+```{note} 
+**UNDER DEVELOPMENT:** In a future version you'll be able to create an optional policy file for each firmware set.
+The policy file is a simple JSON file defining a default policy (allow/deny)
+and optionally providing a list of serial numbers of the sensors that are excepted from the default
+rule. Therefor you can either allow a firmware for all sensors _except_ a specific list, or deny a firmware for all sensors _except_ a specific list.
+By default, the policy is set to allow-all.
+
+**CURRENTLY:** The policy is always set to allow-all. That means: when you deploy firmware to a device, all peripherals with
+matching hwr and ftw (= technically compatible) will be able to pull the updates. Please notify the m2cp-team, when you have a use-case requiring
+the more precise policies, which are planned.
+```
+
+Let's assume that our firmware files are in the directory `./firmware` and we want to package them into a snap package
+called "my-firmware" with version "1.0.0", to be exported to directory `./snap`:
+
+```bash
+m2cp-coap-manager firmware-snap -i ./firmware -o ./snap -n "my-firmware" -v "1.0.0"
+```
+
+The tool will create the file `./snap/my-firmware_1.0.0_arm64.snap`, which can be deployed to the appstore.
+
+Please read the output of `m2cp-coap-manager` carefully to verify, that it found and processed your firmware files correctly.
+The output should list all files that were added to the resulting snap.
+
+To verify the contents of the produced snap file, you can use the Linux tool _unsquashfs_ to extract and view the contents.
+
+```bash 
+$ unsquashfs <snap-filename>
+```
+
+If you don't have `unsquashfs` installed, use:
+
+```bash 
+sudo apt-get update && sudo apt-get install squashfs-tools
+```
+### Deployment
+
+As usual, the app must now be assigned to a Deployment Group of devices to be deployed. It will then be installed on all the
+devices of the Deployment Group. Once installed, the app will -- after each boot - contact the _m2cp-coap_ server on the M2CP device
+and offer the firmware files contained in the package. It sends a list of its available files together with their hash
+sums and waits for the CoAP server to request files that are not yet known to the server. Those files are transferred
+from the app to the server. The app then shuts down until the next boot -- while the server notifies peripherals of the
+new firmware files. The peripherals can then request the firmware files from the server.
+
+To learn more about deployment using the app store, please refer to [Deployment Groups](Management_Device.md#deployment-groups).
+
+### Validation
+
+Validation of the firmware deployment is currently (as of 2024-05-30) still a manual process without a comfortable UI.
+
+In the future, we plan to visualize the currently installed firmware versions of all peripherals in the appstore.
+
+Until then, there's multiple manual ways to check, which firmware is currently installed on a peripheral. You should choose
+the method which is most convenient for you.
+
+- Use the `/whoami/1` endpoint of the peripheral to get the firmware version. This requires you to have direct access
+  to the internal network of the M2CP-Device and its peripherals.
+- Review the SIGNAL messages emitted by m2cp-coap. After successfully installing a firmware, the app will emit a
+  SIGNAL message with the firmware version. This can be seen in the appstore logs.
+- Review the logs of the _m2cp-coap_ server. The server logs all requests and responses. You can see, which firmware
+  files were requested by which peripheral.
+- Review the DATA messages with device information emitted by each peripheral at boot. 

@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5. Messaging &mdash; L-IoT Documentation  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/drawio.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/MLPA-FavIcon-neg-weiss.ico"/>
+    <link rel="canonical" href="http://apu.ml-pa.loc/docs/customers/Tech_Messaging.html" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Glossary" href="Glossary.html" />
+    <link rel="prev" title="4. Real Time Device Lifecycle" href="Tech_Lifecycle_RTD.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: black" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            L-IoT Documentation
+          </a>
+              <div class="version">
+                Version 1.14.8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Tools.html">2. Tools Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Tools.html#browser-ui">2.1. Browser UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Tools.html#cli-tools">2.2. CLI Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#windows-cli-tool">2.2.1. Windows CLI Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#linux-cli-tools">2.2.2. Linux CLI Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#login-and-usage">2.2.3. Login and Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Backend.html">3. Cloud Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#installing-backend-services">3.1. Installing Backend Services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#azure">3.1.1. Azure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#constraints-on-secrets">3.2. Constraints on secrets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#secrets">3.2.1. Secrets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#container-registry">3.3. Container Registry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#event-api">3.4. Event API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#full-list-of-entities">3.4.1. Full List of Entities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#receiving-data-points">3.4.2. Receiving Data Points</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#graphql-api">3.5. GraphQL API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#rest-api">3.6. REST API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#authentication-authorization">3.6.1. Authentication &amp; Authorization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#swagger-api-documentation">3.6.2. Swagger API Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#requests">3.6.3. Requests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Device.html">4. Devices Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Device.html#provisioning-process-of-externally-produced-edge-devices">4.1. Provisioning Process of Externally Produced Edge Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#installing-edge-os">4.1.1. Installing Edge OS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#test-sd-card-of-a-device">4.1.2. Test SD Card of a Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#os-image-inspection">4.1.3. OS Image Inspection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_User.html">5. User Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#quick-reference">5.1. Quick Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#roles-in-detail">5.2. Roles in Detail</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#default">5.2.1. Default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#observer">5.2.2. Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#system-analyst">5.2.3. System Analyst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#device-manager">5.2.4. Device Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#device-admin">5.2.5. Device Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-developer">5.2.6. Software Developer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-manager">5.2.7. Software Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-admin">5.2.8. Software Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#asset-admin">5.2.9. Asset Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#user-admin">5.2.10. User Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#business-application">5.2.11. Business Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#manufacturing-service">5.2.12. Manufacturing Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#core-admin">5.2.13. Core Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#super-admin">5.2.14. Super Admin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#rolepermission-scope-matrix">5.3. Role–Permission Scope Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#scope-naming-convention">5.4. Scope Naming Convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#role-decision-guide">5.5. Role Decision Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-1-is-this-a-human-user-or-a-machine-service-account">5.5.1. Step 1 — Is this a human user or a machine/service account?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-2-what-is-their-primary-area-of-responsibility">5.5.2. Step 2 — What is their primary area of responsibility?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-3-user-administration">5.5.3. Step 3 — User administration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-4-device-operations">5.5.4. Step 4 — Device operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-5-software-roles">5.5.5. Step 5 — Software roles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-6-read-only-and-monitoring">5.5.6. Step 6 — Read-only and monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#assigning-roles">5.6. Assigning Roles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Asset.html">6. Asset Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#concept-of-assets">6.1. Concept of Assets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#relevant-user-roles">6.2. Relevant User Roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-management-with-the-cli">6.3. Asset Management with the CLI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#working-with-asset-models">6.3.1. Working with Asset Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#working-with-assets">6.3.2. Working with Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#linking-assets">6.3.3. Linking Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#searching-and-finding-assets">6.3.4. Searching and Finding Assets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-creation-during-the-installation-process">6.4. Asset Creation during the installation process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#disable-the-asset-service-pre-registration-requirement">6.5. Disable the Asset Service Pre-Registration Requirement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-management-with-the-ecosystem-web-ui">6.6. Asset Management with the Ecosystem Web-UI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Software.html">7. Software Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#uploading-app-revisions">7.1. Uploading App Revisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#review">7.2. Review</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#deployment">7.3. Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#the-ml-pa-release-process">7.4. The ML!PA release process</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#steps-to-create-a-release">7.4.1. Steps to create a release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#contents-of-a-release-package">7.4.2. Contents of a release package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#security-updates">7.4.3. Security Updates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Device.html">8. Devices Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#list-devices">8.1. List Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#device-details">8.2. Device Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deployment-groups">8.3. Deployment Groups</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#deployment-groups-administrator-and-co-administrators">8.3.1. Deployment Group’s Administrator and Co-Administrators</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deploying-an-app-revision">8.4. Deploying an App Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#manually-trigger-deployment">8.5. Manually Trigger Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#analyzing-deployment">8.6. Analyzing Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#edge-devices">8.6.1. Edge Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#real-time-devices">8.6.2. Real Time Devices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deployment-history">8.7. Deployment History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#toggle-rtd-updates">8.8. Toggle RTD Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#device-logs">8.9. Device Logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#reverse-ssh-access">8.10. Reverse-SSH Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#advanced-troubleshooting">8.11. Advanced Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#tpm-da-lockout-mode">8.11.1. TPM DA Lockout Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#inspecting-the-state-json">8.11.2. Inspecting the state.json</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Development_Edge.html">1. Edge Device Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#learning-path-for-app-developers">1.1. Learning Path for App Developers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#tools-for-app-development">1.2. Tools for App Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#build-applications-in-go-with-m2cp-go">1.2.1. Build Applications in Go with m2cp-go</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#package-applications-with-m2cp-snap">1.2.2. Package applications with m2cp-snap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#run-existing-software-within-an-m2cp-app-using-the-state-machine">1.2.3. Run existing software within an M2CP App using the State Machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#m2cp-app-crafting">1.3. M2CP App Crafting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-building-m2cp-apps">1.3.1. Questions and Answers: Building M2CP Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-debugging-m2cp-apps">1.3.2. Questions and Answers: Debugging M2CP Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-m2cp-app-deployment">1.3.3. Questions and Answers: M2CP App Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#upload-new-software-to-the-store">1.4. Upload new Software to the store</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#rate-a-version">1.4.1. Rate a version</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#edge-device-sdk">1.5. Edge Device SDK</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#installing-the-edge-device-sdk">1.5.1. Installing the Edge Device SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#setting-up-dev-environment">1.5.2. Setting Up Dev Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#using-the-edge-device-sdk">1.5.3. Using the Edge Device SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#tutorials">1.5.4. Tutorials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#python-edge-device-sdk">1.5.5. Python Edge Device SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#gpio">1.6. GPIO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#gpio-tools">1.6.1. GPIO Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#using-state-machine-with-gpio">1.6.2. Using State Machine with GPIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#gpio-led-blinking">1.6.3. GPIO LED Blinking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#rename-a-network-interface">1.7. Rename a Network Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#manual-remote-procedure-calls-rpc">1.8. Manual Remote Procedure Calls (RPC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-discovery">1.8.1. Node discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-information">1.8.2. Node information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-rpc">1.8.3. Node RPC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#json-mode">1.8.4. JSON mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#protect-edge-devices-via-basic-firewall">1.9. Protect Edge Devices via Basic Firewall</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Virtual_Devices.html">2. Virtual Edge Devices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#what-is-a-virtual-device">2.1. What is a Virtual Device?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#prerequisites">2.2. Prerequisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#installation-of-docker">2.2.1. Installation of Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#usage-of-virtual-devices">2.3. Usage of Virtual Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#list-virtual-devices">2.3.1. List Virtual Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#create-a-virtual-device">2.3.2. Create a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#delete-a-virtual-device">2.3.3. Delete a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#start-stop-a-virtual-device">2.3.4. Start/Stop a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#attach-to-a-virtual-device">2.3.5. Attach to a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#install-an-app-from-local-host-in-a-virtual-device">2.3.6. Install an App from Local Host in a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#copy-files-from-host-to-the-virtual-device">2.3.7. Copy Files from Host to the Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#copy-files-from-virtual-device-to-host">2.3.8. Copy files from Virtual Device to Host</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#testing-or-debugging-applications-with-a-virtual-device">2.4. Testing or Debugging Applications with a Virtual Device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#testing-coap-clients-against-m2cp-coap">2.4.1. Testing CoAP clients against m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#debugging-applications-in-a-virtual-device">2.4.2. Debugging Applications in a Virtual Device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Development_RTD.html">3. Real Time Device Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#identifying-devices">3.1. Identifying Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-device-name">3.1.1. From Device Name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-hardware-serial-number">3.1.2. From Hardware Serial Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-hardware-assembly-number">3.1.3. From Hardware Assembly Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#by-device-type">3.1.4. By Device Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#creating-device-models">3.2. Creating Device Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#uploading-firmware">3.3. Uploading Firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#assigning-firmware-to-real-time-devices">3.4. Assigning Firmware to Real-time Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#creating-a-new-deployment-group-for-a-real-time-device">3.4.1. Creating a new Deployment Group for a Real-time Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#adding-the-app-to-the-deployment-group">3.4.2. Adding the app to the deployment group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#adding-the-device-to-the-deployment-group">3.4.3. Adding the device to the deployment group</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#monitoring-firmware-deployment">3.5. Monitoring Firmware Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#debugging-problem-scenarios">3.5.1. Debugging Problem Scenarios</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#legacy">3.6. Legacy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#id1">3.6.1. Uploading Firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#prerequisites">3.6.2. Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#firmware-files">3.6.3. Firmware Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#packaging-tool">3.6.4. Packaging Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#deployment">3.6.5. Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#validation">3.6.6. Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Networking.html">4. CoAP and Networking</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#lan-addresses">4.1. LAN Addresses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#contacting-modules">4.2. Contacting Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#common-coap-endpoints">4.3. Common CoAP endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#whoami-1">4.3.1. /whoami/1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#uptime-1">4.3.2. /uptime/1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#power-management">4.4. Power Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#m2cp-coaps-part-in-power-management">4.4.1. m2cp-coap’s part in power management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#apps-uptime-requests">4.4.2. App’s uptime requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#getuptimerequests-rpc">4.4.3. getUptimeRequests RPC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#dev-m2cpctl-integration">4.4.4. dev-m2cpctl integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Messages.html">5. Messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#monitoring-messages">5.1. Monitoring Messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#using-the-m2cp-device-message-listen-cli-command">5.1.1. Using the m2cp device message listen CLI Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#monitoring-with-azure-iot-hub-explorer">5.1.2. Monitoring with Azure IoT Hub Explorer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#conclusion">5.1.3. Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#data-flow-debugging">5.2. DATA Flow Debugging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#mcus">5.2.1. MCUs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#ingoing-packets-analysis">5.2.2. Ingoing Packets Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-coap">5.2.3. m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-message-hub">5.2.4. m2cp-message-hub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-coap-a-z-custom-parser">5.2.5. m2cp-coap-[a-z]+ Custom Parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-gateway">5.2.6. m2cp-gateway</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-gateway-uplink-output-buffer">5.2.7. m2cp-gateway Uplink Output Buffer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#inspecting-data-messages-in-the-cloud">5.2.8. Inspecting DATA messages in the cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#inspecting-signal-messages-in-the-cloud">5.2.9. Inspecting SIGNAL messages in the cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#data-visualization">5.2.10. Data Visualization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="APIs_Backend.html">6. Backend APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="APIs_Backend.html#user-service">6.1. User Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="APIs_Backend.html#app-store-service">6.2. App Store Service</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Technical Specification</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Tech_Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Architecture.html">2. Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#edge-system">2.1. Edge System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#edge-device">2.1.1. Edge Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#real-time-devices">2.1.2. Real Time Devices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#cloud-backend">2.2. Cloud Backend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#gateway-service">2.2.1. Gateway Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#user-service">2.2.2. User Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#log-service">2.2.3. Log Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#asset-service">2.2.4. Asset Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#signalr-hub-service">2.2.5. SignalR Hub Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#domain-event-exporter-service">2.2.6. Domain Event Exporter Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#app-store-service">2.2.7. App Store Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#assertion-service">2.2.8. Assertion Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#ssh-relay-service">2.2.9. SSH Relay Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#service-bus">2.2.10. Service Bus</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#id33">2.3. User Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Lifecycle_ED.html">3. Edge Device Lifecycle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#building-an-os-image">3.1. Building an OS Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#initial-provisioning-of-an-edge-device-os-installation">3.2. Initial Provisioning of an Edge Device &amp; OS Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#registration-of-an-edge-device-with-the-appstore">3.3. Registration of an Edge Device with the Appstore</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_ED.html#terminology">3.3.1. Terminology:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#authorization-of-an-edge-device">3.4. Authorization of an Edge Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#software-update">3.5. Software Update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#establishing-the-messaging-uplink">3.6. Establishing the Messaging Uplink</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#re-installation-of-the-os">3.7. Re-Installation of the OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#re-registration-with-a-different-appstore">3.8. Re-Registration with a different Appstore</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Lifecycle_RTD.html">4. Real Time Device Lifecycle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_RTD.html#firmware-updates-1-0-legacy">4.1. Firmware Updates 1.0 (Legacy)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_RTD.html#firmware-updates-2-0-current">4.2. Firmware Updates 2.0 (current)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#update-cycle">4.2.1. Update Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#data-formats">4.2.2. Data Formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#endpoints">4.2.3. Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#edge-cases">4.2.4. Edge Cases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Messaging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#typical-message-routing">5.1. Typical Message Routing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#log-message-linux-app-to-cloud">5.1.1. Log Message Linux App to Cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#log-message-rtos-to-cloud">5.1.2. Log Message RTOS to Cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#local-to-device-rpc-via-backend">5.1.3. Local To Device RPC via Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#app-to-app-rpc-on-a-device">5.1.4. App To App RPC on a Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#device-to-device-rpc-via-ip">5.1.5. Device To Device RPC via IP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#data-points-to-data-visualization">5.2. Data Points to Data Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#m2cp-messaging-protocol">5.3. M2CP Messaging Protocol</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#changelog">5.3.1. Changelog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#message-format">5.3.2. Message Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#message-routing">5.3.3. Message Routing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#nodes-and-remote-procedure-calls-rpc">5.4. Nodes and Remote Procedure Calls (RPC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#node-discovery">5.4.1. Node discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#node-information">5.4.2. Node information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#node-rpc">5.4.3. Node RPC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Glossary</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">1. Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app">1.1. App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-registration">1.2. App Store Registration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-service">1.3. App Store Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-ui">1.4. App Store UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#architecture">1.5. Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset">1.6. Asset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-attestation-key">1.7. Asset Attestation Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-hierarchy">1.8. Asset Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-management-ui">1.9. Asset Management UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-model">1.10. Asset Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-name">1.11. Asset Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-service">1.12. Asset Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-type">1.13. Asset Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-type-category">1.14. Asset Type Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#backend-services">1.15. Backend Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#deployment-group">1.16. Deployment Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device">1.17. Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-id">1.18. Device ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-hardware">1.19. Device Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-management">1.20. Device Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model">1.21. Device Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model-name">1.22. Device Model Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model-revision">1.23. Device Model Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-name">1.24. Device Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-type">1.25. Device Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#ecosystem-ui">1.26. Ecosystem UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-device">1.27. Edge Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-device-sdk">1.28. Edge Device SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-os">1.29. Edge OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#firmware-package">1.30. Firmware Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model">1.31. Hardware Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model-name">1.32. Hardware Model Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-vendor">1.33. Hardware Vendor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model-revision">1.34. Hardware Model Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-serial-number">1.35. Hardware Serial Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#mcu-id">1.36. MCU ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp">1.37. M2CP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-coap">1.38. m2cp-coap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-gateway">1.39. m2cp-gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-message-hub">1.40. m2cp-message-hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#l-iot">1.41. L-IoT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#os-serial-number">1.42. OS Serial Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#real-time-device">1.43. Real Time Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#real-time-device-sdk">1.44. Real Time Device SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#snapd">1.45. Snapd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#snap-package">1.46. Snap Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#tenant">1.47. Tenant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#user-service">1.48. User Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#virtual-device">1.49. Virtual Device</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Legacy_Glossary.html">2. Legacy Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#dev-m2cpctl">2.1. dev-m2cpctl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#fleet">2.2. Fleet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-device">2.3. M2CP Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-cli">2.4. M2CP CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-coap">2.5. m2cp-coap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-control-tools">2.6. M2CP Control Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-core-apps">2.7. M2CP Core Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-gateway">2.8. m2cp-gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-go">2.9. m2cp-go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-listen">2.10. m2cp-listen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-logstat">2.11. m2cp-logstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-message-hub">2.12. m2cp-message-hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-simsensor">2.13. m2cp-simsensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-sdk">2.14. M2CP SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-sdk-go">2.15. m2cp-sdk-go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-snap">2.16. m2cp-snap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-timesync">2.17. m2cp-timesync</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-toolchain">2.18. M2CP Toolchain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#real-time-device-peripheral-iot-device">2.19. Real-Time Device / Peripheral / IoT Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#snapd">2.20. snapd</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Revision History</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Revision_History.html">1. Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">L-IoT Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">5. </span>Messaging</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="messaging">
+<h1><span class="section-number">5. </span>Messaging<a class="headerlink" href="#messaging" title="Permalink to this heading"></a></h1>
+<p>L-IoT is a system for transporting information between the nodes of an
+IoT infrastructure. The basis of this communication is the
+<em>message</em>.</p>
+<p>M2CP messages consist of a header, a body (and an optional third block for signatures).
+A message is represented by a struct internally. When transmitting messages, they need to be serialized first.
+The simplest way to encode a message is as JSON - a rather inefficient format. Our SDK implementation also
+supports a selection of binary formats. As a user or developer you don’t have to think about the choice of
+encoding, as the SDK handles the encoding automatically according to the context.</p>
+<p>M2CP message can be transmitted via any transport protocol. Practical choices would be AMQP, MQTT, or HTTP.</p>
+<p>The standard delivery method for exchanging messages locally on a Device is via <a class="reference external" href="https://lavinmq.com/">LavinMQ</a>, which implements
+<a class="reference external" href="https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol">AMQP</a>. In
+the following we simply call it <em>message-hub</em>.  Other transport
+channels (e.g. Azure IoT Hub) can be used to establish an uplink to a
+cloud service.</p>
+<p>An application can use the M2CP SDK to participate in the M2CP messaging network. This is done be creating a network connection and a ‘node’. The node can be used to emit messages and to expose RPC endpoints.</p>
+<section id="typical-message-routing">
+<h2><span class="section-number">5.1. </span>Typical Message Routing<a class="headerlink" href="#typical-message-routing" title="Permalink to this heading"></a></h2>
+<p>When you’re developing an App or analyzing an existing installation, you might want to inspect
+the messages that are being sent and received. Messages are routed through several queues and exchanges
+before they reach their destination. A typical message path is:</p>
+<section id="log-message-linux-app-to-cloud">
+<h3><span class="section-number">5.1.1. </span>Log Message Linux App to Cloud<a class="headerlink" href="#log-message-linux-app-to-cloud" title="Permalink to this heading"></a></h3>
+<a class="drawio reference internal image-reference" href="_images/m2cp-signal.png" id="linux-app-to-cloud"><img alt="Local To Device RPC via Backend" class="drawio align-center" id="linux-app-to-cloud" src="_images/m2cp-signal.png" style="width: 100%;" /></a>
+<p>If a Linux app is using the m2cp-sdk to participate in messaging, it can send SIGNAL messages. Those are log messages
+that can be subscribed by other apps on the same system and which are also routed to the cloud, where they’re added to the
+unified logging system. From there, they can be accessed using the CLI or the web-based Appstore clients.</p>
+</section>
+<section id="log-message-rtos-to-cloud">
+<h3><span class="section-number">5.1.2. </span>Log Message RTOS to Cloud<a class="headerlink" href="#log-message-rtos-to-cloud" title="Permalink to this heading"></a></h3>
+<a class="drawio reference internal image-reference" href="_images/m2cp-signal1.png" id="rtos-to-cloud"><img alt="RTOS device via Linux Device to Backend" class="drawio align-center" id="rtos-to-cloud" src="_images/m2cp-signal1.png" style="width: 100%;" /></a>
+<p>Analog to the logging from Linux apps, Real Time Devices can also send log messages to the cloud. They do so by
+sending a specially formatted data message to <code class="docutils literal notranslate"><span class="pre">/din/1</span></code>. This message is then transformed into a SIGNAL message
+and routed to the cloud analog to the above scenario.</p>
+</section>
+<section id="local-to-device-rpc-via-backend">
+<h3><span class="section-number">5.1.3. </span>Local To Device RPC via Backend<a class="headerlink" href="#local-to-device-rpc-via-backend" title="Permalink to this heading"></a></h3>
+<p><a id="local-to-device-rpc-via-backend"></a></p>
+<a class="drawio reference internal image-reference" href="_images/m2cp-rpc.png" id="id1"><img alt="Local To Device RPC via Backend" class="drawio align-center" id="id1" src="_images/m2cp-rpc.png" style="width: 100%;" /></a>
+</section>
+<section id="app-to-app-rpc-on-a-device">
+<h3><span class="section-number">5.1.4. </span>App To App RPC on a Device<a class="headerlink" href="#app-to-app-rpc-on-a-device" title="Permalink to this heading"></a></h3>
+<p><a id="app-to-app-rpc-on-a-device"></a></p>
+<a class="drawio reference internal image-reference" href="_images/m2cp-rpc1.png" id="id2"><img alt="App To App RPC on a Device" class="drawio align-center" id="id2" src="_images/m2cp-rpc1.png" style="width: 100%;" /></a>
+</section>
+<section id="device-to-device-rpc-via-ip">
+<h3><span class="section-number">5.1.5. </span>Device To Device RPC via IP<a class="headerlink" href="#device-to-device-rpc-via-ip" title="Permalink to this heading"></a></h3>
+<p><a id="device-to-device-rpc-via-ip"></a></p>
+<a class="drawio reference internal image-reference" href="_images/m2cp-rpc2.png" id="id3"><img alt="Device To Device RPC via IP" class="drawio align-center" id="id3" src="_images/m2cp-rpc2.png" style="width: 100%;" /></a>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">App</span> <span class="p">(</span><span class="n">sender</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">message</span><span class="o">-</span><span class="n">hub</span> <span class="o">-&gt;</span> <span class="n">m2cp</span> <span class="p">(</span><span class="n">gateway</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IoT</span> <span class="n">Hub</span> <span class="p">(</span><span class="n">hub</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cloud</span> <span class="n">backend</span> <span class="p">(</span><span class="n">receiver</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can see from the diagram, that the message is delivered to multiple destinations. This is possible due to
+the publish/subscribe pattern used here.</p>
+<p>RPC messages are typically coming from the cloud backend and are routed to the local App. The result
+is delivered back to the cloud:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cloud</span> <span class="n">backend</span> <span class="p">(</span><span class="n">sender</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IoT</span> <span class="n">Hub</span> <span class="p">(</span><span class="n">hub</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">m2cp</span> <span class="p">(</span><span class="n">gateway</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">message</span><span class="o">-</span><span class="n">hub</span> <span class="o">-&gt;</span> <span class="n">App</span> <span class="p">(</span><span class="n">receiver</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note, that the gateway creates a copy of the command, which is sent to the archive.</p>
+<p>The result of the command is sent back to the cloud backend:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">App</span> <span class="p">(</span><span class="n">sender</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">message</span><span class="o">-</span><span class="n">hub</span> <span class="o">-&gt;</span> <span class="n">m2cp</span> <span class="p">(</span><span class="n">gateway</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IoT</span> <span class="n">Hub</span> <span class="p">(</span><span class="n">hub</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cloud</span> <span class="n">backend</span> <span class="p">(</span><span class="n">receiver</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The result is also sent twice – once to the cloud backend and once to the archive.<br />
+The result is also sent twice – once to the cloud backend and once to the archive.</p>
+</section>
+</section>
+<section id="data-points-to-data-visualization">
+<h2><span class="section-number">5.2. </span>Data Points to Data Visualization<a class="headerlink" href="#data-points-to-data-visualization" title="Permalink to this heading"></a></h2>
+<p>The following will explain the full path of some <em>data points</em>, as
+sent from a <em>Real-Time Operating System</em> (RTOS), through the system up
+to the backend for visualization.</p>
+<p>Let’s look at the following <a class="reference internal" href="#data-points-to-data-visualization-route">graphic of the Data Points to Data
+Visualization Route</a>:</p>
+<p><a id="data-points-to-data-visualization-route"></a></p>
+<a class="drawio reference internal image-reference" href="_images/datapath.png" id="data-points-to-data-visualization-route"><img alt="Data Points to Data Visualization Route" class="drawio align-center" id="data-points-to-data-visualization-route" src="_images/datapath.png" style="width: 100%;" /></a>
+<p>The white parts are generic components, the green highlighted
+components are build by customers.</p>
+<p>Data points from sensors enter at the left side and are processed by a
+custom application. The data points are serialized for interchange
+between the RTOS and the Linux system. We require a tuple of a unique
+OID and a serialized <a class="reference external" href="https://protobuf.dev/">Protobuf</a>. This byte
+sequence is sent via
+<a class="reference external" href="https://en.wikipedia.org/wiki/Constrained_Application_Protocol">CoAP</a>
+to the <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> application on the Linux system.</p>
+<p><code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> is a generic application and only receives CoAP messages
+and forwards the byte sequence as a
+<a class="reference external" href="https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol">AMQP</a>
+message with a <a class="reference internal" href="#message-routing">topic</a>. The topic string is
+deterministic and contains the OID, e.g. <code class="docutils literal notranslate"><span class="pre">oid42</span></code>. <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> will
+never parse custom data points. Also note, the M2CP Message header
+contains a <code class="docutils literal notranslate"><span class="pre">scope</span></code> field. The raw data points are forwarded with scope
+<code class="docutils literal notranslate"><span class="pre">device</span></code>, so the raw data will not leave the Device by default.</p>
+<p>Any custom parser application can subscribe to this topic. The task of
+the custom parser is to remove the OID prefix, deserialize the data
+structure from the Protobuf, and transform it into <a class="reference internal" href="#data">M2CP
+Data</a>. This data is sent back to the message-hub and could be
+subscribed by other applications. These messages have a <code class="docutils literal notranslate"><span class="pre">global</span></code> scope
+by default.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">m2cp-gateway</span></code> automatically subscribes to all M2CP messages of
+<code class="docutils literal notranslate"><span class="pre">global</span></code> scope and uploads them to the cloud. Note, different M2CP
+Message types end up in different systems: Signals are uploaded to the
+IoT Hub; Data is uploaded to the Data Message Hub.</p>
+<p>The last step is a custom visualisation application, that runs in the
+cloud and processes Data from the Data Message Hub.</p>
+</section>
+<section id="m2cp-messaging-protocol">
+<h2><span class="section-number">5.3. </span>M2CP Messaging Protocol<a class="headerlink" href="#m2cp-messaging-protocol" title="Permalink to this heading"></a></h2>
+<p>The <em>M2CP Messaging Protocol</em> is implemented in the <a class="reference internal" href="Development_Edge.html#edge-device-sdk"><span class="std std-ref">Edge Device SDK</span></a>.</p>
+<p>It is <strong>strongly advised</strong> to use the SDK instead of implementing clients from specification.</p>
+<p>This chapter is for reference only.</p>
+<p>The <a class="reference internal" href="#message-format">message
+format</a> chapter
+specifies a single message, while the <a class="reference internal" href="#message-routing">routing
+specification</a>
+chapter defines, how these messages are delivered within the
+M2CP Messaging Network using <em>addresses</em> and <em>topics</em>.</p>
+<section id="changelog">
+<h3><span class="section-number">5.3.1. </span>Changelog<a class="headerlink" href="#changelog" title="Permalink to this heading"></a></h3>
+<p>Changes in messaging specification:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Version</p></th>
+<th class="head"><p>Date</p></th>
+<th class="head"><p>Change</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0.0</p></td>
+<td><p>2023</p></td>
+<td><p>Initial release</p></td>
+</tr>
+<tr class="row-odd"><td><p>1.0.1</p></td>
+<td><p>2024-04-24</p></td>
+<td><p>Added “Scope” field to message header. This is a non-breaking change. Messages without this field are interpreted as having scope ‘GLOBAL’</p></td>
+</tr>
+<tr class="row-even"><td><p>1.1.0</p></td>
+<td><p>2024-08-14</p></td>
+<td><p>Extended address format by allowing IP addresses additional to Device IDs</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="message-format">
+<h3><span class="section-number">5.3.2. </span>Message Format<a class="headerlink" href="#message-format" title="Permalink to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The message format is <em>NOT</em> based on JSON. But: In this specification we represent the structure
+of the message structs in JSON notation, as that is easy to read. In-memory the messages are simply structs.</p>
+</div>
+<p>The messages are implemented as <em>structs</em> and can be serialized in various ways. A binary encoding is used for
+transmission between nodes.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The format for message serialization allows upgrading the binary encoding to
+more efficient methods in the future, as the tip of the serialized message contains an “encoding” field, which
+specifies the serialization method used.</p>
+</div>
+<section id="message-types">
+<h4>Message Types<a class="headerlink" href="#message-types" title="Permalink to this heading"></a></h4>
+<p>Four types of messages exists:</p>
+<ul class="simple">
+<li><p>commands (RPC calls)</p></li>
+<li><p>responses (responses to RPC calls)</p></li>
+<li><p>signals (system or app status information, log and error messages)</p></li>
+<li><p>data (measurements, data points)</p></li>
+</ul>
+</section>
+<section id="message-structure">
+<h4>Message Structure<a class="headerlink" href="#message-structure" title="Permalink to this heading"></a></h4>
+<p>This M2CP.2 message specification is an evolutionary step from the format of prior versions of M2CP, aiming at keeping changes small to make adaptions of existing software easy.</p>
+<section id="struct-format">
+<h5>Struct Format<a class="headerlink" href="#struct-format" title="Permalink to this heading"></a></h5>
+<p>Messages are structs. How they are represented in-memory depends on the implementation. In our Go-SDK we’re using
+<em>structs</em>.</p>
+<p>Here’s the general format of a message. In this documentation we’re using <em>JSON</em> as a <em>notation</em> to describe
+the structure of the data. Messages can be serialized in different ways depending on the use case.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>{
+  &quot;Header&quot;:{
+    &quot;Type&quot;: &quot;&lt;COMMAND | RESPONSE | SIGNAL | DATA &gt;&quot;,
+    &quot;Topic&quot;: &quot;&lt;topic&gt;&quot;,
+    &quot;Scope&quot;: &quot;&lt;scope&gt;&quot;,
+    &quot;TimeStamp&quot;: &quot;&lt;decimal unix time stamp in seconds&gt;&quot;,
+    &quot;Id&quot;: &quot;&lt;uuid&gt;&quot;,
+    &quot;TaskId&quot;: &quot;&lt;uuid&gt;&quot;,
+    &quot;Origin&quot;: &quot;&lt;address of sender&gt;&quot;,
+  },
+
+  &quot;Body&quot;:&lt;payload&gt;, // TODO: array or any?
+
+  // optional:
+  &quot;Assertion&quot;: {
+    &quot;Hash&quot;: &quot;&lt;message hash&gt;&quot;,
+    &quot;Signature&quot;: &quot;&lt;signature&gt;&quot;,
+    &quot;SigningKeySha3&quot;: &quot;&lt;sha3-384 of public key for verifying the signature&gt;&quot;,
+  }
+
+  // optional:
+  &quot;Trace&quot;: [
+     {&quot;A&quot;: &quot;&lt;address&gt;&quot;, &quot;T&quot;: &quot;&lt;timestamp&gt;&quot;}, ..
+  ]
+}
+</pre></div>
+</div>
+</section>
+<section id="binary-format-version-1">
+<h5>Binary Format (Version 1)<a class="headerlink" href="#binary-format-version-1" title="Permalink to this heading"></a></h5>
+<p>Version 1 of our encoding format serializes the message contents to <em>JSON</em> and uses <em>deflate</em> to compress the contents.
+This format is used for transporting messages locally within a Device. The uplink to the cloud uses a different,
+more compact transport encoding.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">4</span> <span class="nb">bytes</span>   <span class="n">payload</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">bytes</span> <span class="p">(</span><span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span>
+<span class="mi">1</span> <span class="n">byte</span>    <span class="nb">format</span> <span class="n">version</span> <span class="p">(</span><span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">1</span> <span class="n">byte</span>    <span class="n">compression</span> <span class="nb">type</span> <span class="p">(</span><span class="mi">0</span><span class="o">=</span><span class="n">uncompressed</span><span class="p">,</span> <span class="mi">1</span><span class="o">=</span><span class="n">deflate</span><span class="p">)</span>
+<span class="n">n</span> <span class="nb">bytes</span>   <span class="n">message</span> <span class="n">serialized</span> <span class="n">to</span> <span class="n">JSON</span>
+<span class="mi">4</span> <span class="nb">bytes</span>   <span class="n">CRC32</span> <span class="n">of</span> <span class="n">version</span><span class="p">,</span> <span class="n">compression</span> <span class="nb">type</span> <span class="ow">and</span> <span class="n">JSON</span><span class="o">-</span><span class="n">serialized</span> <span class="n">message</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">n</span> <span class="nb">bytes</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="compressed-uploading-format">
+<h6>Compressed Uploading Format<a class="headerlink" href="#compressed-uploading-format" title="Permalink to this heading"></a></h6>
+<p>The <em>m2cp-gateway</em> uses a more compact encoding to save bandwidth. Multiple messages are packed into a single compressed package,
+which is then uploaded to the cloud, unpacked there, and published into the respective destinations.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">4</span> <span class="nb">bytes</span>    <span class="n">size</span> <span class="n">of</span> <span class="n">multi</span><span class="o">-</span><span class="n">message</span> <span class="n">payload</span>
+<span class="mi">1</span> <span class="nb">bytes</span>    <span class="nb">format</span> <span class="n">version</span> <span class="p">(</span><span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="mi">1</span> <span class="nb">bytes</span>    <span class="n">compression</span> <span class="nb">type</span> <span class="p">(</span><span class="mi">0</span><span class="o">=</span><span class="n">uncompressed</span><span class="p">,</span> <span class="mi">1</span><span class="o">=</span><span class="n">deflate</span><span class="p">,</span> <span class="mi">2</span><span class="o">=</span><span class="n">zstd</span><span class="p">)</span>
+<span class="n">n</span> <span class="nb">bytes</span>    <span class="n">multi</span><span class="o">-</span><span class="n">message</span> <span class="n">payload</span>
+</pre></div>
+</div>
+<p>There’s no CRC32 checksum in this wrapper format, because the zstd format includes a checksum and the contained messages also come with a checksum.</p>
+<p>To decode such a binary message, the receiver must:</p>
+<ol class="arabic simple">
+<li><p>Read the size of the payload</p></li>
+<li><p>Read the format version, assert that it’s “2”</p></li>
+<li><p>Read the compression type, it should be “2” (zstd)</p></li>
+<li><p>Read the compressed payload</p></li>
+<li><p>Decompress the multi-message payload using zstd</p></li>
+</ol>
+<p>The multi-message payload is a concatenation of binary encoded messages. To decode the multi-message payload:</p>
+<ol class="arabic simple">
+<li><p>Read the size of the first message (4 bytes)</p></li>
+<li><p>Copy bytes 0 to size+4 to a new buffer</p></li>
+<li><p>Decode that buffer as a message</p></li>
+<li><p>Repeat until the end of the multi-message payload is reached</p></li>
+</ol>
+</section>
+</section>
+<section id="header">
+<h5>Header<a class="headerlink" href="#header" title="Permalink to this heading"></a></h5>
+<p>The <code class="docutils literal notranslate"><span class="pre">header</span></code> section is identical for all message types. It contains the information needed for routing the message to its recipient(s).</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Header.Type</span></code> Message type of <code class="docutils literal notranslate"><span class="pre">&quot;COMMAND&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;RESPONSE&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;SIGNAL&quot;</span></code> OR <code class="docutils literal notranslate"><span class="pre">&quot;DATA&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Header.Topic</span></code> String describing the message topic, see <em>addresses and topics</em></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Header.Scope</span></code> Defines the scope of recipients intended by the sender of the message, can be <code class="docutils literal notranslate"><span class="pre">&quot;PROCESS&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;DEVICE&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;NETWORK&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;GLOBAL&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Header.TimeStamp</span></code> Unix time (64bit) in seconds when the message was initially created by the sender in a decimal string representation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Header.Id</span></code> Random message id (UUID v4, RFC 4122)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Header.TaskId</span></code> (optional, UUID v4, RFC 4122) see below.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Header.Origin</span></code> Address of sender (see <em>addresses and topics</em>)</p></li>
+</ul>
+</section>
+<section id="scope">
+<h5>Scope<a class="headerlink" href="#scope" title="Permalink to this heading"></a></h5>
+<p>The <em>scope</em> specifies the target audience intended by the sender of a message and has an effect on routing.
+A router only delivers a message to a subscriber or forwards a message across the next hop through a gateway,
+if the target is within the <em>scope</em>.</p>
+<p><em>Scope</em> specifies the <em>default</em> behaviour for routers handling a message. The sender has no guarantee, that
+the intended scope will be respected. A router might be configured with an override rule set by an
+administrator, which e.g. causes <em>all</em> messages to be routed to the cloud for debugging purposes.</p>
+<p>The available scopes are:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope</p></th>
+<th class="head"><p>Message will delivered …</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PROCESS</p></td>
+<td><p>…only to recipients within the same process. This is usefull for inter-thread-communication in a single application consisting of several independent services, threads, agents or modules.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DEVICE</p></td>
+<td><p>…only within the scope of the Device i.e. only to clients that can reach the link-local address <code class="docutils literal notranslate"><span class="pre">::1</span></code> (IPv6)</p></td>
+</tr>
+<tr class="row-even"><td><p>NETWORK</p></td>
+<td><p>…only to recipients, which can reach the message hub to which the message was posted via their network connection</p></td>
+</tr>
+<tr class="row-odd"><td><p>GLOBAL</p></td>
+<td><p>…to all recipients in the local network and to the cloud</p></td>
+</tr>
+</tbody>
+</table>
+<p>How is this enforced?</p>
+<p>Not all implementations of the 2cp-messaging protocol can enforce all of the above rules – which is another reason, why
+no guarantee can be given, that the rules will be respected. It depends on the specific implementation.</p>
+<p>The current (as of 2024-04-24) implementation of SDK and m2cp-gateway doesn’t know these rules.</p>
+<p>The next planned release (2024-05)  of m2cp-gateway and SDK respects the GLOBAL directive, but treats all other messages
+as NETWORK scope.</p>
+<p>A further update of the SDK, which will replace AMQP with CoAP, is in planning – this future version will
+respect all four scopes.</p>
+<p><strong>What is a <em>TaskId</em>?</strong></p>
+<p>A single action can involve several Devices, services, databases, and APIs. E.g. a developer sends a GraphQL request to a backend service, this service does a DB request, then sends a RPC call to a Device, gets a result, and forwards that to the developer. Each participant generates logs – but it’s difficult to combine those, when debugging such a process. A <em>TaskId</em> allows connecting the dots and combing the traces from different logs into one detailed documentation of the execution of a task. To achieve that, a random <em>TaskId</em> has to be generated by the originator of an action and passed all the way through the chain of communication.</p>
+</section>
+</section>
+<section id="body">
+<h4>Body<a class="headerlink" href="#body" title="Permalink to this heading"></a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">body</span></code> section is formatted dependent on the message type:</p>
+<section id="command">
+<h5>Command<a class="headerlink" href="#command" title="Permalink to this heading"></a></h5>
+<p>A <em>participant</em> can implement and consume arbitrary RPC calls. An RPC call has exactly one recipient.
+RPC calls contain an array of parameter objects, allowing for aggregated calls with n sets of parameters
+(e.g. for calling the same function on n sensors controlled by a single app).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Body&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;Command&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;command name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;param0&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;value0&gt;&quot;</span><span class="p">,</span>
+      <span class="o">..</span>
+      <span class="s2">&quot;paramN&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;valueN&gt;&quot;</span>
+    <span class="p">},</span> <span class="o">..</span><span class="p">{</span><span class="o">..</span><span class="p">}]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Body.Command</span></code> Name of the RPC command to call. Command Names <em>must</em> be in PascalCase. Names should start with an object and end with a verb, so that similar commands are next to each other when listed alphabetically. BAD example: “AddSensor” and “DeleteSensor” are <em>not</em> next to each other. GOOD example: “SensorAdd” and “SensorDelete” are natural neighbours in the alphabetic order.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Body.Parameters[{}..{}]</span></code> Array of dictionaries of parameter names and their respective string values. Parameter names <em>must</em> be in camelCase</p></li>
+</ul>
+<p>Parameter values must be encoded as strings. The recipient is responsible for parsing the parameter values to the types needed (e.g. integer).</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Defining the required types of both parameters and return values is enforced by the SDK. The types must be defined in the comments of the implementations of the RPC methods. Types supported by the SDK are: “bool”, “int”, “int[]”, “double”, “double[]”, “string”, “datetime”, “json”, “binary”</p>
+</div>
+<p>RPC calls can be implemented as needed. Some calls are implemented by default in the SDK (e.g. <code class="docutils literal notranslate"><span class="pre">PluginUptime</span></code> or <code class="docutils literal notranslate"><span class="pre">PluginDocumentation</span></code>).</p>
+</section>
+<section id="response">
+<h5>Response<a class="headerlink" href="#response" title="Permalink to this heading"></a></h5>
+<p>When an RPC call is executed, it generates a result message. The caller is guaranteed to receive a result message, even if the recipient is unreachable or crashed while executing the call. In such cases, the SDK used for sending the call will locally generate an error result message for the waiting callback function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Body&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;CommandId&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;uuid of command message&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Responses&quot;</span><span class="p">:</span> <span class="p">[{</span>
+        <span class="s2">&quot;Error&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="p">,</span>
+        <span class="s2">&quot;Message&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;human readable success/error message&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Results&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s2">&quot;result0&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;value0&gt;&quot;</span><span class="p">,</span>
+          <span class="o">..</span>
+          <span class="s2">&quot;resultN&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;valueN&gt;&quot;</span>
+        <span class="p">},</span><span class="o">..</span><span class="p">{</span><span class="o">..</span><span class="p">}]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Body.CommandId</span></code> The id of the command message this message responds to</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Body.Responses</span></code> Array of responses to the array of RPC calls</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Body.Responses[].Error</span></code> Signifies success of RPC execution. 0 = success, &gt;0 = error code</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Body.Responses[].Message</span></code> A human-readable success/error message</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Body.Responses[].Results{}</span></code> Dictionaries of return value names and their respective string values.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">Body.Responses[].Results</span></code> can be <code class="docutils literal notranslate"><span class="pre">null</span></code>, only if <code class="docutils literal notranslate"><span class="pre">Success</span> <span class="pre">==</span> <span class="pre">false</span></code>.</p>
+<p>Result values must be encoded as strings. The recipient is responsible for parsing the result values to the types needed (e.g. integer).</p>
+</section>
+<section id="signal">
+<h5>Signal<a class="headerlink" href="#signal" title="Permalink to this heading"></a></h5>
+<p>A signal message is emitted by a participant to announce a system event (e.g. a runtime error, an important state change). Signals are basically log messages.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Body&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;Type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;ERROR | WARNING | INFO | DEBUG&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;signal name&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Content&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;signal content&gt;&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Body.Type</span></code> Type of the signal. <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> should not be sent in production unless explicitly activated via RPC.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Body.Name</span></code> Name of the signal “system restart announcement”, “application error”, “update installed”, …</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Body.Content</span></code> Details of the signal</p></li>
+</ul>
+<p>Signals can be sent as needed.</p>
+</section>
+<section id="data">
+<h5>Data<a class="headerlink" href="#data" title="Permalink to this heading"></a></h5>
+<p>Data messages are designed to deliver time series of n-dimensional data points.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Body&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;FormatId&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;formatId&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Columns&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span><span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;col0&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;Type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;type0&gt;&quot;</span><span class="p">},</span>
+      <span class="o">..</span><span class="p">,</span>
+      <span class="p">{</span><span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;colN&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;Type&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;typeN&gt;&quot;</span><span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Data&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;T&quot;</span><span class="p">:</span><span class="s2">&quot;&lt;timestamp&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;D&quot;</span><span class="p">:[</span><span class="s2">&quot;&lt;data0&gt;&quot;</span><span class="p">,</span> <span class="o">..</span><span class="p">,</span> <span class="s2">&quot;&lt;dataN&gt;&quot;</span><span class="p">]</span>
+      <span class="p">},</span>
+      <span class="o">..</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;T&quot;</span><span class="p">:</span><span class="s2">&quot;&lt;timestamp&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;D&quot;</span><span class="p">:[</span><span class="s2">&quot;&lt;data0&gt;&quot;</span><span class="p">,</span> <span class="o">..</span><span class="p">,</span> <span class="s2">&quot;&lt;dataN&gt;&quot;</span><span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Body.FormatId</span></code> Is an optional field for defining a unique id for this format. This id can help the subscribers to know how to parse this type of data. The id should contain a namespace prefix to avoid name collisions – e.g. “mlpa_oid_42”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Body.Columns</span></code> Names and types of the columns. Available types are: “bool”, “int”, “int[]”, “uint32”, “uint32[]”, “uint64”, “uint64[]”, “double”, “double[]”, “string”, “binary”, “datetime” (ISO 8601 in UTC)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Body.Data</span></code> The time series</p></li>
+</ul>
+<p>(The <em>binary</em> data type is internally encoded as String/Base64.)</p>
+<p>Each entry in the time series consists of:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">T</span></code> Unix timestamp in decimal representation (set to <code class="docutils literal notranslate"><span class="pre">0</span></code> if no timestamp needed)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">D</span></code> Row of data, same length as `Body.Columns’. All values encoded as strings.</p></li>
+</ul>
+<p>The precision of timestamps can be down to seconds (e.g. <code class="docutils literal notranslate"><span class="pre">1668431167</span></code>), milliseconds (e.g. <code class="docutils literal notranslate"><span class="pre">1668431167.123</span></code>) or microseconds (e.g. <code class="docutils literal notranslate"><span class="pre">1668431167.123456</span></code>) as needed.</p>
+<p>Optionality for values of type int, uint32, and uint64 is represented by setting the value to the string `“null”, since version 12.4.0 of the go SDK.</p>
+</section>
+</section>
+<section id="assertion">
+<h4>Assertion<a class="headerlink" href="#assertion" title="Permalink to this heading"></a></h4>
+<p>All messages from the cloud to a Device (and vice versa) must pass through <em>m2cp-gateway</em>, the gateway between the cloud and Device local messaging. <em>m2cp-gateway</em> is responsible for verifying these signatures. Invalid messages are dropped (generating an error <em>SIGNAL</em> message and an error <em>RESPONSE</em>-message in case of an invalid <em>COMMAND</em> message). Valid messages have their assertion property removed and are then routed to the final recipient.</p>
+<p>Devices can also sign messages to the cloud using the private key stored in their <em>TPM</em>-chip. This functionality is provided by the SDK.</p>
+<p>The assertion section of a message stores the message authentication:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Assertion.Hash</span></code> The hash of the message (calculated by SDK)
+<code class="docutils literal notranslate"><span class="pre">Assertion.Signature</span></code> Hash signed with private key of sender
+<code class="docutils literal notranslate"><span class="pre">Assertion.SigningKeySha3</span></code> Sha3-384 of signing key</p>
+<p>Command messages <em>must</em> be signed by a valid key, other types of message <em>can</em> be signed.</p>
+<section id="hash-calculation">
+<h5>Hash Calculation<a class="headerlink" href="#hash-calculation" title="Permalink to this heading"></a></h5>
+<p>The message hash is calculated as <code class="docutils literal notranslate"><span class="pre">H(H(S(Header))</span> <span class="pre">+</span> <span class="pre">H(S(Body)))</span></code> with
+<code class="docutils literal notranslate"><span class="pre">H</span> <span class="pre">=</span> <span class="pre">SHA3_384</span></code>, <code class="docutils literal notranslate"><span class="pre">S</span> <span class="pre">=</span> <span class="pre">JSON-Serialization</span></code>, <code class="docutils literal notranslate"><span class="pre">+</span> <span class="pre">=</span> <span class="pre">concatenation</span></code> and
+<code class="docutils literal notranslate"><span class="pre">Header/Body</span></code> being the complete data objects of header and body.</p>
+</section>
+<section id="distribution-of-signing-keys">
+<h5>Distribution of Signing Keys<a class="headerlink" href="#distribution-of-signing-keys" title="Permalink to this heading"></a></h5>
+<p>For validating signed messages from a cloud service to a Device, the
+Device needs the public key of the cloud service.</p>
+<p>The hardware currently under development will include a TPM module for
+this purpose. On legacy platforms (e.g. the RasPi) without TPM, keys
+are stored in the protected <em>COMMON</em> directory of the <em>m2cp-gateway</em> App
+package.</p>
+<p>The initial public key for signed messages is received by the Device
+at installation time. Keys can then be rotated by sending further keys
+via signed <em>COMMAND</em> messages. Each key has a <em>valid_from</em>
+field. <em>m2cp-gateway</em> always uses the key with the highest <em>valid_from</em>
+value, which is below the current date. Keys with a <em>valid_from</em> value
+above the current date are stored for future use.</p>
+<p>This allows implementing key rotation by periodically sending new keys
+to the Device.</p>
+<p>A deletion command allows the deletion of keys on the Device.</p>
+</section>
+<section id="threat-analysis">
+<h5>Threat Analysis<a class="headerlink" href="#threat-analysis" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>Assertions guarantee the integrity and authenticity of a message</p></li>
+<li><p>Assertions are verified by the end points of Device&lt;-&gt;cloud communication</p></li>
+<li><p>Local messages on the Device are not verified</p></li>
+<li><p>Currently only RPC messages are expected to contain assertions to secure remote Device control</p></li>
+<li><p>As the message format doesn’t define encryption, confidentiality is achieved by using transport layer encryption of Device&lt;-&gt;cloud communication (SSL)</p></li>
+</ul>
+</section>
+</section>
+<section id="trace">
+<h4>Trace<a class="headerlink" href="#trace" title="Permalink to this heading"></a></h4>
+<p>This optional section can be used to store “post stamps” of the nodes a message passed through while being delivered. The array stores one object for each node that added a “post stamp” to the message. Trace can be used to analyze which sections of message delivery take how much time – bottlenecks or slow relays can be identified.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Trace[i].A</span></code> The address of the node having routed the message
+<code class="docutils literal notranslate"><span class="pre">Trace[i].T</span></code> Unix timestamp in decimal representation, when the message was processed</p>
+</section>
+</section>
+<section id="message-routing">
+<h3><span class="section-number">5.3.3. </span>Message Routing<a class="headerlink" href="#message-routing" title="Permalink to this heading"></a></h3>
+<p>The M2CP Messaging protocol is designed to be transport-layer agnostic i.e. any means of transportation (e.g. HTTP, AMQP, MQTT, …) can be used to deliver messages to the recipient.
+Each node in the messaging-network has a globally unique <em>m2cp-address</em> (short: <em>address</em>) used for routing.</p>
+<section id="implementation">
+<h4>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading"></a></h4>
+<p>All routing functionality is implemented in the <a class="reference internal" href="Development_Edge.html#edge-device-sdk"><span class="std std-ref">Edge Device SDK</span></a>.</p>
+<p>It is <strong>strongly advised</strong> to build Apps using that SDK instead of implementing and routing functionality yourself.</p>
+<p>This specification is aimed at providing insight into the functionality implemented by the SDK.</p>
+</section>
+<section id="message-delivery-methods">
+<h4>Message delivery methods<a class="headerlink" href="#message-delivery-methods" title="Permalink to this heading"></a></h4>
+<p><em>DATA</em> and <em>SIGNAL</em> messages are published following the <em>publish/subscribe</em> pattern. Any node can subscribe to messages from any address within his scope. Delivery is not guaranteed for <em>publish/subscribe</em> messages. Reasons for a message not arriving at a subscriber can be:</p>
+<ul class="simple">
+<li><p>subscriber wasn’t online when the message was published</p></li>
+<li><p>message broker was forced to drop messages due to queue overflow</p></li>
+</ul>
+<p><em>COMMAND</em> and <em>RESPONSE</em> messages are delivered following the <em>request/response</em> pattern. They’re delivered with a higher quality of service: the caller <em>always</em> receives an answer. If the recipient receives <em>and</em> processes the message, a confirmation message is returned to the sender. If delivery fails or the response doesn’t arrive in time, the sender receives an error result message generated by the routing layer. When receiving an error result because of a time-out, it is not possible to tell, if the recipient received and processed the message – he might have done whilst the response never arrived because of a bad network connection.</p>
+</section>
+<section id="locality">
+<h4>Locality<a class="headerlink" href="#locality" title="Permalink to this heading"></a></h4>
+<p>Routing differentiates between <em>local</em> and <em>global</em> scope.</p>
+<p>Nodes running on Devices can only receive messages from</p>
+<ul class="simple">
+<li><p>the same Device</p></li>
+<li><p>a node in the cloud</p></li>
+</ul>
+<p>Nodes running in the cloud can receive all messages and send messages to any node in the global network.</p>
+</section>
+<section id="address-format">
+<h4>Address format<a class="headerlink" href="#address-format" title="Permalink to this heading"></a></h4>
+<p>Every participant in the messaging network has a globally unique
+address. A participant can be e.g.:</p>
+<ul class="simple">
+<li><p>An App emitting data points</p></li>
+<li><p>A cloud service sending RPC calls to a Device</p></li>
+<li><p>An application with multiple threads, each implementing a different
+feature</p></li>
+</ul>
+<p>The address format for m2cp-messaging-nodes of Apps running on
+Devices is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">app</span><span class="o">&gt;.&lt;</span><span class="n">device</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">feature</span><span class="o">&gt;.&lt;</span><span class="n">app</span><span class="o">&gt;.&lt;</span><span class="n">device</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;device&gt;</span></code> part can be:</p>
+<ul class="simple">
+<li><p>the Device ID</p></li>
+<li><p>the IPv6 address of the Device in format <code class="docutils literal notranslate"><span class="pre">[&lt;ipv6&gt;]</span></code>, <code class="docutils literal notranslate"><span class="pre">[&lt;ipv6&gt;]:&lt;port&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">[&lt;ipv6&gt;%&lt;interface&gt;]</span></code> or <code class="docutils literal notranslate"><span class="pre">[&lt;ipv6&gt;%&lt;interface&gt;]:&lt;port&gt;</span></code></p></li>
+<li><p>the IPv4 address of the Device in format <code class="docutils literal notranslate"><span class="pre">[&lt;ipv4&gt;]</span></code>, <code class="docutils literal notranslate"><span class="pre">[&lt;ipv4&gt;]:&lt;port&gt;</span></code> (the IPv4 address must be enclosed in square brackets!)</p></li>
+<li><p>the keyword <code class="docutils literal notranslate"><span class="pre">local</span></code> for device-local messages</p></li>
+<li><p>the keyword <code class="docutils literal notranslate"><span class="pre">cloud</span></code> for messages to/from cloud services</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">device-serial</span></code> is derived from the hardware and unique for each Device. When creating a message using the SDK, <code class="docutils literal notranslate"><span class="pre">&lt;app&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;device&gt;</span></code> are automatically set.
+The SDK offers methods to set the <code class="docutils literal notranslate"><span class="pre">&lt;device&gt;</span></code> part to a different value, e.g. for testing purposes or when running multiple Apps in a single application.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;app&gt;</span></code> is typically the name of the application running the application. It is possible, though, to set an arbitrary app name when creating a message.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;feature&gt;</span></code> part is optional and can be used to differentiate between different endpoints of an app. Only this part is allowed
+to contain additional dots. This is useful for allowing subscribers filtering for specific endpoints more easily.
+Example: <code class="docutils literal notranslate"><span class="pre">sensor.17.temperature.app.&lt;serial&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">sensor.17.humidity.app</span></code>, <code class="docutils literal notranslate"><span class="pre">sensor.18.temperature.app.&lt;serial&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">sensor.18.humidity.app</span></code> are
+endpoints of the same app. A subscriber can filter for e.g. <code class="docutils literal notranslate"><span class="pre">sensor.17.*.app.&lt;serial&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">sensor.*.humidity.app</span></code> to receive messages from all sensors of a specific type.
+A <code class="docutils literal notranslate"><span class="pre">*</span></code> filters for a single token, <code class="docutils literal notranslate"><span class="pre">#</span></code> for any number of tokens.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;feature&gt;</span></code> field should be used, if a single app has more than one endpoint, e.g. a sensor app could offer
+one endpoint per attached physical sensor (e.g. <code class="docutils literal notranslate"><span class="pre">sensor-0.sensorapp.&lt;serial&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">sensor-1.sensorapp.&lt;serial&gt;</span></code>) or
+an app could offer separate endpoints for different sets of functionality.</p>
+<section id="address-name-constraints">
+<h5>Address name constraints<a class="headerlink" href="#address-name-constraints" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>Names may only contain characters <code class="docutils literal notranslate"><span class="pre">a</span></code>-<code class="docutils literal notranslate"><span class="pre">z</span></code>, <code class="docutils literal notranslate"><span class="pre">A</span></code>-<code class="docutils literal notranslate"><span class="pre">Z</span></code>, <code class="docutils literal notranslate"><span class="pre">0</span></code>-<code class="docutils literal notranslate"><span class="pre">9</span></code>, <code class="docutils literal notranslate"><span class="pre">–</span></code> and <code class="docutils literal notranslate"><span class="pre">_</span></code></p></li>
+<li><p>&lt;feature&gt; has max. length of 40 characters</p></li>
+<li><p>&lt;application-name&gt; has max. length of 40 characters</p></li>
+<li><p>&lt;device-serial&gt; has a max. length of 36 characters (serial is a UUID v4)</p></li>
+<li><p>&lt;service-name&gt; has max. length of 40 characters</p></li>
+</ul>
+</section>
+<section id="reserved-addresses">
+<h5>Reserved Addresses<a class="headerlink" href="#reserved-addresses" title="Permalink to this heading"></a></h5>
+<p>Some addresses are reserved for internal (routing) use and should not be used by applications.</p>
+<p>Routing gateways use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sys</span><span class="o">-</span><span class="n">gw</span>
+<span class="n">sys</span><span class="o">-</span><span class="n">gwc</span><span class="o">.&lt;</span><span class="nb">id</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="topics">
+<h4>Topics<a class="headerlink" href="#topics" title="Permalink to this heading"></a></h4>
+<p>All messages are sent to <em>topics</em>.</p>
+<p>Data and Signal messages follow a publish/subscribe pattern.</p>
+<ul class="simple">
+<li><p>Data messages are published to the topic <code class="docutils literal notranslate"><span class="pre">data/&lt;feature&gt;</span></code>.</p></li>
+<li><p>Signal message are published to <code class="docutils literal notranslate"><span class="pre">signal/&lt;feature&gt;</span></code>.</p></li>
+</ul>
+<p>Command messages are also sent to topics. But they follow a classic point-to-point pattern as these topics contain the addresses of the respective recipients.</p>
+<ul class="simple">
+<li><p>The topic for commands are: <code class="docutils literal notranslate"><span class="pre">command/&lt;address&gt;</span></code> (with the address of the command-recipient), response messages to <code class="docutils literal notranslate"><span class="pre">response/&lt;address&gt;</span></code> (with the address of the command-sender).</p></li>
+</ul>
+<p>All command and response messages are additionally published on the log exchange with <code class="docutils literal notranslate"><span class="pre">log/</span></code> added to the topic as a prefix: <code class="docutils literal notranslate"><span class="pre">log/command/&lt;address&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">log/response/&lt;address&gt;</span></code>.</p>
+<section id="wildcards">
+<h5>Wildcards<a class="headerlink" href="#wildcards" title="Permalink to this heading"></a></h5>
+<p>You can subscribe to a single specific topic to receive e.g. DATA messages from it, or you can subscribe to all topics matching a certain filter using <em>wildcards</em>.</p>
+<p>Two wildcards are defined: <code class="docutils literal notranslate"><span class="pre">*</span></code> stands for a single token, <code class="docutils literal notranslate"><span class="pre">#</span></code> for any number of tokens.</p>
+<p>Examples:</p>
+<p><code class="docutils literal notranslate"><span class="pre">data/sensor/*/temperature</span></code> - matches DATA messages any feature structure like <code class="docutils literal notranslate"><span class="pre">sensor.*.temperature</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">data/#</span></code> - matches any DATA message</p>
+<p><code class="docutils literal notranslate"><span class="pre">data/sensor/temp#</span></code> - matches DATA messages from any feature starting with <code class="docutils literal notranslate"><span class="pre">sensor.temp</span></code></p>
+</section>
+<section id="broadcast-topic">
+<h5>Broadcast topic<a class="headerlink" href="#broadcast-topic" title="Permalink to this heading"></a></h5>
+<p>The special topic <code class="docutils literal notranslate"><span class="pre">signal/!broadcast</span></code> is subscribed by all local nodes and used for network discovery:</p>
+<ul class="simple">
+<li><p>Signal <code class="docutils literal notranslate"><span class="pre">hello?</span></code>: The node sending this signal asks all reachable nodes to answer with <code class="docutils literal notranslate"><span class="pre">hello!</span></code></p></li>
+<li><p>Signal <code class="docutils literal notranslate"><span class="pre">hello!</span></code>: Sent, when a node starts up and as a response to <code class="docutils literal notranslate"><span class="pre">hello?</span></code>, includes uptime as value.</p></li>
+<li><p>Signal <code class="docutils literal notranslate"><span class="pre">bye!</span></code>: Sent, when a node does a controlled shutdown</p></li>
+</ul>
+</section>
+</section>
+<section id="rabbitmq">
+<h4>RabbitMQ<a class="headerlink" href="#rabbitmq" title="Permalink to this heading"></a></h4>
+<p>RabbitMQ (AMQP) is one possible transport layer for m2cp-messages. When transmitting m2cp-messages via RabbitMQ, the following fields are used:</p>
+<p>COMMAND and RESPONSE messages:</p>
+<ul class="simple">
+<li><p>RoutingKey: is set to the receivers address for COMMAND and RESPONSE messages (direct delivery)</p></li>
+<li><p>Exchange: empty</p></li>
+<li><p>ContentType: application/json</p></li>
+<li><p>Body: the message</p></li>
+<li><p>CorrelationId: the id of the COMMAND message (also when sending RESPONSE to a command)</p></li>
+<li><p>ReplyTo: in case of COMMAND message, this contains the routing key for the RESPONSE</p></li>
+</ul>
+<p>Sending a RPC call using the tool <code class="docutils literal notranslate"><span class="pre">rmq-send</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ rmq-send -h localhost -p 5672 -e &quot;&quot; -r &#39;command.rpc-endpoint.snapname.devicename&#39; -m &#39;{&quot;Header&quot;:{&quot;Type&quot;:&quot;COMMAND&quot;,&quot;Topic&quot;:&quot;command/rpc-endpoint.development-756767.9c12c037-c379-43c4-bad9-3dd992cd9ade&quot;,&quot;Timestamp&quot;:&quot;1687353782.30423&quot;,&quot;Id&quot;:&quot;c2005f58-8729-4164-9290-e7c1c3c2ab72&quot;,&quot;Origin&quot;:&quot;rpc-caller.development-763187.9c12c037-c379-43c4-bad9-3dd992cd9ade&quot;},&quot;Body&quot;:{&quot;Command&quot;:&quot;test&quot;,&quot;Parameters&quot;:[]}}&#39;
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="nodes-and-remote-procedure-calls-rpc">
+<h2><span class="section-number">5.4. </span>Nodes and Remote Procedure Calls (RPC)<a class="headerlink" href="#nodes-and-remote-procedure-calls-rpc" title="Permalink to this heading"></a></h2>
+<p>On each Device, there are several <em>nodes</em>. A node is an endpoint of a
+running application, which participates in m2cp-messaging. An
+application can have several endpoints representing features of the
+application. Each endpoint has a globally unique address called
+<em>m2cp-address</em>. Please refer to the <a class="reference internal" href="#m2cp-messaging-protocol">M2CP Messaging
+Specification</a> for
+technical details on addresses.</p>
+<p>To enable m2cp-messaging for an application, please refer to <a class="reference internal" href="Development_Edge.html#edge-device-sdk"><span class="std std-ref">Edge Device SDK</span></a>.</p>
+<section id="node-discovery">
+<h3><span class="section-number">5.4.1. </span>Node discovery<a class="headerlink" href="#node-discovery" title="Permalink to this heading"></a></h3>
+<p>List all nodes running on a Device either by name or by serial:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ m2cp device node list &lt;device-name&gt;
+$ m2cp device node list &lt;device-serial&gt;
+</pre></div>
+</div>
+</section>
+<section id="node-information">
+<h3><span class="section-number">5.4.2. </span>Node information<a class="headerlink" href="#node-information" title="Permalink to this heading"></a></h3>
+<p>Each node is equipped with an auto-documentation command. You can
+retrieve this documentation from a node using: <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">m2cp</span> <span class="pre">device</span> <span class="pre">node</span> <span class="pre">info</span> <span class="pre">&lt;address&gt;</span></code></p>
+<p>This will receive and print a documentation of available rpc-commands
+from that node.</p>
+</section>
+<section id="node-rpc">
+<h3><span class="section-number">5.4.3. </span>Node RPC<a class="headerlink" href="#node-rpc" title="Permalink to this heading"></a></h3>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">m2cp</span></code> for sending RPC messages to nodes. See <code class="docutils literal notranslate"><span class="pre">m2cp</span> <span class="pre">device</span> <span class="pre">node</span> <span class="pre">rpc</span> <span class="pre">--help</span></code>.</p>
+<section id="json-mode">
+<h4>JSON mode<a class="headerlink" href="#json-mode" title="Permalink to this heading"></a></h4>
+<ol class="arabic simple">
+<li><p>Prepare a JSON file (“example.json”) containing the command, e.g.:
+<code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;Command&quot;:</span> <span class="pre">&quot;NodeUptime&quot;,</span> <span class="pre">&quot;Parameters&quot;:</span> <span class="pre">null</span> <span class="pre">}</span></code>
+or
+<code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;Command&quot;:</span> <span class="pre">&quot;GetDeviceSnapdLogs,</span> <span class="pre">&quot;Parameters&quot;:</span> <span class="pre">[{&quot;name&quot;:</span> <span class="pre">&quot;m2cpd&quot;,</span> <span class="pre">&quot;lines&quot;:</span> <span class="pre">&quot;10&quot;}]</span>&#160; <span class="pre">}</span></code>
+(Make sure, that all values are strings: <code class="docutils literal notranslate"><span class="pre">&quot;lines&quot;:</span> <span class="pre">10</span></code> is wrong, <code class="docutils literal notranslate"><span class="pre">&quot;lines&quot;:</span> <span class="pre">&quot;10&quot;</span></code> is correct)</p></li>
+<li><p>find a Device to send the command to
+<code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">m2cp</span> <span class="pre">device</span> <span class="pre">list</span></code></p></li>
+<li><p>find a node on a Device to send the command to
+<code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">m2cp</span> <span class="pre">device</span> <span class="pre">node</span> <span class="pre">list</span> <span class="pre">&lt;device-serial&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">m2cp</span> <span class="pre">device</span> <span class="pre">node</span> <span class="pre">list</span> <span class="pre">&lt;device-name&gt;</span></code></p></li>
+<li><p>Send the command to the Device
+<code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cat</span> <span class="pre">example.json</span> <span class="pre">|</span> <span class="pre">m2cp</span> <span class="pre">device</span> <span class="pre">node</span> <span class="pre">rpc</span> <span class="pre">--stdin</span> <span class="pre">&lt;node-address&gt;</span></code></p></li>
+</ol>
+<p>Here are some elaborated examples of RPC calls:</p>
+<p>Get the online status of a Device:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>+ DEVICE_SERIAL=96e40acf-7854-5dd6-a480-1cddecc9b1e7
+$ echo &#39;{ &quot;Command&quot;: &quot;DeviceOnlineStatus&quot;, &quot;Parameters&quot;: null }&#39; | \
+    m2cp device node rpc --json --stdin rpc.m2cp-gateway.96e40acf-7854-5dd6-a480-1cddecc9b1e7 | \
+    jq
+{
+  &quot;commandId&quot;: &quot;13d563ed-cdf9-4f4a-8740-7dd1f93a60c9&quot;,
+  &quot;responses&quot;: [
+    {
+      &quot;error&quot;: 0,
+      &quot;message&quot;: &quot;success&quot;,
+      &quot;results&quot;: [
+        {
+          &quot;key&quot;: &quot;online&quot;,
+          &quot;value&quot;: &quot;true&quot;
+        }
+      ]
+    }
+  ]
+}
+</pre></div>
+</div>
+<p>Retrieve the IP addresses per interface from a Device:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ echo &#39;{ &quot;Command&quot;: &quot;DeviceInfo&quot;, &quot;Parameters&quot;: null }&#39; | \
+    m2cp device node rpc --json --stdin rpc.m2cp-gateway.96e40acf-7854-5dd6-a480-1cddecc9b1e7 | \
+    jq &#39;.responses[0].results[0].value | fromjson&#39; | \
+    jq .ipaddresses
+{
+  &quot;eth0&quot;: [
+    &quot;192.168.0.17&quot;,
+    &quot;10.0.1.47&quot;,
+    &quot;2001:1438:400c:7720:522d:f4ff:fe2d:6d95&quot;,
+    &quot;fe80::522d:f4ff:fe2d:6d95&quot;
+  ],
+  &quot;lo&quot;: [
+    &quot;127.0.0.1&quot;,
+    &quot;fd00:c0a9:cafe::1&quot;,
+    &quot;::1&quot;
+  ]
+}
+</pre></div>
+</div>
+<p>Retrieve the hardware serial from a Device:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ echo &#39;{ &quot;Command&quot;: &quot;DeviceInfo&quot;, &quot;Parameters&quot;: null }&#39; | \
+    m2cp device node rpc --json --stdin rpc.m2cp-gateway.96e40acf-7854-5dd6-a480-1cddecc9b1e7 | \
+    jq &#39;.responses[0].results[0].value | fromjson&#39; | \
+    jq &#39;.&quot;hardware-serial&quot;&#39;
+&quot;0&quot;
+</pre></div>
+</div>
+</section>
+<section id="controlling-a-state-machine">
+<h4>Controlling a State Machine<a class="headerlink" href="#controlling-a-state-machine" title="Permalink to this heading"></a></h4>
+<p>For convenience, the <code class="docutils literal notranslate"><span class="pre">m2cp</span></code> CLI tool has integrated support to run the
+RPCs of a <a class="reference internal" href="Development_Edge.html#run-existing-software-within-an-m2cp-app-using-the-state-machine"><span class="std std-ref">State Machine</span></a> in a
+simple way from the command line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ m2cp device node statemachine &lt;address&gt; &lt;command&gt; [state]
+</pre></div>
+</div>
+<p>where</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">address</span></code> is the m2cp-address of a statemachine-endpoint
+node. E.g. <code class="docutils literal notranslate"><span class="pre">statemachine.m2cp-statemachine.$DEVICE_SERIAL</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">command</span></code> is one of “state”, “states”, “logs”, “jump”, “trigger”</p></li>
+</ul>
+<section id="commands">
+<h5>Commands<a class="headerlink" href="#commands" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p><strong>state</strong>: query the current state of the state machine</p></li>
+<li><p><strong>states</strong>: query all states of the state machine (returns the full
+configuration file)</p></li>
+<li><p><strong>logs</strong>: query run logs of the state machine</p></li>
+<li><p><strong>jump [state]</strong>: jump to [state] (this forces the state machine to
+abort the current execution and jump to the given state, it then
+continues execution from there)</p></li>
+<li><p><strong>trigger [state]</strong>: if the statemachine is at [state] and currently
+waiting for a user trigger, this command will cause it to continue</p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Tech_Lifecycle_RTD.html" class="btn btn-neutral float-left" title="4. Real Time Device Lifecycle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Glossary.html" class="btn btn-neutral float-right" title="1. Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, ML!PA.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

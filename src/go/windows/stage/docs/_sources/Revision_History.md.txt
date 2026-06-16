@@ -1,0 +1,43 @@
+# Revision History
+
+The following revision history records documentation releases using [Semantic Versioning](https://semver.org/):
+
+
+| Modified on | Modified by                | Reviewed by          | Approved by          | Description                                                                                                                | Version |
+|-------------|----------------------------|----------------------|----------------------|----------------------------------------------------------------------------------------------------------------------------|---------|
+| 12.12.2025  | Jakob Dübel                 | János Brodbeck | János Brodbeck | Add section on Deployment Group Administrators and Co-Administrators                                                                  | 1.12.3 |
+| 11.08.2025  | János Brodbeck              | Jakob Dübel | Jakob Dübel | Add section about SUIT firmware signing keys to cloud installation                                                                          | 1.12.2 |
+| 14.07.2025  | Theodor Rauch              | Florian Metzger-Noel | Florian Metzger-Noel | Correct suit/mani endpoint method                                                                                          | 1.11.2 |
+| 11.07.2025  | Jakob Dübel              | Mohamed Feki | Mohamed Feki | Describe behaviour of the m2cp-statemachine on refresh | 1.11.1 |
+| 07.07.2025  | Jakob Dübel              | János Brodbeck | János Brodbeck | Describe the software release process | 1.10.0 |
+| 11.06.2025  | Mirjam Fecke |Florian Metzger-Noel |Tony Kurz| Gloassary changes & structural changes | 1.9.0 |
+| 28.05.2025  | Florian Metzger-Noel | Janos Brodbeck | Janos Brodbeck       | Described Real Time Device Model management                                                                                | 1.8.1   |
+| 28.05.2025  | Florian Metzger-Noel | Mirjam Fecke         | Mirjam Fecke         | Added details on firmware refresh modernized                                                                               | 1.8.0   |
+| 28.05.2025  | Jakob Dübel                | Mirjam Fecke         | Mirjam Fecke         | Added guidance for DATA flow debugging in Chapter 4.2                                                                      | 1.7.7   |
+| 27.05.2025   | Theodor Rauch              | Florian Metzger-Noel | Florian Metzger-Noel | Rename suit endpoints to fit the naming convention; updated naming in the text                                             | 1.7.6   |
+| 22.05.2025  | Niels Thiele               | Mirjam Fecke         | Mirjam Fecke         | Added instructions for infrastructure via terraform                                                                        | 1.7.4   |
+| 22.05.2025  | Niels Thiele               | Mirjam Fecke         | Mirjam Fecke         | Updated resource to infrastructure mapping                                                                                 | 1.7.3   |
+| 21.05.2025  | Florian Metzger-Noel       | Mirjam Fecke         | Mirjam Fecke         | Refined description of installation process on Edge Devices                                                                | 1.7.2   |
+| 21.05.2025  | Florian Metzger-Noel       | Mirjam Fecke         | Mirjam Fecke         | Refined description of installation process on Edge Devices                                                                | 1.7.0   |
+| 15.05.2025  | Jakob Dübel                | Mirjam Fecke         | Mirjam Fecke         | Modified technical specifications on provisioning of Edge Device                                                           | 1.6.4   |
+| 15.05.2025  | Mirjam Fecke               | Florian Metzger-Noel | Florian Metzger-Noel | Terminology changes and tiny additions to the documentation                                                                | 1.6.3   |
+| 12.05.2025  | Mirjam Fecke               | Florian Metzger-Noel | Florian Metzger-Noel | Terminology changes; updated overviews in introduction chapters                                                            | 1.6.2   |
+| 08.05.2025  | Florian Metzger-Noel       | Mirjam Fecke         | Mirjam Fecke         | Terminology changes in the Technical Specifications                                                                        | 1.6.1   |
+| 07.05.2025  | Mirjam Fecke               | Florian Metzger-Noel | Florian Metzger-Noel | Replaced glossary and left old one as legacy glossary                                                                      | 1.5.0   |
+| 06.05.2025  | Mirjam Fecke               | Florian Metzger-Noel | Florian Metzger-Noel | structural change and added info to techn. details of device boot                                                          | 1.4.0   |
+| 05.05.2025  | Theodor Rauch              | Florian Metzger-Noel | Florian Metzger-Noel | CHanged endpoint for transmitting firmware packages                                                                        | 1.3.10  |
+| 29.04.2025  | Florian Metzger-Noel       | Mirjam Fecke         | Mirjam Fecke         | Added technical details on how a reverse ssh session is created; tiny changes and additional PR by MF due to pipeline fail | 1.3.9   |
+| 28.04.2025  | Mirjam Fecke               | Florian Metzger-Noel | Florian Metzger-Noel | Fixed links and made tiny layout changes                                                                                   | 1.3.8   |
+| 23.04.2025  | Theodor Rauch              | Florian Metzger-Noel | Florian Metzger-Noel | Added information on how to package firmware updates                                                                       | 1.3.7   |
+| 23.04.2025  | Theodor Rauch              | Florian Metzger-Noel | Florian Metzger-Noel | Incorporated suggestions for the firmware update process                                                                   | 1.3.6   |
+| 14.04.2025  | Mirjam Fecke               | Jakob Dübel          | Jakob Dübel          | Additions to edge device provisioning technical specifications                                                             | 1.3.5   |
+| 09.04.2025  | Mirjam Fecke               | Florian Metzger-Noel | Florian Metzger-Noel | Corrected code examples of logging best practice                                                                           | 1.3.4.  |
+| 09.04.2025  | Niels Thiele               | Mirjam Fecke         | Mirjam Fecke         | Updated and clarified deployment instructions for bicep                                                                    | 1.3.3.  |
+| 07.04.2025  | Theodor Rauch              | Florian Metzger-Noel | Florian Metzger-Noel | Added information on the new firmware package format                                                                       | 1.3.2   |
+| 07.04.2025  | Theodor Rauch              | Mirjam Fecke         | Mirjam Fecke         | Clarifications on content of RTD Model                                                                                     | 1.3.1   |
+| 07.04.2025  | Mirjam Fecke               | Florian Metzger-Noel | Florian Metzger-Noel | Added integration of Logging into M2CP Applications                                                                        | 1.3.0   |
+| 02.04.2025  | Theodor Rauch              | Mirjam Fecke         | Mirjam Fecke         | Clarifications of new fw update endpoints                                                                                  | 1.2.1   |
+| 02.04.2025  | Mirjam Fecke               | Florian Metzger-Noel | Florian Metzger-Noel | Added provisioning instructions for externally produced devices                                                            | 1.2.0   |
+| 02.04.2025  | Mirjam Fecke               | Florian Metzger-Noel | Florian Metzger-Noel | Added simsensor details                                                                                                    | 1.1.1.  |
+| 31.03.2025  | Mirjam Fecke               | Florian Metzger-Noel | Florian Metzger-Noel | Removed user logout instructions                                                                                           | 1.0.35  |
+| 31.03.2025  | Mirjam Fecke               | Florian Metzger-Noel | Florian Metzger-Noel | Initial document version                                                                                                   | 1.0.33  |

@@ -1,0 +1,105 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/27.0.9 Chrome/134.0.6998.205 Electron/35.4.0 Safari/537.36" version="27.0.9">
+  <diagram name="Page-1" id="mbZDZo6VWEeQU33OTECa">
+    <mxGraphModel dx="706" dy="1681" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-1" value="Edge Device" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="200" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;dashed=1;dashPattern=1 2;endArrow=none;endFill=0;" parent="1" source="tIAxWrpB7dYUYRDo8Sug-2" target="tIAxWrpB7dYUYRDo8Sug-15" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-2" value="Appstore" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="480" y="200" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=1 2;endArrow=none;endFill=0;" parent="1" source="tIAxWrpB7dYUYRDo8Sug-3" target="tIAxWrpB7dYUYRDo8Sug-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-3" value="snapd" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="200" y="240" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;dashed=1;dashPattern=1 2;endArrow=none;endFill=0;" parent="1" source="tIAxWrpB7dYUYRDo8Sug-4" target="tIAxWrpB7dYUYRDo8Sug-19" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-4" value="EMMC" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="320" y="240" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-5" value="&lt;b&gt;Update Triggers:&lt;br&gt;&lt;/b&gt;&lt;br&gt;&lt;strong style=&quot;background-color: initial;&quot; data-end=&quot;75&quot; data-start=&quot;60&quot;&gt;Device Boot:&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Every time the device starts up, it automatically requests an update (refresh).&lt;br&gt;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot; data-end=&quot;183&quot; data-start=&quot;163&quot;&gt;&lt;br&gt;&lt;b&gt;24-Hour Interval:&lt;/b&gt;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;If the device remains powered on, it will check for updates every 24 hours.&amp;nbsp;&lt;br&gt;&lt;/span&gt;&lt;strong style=&quot;background-color: initial;&quot; data-end=&quot;287&quot; data-start=&quot;267&quot;&gt;&lt;br&gt;Appstore Trigger:&lt;/strong&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;When a change is made to the installation state of an app in the Appstore (e.g., an app is installed, updated, or removed), affected devices receive an immediate update request. This happens through an &lt;/span&gt;&lt;strong style=&quot;background-color: initial;&quot; data-end=&quot;504&quot; data-start=&quot;492&quot;&gt;RPC call&lt;/strong&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; from the Appstore to the &lt;/span&gt;&lt;code style=&quot;background-color: initial;&quot; data-is-only-node=&quot;&quot; data-end=&quot;544&quot; data-start=&quot;530&quot;&gt;m2cp-gateway&lt;/code&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;, which then triggers &lt;/span&gt;&lt;code style=&quot;background-color: initial;&quot; data-end=&quot;573&quot; data-start=&quot;566&quot;&gt;snapd&lt;/code&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; to refresh.&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="120" y="40" width="670" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.95;exitY=0.86;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitPerimeter=0;" parent="1" source="tIAxWrpB7dYUYRDo8Sug-6" target="tIAxWrpB7dYUYRDo8Sug-19" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-21" value="install package" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="tIAxWrpB7dYUYRDo8Sug-20" vertex="1" connectable="0">
+          <mxGeometry x="0.0424" y="1" relative="1" as="geometry">
+            <mxPoint y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-6" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="210" y="310" width="20" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-7" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="550" y="310" width="20" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1.017;entryY=0.14;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=8 8;" parent="1" source="tIAxWrpB7dYUYRDo8Sug-7" target="tIAxWrpB7dYUYRDo8Sug-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-11" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="550" y="390" width="20" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1.25;exitY=0.037;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitPerimeter=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="235" y="400" as="sourcePoint" />
+            <mxPoint x="550" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-13" value="download" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="tIAxWrpB7dYUYRDo8Sug-12" vertex="1" connectable="0">
+          <mxGeometry x="-0.0165" y="-1" relative="1" as="geometry">
+            <mxPoint x="-1" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.883;entryY=0.109;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=8 8;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="551" y="435" as="sourcePoint" />
+            <mxPoint x="229" y="435" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-15" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="550" y="470" width="20" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1.25;exitY=0.037;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitPerimeter=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="235" y="490" as="sourcePoint" />
+            <mxPoint x="550" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-17" value="checking SHA-384 against revision assertion" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="tIAxWrpB7dYUYRDo8Sug-16" vertex="1" connectable="0">
+          <mxGeometry x="-0.0165" y="-1" relative="1" as="geometry">
+            <mxPoint x="-1" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.883;entryY=0.109;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=8 8;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="520" as="sourcePoint" />
+            <mxPoint x="228" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-19" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="330" y="570" width="20" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1.25;exitY=0.037;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitPerimeter=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="235" y="320" as="sourcePoint" />
+            <mxPoint x="550" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tIAxWrpB7dYUYRDo8Sug-23" value="request update (&quot;refresh&quot;)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="tIAxWrpB7dYUYRDo8Sug-22" vertex="1" connectable="0">
+          <mxGeometry x="-0.0165" y="-1" relative="1" as="geometry">
+            <mxPoint x="-1" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

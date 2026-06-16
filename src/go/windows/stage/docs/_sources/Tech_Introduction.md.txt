@@ -1,0 +1,19 @@
+# Introduction
+The architecture of L-IoT is designed to be vertically integrated, modular, customizable, and agnostic. It encompasses all layers from hardware to software, does not rely on external services, and allows each component to be selected and configured based on specific needs. The system is flexible, enabling users to adjust and tailor it to their requirements, and can operate across various environments without being tied to specific vendors or ecosystems.
+
+The following sections will detail the following:
+
+- [Section 2: System Components](Tech_Architecture.md)
+  This section provides an overview of the L-IoT system architecture, describing its various components, their functions, and how they interact with each other.
+
+- [Section 3: M2CP Messaging System](Tech_Messaging.md)
+  This subsection details the creation, transmission, and transformation of messages within the system.
+
+- [Section 4: Edge Device Lifecycle](Tech_Lifecycle_ED.md)
+  This section provides comprehensive information on Edge Devices, including their setup, system integration, and update processes.
+
+- [Section 5: Real-Time Device Lifecycle](Tech_Lifecycle_RTD.md)
+  This section offers in-depth insights into real-time Devices and their firmware update procedures.
+
+- [Section 6: Power Management](Networking.md#power-management)
+  This section explains how power consumption is managed within the ecosystem.

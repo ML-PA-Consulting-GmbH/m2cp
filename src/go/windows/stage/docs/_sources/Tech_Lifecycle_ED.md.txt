@@ -1,0 +1,252 @@
+# Edge Device Lifecycle
+
+## Building an OS Image
+
+<a id="image_building"></a>
+```{drawio-image} /_static/drawio/m2cp_image_building.drawio
+:name: image_building
+:alt: Building an OS Image
+:width: 100%
+:align: center
+:transparency: "true"
+:page-index: 0
+:export-scale: 100
+```
+
+
+## Initial Provisioning of an Edge Device & OS Installation
+
+
+```{note}
+This section describes the new provisioning process, which will be rolled out starting in Q2/2025.
+```
+
+After producing s a new Edge Device, it needs to undergo an initial provisioning process and receive its first Edge OS installation.
+The installation binds the Edge Device to a specific L-IoT Instance (i.e. a specific Backend instance).
+The provisioning process can be repeated to install a new copy of the Edge OS instance onto a device.
+
+The process is rather complex and should therefor be automized. ML!PA provides an _Installation Server_ software
+and a best practice for a hardware setup, which can be adapted by customers to their individual needs. The source repository of
+the _Installation Server_ contains all the technical details required to adapt and customize the process.
+
+
+```{drawio-image} /_static/drawio/m2cp_os_installation.drawio
+:name: provisioning_station
+:alt: Setting up a Provisioning Station
+:width: 100%
+:align: center
+:transparency: "true"
+:page-index: 1
+:export-scale: 100
+```
+
+The Raspberry Pi is configured as a **firewall and gateway** between the intranet and an isolated installation network. This setup ensures that **Edge Devices** and **Real Time Devices** remain isolated from the intranet and internet during provisioning. Such isolation is essential to avoid interference during the automatic hardware discovery phase, which could otherwise detect and interact with unrelated devices.
+
+The Raspberry Pi is equipped with two Ethernet interfaces:
+
+- **`office` interface**: Connected to the corporate intranet. This interface provides internet access and routes outbound traffic for provisioning purposes.
+- **`install` interface**: Assigned the static IP address `192.168.3.10`. It serves as the entry point for devices undergoing provisioning. This interface is isolated and shielded from external networks by default.
+
+**Network forwarding and NAT** are enabled on the Pi to allow outbound communication from the installation network while blocking unsolicited inbound connections from the intranet to the installation segment. This ensures a controlled and predictable provisioning environment.
+
+The Raspberry Pi runs the **Installation Server software**, which exposes a dashboard for configuring the installation process. It connects to a remote **images archive server**, which maintains an archive of installation images. This archive exposes a simple JSON API with two endpoints:
+
+- A list of available images.
+- Detailed metadata for a specific image.
+
+The images archive server is provided by the customer, typically as an adapter to their existing infrastructure.
+
+For more details, please look into the Installation Server source code.
+
+<a id="os_installation"></a>
+```{drawio-image} /_static/drawio/m2cp_os_installation.drawio
+:name: os_installation
+:alt: Installing the Operation System on the Device
+:width: 100%
+:align: center
+:transparency: "true"
+:page-index: 0
+:export-scale: 100
+```
+
+**The Installation Process**
+
+1. The *Edge Device* (ED) is mounted on a breakout board, which is connected to an automated provisioning station.
+1. The *ED* boots up a tiny Linux system (the *installer*) from a SD-card.
+1. The *installer* fetches the latest installation script from the provisioning station.
+1. The *installer* runs the script to perform the following actions:
+    1. The *installer* fetches the contents of the EEPROM, which includes at least the Hardware Serial Number and the Hardware Model.
+    1. The *installer* generates the persistent Asset Attestation Key pair in the TPM.
+    1. The *installer* secures the TPM with ad-hoc randomized maximum entropy passwords.
+1. The *installer* discovers Real Time Devices (RTDs) on the isolated installation network:
+    1. Sends a multicast CoAP `GET coap://[ff02::1]/whoami/2` to collect **RTD Details**.
+    1. Additionally calls the legacy `GET coap://[ff02::1]/whoami/1` for backwards compatibility.
+1. The *installer* sends ED info (TPM pub key, hw serial) and RTDs info (board names, hw serials) it to the provisioning station.
+1. The *provisioning station* registers the ED and the RTDs with the Asset Service in the Backend
+    1. A master asset is created
+    1. An asset for the ED is created with its hw-serial and TPM pub key
+    1. An asset is created for each RTD with their hw-serials and device details
+    1. The EDs asset and the RTDs assets are attached as children to the master asset
+1. The *provisioning station* retrieves the matching OS image URL for the given ED hardware and customer Backend.
+1. The *installer* downloads and copies the OS image to the eMMC of the ED.
+1. The *installer* notifies the provisioning station that the image flashing was successful.
+1. The provisioning station initiates a reboot of the Device and sets the boot order to the EMMC.
+1. The Device boots up, the OS starts and runs its first-time setup. This includes the registration of the Device with the customer Appstore.
+
+## Registration of an Edge Device with the Appstore
+
+```{note}
+This section describes the new registration process, which will be rolled out starting in Q2/2025.
+```
+
+When a Device boots up for the first time, it starts the first-time setup routines of the OS, registering it with the customer Appstore,
+assigning a serial number, syncing software updates, and setting up the Device for operation.
+
+<a id="first_boot"></a>
+```{drawio-image} /_static/drawio/m2cp_first_boot.drawio
+:name: first_boot
+:alt: Booting the Device for the first time
+:width: 100%
+:align: center
+:transparency: "true"
+:page-index: 0
+:export-scale: 100
+```
+
+### Terminology:
+- *snapd*: The package manager of Edge OS
+- *model assertion*: A certificate with the build type and model information of the Device, signed by the Appstore. This is generated by a ML!PA developer before building the OS image. It is signed by the Appstore and baked into the OS image.
+- *serial assertion*: A certificate with the serial number of the Device, signed by the Appstore. This is produced by the Appstore during the first startup of the Device and then stored on the Device.
+
+1. The Device boots up and starts the first-time setup routine.
+1. Snapd starts for the first time and finds no *serial assertion* in the system yet. It contacts the Appstore to get one, sending the *model assertion* and the public key of the Device, signing the request with the private key stored in the TPM.
+1. The Appstore verifies the request signature. If invalid, the process is aborted here.
+1. The Appstore verifies that the submitted public key is registered with the Asset Service. If not, the process is aborted here.
+1. The Appstore verifies the *model assertion*. If invalid, the process is aborted here.
+1. The Appstore creates a *serial assertion* for the Device and sends
+   it back to the Device, signing it with the Appstore's private
+   key. The serial assertion contains the [OS Serial
+   Number](Glossary.md#os-serial-number). Its calculation is described
+   in detail in the [Glossary](Glossary.md#os-serial-number) as well.
+1. The Device verifies the *serial assertion* by checking the signature with the Appstore's public key, which is baked into the OS image.
+1. The Device stores the *serial assertion* on the EMMC, in a location that is only accessible to snapd and the OS.
+1. snapd now has a valid *serial assertion*, which allows it to login to the Appstore and fetch software updates for the Device.
+
+## Authorization of an Edge Device
+
+When a Device is registered with the Appstore, it can login to the Appstore and fetch software updates and configuration data.
+
+<a id="regular_boot"></a>
+```{drawio-image} /_static/drawio/m2cp_regular_boot.drawio
+:name: regular_boot
+:alt: Booting Registered Device
+:width: 100%
+:align: center
+:transparency: "true"
+:page-index: 0
+:export-scale: 100
+```
+
+1. snapd starts and finds a valid *serial assertion* on the Device (if not, it will execute the registration process).
+1. snapd sends the *serial assertion* to the Appstore, signing the request with the private key stored in the TPM, and asks for a session token.
+1. The Appstore returns a nonce to be signed by the Device.
+1. snapd returns the signed nonce.
+1. The Appstore verifies the signed nonce and returns a session token - snapd is not authenticated with the Appstore
+1. snapd asks for software updates and downloads and installs them from the Appstore.
+
+The time it takes for a Device to begin messaging after booting depends on the number and size of the installed applications. To establish a benchmark, we measured the startup time of a board configured with only the essential and a few development applications (m2cp-gateway, m2cp-message-hub, m2cp-coap, dev-m2cpctl, dev-net-coap, dev-simsensor, ..) required for basic usage of the Device. The following times were recorded:
+
+|Timestamp | Event |
+|----------|-------|
+|0:00 | Bootloader (U-Boot)|
+|0:13 | Kernel starts|
+|0:48 | Linux login prompt|
+|0:57 | Device logged into Appstore|
+|1:03 | Device started messaging|
+
+## Software Update
+
+Every time a Device boots up, it automatically requests an update (this process is called a "refresh").
+If the Device remains powered on, it will continue to check for updates every 24 hours.
+If a user or system administrator changes the installation state of an app in the Appstore (e.g., installs, removes, or updates an app), affected Devices are notified to update immediately. This happens through a Remote Procedure Call (RPC) from the Appstore to the `m2cp-gateway`, which then signals `snapd` (the package manager for snaps) to perform an update request.
+
+<a id="software_update"></a>
+```{drawio-image} /_static/drawio/software_update.drawio
+:name: software_update
+:alt: Software Update
+:width: 100%
+:align: center
+:transparency: "true"
+:page-index: 0
+:export-scale: 100
+```
+
+When an update is available, `snapd` downloads the new version of the M2CP App package. Each download URL in the refresh call response of the App Store Service includes a unique SAS token for Azure Blob Storage, generated per refresh request, per device, and per blob. The token is valid for one hour with read-only access.
+Before installation, `snapd` verifies the integrity of the downloaded file by checking its SHA-384 checksum against the checksum stored in the revision assertion (a security document provided by the Appstore). The revision assertion itself is signed by the Appstore, ensuring its authenticity.
+Once verified, `snapd` installs the new M2CP App package.
+However, application integrity is only checked during installation—not every time the app is launched. This means that if someone with root access modifies an installed snap, the system won’t detect the tampering unless the snap is reinstalled or updated.
+
+## Establishing the Messaging Uplink
+
+<a id="uplink_backend"></a>
+```{drawio-image} /_static/drawio/m2cp_uplink_backend.drawio
+:name: uplink_backend
+:alt: Establishing Messaging Uplink to the Backend
+:width: 100%
+:align: center
+:transparency: "true"
+:page-index: 0
+:export-scale: 100
+```
+
+1. The App *m2cp-gateway* checks, if it has a valid connection string to the ML!PA data backend. If so, it will use it to establish a connection.
+1. A background process connects to snapd using the local snapd API and checks, if snapd is authenticated with the Appstore. If not, it will keep trying until it is.
+1. The *m2cp-gateway* sends a request to the App Store Service via the local snapd API and asks for a connection string for the SignalR/websocket uplink to the ML!PA data backend. The _connection string_ contains the URL of the cloud endpoint to connect to and a short lived session token for the specific Edge Device.
+1. The Appstore checks, if the Device is authorized (by checking the session token) and returns the connection string for the specific Device (valid until renewed by Backend).
+1. If a SignalR/websocket uplink is not available at the App Store Service (due to this technology not being activated) an _Azure IoT Hub_ connection string is requested.
+1. The Appstore checks, if the Device is authorized (by checking the session token) and returns a connection string for the specific Device (valid for 24 hours).
+1. If none of the above connection strings was successfully fetched, the process is aborted and later retried.
+1. The connection string is persisted the connection string in a configuration file and signals a configuration change to the messaging uplink component.
+1. The messaging uplink component reads the connection string from the configuration file and establishes a connection to the selected uplink endpoint in the Backend.
+
+## Re-Installation of the OS
+
+Re-installation of the OS at a later point in time is unproblematic, if the Device is still bound to the same customer Appstore:
+
+<a id="reinstalling_m2cp_os"></a>
+```{drawio-image} /_static/drawio/reinstalling_m2cp_os.drawio
+:name: reinstalling_m2cp_os
+:alt: Re-Installation of the OS
+:width: 100%
+:align: center
+:transparency: "true"
+:page-index: 0
+:export-scale: 100
+```
+
+1. Boot the Device from an SD card containing an OS installer.
+1. The OS installer will flash the OS image to the EMMC.
+1. Boot the Device from the EMMC.
+1. The Device will start the first-time setup routine and re-register with the Appstore. Since the Device is already known to the Appstore and since the TPM keys didn't change, the Device will be recognized and continue to work as before.
+
+## Re-Registration with a different Appstore
+
+If the Device is to be bound to a different customer Appstore, a new OS image bound to that Appstore must be installed.
+The public key of the Device needs to be registered with that Appstore before the Device receives its OS installation.
+
+<a id="reregistration_different_appstore"></a>
+```{drawio-image} /_static/drawio/reregistration_different_appstore.drawio
+:name: reregistration_different_appstore
+:alt: Re-Registration with a different Appstore
+:width: 100%
+:align: center
+:transparency: "true"
+:page-index: 0
+:export-scale: 100
+```
+
+1. Query the public key from the Device from the current Appstore and register it with the new Appstore. This requires a privileged administrator account at the current Appstore.
+1. Boot the Device from an SD card containing an OS installer with an image for the new Appstore.
+1. The OS installer will flash the OS image to the EMMC.
+1. Boot the Device from the EMMC.
+1. The Device will start the first-time setup routine and register with the new Appstore as described above in the registration section.

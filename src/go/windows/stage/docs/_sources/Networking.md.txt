@@ -1,0 +1,222 @@
+# CoAP and Networking
+
+Edge Devices and Real Time Devices communicate via CoAP. This chapter gives some insights on the IP-Addresses and Endpoints used. 
+
+As this communication is highly project specific by nature, we can only give a brief overview of basic functionality. Individual 
+projects extend or diverge from these details.
+
+## LAN Addresses
+
+Examples for typical fixed addresses in a M2CP setup:
+
+| Node                | Address            | Comment                     |
+|---------------------|--------------------|-----------------------------|
+| PMIC                | fe80::df7:2023:1:1 | Power Management            |
+| M2CP SoM            | fe80::df7:2023:1:2 | Linux System                |
+| Power Board         | fe80::df7:2023:1:3 | Power Board                 |
+| Communication Board | fe80::df7:2023:1:4 | Modem                       |
+| Sensor Board        | fe80::df7:2023:1:5 |                             |
+
+Depending on the use case, additional modules might exist or some modules might be missing.
+
+## Contacting Modules
+
+To talk to CoAP endpoints, you need to be in the same LAN as the CoAP nodes. This can be achieved by e.g.:
+
+- Using Reverse-SSH to shell into a M2CP-OS device and running a CoAP client from there
+- Directly connecting to the LAN using a cable connection with the switch
+
+Once connected, any CoAP client can be used for calling the available endpoints. We'll use `coap-client` in the
+following examples.
+
+Example CoAP call:
+
+```bash
+$ coap-client -m GET 'coap://[fe80::df7:2023:1:1%eth1]/whoami/1'
+{"sn":1234,"board":"mlpa_control","app":"mlpa_control_pmic","app_ver":"0","app_rev":0}
+```
+
+## Common CoAP endpoints
+
+Here's a list of some of the most common and useful CoAP endpoints. For a full list with detailed specifications
+of each endpoint, please refer to the document "M2CP Protocol".
+
+### /whoami/1
+
+Each coap client is supposed to implement this endpoint, which shall deliver a self-description of the node.
+
+Example:
+
+```bash
+$ coap-client -m GET 'coap://[fe80::df7:2023:1:1%eth1]/whoami/1'
+{"sn":1234,"board":"mlpa_control","app":"mlpa_control_pmic","app_ver":"0","app_rev":0}
+```
+
+With PUT, the same endpoint can be used to write the [Hardware Serial
+Number](Glossary.md#hardware-serial-number) of a [Edge
+Device](Glossary.md#edge-device). The PUT operation can be performed
+only once -- the device will store the assigned serial and not allow
+any changes afterward.
+
+The serial is supposed to be sent in the body of a PUT call to
+`/whoami/1`. The serial, which is a 16-bit unsigned integer, must be
+encoded in little endian and base64 without padding.
+
+For example: The Hardware Serial Number `8667` is encoded as `2yE`, as
+you can calculate yourself with this Python snippet:
+
+```python3
+>>> import struct
+>>> import base64
+>>> hardware_serial = 8667
+>>> base64.b64encode(struct.pack('<H', hardware_serial)).decode().rstrip('=')
+'2yE'
+```
+
+To translate from encoded value to integer, you may do:
+
+```python3
+>>> import struct
+>>> import base64
+>>> encoded_serial = '2yE'
+>>> struct.unpack('<H', base64.b64decode(encoded_serial + '=' * (-len(encoded_serial) % 4)))[0]
+8667
+```
+
+
+### /uptime/1
+
+Returns the number of seconds the node is running as string encoded integer.
+
+
+## Power Management
+Power management is optional and requires a dedicated power management
+MCU. The aim is to reduce power consumption by keeping the Linux
+system in the power-off state as much as possible. At the time the
+Linux system is required, the power management unit (PMU, which can be
+any peripheral MCU) will start it up. The PMU will notify about the
+granted uptime and it will cut the power, once the time is up.
+
+### m2cp-coap's part in power management
+
+The software that is responsible for managing uptime and initiating
+the Linux system shutdown in time, before the PMU cuts the power, is
+`m2cp-coap`.
+
+By default, `m2cp-coap` will do nothing until a PMU introduces itself
+by sending a CoAP message to the `/notify/poweroff/1` endpoint.
+
+Every received `/notify/poweroff/1` call will update the known address
+of the PMU and the event of receiving the notification can be traced
+in the logs of `m2cp-coap` as:
+
+```console
+$ sudo m2cp logs -f m2cp-coap
+...setting power-board address to [...]
+```
+
+Once introduced, the PMU is expected to periodically send
+`/notify/poweroff/1` notification with the amount of granted uptime
+left in seconds. At zero seconds the power will be cut. Currently, the
+notification is sent every 10 seconds, but the period could vary.
+
+For illustration, the notification of 60 seconds of uptime left could
+be injected manually by:
+
+```console
+$ coap-client -m POST "coap://[fe80::df7:2023:1:2%eth0]/notify/poweroff/1?seconds=60"
+```
+
+where `fe80::df7:2023:1:2` is the link-local address of the Linux
+system and `eth0` is the network interface that is used.
+
+`m2cp-coap` receives this amount of uptime and compares it to its list
+of uptime requirements. `m2cp-coap` maintains a minimum uptime for
+itself and also collects uptime requests from other apps or users. If
+the granted uptime is smaller than the maximum requested uptime plus
+the expected time for a safe shutdown, then `m2cp-coap` will request
+more uptime at the PMU. If the PMU does not grant the requested amount
+of uptime and the notified amount gets below the threshold of the
+shutdown duration, `m2cp-coap` will initiate a shutdown of the Linux
+system. Currently the shutdown time is 50 seconds, but no application
+must depend on it.
+
+The minimum amount of system uptime is currently 6 minutes. The value
+is persisted in `m2cp-coap`'s `$SNAP_COMMON/power-manager.yaml` as
+`uptime-minimum`:
+
+```console
+$ cat /var/snap/m2cp-coap/common/power-manager.yaml
+uptime-minimum: 360
+```
+
+
+### App's uptime requests
+
+App can request uptime at `m2cp-coap` by using the
+`/request_uptime/1` endpoint. It has to be a PUT request with the
+arguments `app` and `seconds`. For example, to request 300 seconds of
+uptime for the App "example", the request equals:
+
+```console
+$ coap-client -m PUT "coap://[fe80::df7:2023:1:2%eth0]/request_uptime/1?app=example&seconds=300"
+```
+
+The maximum amount that can be requested is limited to 1000 seconds by
+`m2cp-coap`. For conveinience, the SDK provides a function to request
+uptime as described in [Requesting App
+Runtime](Development_Edge.md#requesting-application-runtime).
+
+
+### getUptimeRequests RPC
+
+`m2cp-coap` provides the `getUptimeRequests` RPC, which will answer
+with a list of who requested which amount of uptime:
+
+```
+$ m2cp device node rpc -c getUptimeRequests rpc.m2cp-coap.49eb343c-31f0-5b8d-98a9-b53c21aadac1 --json |\
+  jq '.output.response.responses[0].results[0].value | fromjson'
+{
+  "m2cp-gateway_ConfigRefresher": {
+    "RequireUptimeUntil": "2024-11-07T14:15:42.383550671Z",
+    "RequireUptimeSeconds": -50.609242449999996
+  },
+  "m2cp-gateway_DeviceKeyHandler": {
+    "RequireUptimeUntil": "2024-11-07T14:15:42.386935745Z",
+    "RequireUptimeSeconds": -50.605856502
+  },
+  "m2cp-gateway_SnapRefresher": {
+    "RequireUptimeUntil": "2024-11-07T14:15:45.393435002Z",
+    "RequireUptimeSeconds": -47.599355371
+  },
+  "m2cp-gateway_UserRefresher": {
+    "RequireUptimeUntil": "2024-11-07T14:15:45.390217057Z",
+    "RequireUptimeSeconds": -47.602574565
+  },
+  "uptime-mgr": {
+    "RequireUptimeUntil": "2024-11-07T13:47:08.650916832Z",
+    "RequireUptimeSeconds": 281.359757326
+  }
+}
+```
+
+A negative amount of `RequireUptimeSeconds` means "the requested
+amount has has expired" since that absolute amount of seconds. This
+way it is possible to trace that some App requested uptime in
+the past. `uptime-mgr` is the label for the amount of minimum uptime
+that is requested by `m2cp-coap` itself.
+
+
+### dev-m2cpctl integration
+
+Also the `dev-m2cpctl` app contains the `m2cpctl` binary that can be
+used to request or set the uptime on a Device in a convenient way:
+
+```
+$ sudo dev-m2cpctl.m2cpctl uptime list
+uptimerequests:
+    m2cp-cli_: 987
+    uptime-mgr: 159
+
+$ sudo dev-m2cpctl.m2cpctl uptime request 1000
+```

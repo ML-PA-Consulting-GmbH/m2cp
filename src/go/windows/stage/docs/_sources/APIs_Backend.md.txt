@@ -1,0 +1,13 @@
+# Backend APIs
+Detailed documentation of the REST API that offers a flexible, query-based access to all information can be found in seperate html documents.
+
+## User Service
+
+API documentation for [User Service](./_static/apidocs/user-api-doc.html)
+
+
+API documentation for [Asset Service](./_static/apidocs/asset-api-doc.html) 
+
+## App Store Service
+
+General API documentation for [App Store Service](./_static/apidocs/appstore-api-doc.html).

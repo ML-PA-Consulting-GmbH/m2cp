@@ -1,0 +1,71 @@
+.. Comment.  You can adapt this file completely to your liking, but it
+   should at least contain the root `toctree` directive.
+
+L-IoT Documentation
+====================
+
+Introducing *L-IoT* by *ML!PA*, a full
+ecosystem for cloud connected embedded devices. Our purpose-built
+embedded hardware, Linux operating system and SDK make it simple to
+build vertically integrated systems connecting existing infrastructure
+to the cloud.
+
+
+.. toctree::
+   :caption: User Manual
+   :maxdepth: 3
+   :numbered: 3
+
+   Introduction.md
+   Installation_Tools.md
+   Installation_Backend.md
+   Installation_Device.md
+   Management_User.md
+   Management_Asset.md
+   Management_Software.md
+   Management_Device.md
+
+.. toctree::
+   :caption: Developer Manual
+   :maxdepth: 3
+   :numbered: 3
+
+   Development_Edge.md
+   Virtual_Devices.md
+   Development_RTD.md
+   Networking.md
+   Messages.md
+   APIs_Backend.md
+
+.. toctree::
+   :caption: Technical Specification
+   :maxdepth: 3
+   :numbered: 3
+
+   Tech_Introduction.md
+   Tech_Architecture.md
+   Tech_Lifecycle_ED.md
+   Tech_Lifecycle_RTD.md
+   Tech_Messaging.md
+
+.. toctree::
+   :caption: Glossary
+   :maxdepth: 3
+   :numbered: 3
+
+   Glossary.md
+   Legacy_Glossary.md
+
+
+.. toctree::
+   :caption: Revision History
+   :maxdepth: 3
+   :numbered: 3
+
+   Revision_History.md
+
+
+.. toctree::
+   :hidden:
+
+   code/examples/golang/00-installing go sdk/README.md
