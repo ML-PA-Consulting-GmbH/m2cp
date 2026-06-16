@@ -64,16 +64,19 @@ func GetSystemById(ctx context.Context, id string) (*structs.Asset, error) {
 				AssetModelTypeCategory: formatAssetTypeCategory(child.AssetModel.AssetType.AssetTypeCategory),
 				AssetModelTypeName:     child.AssetModel.AssetType.AssetTypeName,
 			}
-			if child.DeviceId != nil && component.Device == nil {
-				component.Device = &structs.Device{
-					DeviceId: *child.DeviceId,
+			if child.DeviceId != nil || child.Device != nil || child.AttestationKey != nil {
+				if component.Device == nil {
+					component.Device = &structs.Device{}
 				}
-			}
-			if child.Device != nil {
-				component.Device.DeviceSerial = child.Device.SerialNumber
-			}
-			if child.AttestationKey != nil {
-				component.Device.DeviceAttestationKey = child.AttestationKey
+				if child.DeviceId != nil {
+					component.Device.DeviceId = *child.DeviceId
+				}
+				if child.Device != nil {
+					component.Device.DeviceSerial = child.Device.SerialNumber
+				}
+				if child.AttestationKey != nil {
+					component.Device.DeviceAttestationKey = child.AttestationKey
+				}
 			}
 			system.Components = append(system.Components, component)
 
