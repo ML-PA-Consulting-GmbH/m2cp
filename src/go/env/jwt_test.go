@@ -18,6 +18,18 @@ func TestJsonWebToken_IsValid(t *testing.T) {
 	assert.False(t, jwt.IsValid())
 }
 
+func TestDecodeJwtClaims_MalformedToken(t *testing.T) {
+	defer goleak.VerifyNone(t)
+
+	claims, err := DecodeJwtClaims("not-a-jwt")
+	assert.Error(t, err)
+	assert.Nil(t, claims)
+
+	claims, err = DecodeJwtClaims("")
+	assert.Error(t, err)
+	assert.Nil(t, claims)
+}
+
 func TestJsonWebToken_EmptyStringIsValid(t *testing.T) {
 	var err error
 	defer goleak.VerifyNone(t)

@@ -24,7 +24,25 @@ type sessionResponse struct {
 }
 
 type tokenResponse struct {
+	// JwtToken is used by legacy (non-external-provider) flows.
 	JwtToken string `json:"jwtToken"`
+	// BearerToken is the field used by Auth0-backed deployments.
+	BearerToken string `json:"bearerToken"`
+	// AccessToken is used by some other gateway configurations.
+	AccessToken string `json:"accessToken"`
+}
+
+// token returns whichever of the response's token fields is populated.
+// Different identity provider integrations return the token under different
+// field names (see comments on tokenResponse).
+func (t tokenResponse) token() string {
+	if t.BearerToken != "" {
+		return t.BearerToken
+	}
+	if t.JwtToken != "" {
+		return t.JwtToken
+	}
+	return t.AccessToken
 }
 
 type httpClient struct {
@@ -58,7 +76,12 @@ func LoginWithBrowser(ctx context.Context, storeUrl string) (*string, error) {
 		return nil, err
 	}
 
-	return &tokenResp.JwtToken, nil
+	token := tokenResp.token()
+	if token == "" {
+		return nil, fmt.Errorf("login response did not include a token (no jwtToken/bearerToken/accessToken)")
+	}
+
+	return &token, nil
 }
 
 func createHttpClient(storeUrl string) *httpClient {

@@ -56,3 +56,31 @@ func GetCurrentUser(ctx context.Context) (*structs.User, error) {
 		TenantName: res.CurrentUser.Tenant.TenantName,
 	}, nil
 }
+
+// GetMe fetches the currently authenticated user, including the tenantId.
+// This is required after browser-based login, since the JWT issued by the
+// external authentication provider does not carry a tenant_id claim.
+func GetMe(ctx context.Context) (*structs.User, error) {
+	res, err := me(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if res.Me == nil {
+		return nil, fmt.Errorf("me query returned no user")
+	}
+
+	user := &structs.User{
+		Id:       res.Me.Id,
+		Name:     res.Me.DisplayName,
+		Email:    res.Me.Email,
+		TenantId: res.Me.TenantId,
+	}
+	if res.Me.Permissions != nil {
+		user.Permissions = &structs.Permissions{
+			Scopes:       res.Me.Permissions.Scopes,
+			Roles:        res.Me.Permissions.Roles,
+			IsSuperAdmin: &res.Me.Permissions.IsSuperAdmin,
+		}
+	}
+	return user, nil
+}

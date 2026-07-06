@@ -101,13 +101,6 @@ func (s *PersistedState) Login(url, userEmail, privateKeyPath, jwt string) error
 		return fmt.Errorf("could not get private key path")
 	}
 
-	var jwtObject *JsonWebToken
-	jwtObject, err = NewJsonWebToken(s.Data.JSONWebToken)
-	if err != nil {
-		return err
-	}
-	s.Data.Tenant.Id = jwtObject.TenantId
-
 	err = s.Save()
 	return err
 }

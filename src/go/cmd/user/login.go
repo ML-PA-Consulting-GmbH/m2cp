@@ -6,9 +6,11 @@ import (
 	"fmt"
 	"io"
 	"m2cpcli/auth"
+	"m2cpcli/backend"
 	"m2cpcli/config"
 	"m2cpcli/env"
 	"m2cpcli/format"
+	gql "m2cpcli/graphql"
 	"m2cpcli/version"
 
 	"github.com/Masterminds/semver/v3"
@@ -205,8 +207,12 @@ type loginResultType struct {
 func runLoginCmd(cmd *cobra.Command, args []string) error {
 	var loginResult loginResultType
 
-	// Clear any existing JWT to prevent server faults when logging in with a different backend
+	// Clear any existing JWT and tenant/permissions info to prevent server faults when
+	// logging in with a different backend, and to avoid persisting stale info (from a
+	// previous account/tenant) alongside a new JWT if this login fails before that info
+	// is re-resolved below.
 	viper.Set("jwt", "")
+	env.ClearTenantAndPermissions()
 
 	method := viper.GetString("method")
 	authenticationMethod, err := env.ParseAuthenticationMethod(method)
@@ -287,6 +293,38 @@ func runLoginCmd(cmd *cobra.Command, args []string) error {
 	}
 
 	if err = env.StoreSession(authenticationMethod, sanitizedUrl, sshUser, sshKey, jwt); err != nil {
+		return err
+	}
+
+	// The JWT no longer necessarily carries a tenant_id/permissions claims (e.g. tokens
+	// issued by the external authentication provider used for browser-based login), so
+	// they are resolved via the "me" query, which works regardless of auth method.
+	// Fetched once here (along with the tenant's alias/name) and persisted, so
+	// status/roles-list don't need to repeat any of these calls.
+	me, err := backend.GetMe(cmd.Context())
+	if err != nil {
+		return fmt.Errorf("could not fetch current user information: %s", err)
+	}
+	if me.TenantId == "" {
+		return fmt.Errorf("could not determine tenant id: \"me\" query returned an empty tenantId")
+	}
+	tenant, err := gql.TenantById(cmd.Context(), gql.UUID(me.TenantId))
+	if err != nil {
+		return fmt.Errorf("could not retrieve tenant metadata: %s", err)
+	}
+	if err = env.StoreTenant(me.TenantId, tenant.Alias, tenant.TenantName); err != nil {
+		return err
+	}
+
+	var roles []string
+	isSuperAdmin := false
+	if me.Permissions != nil {
+		roles = me.Permissions.Roles
+		if me.Permissions.IsSuperAdmin != nil {
+			isSuperAdmin = *me.Permissions.IsSuperAdmin
+		}
+	}
+	if err = env.StorePermissions(roles, isSuperAdmin); err != nil {
 		return err
 	}
 

@@ -101,8 +101,11 @@ type AppFilterInput struct {
 	AppName                       *StringOperationFilterInput                                   `json:"appName,omitempty"`
 	Description                   *StringOperationFilterInput                                   `json:"description,omitempty"`
 	Summary                       *StringOperationFilterInput                                   `json:"summary,omitempty"`
+	IsGloballyShared              *BooleanOperationFilterInput                                  `json:"isGloballyShared,omitempty"`
 	CreatedBy                     *ComparableNullableOfGuidOperationFilterInput                 `json:"createdBy,omitempty"`
 	CreatedAt                     *ComparableDateTimeOperationFilterInput                       `json:"createdAt,omitempty"`
+	GloballySharedAt              *ComparableNullableOfDateTimeOperationFilterInput             `json:"globallySharedAt,omitempty"`
+	GloballySharedBy              *ComparableNullableOfGuidOperationFilterInput                 `json:"globallySharedBy,omitempty"`
 	ModifiedBy                    *ComparableNullableOfGuidOperationFilterInput                 `json:"modifiedBy,omitempty"`
 	ModifiedAt                    *ComparableNullableOfDateTimeOperationFilterInput             `json:"modifiedAt,omitempty"`
 	LastChangedAt                 *ComparableDateTimeOperationFilterInput                       `json:"lastChangedAt,omitempty"`
@@ -142,6 +145,11 @@ func (v *AppFilterInput) GetDescription() *StringOperationFilterInput { return v
 // GetSummary returns AppFilterInput.Summary, and is useful for accessing the field via an interface.
 func (v *AppFilterInput) GetSummary() *StringOperationFilterInput { return v.Summary }
 
+// GetIsGloballyShared returns AppFilterInput.IsGloballyShared, and is useful for accessing the field via an interface.
+func (v *AppFilterInput) GetIsGloballyShared() *BooleanOperationFilterInput {
+	return v.IsGloballyShared
+}
+
 // GetCreatedBy returns AppFilterInput.CreatedBy, and is useful for accessing the field via an interface.
 func (v *AppFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperationFilterInput {
 	return v.CreatedBy
@@ -149,6 +157,16 @@ func (v *AppFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperationFilter
 
 // GetCreatedAt returns AppFilterInput.CreatedAt, and is useful for accessing the field via an interface.
 func (v *AppFilterInput) GetCreatedAt() *ComparableDateTimeOperationFilterInput { return v.CreatedAt }
+
+// GetGloballySharedAt returns AppFilterInput.GloballySharedAt, and is useful for accessing the field via an interface.
+func (v *AppFilterInput) GetGloballySharedAt() *ComparableNullableOfDateTimeOperationFilterInput {
+	return v.GloballySharedAt
+}
+
+// GetGloballySharedBy returns AppFilterInput.GloballySharedBy, and is useful for accessing the field via an interface.
+func (v *AppFilterInput) GetGloballySharedBy() *ComparableNullableOfGuidOperationFilterInput {
+	return v.GloballySharedBy
+}
 
 // GetModifiedBy returns AppFilterInput.ModifiedBy, and is useful for accessing the field via an interface.
 func (v *AppFilterInput) GetModifiedBy() *ComparableNullableOfGuidOperationFilterInput {
@@ -194,12 +212,14 @@ func (v *AppFilterInput) GetEntityIdentifier() *EntityIdentifierFilterInput {
 
 // I am a generated type!
 type AppFirmwareFilterInput struct {
-	And           []*AppFirmwareFilterInput           `json:"and,omitempty"`
-	Or            []*AppFirmwareFilterInput           `json:"or,omitempty"`
-	Id            *ComparableGuidOperationFilterInput `json:"id,omitempty"`
-	DeviceModelId *ComparableGuidOperationFilterInput `json:"deviceModelId,omitempty"`
-	App           *AppFilterInput                     `json:"app,omitempty"`
-	DeviceModel   *DeviceModelFilterInput             `json:"deviceModel,omitempty"`
+	And           []*AppFirmwareFilterInput                     `json:"and,omitempty"`
+	Or            []*AppFirmwareFilterInput                     `json:"or,omitempty"`
+	Id            *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId      *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
+	DeviceModelId *ComparableGuidOperationFilterInput           `json:"deviceModelId,omitempty"`
+	App           *AppFilterInput                               `json:"app,omitempty"`
+	Tenant        *DomainTenantFilterInput                      `json:"tenant,omitempty"`
+	DeviceModel   *DeviceModelFilterInput                       `json:"deviceModel,omitempty"`
 }
 
 // GetAnd returns AppFirmwareFilterInput.And, and is useful for accessing the field via an interface.
@@ -211,6 +231,11 @@ func (v *AppFirmwareFilterInput) GetOr() []*AppFirmwareFilterInput { return v.Or
 // GetId returns AppFirmwareFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *AppFirmwareFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
 
+// GetTenantId returns AppFirmwareFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *AppFirmwareFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
+
 // GetDeviceModelId returns AppFirmwareFilterInput.DeviceModelId, and is useful for accessing the field via an interface.
 func (v *AppFirmwareFilterInput) GetDeviceModelId() *ComparableGuidOperationFilterInput {
 	return v.DeviceModelId
@@ -219,8 +244,79 @@ func (v *AppFirmwareFilterInput) GetDeviceModelId() *ComparableGuidOperationFilt
 // GetApp returns AppFirmwareFilterInput.App, and is useful for accessing the field via an interface.
 func (v *AppFirmwareFilterInput) GetApp() *AppFilterInput { return v.App }
 
+// GetTenant returns AppFirmwareFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *AppFirmwareFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
+
 // GetDeviceModel returns AppFirmwareFilterInput.DeviceModel, and is useful for accessing the field via an interface.
 func (v *AppFirmwareFilterInput) GetDeviceModel() *DeviceModelFilterInput { return v.DeviceModel }
+
+// I am a generated type!
+type AppRevisionBomFilterInput struct {
+	And                  []*AppRevisionBomFilterInput                  `json:"and,omitempty"`
+	Or                   []*AppRevisionBomFilterInput                  `json:"or,omitempty"`
+	Id                   *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId             *ComparableGuidOperationFilterInput           `json:"tenantId,omitempty"`
+	AppRevisionId        *ComparableGuidOperationFilterInput           `json:"appRevisionId,omitempty"`
+	DownloadSize         *ComparableInt64OperationFilterInput          `json:"downloadSize,omitempty"`
+	BomFormat            *BomFormatOperationFilterInput                `json:"bomFormat,omitempty"`
+	HashSha3             *StringOperationFilterInput                   `json:"hashSha3,omitempty"`
+	DependencyTrackToken *ComparableNullableOfGuidOperationFilterInput `json:"dependencyTrackToken,omitempty"`
+	CreatedBy            *ComparableNullableOfGuidOperationFilterInput `json:"createdBy,omitempty"`
+	CreatedAt            *ComparableDateTimeOperationFilterInput       `json:"createdAt,omitempty"`
+	Tenant               *DomainTenantFilterInput                      `json:"tenant,omitempty"`
+	AppRevision          *AppRevisionFilterInput                       `json:"appRevision,omitempty"`
+}
+
+// GetAnd returns AppRevisionBomFilterInput.And, and is useful for accessing the field via an interface.
+func (v *AppRevisionBomFilterInput) GetAnd() []*AppRevisionBomFilterInput { return v.And }
+
+// GetOr returns AppRevisionBomFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *AppRevisionBomFilterInput) GetOr() []*AppRevisionBomFilterInput { return v.Or }
+
+// GetId returns AppRevisionBomFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *AppRevisionBomFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns AppRevisionBomFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *AppRevisionBomFilterInput) GetTenantId() *ComparableGuidOperationFilterInput {
+	return v.TenantId
+}
+
+// GetAppRevisionId returns AppRevisionBomFilterInput.AppRevisionId, and is useful for accessing the field via an interface.
+func (v *AppRevisionBomFilterInput) GetAppRevisionId() *ComparableGuidOperationFilterInput {
+	return v.AppRevisionId
+}
+
+// GetDownloadSize returns AppRevisionBomFilterInput.DownloadSize, and is useful for accessing the field via an interface.
+func (v *AppRevisionBomFilterInput) GetDownloadSize() *ComparableInt64OperationFilterInput {
+	return v.DownloadSize
+}
+
+// GetBomFormat returns AppRevisionBomFilterInput.BomFormat, and is useful for accessing the field via an interface.
+func (v *AppRevisionBomFilterInput) GetBomFormat() *BomFormatOperationFilterInput { return v.BomFormat }
+
+// GetHashSha3 returns AppRevisionBomFilterInput.HashSha3, and is useful for accessing the field via an interface.
+func (v *AppRevisionBomFilterInput) GetHashSha3() *StringOperationFilterInput { return v.HashSha3 }
+
+// GetDependencyTrackToken returns AppRevisionBomFilterInput.DependencyTrackToken, and is useful for accessing the field via an interface.
+func (v *AppRevisionBomFilterInput) GetDependencyTrackToken() *ComparableNullableOfGuidOperationFilterInput {
+	return v.DependencyTrackToken
+}
+
+// GetCreatedBy returns AppRevisionBomFilterInput.CreatedBy, and is useful for accessing the field via an interface.
+func (v *AppRevisionBomFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperationFilterInput {
+	return v.CreatedBy
+}
+
+// GetCreatedAt returns AppRevisionBomFilterInput.CreatedAt, and is useful for accessing the field via an interface.
+func (v *AppRevisionBomFilterInput) GetCreatedAt() *ComparableDateTimeOperationFilterInput {
+	return v.CreatedAt
+}
+
+// GetTenant returns AppRevisionBomFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *AppRevisionBomFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
+
+// GetAppRevision returns AppRevisionBomFilterInput.AppRevision, and is useful for accessing the field via an interface.
+func (v *AppRevisionBomFilterInput) GetAppRevision() *AppRevisionFilterInput { return v.AppRevision }
 
 type AppRevisionCompleteUploadInput struct {
 	ContinuesToken string `json:"continuesToken"`
@@ -235,17 +331,19 @@ func (v *AppRevisionCompleteUploadInput) GetUploadMessage() string { return v.Up
 
 // I am a generated type!
 type AppRevisionDeltaFilterInput struct {
-	And               []*AppRevisionDeltaFilterInput          `json:"and,omitempty"`
-	Or                []*AppRevisionDeltaFilterInput          `json:"or,omitempty"`
-	Id                *ComparableGuidOperationFilterInput     `json:"id,omitempty"`
-	FromAppRevisionId *ComparableGuidOperationFilterInput     `json:"fromAppRevisionId,omitempty"`
-	ToAppRevisionId   *ComparableGuidOperationFilterInput     `json:"toAppRevisionId,omitempty"`
-	DeltaFileName     *StringOperationFilterInput             `json:"deltaFileName,omitempty"`
-	DeltaSha3         *StringOperationFilterInput             `json:"deltaSha3,omitempty"`
-	DeltaDownloadSize *ComparableInt64OperationFilterInput    `json:"deltaDownloadSize,omitempty"`
-	CalculatedAt      *ComparableDateTimeOperationFilterInput `json:"calculatedAt,omitempty"`
-	FromAppRevision   *AppRevisionFilterInput                 `json:"fromAppRevision,omitempty"`
-	ToAppRevision     *AppRevisionFilterInput                 `json:"toAppRevision,omitempty"`
+	And               []*AppRevisionDeltaFilterInput                `json:"and,omitempty"`
+	Or                []*AppRevisionDeltaFilterInput                `json:"or,omitempty"`
+	Id                *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId          *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
+	FromAppRevisionId *ComparableGuidOperationFilterInput           `json:"fromAppRevisionId,omitempty"`
+	ToAppRevisionId   *ComparableGuidOperationFilterInput           `json:"toAppRevisionId,omitempty"`
+	DeltaFileName     *StringOperationFilterInput                   `json:"deltaFileName,omitempty"`
+	DeltaSha3         *StringOperationFilterInput                   `json:"deltaSha3,omitempty"`
+	DeltaDownloadSize *ComparableInt64OperationFilterInput          `json:"deltaDownloadSize,omitempty"`
+	CalculatedAt      *ComparableDateTimeOperationFilterInput       `json:"calculatedAt,omitempty"`
+	Tenant            *DomainTenantFilterInput                      `json:"tenant,omitempty"`
+	FromAppRevision   *AppRevisionFilterInput                       `json:"fromAppRevision,omitempty"`
+	ToAppRevision     *AppRevisionFilterInput                       `json:"toAppRevision,omitempty"`
 }
 
 // GetAnd returns AppRevisionDeltaFilterInput.And, and is useful for accessing the field via an interface.
@@ -256,6 +354,11 @@ func (v *AppRevisionDeltaFilterInput) GetOr() []*AppRevisionDeltaFilterInput { r
 
 // GetId returns AppRevisionDeltaFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *AppRevisionDeltaFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns AppRevisionDeltaFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *AppRevisionDeltaFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
 
 // GetFromAppRevisionId returns AppRevisionDeltaFilterInput.FromAppRevisionId, and is useful for accessing the field via an interface.
 func (v *AppRevisionDeltaFilterInput) GetFromAppRevisionId() *ComparableGuidOperationFilterInput {
@@ -284,6 +387,9 @@ func (v *AppRevisionDeltaFilterInput) GetDeltaDownloadSize() *ComparableInt64Ope
 func (v *AppRevisionDeltaFilterInput) GetCalculatedAt() *ComparableDateTimeOperationFilterInput {
 	return v.CalculatedAt
 }
+
+// GetTenant returns AppRevisionDeltaFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *AppRevisionDeltaFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
 
 // GetFromAppRevision returns AppRevisionDeltaFilterInput.FromAppRevision, and is useful for accessing the field via an interface.
 func (v *AppRevisionDeltaFilterInput) GetFromAppRevision() *AppRevisionFilterInput {
@@ -314,10 +420,13 @@ type AppRevisionFilterInput struct {
 	DownloadSize                      *ComparableInt64OperationFilterInput                              `json:"downloadSize,omitempty"`
 	FileName                          *StringOperationFilterInput                                       `json:"fileName,omitempty"`
 	MetadataYaml                      *StringOperationFilterInput                                       `json:"metadataYaml,omitempty"`
+	DependencyTrackProjectId          *ComparableNullableOfGuidOperationFilterInput                     `json:"dependencyTrackProjectId,omitempty"`
 	GitCommitHash                     *StringOperationFilterInput                                       `json:"gitCommitHash,omitempty"`
 	MonopolVersion                    *StringOperationFilterInput                                       `json:"monopolVersion,omitempty"`
 	UpstreamVersion                   *StringOperationFilterInput                                       `json:"upstreamVersion,omitempty"`
 	BuildDateTime                     *ComparableNullableOfDateTimeOperationFilterInput                 `json:"buildDateTime,omitempty"`
+	ActiveCriticalVulnerabilityCount  *ComparableInt32OperationFilterInput                              `json:"activeCriticalVulnerabilityCount,omitempty"`
+	ActiveHighVulnerabilityCount      *ComparableInt32OperationFilterInput                              `json:"activeHighVulnerabilityCount,omitempty"`
 	CreatedBy                         *ComparableNullableOfGuidOperationFilterInput                     `json:"createdBy,omitempty"`
 	CreatedAt                         *ComparableDateTimeOperationFilterInput                           `json:"createdAt,omitempty"`
 	ModifiedBy                        *ComparableNullableOfGuidOperationFilterInput                     `json:"modifiedBy,omitempty"`
@@ -332,6 +441,8 @@ type AppRevisionFilterInput struct {
 	DeviceInstallStates               *ListFilterInputTypeOfDeviceInstallStateFilterInput               `json:"deviceInstallStates,omitempty"`
 	FromAppRevisionDeltas             *ListFilterInputTypeOfAppRevisionDeltaFilterInput                 `json:"fromAppRevisionDeltas,omitempty"`
 	ToAppRevisionDeltas               *ListFilterInputTypeOfAppRevisionDeltaFilterInput                 `json:"toAppRevisionDeltas,omitempty"`
+	AppRevisionBoms                   *ListFilterInputTypeOfAppRevisionBomFilterInput                   `json:"appRevisionBoms,omitempty"`
+	VulnerabilityFindings             *ListFilterInputTypeOfVulnerabilityFindingFilterInput             `json:"vulnerabilityFindings,omitempty"`
 	EntityIdentifier                  *EntityIdentifierFilterInput                                      `json:"entityIdentifier,omitempty"`
 }
 
@@ -400,6 +511,11 @@ func (v *AppRevisionFilterInput) GetFileName() *StringOperationFilterInput { ret
 // GetMetadataYaml returns AppRevisionFilterInput.MetadataYaml, and is useful for accessing the field via an interface.
 func (v *AppRevisionFilterInput) GetMetadataYaml() *StringOperationFilterInput { return v.MetadataYaml }
 
+// GetDependencyTrackProjectId returns AppRevisionFilterInput.DependencyTrackProjectId, and is useful for accessing the field via an interface.
+func (v *AppRevisionFilterInput) GetDependencyTrackProjectId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.DependencyTrackProjectId
+}
+
 // GetGitCommitHash returns AppRevisionFilterInput.GitCommitHash, and is useful for accessing the field via an interface.
 func (v *AppRevisionFilterInput) GetGitCommitHash() *StringOperationFilterInput {
 	return v.GitCommitHash
@@ -418,6 +534,16 @@ func (v *AppRevisionFilterInput) GetUpstreamVersion() *StringOperationFilterInpu
 // GetBuildDateTime returns AppRevisionFilterInput.BuildDateTime, and is useful for accessing the field via an interface.
 func (v *AppRevisionFilterInput) GetBuildDateTime() *ComparableNullableOfDateTimeOperationFilterInput {
 	return v.BuildDateTime
+}
+
+// GetActiveCriticalVulnerabilityCount returns AppRevisionFilterInput.ActiveCriticalVulnerabilityCount, and is useful for accessing the field via an interface.
+func (v *AppRevisionFilterInput) GetActiveCriticalVulnerabilityCount() *ComparableInt32OperationFilterInput {
+	return v.ActiveCriticalVulnerabilityCount
+}
+
+// GetActiveHighVulnerabilityCount returns AppRevisionFilterInput.ActiveHighVulnerabilityCount, and is useful for accessing the field via an interface.
+func (v *AppRevisionFilterInput) GetActiveHighVulnerabilityCount() *ComparableInt32OperationFilterInput {
+	return v.ActiveHighVulnerabilityCount
 }
 
 // GetCreatedBy returns AppRevisionFilterInput.CreatedBy, and is useful for accessing the field via an interface.
@@ -484,6 +610,16 @@ func (v *AppRevisionFilterInput) GetToAppRevisionDeltas() *ListFilterInputTypeOf
 	return v.ToAppRevisionDeltas
 }
 
+// GetAppRevisionBoms returns AppRevisionFilterInput.AppRevisionBoms, and is useful for accessing the field via an interface.
+func (v *AppRevisionFilterInput) GetAppRevisionBoms() *ListFilterInputTypeOfAppRevisionBomFilterInput {
+	return v.AppRevisionBoms
+}
+
+// GetVulnerabilityFindings returns AppRevisionFilterInput.VulnerabilityFindings, and is useful for accessing the field via an interface.
+func (v *AppRevisionFilterInput) GetVulnerabilityFindings() *ListFilterInputTypeOfVulnerabilityFindingFilterInput {
+	return v.VulnerabilityFindings
+}
+
 // GetEntityIdentifier returns AppRevisionFilterInput.EntityIdentifier, and is useful for accessing the field via an interface.
 func (v *AppRevisionFilterInput) GetEntityIdentifier() *EntityIdentifierFilterInput {
 	return v.EntityIdentifier
@@ -491,22 +627,24 @@ func (v *AppRevisionFilterInput) GetEntityIdentifier() *EntityIdentifierFilterIn
 
 // I am a generated type!
 type AppRevisionFirmwareFilterInput struct {
-	And                               []*AppRevisionFirmwareFilterInput    `json:"and,omitempty"`
-	Or                                []*AppRevisionFirmwareFilterInput    `json:"or,omitempty"`
-	Id                                *ComparableGuidOperationFilterInput  `json:"id,omitempty"`
-	VendorId                          *StringOperationFilterInput          `json:"vendorId,omitempty"`
-	ClassId                           *StringOperationFilterInput          `json:"classId,omitempty"`
-	PrimaryFirmwareFileName           *StringOperationFilterInput          `json:"primaryFirmwareFileName,omitempty"`
-	IsPrimaryFirmwareBootable         *BooleanOperationFilterInput         `json:"isPrimaryFirmwareBootable,omitempty"`
-	PrimaryFirmwareOffset             *ComparableInt32OperationFilterInput `json:"primaryFirmwareOffset,omitempty"`
-	PrimaryFirmwareDigestSha256       *StringOperationFilterInput          `json:"primaryFirmwareDigestSha256,omitempty"`
-	PrimaryFirmwareInstallSizeBytes   *ComparableInt64OperationFilterInput `json:"primaryFirmwareInstallSizeBytes,omitempty"`
-	SecondaryFirmwareFileName         *StringOperationFilterInput          `json:"secondaryFirmwareFileName,omitempty"`
-	IsSecondaryFirmwareBootable       *BooleanOperationFilterInput         `json:"isSecondaryFirmwareBootable,omitempty"`
-	SecondaryFirmwareOffset           *ComparableInt32OperationFilterInput `json:"secondaryFirmwareOffset,omitempty"`
-	SecondaryFirmwareDigestSha256     *StringOperationFilterInput          `json:"secondaryFirmwareDigestSha256,omitempty"`
-	SecondaryFirmwareInstallSizeBytes *ComparableInt64OperationFilterInput `json:"secondaryFirmwareInstallSizeBytes,omitempty"`
-	AppRevision                       *AppRevisionFilterInput              `json:"appRevision,omitempty"`
+	And                               []*AppRevisionFirmwareFilterInput             `json:"and,omitempty"`
+	Or                                []*AppRevisionFirmwareFilterInput             `json:"or,omitempty"`
+	Id                                *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId                          *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
+	VendorId                          *StringOperationFilterInput                   `json:"vendorId,omitempty"`
+	ClassId                           *StringOperationFilterInput                   `json:"classId,omitempty"`
+	PrimaryFirmwareFileName           *StringOperationFilterInput                   `json:"primaryFirmwareFileName,omitempty"`
+	IsPrimaryFirmwareBootable         *BooleanOperationFilterInput                  `json:"isPrimaryFirmwareBootable,omitempty"`
+	PrimaryFirmwareOffset             *ComparableInt32OperationFilterInput          `json:"primaryFirmwareOffset,omitempty"`
+	PrimaryFirmwareDigestSha256       *StringOperationFilterInput                   `json:"primaryFirmwareDigestSha256,omitempty"`
+	PrimaryFirmwareInstallSizeBytes   *ComparableInt64OperationFilterInput          `json:"primaryFirmwareInstallSizeBytes,omitempty"`
+	SecondaryFirmwareFileName         *StringOperationFilterInput                   `json:"secondaryFirmwareFileName,omitempty"`
+	IsSecondaryFirmwareBootable       *BooleanOperationFilterInput                  `json:"isSecondaryFirmwareBootable,omitempty"`
+	SecondaryFirmwareOffset           *ComparableInt32OperationFilterInput          `json:"secondaryFirmwareOffset,omitempty"`
+	SecondaryFirmwareDigestSha256     *StringOperationFilterInput                   `json:"secondaryFirmwareDigestSha256,omitempty"`
+	SecondaryFirmwareInstallSizeBytes *ComparableInt64OperationFilterInput          `json:"secondaryFirmwareInstallSizeBytes,omitempty"`
+	Tenant                            *DomainTenantFilterInput                      `json:"tenant,omitempty"`
+	AppRevision                       *AppRevisionFilterInput                       `json:"appRevision,omitempty"`
 }
 
 // GetAnd returns AppRevisionFirmwareFilterInput.And, and is useful for accessing the field via an interface.
@@ -517,6 +655,11 @@ func (v *AppRevisionFirmwareFilterInput) GetOr() []*AppRevisionFirmwareFilterInp
 
 // GetId returns AppRevisionFirmwareFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *AppRevisionFirmwareFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns AppRevisionFirmwareFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
 
 // GetVendorId returns AppRevisionFirmwareFilterInput.VendorId, and is useful for accessing the field via an interface.
 func (v *AppRevisionFirmwareFilterInput) GetVendorId() *StringOperationFilterInput { return v.VendorId }
@@ -574,8 +717,93 @@ func (v *AppRevisionFirmwareFilterInput) GetSecondaryFirmwareInstallSizeBytes() 
 	return v.SecondaryFirmwareInstallSizeBytes
 }
 
+// GetTenant returns AppRevisionFirmwareFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
+
 // GetAppRevision returns AppRevisionFirmwareFilterInput.AppRevision, and is useful for accessing the field via an interface.
 func (v *AppRevisionFirmwareFilterInput) GetAppRevision() *AppRevisionFilterInput {
+	return v.AppRevision
+}
+
+// I am a generated type!
+type AppRevisionFirmwareManifestFilterInput struct {
+	And                    []*AppRevisionFirmwareManifestFilterInput     `json:"and,omitempty"`
+	Or                     []*AppRevisionFirmwareManifestFilterInput     `json:"or,omitempty"`
+	Id                     *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId               *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
+	AppRevisionId          *ComparableGuidOperationFilterInput           `json:"appRevisionId,omitempty"`
+	SequenceNumber         *ComparableInt32OperationFilterInput          `json:"sequenceNumber,omitempty"`
+	ManifestBase64         *StringOperationFilterInput                   `json:"manifestBase64,omitempty"`
+	ManifestSigningKeyName *StringOperationFilterInput                   `json:"manifestSigningKeyName,omitempty"`
+	ManifestEdgeDeviceIp   *StringOperationFilterInput                   `json:"manifestEdgeDeviceIp,omitempty"`
+	CreatedBy              *ComparableNullableOfGuidOperationFilterInput `json:"createdBy,omitempty"`
+	CreatedAt              *ComparableDateTimeOperationFilterInput       `json:"createdAt,omitempty"`
+	Tenant                 *DomainTenantFilterInput                      `json:"tenant,omitempty"`
+	AppRevision            *AppRevisionFilterInput                       `json:"appRevision,omitempty"`
+}
+
+// GetAnd returns AppRevisionFirmwareManifestFilterInput.And, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareManifestFilterInput) GetAnd() []*AppRevisionFirmwareManifestFilterInput {
+	return v.And
+}
+
+// GetOr returns AppRevisionFirmwareManifestFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareManifestFilterInput) GetOr() []*AppRevisionFirmwareManifestFilterInput {
+	return v.Or
+}
+
+// GetId returns AppRevisionFirmwareManifestFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareManifestFilterInput) GetId() *ComparableGuidOperationFilterInput {
+	return v.Id
+}
+
+// GetTenantId returns AppRevisionFirmwareManifestFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareManifestFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
+
+// GetAppRevisionId returns AppRevisionFirmwareManifestFilterInput.AppRevisionId, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareManifestFilterInput) GetAppRevisionId() *ComparableGuidOperationFilterInput {
+	return v.AppRevisionId
+}
+
+// GetSequenceNumber returns AppRevisionFirmwareManifestFilterInput.SequenceNumber, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareManifestFilterInput) GetSequenceNumber() *ComparableInt32OperationFilterInput {
+	return v.SequenceNumber
+}
+
+// GetManifestBase64 returns AppRevisionFirmwareManifestFilterInput.ManifestBase64, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareManifestFilterInput) GetManifestBase64() *StringOperationFilterInput {
+	return v.ManifestBase64
+}
+
+// GetManifestSigningKeyName returns AppRevisionFirmwareManifestFilterInput.ManifestSigningKeyName, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareManifestFilterInput) GetManifestSigningKeyName() *StringOperationFilterInput {
+	return v.ManifestSigningKeyName
+}
+
+// GetManifestEdgeDeviceIp returns AppRevisionFirmwareManifestFilterInput.ManifestEdgeDeviceIp, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareManifestFilterInput) GetManifestEdgeDeviceIp() *StringOperationFilterInput {
+	return v.ManifestEdgeDeviceIp
+}
+
+// GetCreatedBy returns AppRevisionFirmwareManifestFilterInput.CreatedBy, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareManifestFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperationFilterInput {
+	return v.CreatedBy
+}
+
+// GetCreatedAt returns AppRevisionFirmwareManifestFilterInput.CreatedAt, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareManifestFilterInput) GetCreatedAt() *ComparableDateTimeOperationFilterInput {
+	return v.CreatedAt
+}
+
+// GetTenant returns AppRevisionFirmwareManifestFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareManifestFilterInput) GetTenant() *DomainTenantFilterInput {
+	return v.Tenant
+}
+
+// GetAppRevision returns AppRevisionFirmwareManifestFilterInput.AppRevision, and is useful for accessing the field via an interface.
+func (v *AppRevisionFirmwareManifestFilterInput) GetAppRevision() *AppRevisionFilterInput {
 	return v.AppRevision
 }
 
@@ -595,10 +823,12 @@ type AppRevisionSnapFilterInput struct {
 	And                         []*AppRevisionSnapFilterInput                 `json:"and,omitempty"`
 	Or                          []*AppRevisionSnapFilterInput                 `json:"or,omitempty"`
 	Id                          *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId                    *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
 	AssertionId                 *ComparableGuidOperationFilterInput           `json:"assertionId,omitempty"`
 	AppSnapAssertionId          *ComparableNullableOfGuidOperationFilterInput `json:"appSnapAssertionId,omitempty"`
 	SnapBase                    *StringOperationFilterInput                   `json:"snapBase,omitempty"`
 	NonVersionHashSha3Base64Url *StringOperationFilterInput                   `json:"nonVersionHashSha3Base64Url,omitempty"`
+	Tenant                      *DomainTenantFilterInput                      `json:"tenant,omitempty"`
 	AppRevision                 *AppRevisionFilterInput                       `json:"appRevision,omitempty"`
 	Assertion                   *AssertionFilterInput                         `json:"assertion,omitempty"`
 	AppSnapAssertion            *AssertionFilterInput                         `json:"appSnapAssertion,omitempty"`
@@ -612,6 +842,11 @@ func (v *AppRevisionSnapFilterInput) GetOr() []*AppRevisionSnapFilterInput { ret
 
 // GetId returns AppRevisionSnapFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *AppRevisionSnapFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns AppRevisionSnapFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *AppRevisionSnapFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
 
 // GetAssertionId returns AppRevisionSnapFilterInput.AssertionId, and is useful for accessing the field via an interface.
 func (v *AppRevisionSnapFilterInput) GetAssertionId() *ComparableGuidOperationFilterInput {
@@ -631,6 +866,9 @@ func (v *AppRevisionSnapFilterInput) GetNonVersionHashSha3Base64Url() *StringOpe
 	return v.NonVersionHashSha3Base64Url
 }
 
+// GetTenant returns AppRevisionSnapFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *AppRevisionSnapFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
+
 // GetAppRevision returns AppRevisionSnapFilterInput.AppRevision, and is useful for accessing the field via an interface.
 func (v *AppRevisionSnapFilterInput) GetAppRevision() *AppRevisionFilterInput { return v.AppRevision }
 
@@ -647,11 +885,13 @@ type AppSnapFilterInput struct {
 	And            []*AppSnapFilterInput                         `json:"and,omitempty"`
 	Or             []*AppSnapFilterInput                         `json:"or,omitempty"`
 	Id             *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId       *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
 	SnapTypeId     *ComparableGuidOperationFilterInput           `json:"snapTypeId,omitempty"`
 	AssertionId    *ComparableGuidOperationFilterInput           `json:"assertionId,omitempty"`
 	SnapCategoryId *ComparableNullableOfGuidOperationFilterInput `json:"snapCategoryId,omitempty"`
 	SnapId         *StringOperationFilterInput                   `json:"snapId,omitempty"`
 	SnapBase       *StringOperationFilterInput                   `json:"snapBase,omitempty"`
+	Tenant         *DomainTenantFilterInput                      `json:"tenant,omitempty"`
 	App            *AppFilterInput                               `json:"app,omitempty"`
 	SnapType       *SnapTypeFilterInput                          `json:"snapType,omitempty"`
 	SnapCategory   *SnapCategoryFilterInput                      `json:"snapCategory,omitempty"`
@@ -666,6 +906,11 @@ func (v *AppSnapFilterInput) GetOr() []*AppSnapFilterInput { return v.Or }
 
 // GetId returns AppSnapFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *AppSnapFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns AppSnapFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *AppSnapFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
 
 // GetSnapTypeId returns AppSnapFilterInput.SnapTypeId, and is useful for accessing the field via an interface.
 func (v *AppSnapFilterInput) GetSnapTypeId() *ComparableGuidOperationFilterInput { return v.SnapTypeId }
@@ -685,6 +930,9 @@ func (v *AppSnapFilterInput) GetSnapId() *StringOperationFilterInput { return v.
 
 // GetSnapBase returns AppSnapFilterInput.SnapBase, and is useful for accessing the field via an interface.
 func (v *AppSnapFilterInput) GetSnapBase() *StringOperationFilterInput { return v.SnapBase }
+
+// GetTenant returns AppSnapFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *AppSnapFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
 
 // GetApp returns AppSnapFilterInput.App, and is useful for accessing the field via an interface.
 func (v *AppSnapFilterInput) GetApp() *AppFilterInput { return v.App }
@@ -757,10 +1005,10 @@ var AllArchitecture = []Architecture{
 }
 
 type ArchitectureOperationFilterInput struct {
-	Eq  *Architecture  `json:"eq,omitempty"`
-	Neq *Architecture  `json:"neq,omitempty"`
-	In  []Architecture `json:"in,omitempty"`
-	Nin []Architecture `json:"nin,omitempty"`
+	Eq  *Architecture  `json:"eq"`
+	Neq *Architecture  `json:"neq"`
+	In  []Architecture `json:"in"`
+	Nin []Architecture `json:"nin"`
 }
 
 // GetEq returns ArchitectureOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -777,18 +1025,23 @@ func (v *ArchitectureOperationFilterInput) GetNin() []Architecture { return v.Ni
 
 // I am a generated type!
 type AssertionFilterInput struct {
-	And                           []*AssertionFilterInput                       `json:"and,omitempty"`
-	Or                            []*AssertionFilterInput                       `json:"or,omitempty"`
-	Id                            *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
-	AssertionTypeId               *ComparableGuidOperationFilterInput           `json:"assertionTypeId,omitempty"`
-	AssertionBody                 *StringOperationFilterInput                   `json:"assertionBody,omitempty"`
-	AssertionBodyNoNewlinesSha384 *StringOperationFilterInput                   `json:"assertionBodyNoNewlinesSha384,omitempty"`
-	Revision                      *ComparableInt32OperationFilterInput          `json:"revision,omitempty"`
-	CreatedAt                     *ComparableDateTimeOperationFilterInput       `json:"createdAt,omitempty"`
-	CreatedBy                     *ComparableNullableOfGuidOperationFilterInput `json:"createdBy,omitempty"`
-	AssertionType                 *AssertionTypeFilterInput                     `json:"assertionType,omitempty"`
-	StoreSettings                 *ListFilterInputTypeOfStoreSettingFilterInput `json:"storeSettings,omitempty"`
-	EdgeDevicesWhenModelAssertion *ListFilterInputTypeOfEdgeDeviceFilterInput   `json:"edgeDevicesWhenModelAssertion,omitempty"`
+	And                           []*AssertionFilterInput                           `json:"and,omitempty"`
+	Or                            []*AssertionFilterInput                           `json:"or,omitempty"`
+	Id                            *ComparableGuidOperationFilterInput               `json:"id,omitempty"`
+	TenantId                      *ComparableNullableOfGuidOperationFilterInput     `json:"tenantId,omitempty"`
+	AssertionTypeId               *ComparableGuidOperationFilterInput               `json:"assertionTypeId,omitempty"`
+	AssertionBody                 *StringOperationFilterInput                       `json:"assertionBody,omitempty"`
+	AssertionBodyNoNewlinesSha384 *StringOperationFilterInput                       `json:"assertionBodyNoNewlinesSha384,omitempty"`
+	Revision                      *ComparableInt32OperationFilterInput              `json:"revision,omitempty"`
+	IsGloballyShared              *BooleanOperationFilterInput                      `json:"isGloballyShared,omitempty"`
+	CreatedAt                     *ComparableDateTimeOperationFilterInput           `json:"createdAt,omitempty"`
+	CreatedBy                     *ComparableNullableOfGuidOperationFilterInput     `json:"createdBy,omitempty"`
+	GloballySharedAt              *ComparableNullableOfDateTimeOperationFilterInput `json:"globallySharedAt,omitempty"`
+	GloballySharedBy              *ComparableNullableOfGuidOperationFilterInput     `json:"globallySharedBy,omitempty"`
+	Tenant                        *DomainTenantFilterInput                          `json:"tenant,omitempty"`
+	AssertionType                 *AssertionTypeFilterInput                         `json:"assertionType,omitempty"`
+	StoreSettings                 *ListFilterInputTypeOfStoreSettingFilterInput     `json:"storeSettings,omitempty"`
+	EdgeDevicesWhenModelAssertion *ListFilterInputTypeOfEdgeDeviceFilterInput       `json:"edgeDevicesWhenModelAssertion,omitempty"`
 }
 
 // GetAnd returns AssertionFilterInput.And, and is useful for accessing the field via an interface.
@@ -799,6 +1052,11 @@ func (v *AssertionFilterInput) GetOr() []*AssertionFilterInput { return v.Or }
 
 // GetId returns AssertionFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *AssertionFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns AssertionFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *AssertionFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
 
 // GetAssertionTypeId returns AssertionFilterInput.AssertionTypeId, and is useful for accessing the field via an interface.
 func (v *AssertionFilterInput) GetAssertionTypeId() *ComparableGuidOperationFilterInput {
@@ -816,6 +1074,11 @@ func (v *AssertionFilterInput) GetAssertionBodyNoNewlinesSha384() *StringOperati
 // GetRevision returns AssertionFilterInput.Revision, and is useful for accessing the field via an interface.
 func (v *AssertionFilterInput) GetRevision() *ComparableInt32OperationFilterInput { return v.Revision }
 
+// GetIsGloballyShared returns AssertionFilterInput.IsGloballyShared, and is useful for accessing the field via an interface.
+func (v *AssertionFilterInput) GetIsGloballyShared() *BooleanOperationFilterInput {
+	return v.IsGloballyShared
+}
+
 // GetCreatedAt returns AssertionFilterInput.CreatedAt, and is useful for accessing the field via an interface.
 func (v *AssertionFilterInput) GetCreatedAt() *ComparableDateTimeOperationFilterInput {
 	return v.CreatedAt
@@ -825,6 +1088,19 @@ func (v *AssertionFilterInput) GetCreatedAt() *ComparableDateTimeOperationFilter
 func (v *AssertionFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperationFilterInput {
 	return v.CreatedBy
 }
+
+// GetGloballySharedAt returns AssertionFilterInput.GloballySharedAt, and is useful for accessing the field via an interface.
+func (v *AssertionFilterInput) GetGloballySharedAt() *ComparableNullableOfDateTimeOperationFilterInput {
+	return v.GloballySharedAt
+}
+
+// GetGloballySharedBy returns AssertionFilterInput.GloballySharedBy, and is useful for accessing the field via an interface.
+func (v *AssertionFilterInput) GetGloballySharedBy() *ComparableNullableOfGuidOperationFilterInput {
+	return v.GloballySharedBy
+}
+
+// GetTenant returns AssertionFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *AssertionFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
 
 // GetAssertionType returns AssertionFilterInput.AssertionType, and is useful for accessing the field via an interface.
 func (v *AssertionFilterInput) GetAssertionType() *AssertionTypeFilterInput { return v.AssertionType }
@@ -842,17 +1118,25 @@ func (v *AssertionFilterInput) GetEdgeDevicesWhenModelAssertion() *ListFilterInp
 // I am a generated type!
 type AssertionSortInput struct {
 	Id                            *SortEnumType           `json:"id,omitempty"`
+	TenantId                      *SortEnumType           `json:"tenantId,omitempty"`
 	AssertionTypeId               *SortEnumType           `json:"assertionTypeId,omitempty"`
 	AssertionBody                 *SortEnumType           `json:"assertionBody,omitempty"`
 	AssertionBodyNoNewlinesSha384 *SortEnumType           `json:"assertionBodyNoNewlinesSha384,omitempty"`
 	Revision                      *SortEnumType           `json:"revision,omitempty"`
+	IsGloballyShared              *SortEnumType           `json:"isGloballyShared,omitempty"`
 	CreatedAt                     *SortEnumType           `json:"createdAt,omitempty"`
 	CreatedBy                     *SortEnumType           `json:"createdBy,omitempty"`
+	GloballySharedAt              *SortEnumType           `json:"globallySharedAt,omitempty"`
+	GloballySharedBy              *SortEnumType           `json:"globallySharedBy,omitempty"`
+	Tenant                        *DomainTenantSortInput  `json:"tenant,omitempty"`
 	AssertionType                 *AssertionTypeSortInput `json:"assertionType,omitempty"`
 }
 
 // GetId returns AssertionSortInput.Id, and is useful for accessing the field via an interface.
 func (v *AssertionSortInput) GetId() *SortEnumType { return v.Id }
+
+// GetTenantId returns AssertionSortInput.TenantId, and is useful for accessing the field via an interface.
+func (v *AssertionSortInput) GetTenantId() *SortEnumType { return v.TenantId }
 
 // GetAssertionTypeId returns AssertionSortInput.AssertionTypeId, and is useful for accessing the field via an interface.
 func (v *AssertionSortInput) GetAssertionTypeId() *SortEnumType { return v.AssertionTypeId }
@@ -868,11 +1152,23 @@ func (v *AssertionSortInput) GetAssertionBodyNoNewlinesSha384() *SortEnumType {
 // GetRevision returns AssertionSortInput.Revision, and is useful for accessing the field via an interface.
 func (v *AssertionSortInput) GetRevision() *SortEnumType { return v.Revision }
 
+// GetIsGloballyShared returns AssertionSortInput.IsGloballyShared, and is useful for accessing the field via an interface.
+func (v *AssertionSortInput) GetIsGloballyShared() *SortEnumType { return v.IsGloballyShared }
+
 // GetCreatedAt returns AssertionSortInput.CreatedAt, and is useful for accessing the field via an interface.
 func (v *AssertionSortInput) GetCreatedAt() *SortEnumType { return v.CreatedAt }
 
 // GetCreatedBy returns AssertionSortInput.CreatedBy, and is useful for accessing the field via an interface.
 func (v *AssertionSortInput) GetCreatedBy() *SortEnumType { return v.CreatedBy }
+
+// GetGloballySharedAt returns AssertionSortInput.GloballySharedAt, and is useful for accessing the field via an interface.
+func (v *AssertionSortInput) GetGloballySharedAt() *SortEnumType { return v.GloballySharedAt }
+
+// GetGloballySharedBy returns AssertionSortInput.GloballySharedBy, and is useful for accessing the field via an interface.
+func (v *AssertionSortInput) GetGloballySharedBy() *SortEnumType { return v.GloballySharedBy }
+
+// GetTenant returns AssertionSortInput.Tenant, and is useful for accessing the field via an interface.
+func (v *AssertionSortInput) GetTenant() *DomainTenantSortInput { return v.Tenant }
 
 // GetAssertionType returns AssertionSortInput.AssertionType, and is useful for accessing the field via an interface.
 func (v *AssertionSortInput) GetAssertionType() *AssertionTypeSortInput { return v.AssertionType }
@@ -2806,9 +3102,42 @@ func (v *AutoUpdateModeSortInput) GetDescription() *SortEnumType { return v.Desc
 // GetDisplayOrder returns AutoUpdateModeSortInput.DisplayOrder, and is useful for accessing the field via an interface.
 func (v *AutoUpdateModeSortInput) GetDisplayOrder() *SortEnumType { return v.DisplayOrder }
 
+type BomFormat string
+
+const (
+	BomFormatUnknown   BomFormat = "UNKNOWN"
+	BomFormatCycloneDx BomFormat = "CYCLONE_DX"
+	BomFormatSpdx      BomFormat = "SPDX"
+)
+
+var AllBomFormat = []BomFormat{
+	BomFormatUnknown,
+	BomFormatCycloneDx,
+	BomFormatSpdx,
+}
+
+type BomFormatOperationFilterInput struct {
+	Eq  *BomFormat  `json:"eq"`
+	Neq *BomFormat  `json:"neq"`
+	In  []BomFormat `json:"in"`
+	Nin []BomFormat `json:"nin"`
+}
+
+// GetEq returns BomFormatOperationFilterInput.Eq, and is useful for accessing the field via an interface.
+func (v *BomFormatOperationFilterInput) GetEq() *BomFormat { return v.Eq }
+
+// GetNeq returns BomFormatOperationFilterInput.Neq, and is useful for accessing the field via an interface.
+func (v *BomFormatOperationFilterInput) GetNeq() *BomFormat { return v.Neq }
+
+// GetIn returns BomFormatOperationFilterInput.In, and is useful for accessing the field via an interface.
+func (v *BomFormatOperationFilterInput) GetIn() []BomFormat { return v.In }
+
+// GetNin returns BomFormatOperationFilterInput.Nin, and is useful for accessing the field via an interface.
+func (v *BomFormatOperationFilterInput) GetNin() []BomFormat { return v.Nin }
+
 type BooleanOperationFilterInput struct {
-	Eq  *bool `json:"eq,omitempty"`
-	Neq *bool `json:"neq,omitempty"`
+	Eq  *bool `json:"eq"`
+	Neq *bool `json:"neq"`
 }
 
 // GetEq returns BooleanOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -2818,18 +3147,18 @@ func (v *BooleanOperationFilterInput) GetEq() *bool { return v.Eq }
 func (v *BooleanOperationFilterInput) GetNeq() *bool { return v.Neq }
 
 type ComparableDateTimeOperationFilterInput struct {
-	Eq   *string  `json:"eq,omitempty"`
-	Neq  *string  `json:"neq,omitempty"`
-	In   []string `json:"in,omitempty"`
-	Nin  []string `json:"nin,omitempty"`
-	Gt   *string  `json:"gt,omitempty"`
-	Ngt  *string  `json:"ngt,omitempty"`
-	Gte  *string  `json:"gte,omitempty"`
-	Ngte *string  `json:"ngte,omitempty"`
-	Lt   *string  `json:"lt,omitempty"`
-	Nlt  *string  `json:"nlt,omitempty"`
-	Lte  *string  `json:"lte,omitempty"`
-	Nlte *string  `json:"nlte,omitempty"`
+	Eq   *string  `json:"eq"`
+	Neq  *string  `json:"neq"`
+	In   []string `json:"in"`
+	Nin  []string `json:"nin"`
+	Gt   *string  `json:"gt"`
+	Ngt  *string  `json:"ngt"`
+	Gte  *string  `json:"gte"`
+	Ngte *string  `json:"ngte"`
+	Lt   *string  `json:"lt"`
+	Nlt  *string  `json:"nlt"`
+	Lte  *string  `json:"lte"`
+	Nlte *string  `json:"nlte"`
 }
 
 // GetEq returns ComparableDateTimeOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -2869,18 +3198,18 @@ func (v *ComparableDateTimeOperationFilterInput) GetLte() *string { return v.Lte
 func (v *ComparableDateTimeOperationFilterInput) GetNlte() *string { return v.Nlte }
 
 type ComparableGuidOperationFilterInput struct {
-	Eq   *string  `json:"eq,omitempty"`
-	Neq  *string  `json:"neq,omitempty"`
-	In   []string `json:"in,omitempty"`
-	Nin  []string `json:"nin,omitempty"`
-	Gt   *string  `json:"gt,omitempty"`
-	Ngt  *string  `json:"ngt,omitempty"`
-	Gte  *string  `json:"gte,omitempty"`
-	Ngte *string  `json:"ngte,omitempty"`
-	Lt   *string  `json:"lt,omitempty"`
-	Nlt  *string  `json:"nlt,omitempty"`
-	Lte  *string  `json:"lte,omitempty"`
-	Nlte *string  `json:"nlte,omitempty"`
+	Eq   *string  `json:"eq"`
+	Neq  *string  `json:"neq"`
+	In   []string `json:"in"`
+	Nin  []string `json:"nin"`
+	Gt   *string  `json:"gt"`
+	Ngt  *string  `json:"ngt"`
+	Gte  *string  `json:"gte"`
+	Ngte *string  `json:"ngte"`
+	Lt   *string  `json:"lt"`
+	Nlt  *string  `json:"nlt"`
+	Lte  *string  `json:"lte"`
+	Nlte *string  `json:"nlte"`
 }
 
 // GetEq returns ComparableGuidOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -2920,18 +3249,18 @@ func (v *ComparableGuidOperationFilterInput) GetLte() *string { return v.Lte }
 func (v *ComparableGuidOperationFilterInput) GetNlte() *string { return v.Nlte }
 
 type ComparableInt32OperationFilterInput struct {
-	Eq   *int  `json:"eq,omitempty"`
-	Neq  *int  `json:"neq,omitempty"`
-	In   []int `json:"in,omitempty"`
-	Nin  []int `json:"nin,omitempty"`
-	Gt   *int  `json:"gt,omitempty"`
-	Ngt  *int  `json:"ngt,omitempty"`
-	Gte  *int  `json:"gte,omitempty"`
-	Ngte *int  `json:"ngte,omitempty"`
-	Lt   *int  `json:"lt,omitempty"`
-	Nlt  *int  `json:"nlt,omitempty"`
-	Lte  *int  `json:"lte,omitempty"`
-	Nlte *int  `json:"nlte,omitempty"`
+	Eq   *int  `json:"eq"`
+	Neq  *int  `json:"neq"`
+	In   []int `json:"in"`
+	Nin  []int `json:"nin"`
+	Gt   *int  `json:"gt"`
+	Ngt  *int  `json:"ngt"`
+	Gte  *int  `json:"gte"`
+	Ngte *int  `json:"ngte"`
+	Lt   *int  `json:"lt"`
+	Nlt  *int  `json:"nlt"`
+	Lte  *int  `json:"lte"`
+	Nlte *int  `json:"nlte"`
 }
 
 // GetEq returns ComparableInt32OperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -2971,18 +3300,18 @@ func (v *ComparableInt32OperationFilterInput) GetLte() *int { return v.Lte }
 func (v *ComparableInt32OperationFilterInput) GetNlte() *int { return v.Nlte }
 
 type ComparableInt64OperationFilterInput struct {
-	Eq   *int64  `json:"eq,omitempty"`
-	Neq  *int64  `json:"neq,omitempty"`
-	In   []int64 `json:"in,omitempty"`
-	Nin  []int64 `json:"nin,omitempty"`
-	Gt   *int64  `json:"gt,omitempty"`
-	Ngt  *int64  `json:"ngt,omitempty"`
-	Gte  *int64  `json:"gte,omitempty"`
-	Ngte *int64  `json:"ngte,omitempty"`
-	Lt   *int64  `json:"lt,omitempty"`
-	Nlt  *int64  `json:"nlt,omitempty"`
-	Lte  *int64  `json:"lte,omitempty"`
-	Nlte *int64  `json:"nlte,omitempty"`
+	Eq   *int64  `json:"eq"`
+	Neq  *int64  `json:"neq"`
+	In   []int64 `json:"in"`
+	Nin  []int64 `json:"nin"`
+	Gt   *int64  `json:"gt"`
+	Ngt  *int64  `json:"ngt"`
+	Gte  *int64  `json:"gte"`
+	Ngte *int64  `json:"ngte"`
+	Lt   *int64  `json:"lt"`
+	Nlt  *int64  `json:"nlt"`
+	Lte  *int64  `json:"lte"`
+	Nlte *int64  `json:"nlte"`
 }
 
 // GetEq returns ComparableInt64OperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -3022,18 +3351,18 @@ func (v *ComparableInt64OperationFilterInput) GetLte() *int64 { return v.Lte }
 func (v *ComparableInt64OperationFilterInput) GetNlte() *int64 { return v.Nlte }
 
 type ComparableNullableOfDateTimeOperationFilterInput struct {
-	Eq   *string   `json:"eq,omitempty"`
-	Neq  *string   `json:"neq,omitempty"`
-	In   []*string `json:"in,omitempty"`
-	Nin  []*string `json:"nin,omitempty"`
-	Gt   *string   `json:"gt,omitempty"`
-	Ngt  *string   `json:"ngt,omitempty"`
-	Gte  *string   `json:"gte,omitempty"`
-	Ngte *string   `json:"ngte,omitempty"`
-	Lt   *string   `json:"lt,omitempty"`
-	Nlt  *string   `json:"nlt,omitempty"`
-	Lte  *string   `json:"lte,omitempty"`
-	Nlte *string   `json:"nlte,omitempty"`
+	Eq   *string   `json:"eq"`
+	Neq  *string   `json:"neq"`
+	In   []*string `json:"in"`
+	Nin  []*string `json:"nin"`
+	Gt   *string   `json:"gt"`
+	Ngt  *string   `json:"ngt"`
+	Gte  *string   `json:"gte"`
+	Ngte *string   `json:"ngte"`
+	Lt   *string   `json:"lt"`
+	Nlt  *string   `json:"nlt"`
+	Lte  *string   `json:"lte"`
+	Nlte *string   `json:"nlte"`
 }
 
 // GetEq returns ComparableNullableOfDateTimeOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -3073,18 +3402,18 @@ func (v *ComparableNullableOfDateTimeOperationFilterInput) GetLte() *string { re
 func (v *ComparableNullableOfDateTimeOperationFilterInput) GetNlte() *string { return v.Nlte }
 
 type ComparableNullableOfDecimalOperationFilterInput struct {
-	Eq   *float64   `json:"eq,omitempty"`
-	Neq  *float64   `json:"neq,omitempty"`
-	In   []*float64 `json:"in,omitempty"`
-	Nin  []*float64 `json:"nin,omitempty"`
-	Gt   *float64   `json:"gt,omitempty"`
-	Ngt  *float64   `json:"ngt,omitempty"`
-	Gte  *float64   `json:"gte,omitempty"`
-	Ngte *float64   `json:"ngte,omitempty"`
-	Lt   *float64   `json:"lt,omitempty"`
-	Nlt  *float64   `json:"nlt,omitempty"`
-	Lte  *float64   `json:"lte,omitempty"`
-	Nlte *float64   `json:"nlte,omitempty"`
+	Eq   *float64   `json:"eq"`
+	Neq  *float64   `json:"neq"`
+	In   []*float64 `json:"in"`
+	Nin  []*float64 `json:"nin"`
+	Gt   *float64   `json:"gt"`
+	Ngt  *float64   `json:"ngt"`
+	Gte  *float64   `json:"gte"`
+	Ngte *float64   `json:"ngte"`
+	Lt   *float64   `json:"lt"`
+	Nlt  *float64   `json:"nlt"`
+	Lte  *float64   `json:"lte"`
+	Nlte *float64   `json:"nlte"`
 }
 
 // GetEq returns ComparableNullableOfDecimalOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -3124,18 +3453,18 @@ func (v *ComparableNullableOfDecimalOperationFilterInput) GetLte() *float64 { re
 func (v *ComparableNullableOfDecimalOperationFilterInput) GetNlte() *float64 { return v.Nlte }
 
 type ComparableNullableOfGuidOperationFilterInput struct {
-	Eq   *string   `json:"eq,omitempty"`
-	Neq  *string   `json:"neq,omitempty"`
-	In   []*string `json:"in,omitempty"`
-	Nin  []*string `json:"nin,omitempty"`
-	Gt   *string   `json:"gt,omitempty"`
-	Ngt  *string   `json:"ngt,omitempty"`
-	Gte  *string   `json:"gte,omitempty"`
-	Ngte *string   `json:"ngte,omitempty"`
-	Lt   *string   `json:"lt,omitempty"`
-	Nlt  *string   `json:"nlt,omitempty"`
-	Lte  *string   `json:"lte,omitempty"`
-	Nlte *string   `json:"nlte,omitempty"`
+	Eq   *string   `json:"eq"`
+	Neq  *string   `json:"neq"`
+	In   []*string `json:"in"`
+	Nin  []*string `json:"nin"`
+	Gt   *string   `json:"gt"`
+	Ngt  *string   `json:"ngt"`
+	Gte  *string   `json:"gte"`
+	Ngte *string   `json:"ngte"`
+	Lt   *string   `json:"lt"`
+	Nlt  *string   `json:"nlt"`
+	Lte  *string   `json:"lte"`
+	Nlte *string   `json:"nlte"`
 }
 
 // GetEq returns ComparableNullableOfGuidOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -3175,18 +3504,18 @@ func (v *ComparableNullableOfGuidOperationFilterInput) GetLte() *string { return
 func (v *ComparableNullableOfGuidOperationFilterInput) GetNlte() *string { return v.Nlte }
 
 type ComparableNullableOfInt32OperationFilterInput struct {
-	Eq   *int   `json:"eq,omitempty"`
-	Neq  *int   `json:"neq,omitempty"`
-	In   []*int `json:"in,omitempty"`
-	Nin  []*int `json:"nin,omitempty"`
-	Gt   *int   `json:"gt,omitempty"`
-	Ngt  *int   `json:"ngt,omitempty"`
-	Gte  *int   `json:"gte,omitempty"`
-	Ngte *int   `json:"ngte,omitempty"`
-	Lt   *int   `json:"lt,omitempty"`
-	Nlt  *int   `json:"nlt,omitempty"`
-	Lte  *int   `json:"lte,omitempty"`
-	Nlte *int   `json:"nlte,omitempty"`
+	Eq   *int   `json:"eq"`
+	Neq  *int   `json:"neq"`
+	In   []*int `json:"in"`
+	Nin  []*int `json:"nin"`
+	Gt   *int   `json:"gt"`
+	Ngt  *int   `json:"ngt"`
+	Gte  *int   `json:"gte"`
+	Ngte *int   `json:"ngte"`
+	Lt   *int   `json:"lt"`
+	Nlt  *int   `json:"nlt"`
+	Lte  *int   `json:"lte"`
+	Nlte *int   `json:"nlte"`
 }
 
 // GetEq returns ComparableNullableOfInt32OperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -3274,6 +3603,68 @@ type CompleteChallengeResponse struct {
 // GetCompleteChallenge returns CompleteChallengeResponse.CompleteChallenge, and is useful for accessing the field via an interface.
 func (v *CompleteChallengeResponse) GetCompleteChallenge() *CompleteChallengeCompleteChallenge {
 	return v.CompleteChallenge
+}
+
+// I am a generated type!
+type ComponentFilterInput struct {
+	And                          []*ComponentFilterInput                       `json:"and,omitempty"`
+	Or                           []*ComponentFilterInput                       `json:"or,omitempty"`
+	Purl                         *StringOperationFilterInput                   `json:"purl,omitempty"`
+	Name                         *StringOperationFilterInput                   `json:"name,omitempty"`
+	Version                      *StringOperationFilterInput                   `json:"version,omitempty"`
+	Type                         *StringOperationFilterInput                   `json:"type,omitempty"`
+	Id                           *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	DependencyTrackComponentUuid *ComparableGuidOperationFilterInput           `json:"dependencyTrackComponentUuid,omitempty"`
+	ComponentGroup               *StringOperationFilterInput                   `json:"componentGroup,omitempty"`
+	IsManuallyCreated            *BooleanOperationFilterInput                  `json:"isManuallyCreated,omitempty"`
+	CreatedBy                    *ComparableNullableOfGuidOperationFilterInput `json:"createdBy,omitempty"`
+	CreatedAt                    *ComparableDateTimeOperationFilterInput       `json:"createdAt,omitempty"`
+}
+
+// GetAnd returns ComponentFilterInput.And, and is useful for accessing the field via an interface.
+func (v *ComponentFilterInput) GetAnd() []*ComponentFilterInput { return v.And }
+
+// GetOr returns ComponentFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *ComponentFilterInput) GetOr() []*ComponentFilterInput { return v.Or }
+
+// GetPurl returns ComponentFilterInput.Purl, and is useful for accessing the field via an interface.
+func (v *ComponentFilterInput) GetPurl() *StringOperationFilterInput { return v.Purl }
+
+// GetName returns ComponentFilterInput.Name, and is useful for accessing the field via an interface.
+func (v *ComponentFilterInput) GetName() *StringOperationFilterInput { return v.Name }
+
+// GetVersion returns ComponentFilterInput.Version, and is useful for accessing the field via an interface.
+func (v *ComponentFilterInput) GetVersion() *StringOperationFilterInput { return v.Version }
+
+// GetType returns ComponentFilterInput.Type, and is useful for accessing the field via an interface.
+func (v *ComponentFilterInput) GetType() *StringOperationFilterInput { return v.Type }
+
+// GetId returns ComponentFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *ComponentFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetDependencyTrackComponentUuid returns ComponentFilterInput.DependencyTrackComponentUuid, and is useful for accessing the field via an interface.
+func (v *ComponentFilterInput) GetDependencyTrackComponentUuid() *ComparableGuidOperationFilterInput {
+	return v.DependencyTrackComponentUuid
+}
+
+// GetComponentGroup returns ComponentFilterInput.ComponentGroup, and is useful for accessing the field via an interface.
+func (v *ComponentFilterInput) GetComponentGroup() *StringOperationFilterInput {
+	return v.ComponentGroup
+}
+
+// GetIsManuallyCreated returns ComponentFilterInput.IsManuallyCreated, and is useful for accessing the field via an interface.
+func (v *ComponentFilterInput) GetIsManuallyCreated() *BooleanOperationFilterInput {
+	return v.IsManuallyCreated
+}
+
+// GetCreatedBy returns ComponentFilterInput.CreatedBy, and is useful for accessing the field via an interface.
+func (v *ComponentFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperationFilterInput {
+	return v.CreatedBy
+}
+
+// GetCreatedAt returns ComponentFilterInput.CreatedAt, and is useful for accessing the field via an interface.
+func (v *ComponentFilterInput) GetCreatedAt() *ComparableDateTimeOperationFilterInput {
+	return v.CreatedAt
 }
 
 // CreateDeploymentGroupFromDeviceCreateDeploymentGroupFromDeviceDeploymentGroup includes the requested fields of the GraphQL type DeploymentGroup.
@@ -3508,11 +3899,51 @@ func (v *DeleteFleetResponse) GetDeleteFleets() []*DeleteFleetDeleteFleetsFleet 
 	return v.DeleteFleets
 }
 
+type DependencyTrackScanSource string
+
+const (
+	DependencyTrackScanSourceWebhook       DependencyTrackScanSource = "WEBHOOK"
+	DependencyTrackScanSourceBackgroundJob DependencyTrackScanSource = "BACKGROUND_JOB"
+)
+
+var AllDependencyTrackScanSource = []DependencyTrackScanSource{
+	DependencyTrackScanSourceWebhook,
+	DependencyTrackScanSourceBackgroundJob,
+}
+
+type DependencyTrackScanSourceOperationFilterInput struct {
+	Eq  *DependencyTrackScanSource  `json:"eq"`
+	Neq *DependencyTrackScanSource  `json:"neq"`
+	In  []DependencyTrackScanSource `json:"in"`
+	Nin []DependencyTrackScanSource `json:"nin"`
+}
+
+// GetEq returns DependencyTrackScanSourceOperationFilterInput.Eq, and is useful for accessing the field via an interface.
+func (v *DependencyTrackScanSourceOperationFilterInput) GetEq() *DependencyTrackScanSource {
+	return v.Eq
+}
+
+// GetNeq returns DependencyTrackScanSourceOperationFilterInput.Neq, and is useful for accessing the field via an interface.
+func (v *DependencyTrackScanSourceOperationFilterInput) GetNeq() *DependencyTrackScanSource {
+	return v.Neq
+}
+
+// GetIn returns DependencyTrackScanSourceOperationFilterInput.In, and is useful for accessing the field via an interface.
+func (v *DependencyTrackScanSourceOperationFilterInput) GetIn() []DependencyTrackScanSource {
+	return v.In
+}
+
+// GetNin returns DependencyTrackScanSourceOperationFilterInput.Nin, and is useful for accessing the field via an interface.
+func (v *DependencyTrackScanSourceOperationFilterInput) GetNin() []DependencyTrackScanSource {
+	return v.Nin
+}
+
 // I am a generated type!
 type DeploymentGroupAdministratorFilterInput struct {
 	And               []*DeploymentGroupAdministratorFilterInput        `json:"and,omitempty"`
 	Or                []*DeploymentGroupAdministratorFilterInput        `json:"or,omitempty"`
 	Id                *ComparableGuidOperationFilterInput               `json:"id,omitempty"`
+	TenantId          *ComparableNullableOfGuidOperationFilterInput     `json:"tenantId,omitempty"`
 	DeploymentGroupId *ComparableGuidOperationFilterInput               `json:"deploymentGroupId,omitempty"`
 	UserId            *ComparableGuidOperationFilterInput               `json:"userId,omitempty"`
 	CreatedBy         *ComparableNullableOfGuidOperationFilterInput     `json:"createdBy,omitempty"`
@@ -3520,6 +3951,7 @@ type DeploymentGroupAdministratorFilterInput struct {
 	ModifiedBy        *ComparableNullableOfGuidOperationFilterInput     `json:"modifiedBy,omitempty"`
 	ModifiedAt        *ComparableNullableOfDateTimeOperationFilterInput `json:"modifiedAt,omitempty"`
 	LastChangedAt     *ComparableDateTimeOperationFilterInput           `json:"lastChangedAt,omitempty"`
+	Tenant            *DomainTenantFilterInput                          `json:"tenant,omitempty"`
 	DeploymentGroup   *DeploymentGroupFilterInput                       `json:"deploymentGroup,omitempty"`
 	EntityIdentifier  *EntityIdentifierFilterInput                      `json:"entityIdentifier,omitempty"`
 }
@@ -3537,6 +3969,11 @@ func (v *DeploymentGroupAdministratorFilterInput) GetOr() []*DeploymentGroupAdmi
 // GetId returns DeploymentGroupAdministratorFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupAdministratorFilterInput) GetId() *ComparableGuidOperationFilterInput {
 	return v.Id
+}
+
+// GetTenantId returns DeploymentGroupAdministratorFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupAdministratorFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
 }
 
 // GetDeploymentGroupId returns DeploymentGroupAdministratorFilterInput.DeploymentGroupId, and is useful for accessing the field via an interface.
@@ -3574,6 +4011,11 @@ func (v *DeploymentGroupAdministratorFilterInput) GetLastChangedAt() *Comparable
 	return v.LastChangedAt
 }
 
+// GetTenant returns DeploymentGroupAdministratorFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupAdministratorFilterInput) GetTenant() *DomainTenantFilterInput {
+	return v.Tenant
+}
+
 // GetDeploymentGroup returns DeploymentGroupAdministratorFilterInput.DeploymentGroup, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupAdministratorFilterInput) GetDeploymentGroup() *DeploymentGroupFilterInput {
 	return v.DeploymentGroup
@@ -3589,6 +4031,7 @@ type DeploymentGroupBridgeAppRevisionFilterInput struct {
 	And               []*DeploymentGroupBridgeAppRevisionFilterInput    `json:"and,omitempty"`
 	Or                []*DeploymentGroupBridgeAppRevisionFilterInput    `json:"or,omitempty"`
 	Id                *ComparableGuidOperationFilterInput               `json:"id,omitempty"`
+	TenantId          *ComparableNullableOfGuidOperationFilterInput     `json:"tenantId,omitempty"`
 	DeploymentGroupId *ComparableGuidOperationFilterInput               `json:"deploymentGroupId,omitempty"`
 	AppRevisionId     *ComparableGuidOperationFilterInput               `json:"appRevisionId,omitempty"`
 	IsCoreApp         *BooleanOperationFilterInput                      `json:"isCoreApp,omitempty"`
@@ -3597,6 +4040,7 @@ type DeploymentGroupBridgeAppRevisionFilterInput struct {
 	ModifiedAt        *ComparableNullableOfDateTimeOperationFilterInput `json:"modifiedAt,omitempty"`
 	ModifiedBy        *ComparableNullableOfGuidOperationFilterInput     `json:"modifiedBy,omitempty"`
 	LastChangedAt     *ComparableDateTimeOperationFilterInput           `json:"lastChangedAt,omitempty"`
+	Tenant            *DomainTenantFilterInput                          `json:"tenant,omitempty"`
 	DeploymentGroup   *DeploymentGroupFilterInput                       `json:"deploymentGroup,omitempty"`
 	AppRevision       *AppRevisionFilterInput                           `json:"appRevision,omitempty"`
 	EntityIdentifier  *EntityIdentifierFilterInput                      `json:"entityIdentifier,omitempty"`
@@ -3615,6 +4059,11 @@ func (v *DeploymentGroupBridgeAppRevisionFilterInput) GetOr() []*DeploymentGroup
 // GetId returns DeploymentGroupBridgeAppRevisionFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupBridgeAppRevisionFilterInput) GetId() *ComparableGuidOperationFilterInput {
 	return v.Id
+}
+
+// GetTenantId returns DeploymentGroupBridgeAppRevisionFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupBridgeAppRevisionFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
 }
 
 // GetDeploymentGroupId returns DeploymentGroupBridgeAppRevisionFilterInput.DeploymentGroupId, and is useful for accessing the field via an interface.
@@ -3657,6 +4106,11 @@ func (v *DeploymentGroupBridgeAppRevisionFilterInput) GetLastChangedAt() *Compar
 	return v.LastChangedAt
 }
 
+// GetTenant returns DeploymentGroupBridgeAppRevisionFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupBridgeAppRevisionFilterInput) GetTenant() *DomainTenantFilterInput {
+	return v.Tenant
+}
+
 // GetDeploymentGroup returns DeploymentGroupBridgeAppRevisionFilterInput.DeploymentGroup, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupBridgeAppRevisionFilterInput) GetDeploymentGroup() *DeploymentGroupFilterInput {
 	return v.DeploymentGroup
@@ -3677,6 +4131,7 @@ type DeploymentGroupBridgeDeploymentGroupTagFilterInput struct {
 	And                  []*DeploymentGroupBridgeDeploymentGroupTagFilterInput `json:"and,omitempty"`
 	Or                   []*DeploymentGroupBridgeDeploymentGroupTagFilterInput `json:"or,omitempty"`
 	Id                   *ComparableGuidOperationFilterInput                   `json:"id,omitempty"`
+	TenantId             *ComparableNullableOfGuidOperationFilterInput         `json:"tenantId,omitempty"`
 	DeploymentGroupId    *ComparableGuidOperationFilterInput                   `json:"deploymentGroupId,omitempty"`
 	DeploymentGroupTagId *ComparableGuidOperationFilterInput                   `json:"deploymentGroupTagId,omitempty"`
 	CreatedBy            *ComparableNullableOfGuidOperationFilterInput         `json:"createdBy,omitempty"`
@@ -3684,6 +4139,7 @@ type DeploymentGroupBridgeDeploymentGroupTagFilterInput struct {
 	ModifiedBy           *ComparableNullableOfGuidOperationFilterInput         `json:"modifiedBy,omitempty"`
 	ModifiedAt           *ComparableNullableOfDateTimeOperationFilterInput     `json:"modifiedAt,omitempty"`
 	LastChangedAt        *ComparableDateTimeOperationFilterInput               `json:"lastChangedAt,omitempty"`
+	Tenant               *DomainTenantFilterInput                              `json:"tenant,omitempty"`
 	DeploymentGroup      *DeploymentGroupFilterInput                           `json:"deploymentGroup,omitempty"`
 	DeploymentGroupTag   *DeploymentGroupTagFilterInput                        `json:"deploymentGroupTag,omitempty"`
 	EntityIdentifier     *EntityIdentifierFilterInput                          `json:"entityIdentifier,omitempty"`
@@ -3702,6 +4158,11 @@ func (v *DeploymentGroupBridgeDeploymentGroupTagFilterInput) GetOr() []*Deployme
 // GetId returns DeploymentGroupBridgeDeploymentGroupTagFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupBridgeDeploymentGroupTagFilterInput) GetId() *ComparableGuidOperationFilterInput {
 	return v.Id
+}
+
+// GetTenantId returns DeploymentGroupBridgeDeploymentGroupTagFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupBridgeDeploymentGroupTagFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
 }
 
 // GetDeploymentGroupId returns DeploymentGroupBridgeDeploymentGroupTagFilterInput.DeploymentGroupId, and is useful for accessing the field via an interface.
@@ -3737,6 +4198,11 @@ func (v *DeploymentGroupBridgeDeploymentGroupTagFilterInput) GetModifiedAt() *Co
 // GetLastChangedAt returns DeploymentGroupBridgeDeploymentGroupTagFilterInput.LastChangedAt, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupBridgeDeploymentGroupTagFilterInput) GetLastChangedAt() *ComparableDateTimeOperationFilterInput {
 	return v.LastChangedAt
+}
+
+// GetTenant returns DeploymentGroupBridgeDeploymentGroupTagFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupBridgeDeploymentGroupTagFilterInput) GetTenant() *DomainTenantFilterInput {
+	return v.Tenant
 }
 
 // GetDeploymentGroup returns DeploymentGroupBridgeDeploymentGroupTagFilterInput.DeploymentGroup, and is useful for accessing the field via an interface.
@@ -3891,23 +4357,27 @@ func (v *DeploymentGroupCreateInput) GetModifiedAt() *string { return v.Modified
 
 // I am a generated type!
 type DeploymentGroupFilterInput struct {
-	And                           []*DeploymentGroupFilterInput                                 `json:"and,omitempty"`
-	Or                            []*DeploymentGroupFilterInput                                 `json:"or,omitempty"`
-	Id                            *ComparableGuidOperationFilterInput                           `json:"id,omitempty"`
-	DeviceModelRevisionId         *ComparableGuidOperationFilterInput                           `json:"deviceModelRevisionId,omitempty"`
-	AutoUpdateModeId              *ComparableGuidOperationFilterInput                           `json:"autoUpdateModeId,omitempty"`
-	OwnerUserId                   *ComparableGuidOperationFilterInput                           `json:"ownerUserId,omitempty"`
-	Name                          *StringOperationFilterInput                                   `json:"name,omitempty"`
-	Description                   *StringOperationFilterInput                                   `json:"description,omitempty"`
-	IsDeltaUpdateOnly             *BooleanOperationFilterInput                                  `json:"isDeltaUpdateOnly,omitempty"`
-	CreatedBy                     *ComparableNullableOfGuidOperationFilterInput                 `json:"createdBy,omitempty"`
-	CreatedAt                     *ComparableDateTimeOperationFilterInput                       `json:"createdAt,omitempty"`
-	ModifiedBy                    *ComparableNullableOfGuidOperationFilterInput                 `json:"modifiedBy,omitempty"`
-	ModifiedAt                    *ComparableNullableOfDateTimeOperationFilterInput             `json:"modifiedAt,omitempty"`
-	LastChangedAt                 *ComparableDateTimeOperationFilterInput                       `json:"lastChangedAt,omitempty"`
-	DeviceModelRevision           *DeviceModelRevisionFilterInput                               `json:"deviceModelRevision,omitempty"`
-	AutoUpdateMode                *AutoUpdateModeFilterInput                                    `json:"autoUpdateMode,omitempty"`
-	DeploymentGroupAdministrators *ListFilterInputTypeOfDeploymentGroupAdministratorFilterInput `json:"deploymentGroupAdministrators,omitempty"`
+	And                              []*DeploymentGroupFilterInput                                 `json:"and,omitempty"`
+	Or                               []*DeploymentGroupFilterInput                                 `json:"or,omitempty"`
+	Id                               *ComparableGuidOperationFilterInput                           `json:"id,omitempty"`
+	TenantId                         *ComparableNullableOfGuidOperationFilterInput                 `json:"tenantId,omitempty"`
+	DeviceModelRevisionId            *ComparableGuidOperationFilterInput                           `json:"deviceModelRevisionId,omitempty"`
+	AutoUpdateModeId                 *ComparableGuidOperationFilterInput                           `json:"autoUpdateModeId,omitempty"`
+	OwnerUserId                      *ComparableGuidOperationFilterInput                           `json:"ownerUserId,omitempty"`
+	Name                             *StringOperationFilterInput                                   `json:"name,omitempty"`
+	Description                      *StringOperationFilterInput                                   `json:"description,omitempty"`
+	IsDeltaUpdateOnly                *BooleanOperationFilterInput                                  `json:"isDeltaUpdateOnly,omitempty"`
+	ActiveCriticalVulnerabilityCount *ComparableInt32OperationFilterInput                          `json:"activeCriticalVulnerabilityCount,omitempty"`
+	ActiveHighVulnerabilityCount     *ComparableInt32OperationFilterInput                          `json:"activeHighVulnerabilityCount,omitempty"`
+	CreatedBy                        *ComparableNullableOfGuidOperationFilterInput                 `json:"createdBy,omitempty"`
+	CreatedAt                        *ComparableDateTimeOperationFilterInput                       `json:"createdAt,omitempty"`
+	ModifiedBy                       *ComparableNullableOfGuidOperationFilterInput                 `json:"modifiedBy,omitempty"`
+	ModifiedAt                       *ComparableNullableOfDateTimeOperationFilterInput             `json:"modifiedAt,omitempty"`
+	LastChangedAt                    *ComparableDateTimeOperationFilterInput                       `json:"lastChangedAt,omitempty"`
+	Tenant                           *DomainTenantFilterInput                                      `json:"tenant,omitempty"`
+	DeviceModelRevision              *DeviceModelRevisionFilterInput                               `json:"deviceModelRevision,omitempty"`
+	AutoUpdateMode                   *AutoUpdateModeFilterInput                                    `json:"autoUpdateMode,omitempty"`
+	DeploymentGroupAdministrators    *ListFilterInputTypeOfDeploymentGroupAdministratorFilterInput `json:"deploymentGroupAdministrators,omitempty"`
 	// Deprecated=true
 	DeviceSnaps                              *ListFilterInputTypeOfDeviceSnapFilterInput                              `json:"deviceSnaps,omitempty"`
 	Devices                                  *ListFilterInputTypeOfDeviceFilterInput                                  `json:"devices,omitempty"`
@@ -3924,6 +4394,11 @@ func (v *DeploymentGroupFilterInput) GetOr() []*DeploymentGroupFilterInput { ret
 
 // GetId returns DeploymentGroupFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns DeploymentGroupFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
 
 // GetDeviceModelRevisionId returns DeploymentGroupFilterInput.DeviceModelRevisionId, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupFilterInput) GetDeviceModelRevisionId() *ComparableGuidOperationFilterInput {
@@ -3953,6 +4428,16 @@ func (v *DeploymentGroupFilterInput) GetIsDeltaUpdateOnly() *BooleanOperationFil
 	return v.IsDeltaUpdateOnly
 }
 
+// GetActiveCriticalVulnerabilityCount returns DeploymentGroupFilterInput.ActiveCriticalVulnerabilityCount, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupFilterInput) GetActiveCriticalVulnerabilityCount() *ComparableInt32OperationFilterInput {
+	return v.ActiveCriticalVulnerabilityCount
+}
+
+// GetActiveHighVulnerabilityCount returns DeploymentGroupFilterInput.ActiveHighVulnerabilityCount, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupFilterInput) GetActiveHighVulnerabilityCount() *ComparableInt32OperationFilterInput {
+	return v.ActiveHighVulnerabilityCount
+}
+
 // GetCreatedBy returns DeploymentGroupFilterInput.CreatedBy, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperationFilterInput {
 	return v.CreatedBy
@@ -3977,6 +4462,9 @@ func (v *DeploymentGroupFilterInput) GetModifiedAt() *ComparableNullableOfDateTi
 func (v *DeploymentGroupFilterInput) GetLastChangedAt() *ComparableDateTimeOperationFilterInput {
 	return v.LastChangedAt
 }
+
+// GetTenant returns DeploymentGroupFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
 
 // GetDeviceModelRevision returns DeploymentGroupFilterInput.DeviceModelRevision, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupFilterInput) GetDeviceModelRevision() *DeviceModelRevisionFilterInput {
@@ -4020,25 +4508,32 @@ func (v *DeploymentGroupFilterInput) GetEntityIdentifier() *EntityIdentifierFilt
 
 // I am a generated type!
 type DeploymentGroupSortInput struct {
-	Id                    *SortEnumType                 `json:"id,omitempty"`
-	DeviceModelRevisionId *SortEnumType                 `json:"deviceModelRevisionId,omitempty"`
-	AutoUpdateModeId      *SortEnumType                 `json:"autoUpdateModeId,omitempty"`
-	OwnerUserId           *SortEnumType                 `json:"ownerUserId,omitempty"`
-	Name                  *SortEnumType                 `json:"name,omitempty"`
-	Description           *SortEnumType                 `json:"description,omitempty"`
-	IsDeltaUpdateOnly     *SortEnumType                 `json:"isDeltaUpdateOnly,omitempty"`
-	CreatedBy             *SortEnumType                 `json:"createdBy,omitempty"`
-	CreatedAt             *SortEnumType                 `json:"createdAt,omitempty"`
-	ModifiedBy            *SortEnumType                 `json:"modifiedBy,omitempty"`
-	ModifiedAt            *SortEnumType                 `json:"modifiedAt,omitempty"`
-	LastChangedAt         *SortEnumType                 `json:"lastChangedAt,omitempty"`
-	DeviceModelRevision   *DeviceModelRevisionSortInput `json:"deviceModelRevision,omitempty"`
-	AutoUpdateMode        *AutoUpdateModeSortInput      `json:"autoUpdateMode,omitempty"`
-	EntityIdentifier      *EntityIdentifierSortInput    `json:"entityIdentifier,omitempty"`
+	Id                               *SortEnumType                 `json:"id,omitempty"`
+	TenantId                         *SortEnumType                 `json:"tenantId,omitempty"`
+	DeviceModelRevisionId            *SortEnumType                 `json:"deviceModelRevisionId,omitempty"`
+	AutoUpdateModeId                 *SortEnumType                 `json:"autoUpdateModeId,omitempty"`
+	OwnerUserId                      *SortEnumType                 `json:"ownerUserId,omitempty"`
+	Name                             *SortEnumType                 `json:"name,omitempty"`
+	Description                      *SortEnumType                 `json:"description,omitempty"`
+	IsDeltaUpdateOnly                *SortEnumType                 `json:"isDeltaUpdateOnly,omitempty"`
+	ActiveCriticalVulnerabilityCount *SortEnumType                 `json:"activeCriticalVulnerabilityCount,omitempty"`
+	ActiveHighVulnerabilityCount     *SortEnumType                 `json:"activeHighVulnerabilityCount,omitempty"`
+	CreatedBy                        *SortEnumType                 `json:"createdBy,omitempty"`
+	CreatedAt                        *SortEnumType                 `json:"createdAt,omitempty"`
+	ModifiedBy                       *SortEnumType                 `json:"modifiedBy,omitempty"`
+	ModifiedAt                       *SortEnumType                 `json:"modifiedAt,omitempty"`
+	LastChangedAt                    *SortEnumType                 `json:"lastChangedAt,omitempty"`
+	Tenant                           *DomainTenantSortInput        `json:"tenant,omitempty"`
+	DeviceModelRevision              *DeviceModelRevisionSortInput `json:"deviceModelRevision,omitempty"`
+	AutoUpdateMode                   *AutoUpdateModeSortInput      `json:"autoUpdateMode,omitempty"`
+	EntityIdentifier                 *EntityIdentifierSortInput    `json:"entityIdentifier,omitempty"`
 }
 
 // GetId returns DeploymentGroupSortInput.Id, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupSortInput) GetId() *SortEnumType { return v.Id }
+
+// GetTenantId returns DeploymentGroupSortInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupSortInput) GetTenantId() *SortEnumType { return v.TenantId }
 
 // GetDeviceModelRevisionId returns DeploymentGroupSortInput.DeviceModelRevisionId, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupSortInput) GetDeviceModelRevisionId() *SortEnumType {
@@ -4060,6 +4555,16 @@ func (v *DeploymentGroupSortInput) GetDescription() *SortEnumType { return v.Des
 // GetIsDeltaUpdateOnly returns DeploymentGroupSortInput.IsDeltaUpdateOnly, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupSortInput) GetIsDeltaUpdateOnly() *SortEnumType { return v.IsDeltaUpdateOnly }
 
+// GetActiveCriticalVulnerabilityCount returns DeploymentGroupSortInput.ActiveCriticalVulnerabilityCount, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupSortInput) GetActiveCriticalVulnerabilityCount() *SortEnumType {
+	return v.ActiveCriticalVulnerabilityCount
+}
+
+// GetActiveHighVulnerabilityCount returns DeploymentGroupSortInput.ActiveHighVulnerabilityCount, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupSortInput) GetActiveHighVulnerabilityCount() *SortEnumType {
+	return v.ActiveHighVulnerabilityCount
+}
+
 // GetCreatedBy returns DeploymentGroupSortInput.CreatedBy, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupSortInput) GetCreatedBy() *SortEnumType { return v.CreatedBy }
 
@@ -4074,6 +4579,9 @@ func (v *DeploymentGroupSortInput) GetModifiedAt() *SortEnumType { return v.Modi
 
 // GetLastChangedAt returns DeploymentGroupSortInput.LastChangedAt, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupSortInput) GetLastChangedAt() *SortEnumType { return v.LastChangedAt }
+
+// GetTenant returns DeploymentGroupSortInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupSortInput) GetTenant() *DomainTenantSortInput { return v.Tenant }
 
 // GetDeviceModelRevision returns DeploymentGroupSortInput.DeviceModelRevision, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupSortInput) GetDeviceModelRevision() *DeviceModelRevisionSortInput {
@@ -4096,11 +4604,13 @@ type DeploymentGroupTagFilterInput struct {
 	Or                                       []*DeploymentGroupTagFilterInput                                         `json:"or,omitempty"`
 	DeploymentGroupTagValue                  *StringOperationFilterInput                                              `json:"deploymentGroupTagValue,omitempty"`
 	Id                                       *ComparableGuidOperationFilterInput                                      `json:"id,omitempty"`
+	TenantId                                 *ComparableNullableOfGuidOperationFilterInput                            `json:"tenantId,omitempty"`
 	CreatedBy                                *ComparableNullableOfGuidOperationFilterInput                            `json:"createdBy,omitempty"`
 	CreatedAt                                *ComparableDateTimeOperationFilterInput                                  `json:"createdAt,omitempty"`
 	ModifiedBy                               *ComparableNullableOfGuidOperationFilterInput                            `json:"modifiedBy,omitempty"`
 	ModifiedAt                               *ComparableNullableOfDateTimeOperationFilterInput                        `json:"modifiedAt,omitempty"`
 	LastChangedAt                            *ComparableDateTimeOperationFilterInput                                  `json:"lastChangedAt,omitempty"`
+	Tenant                                   *DomainTenantFilterInput                                                 `json:"tenant,omitempty"`
 	DeploymentGroupBridgeDeploymentGroupTags *ListFilterInputTypeOfDeploymentGroupBridgeDeploymentGroupTagFilterInput `json:"deploymentGroupBridgeDeploymentGroupTags,omitempty"`
 	EntityIdentifier                         *EntityIdentifierFilterInput                                             `json:"entityIdentifier,omitempty"`
 }
@@ -4118,6 +4628,11 @@ func (v *DeploymentGroupTagFilterInput) GetDeploymentGroupTagValue() *StringOper
 
 // GetId returns DeploymentGroupTagFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupTagFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns DeploymentGroupTagFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupTagFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
 
 // GetCreatedBy returns DeploymentGroupTagFilterInput.CreatedBy, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupTagFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperationFilterInput {
@@ -4144,6 +4659,9 @@ func (v *DeploymentGroupTagFilterInput) GetLastChangedAt() *ComparableDateTimeOp
 	return v.LastChangedAt
 }
 
+// GetTenant returns DeploymentGroupTagFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeploymentGroupTagFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
+
 // GetDeploymentGroupBridgeDeploymentGroupTags returns DeploymentGroupTagFilterInput.DeploymentGroupBridgeDeploymentGroupTags, and is useful for accessing the field via an interface.
 func (v *DeploymentGroupTagFilterInput) GetDeploymentGroupBridgeDeploymentGroupTags() *ListFilterInputTypeOfDeploymentGroupBridgeDeploymentGroupTagFilterInput {
 	return v.DeploymentGroupBridgeDeploymentGroupTags
@@ -4156,16 +4674,18 @@ func (v *DeploymentGroupTagFilterInput) GetEntityIdentifier() *EntityIdentifierF
 
 // I am a generated type!
 type DeviceDailyMessagingActivityFilterInput struct {
-	And                    []*DeviceDailyMessagingActivityFilterInput `json:"and,omitempty"`
-	Or                     []*DeviceDailyMessagingActivityFilterInput `json:"or,omitempty"`
-	Id                     *ComparableGuidOperationFilterInput        `json:"id,omitempty"`
-	DeviceId               *ComparableGuidOperationFilterInput        `json:"deviceId,omitempty"`
-	ModuleInstanceId       *ComparableGuidOperationFilterInput        `json:"moduleInstanceId,omitempty"`
-	Date                   *ComparableDateTimeOperationFilterInput    `json:"date,omitempty"`
-	DataMessagesReceived   *ComparableInt64OperationFilterInput       `json:"dataMessagesReceived,omitempty"`
-	SignalMessagesReceived *ComparableInt64OperationFilterInput       `json:"signalMessagesReceived,omitempty"`
-	BytesReceived          *ComparableInt64OperationFilterInput       `json:"bytesReceived,omitempty"`
-	Device                 *DeviceFilterInput                         `json:"device,omitempty"`
+	And                    []*DeviceDailyMessagingActivityFilterInput    `json:"and,omitempty"`
+	Or                     []*DeviceDailyMessagingActivityFilterInput    `json:"or,omitempty"`
+	Id                     *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId               *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
+	DeviceId               *ComparableGuidOperationFilterInput           `json:"deviceId,omitempty"`
+	ModuleInstanceId       *ComparableGuidOperationFilterInput           `json:"moduleInstanceId,omitempty"`
+	Date                   *ComparableDateTimeOperationFilterInput       `json:"date,omitempty"`
+	DataMessagesReceived   *ComparableInt64OperationFilterInput          `json:"dataMessagesReceived,omitempty"`
+	SignalMessagesReceived *ComparableInt64OperationFilterInput          `json:"signalMessagesReceived,omitempty"`
+	BytesReceived          *ComparableInt64OperationFilterInput          `json:"bytesReceived,omitempty"`
+	Tenant                 *DomainTenantFilterInput                      `json:"tenant,omitempty"`
+	Device                 *DeviceFilterInput                            `json:"device,omitempty"`
 }
 
 // GetAnd returns DeviceDailyMessagingActivityFilterInput.And, and is useful for accessing the field via an interface.
@@ -4181,6 +4701,11 @@ func (v *DeviceDailyMessagingActivityFilterInput) GetOr() []*DeviceDailyMessagin
 // GetId returns DeviceDailyMessagingActivityFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceDailyMessagingActivityFilterInput) GetId() *ComparableGuidOperationFilterInput {
 	return v.Id
+}
+
+// GetTenantId returns DeviceDailyMessagingActivityFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceDailyMessagingActivityFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
 }
 
 // GetDeviceId returns DeviceDailyMessagingActivityFilterInput.DeviceId, and is useful for accessing the field via an interface.
@@ -4213,6 +4738,11 @@ func (v *DeviceDailyMessagingActivityFilterInput) GetBytesReceived() *Comparable
 	return v.BytesReceived
 }
 
+// GetTenant returns DeviceDailyMessagingActivityFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceDailyMessagingActivityFilterInput) GetTenant() *DomainTenantFilterInput {
+	return v.Tenant
+}
+
 // GetDevice returns DeviceDailyMessagingActivityFilterInput.Device, and is useful for accessing the field via an interface.
 func (v *DeviceDailyMessagingActivityFilterInput) GetDevice() *DeviceFilterInput { return v.Device }
 
@@ -4221,6 +4751,7 @@ type DeviceFilterInput struct {
 	And                            []*DeviceFilterInput                                          `json:"and,omitempty"`
 	Or                             []*DeviceFilterInput                                          `json:"or,omitempty"`
 	Id                             *ComparableGuidOperationFilterInput                           `json:"id,omitempty"`
+	TenantId                       *ComparableNullableOfGuidOperationFilterInput                 `json:"tenantId,omitempty"`
 	DeviceTypeId                   *ComparableGuidOperationFilterInput                           `json:"deviceTypeId,omitempty"`
 	DeviceModelRevisionId          *ComparableGuidOperationFilterInput                           `json:"deviceModelRevisionId,omitempty"`
 	DeploymentGroupId              *ComparableNullableOfGuidOperationFilterInput                 `json:"deploymentGroupId,omitempty"`
@@ -4233,11 +4764,14 @@ type DeviceFilterInput struct {
 	IsUpdateActivated              *BooleanOperationFilterInput                                  `json:"isUpdateActivated,omitempty"`
 	Description                    *StringOperationFilterInput                                   `json:"description,omitempty"`
 	Manufacturer                   *StringOperationFilterInput                                   `json:"manufacturer,omitempty"`
+	RegistrationJson               *StringOperationFilterInput                                   `json:"registrationJson,omitempty"`
+	RegistrationJsonFormatVersion  *ComparableNullableOfInt32OperationFilterInput                `json:"registrationJsonFormatVersion,omitempty"`
 	CreatedBy                      *ComparableNullableOfGuidOperationFilterInput                 `json:"createdBy,omitempty"`
 	CreatedAt                      *ComparableDateTimeOperationFilterInput                       `json:"createdAt,omitempty"`
 	ModifiedBy                     *ComparableNullableOfGuidOperationFilterInput                 `json:"modifiedBy,omitempty"`
 	ModifiedAt                     *ComparableNullableOfDateTimeOperationFilterInput             `json:"modifiedAt,omitempty"`
 	LastChangedAt                  *ComparableDateTimeOperationFilterInput                       `json:"lastChangedAt,omitempty"`
+	Tenant                         *DomainTenantFilterInput                                      `json:"tenant,omitempty"`
 	DeviceModelRevision            *DeviceModelRevisionFilterInput                               `json:"deviceModelRevision,omitempty"`
 	DeviceType                     *DeviceTypeFilterInput                                        `json:"deviceType,omitempty"`
 	DeploymentGroup                *DeploymentGroupFilterInput                                   `json:"deploymentGroup,omitempty"`
@@ -4260,6 +4794,11 @@ func (v *DeviceFilterInput) GetOr() []*DeviceFilterInput { return v.Or }
 
 // GetId returns DeviceFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns DeviceFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
 
 // GetDeviceTypeId returns DeviceFilterInput.DeviceTypeId, and is useful for accessing the field via an interface.
 func (v *DeviceFilterInput) GetDeviceTypeId() *ComparableGuidOperationFilterInput {
@@ -4313,6 +4852,16 @@ func (v *DeviceFilterInput) GetDescription() *StringOperationFilterInput { retur
 // GetManufacturer returns DeviceFilterInput.Manufacturer, and is useful for accessing the field via an interface.
 func (v *DeviceFilterInput) GetManufacturer() *StringOperationFilterInput { return v.Manufacturer }
 
+// GetRegistrationJson returns DeviceFilterInput.RegistrationJson, and is useful for accessing the field via an interface.
+func (v *DeviceFilterInput) GetRegistrationJson() *StringOperationFilterInput {
+	return v.RegistrationJson
+}
+
+// GetRegistrationJsonFormatVersion returns DeviceFilterInput.RegistrationJsonFormatVersion, and is useful for accessing the field via an interface.
+func (v *DeviceFilterInput) GetRegistrationJsonFormatVersion() *ComparableNullableOfInt32OperationFilterInput {
+	return v.RegistrationJsonFormatVersion
+}
+
 // GetCreatedBy returns DeviceFilterInput.CreatedBy, and is useful for accessing the field via an interface.
 func (v *DeviceFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperationFilterInput {
 	return v.CreatedBy
@@ -4337,6 +4886,9 @@ func (v *DeviceFilterInput) GetModifiedAt() *ComparableNullableOfDateTimeOperati
 func (v *DeviceFilterInput) GetLastChangedAt() *ComparableDateTimeOperationFilterInput {
 	return v.LastChangedAt
 }
+
+// GetTenant returns DeviceFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
 
 // GetDeviceModelRevision returns DeviceFilterInput.DeviceModelRevision, and is useful for accessing the field via an interface.
 func (v *DeviceFilterInput) GetDeviceModelRevision() *DeviceModelRevisionFilterInput {
@@ -4388,11 +4940,13 @@ func (v *DeviceFilterInput) GetEntityIdentifier() *EntityIdentifierFilterInput {
 
 // I am a generated type!
 type DeviceFirmwareFilterInput struct {
-	And    []*DeviceFirmwareFilterInput        `json:"and,omitempty"`
-	Or     []*DeviceFirmwareFilterInput        `json:"or,omitempty"`
-	Id     *ComparableGuidOperationFilterInput `json:"id,omitempty"`
-	McuId  *StringOperationFilterInput         `json:"mcuId,omitempty"`
-	Device *DeviceFilterInput                  `json:"device,omitempty"`
+	And      []*DeviceFirmwareFilterInput                  `json:"and,omitempty"`
+	Or       []*DeviceFirmwareFilterInput                  `json:"or,omitempty"`
+	Id       *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
+	McuId    *StringOperationFilterInput                   `json:"mcuId,omitempty"`
+	Tenant   *DomainTenantFilterInput                      `json:"tenant,omitempty"`
+	Device   *DeviceFilterInput                            `json:"device,omitempty"`
 }
 
 // GetAnd returns DeviceFirmwareFilterInput.And, and is useful for accessing the field via an interface.
@@ -4404,38 +4958,137 @@ func (v *DeviceFirmwareFilterInput) GetOr() []*DeviceFirmwareFilterInput { retur
 // GetId returns DeviceFirmwareFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceFirmwareFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
 
+// GetTenantId returns DeviceFirmwareFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
+
 // GetMcuId returns DeviceFirmwareFilterInput.McuId, and is useful for accessing the field via an interface.
 func (v *DeviceFirmwareFilterInput) GetMcuId() *StringOperationFilterInput { return v.McuId }
+
+// GetTenant returns DeviceFirmwareFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
 
 // GetDevice returns DeviceFirmwareFilterInput.Device, and is useful for accessing the field via an interface.
 func (v *DeviceFirmwareFilterInput) GetDevice() *DeviceFilterInput { return v.Device }
 
 // I am a generated type!
+type DeviceFirmwareSequenceHistoryFilterInput struct {
+	And                           []*DeviceFirmwareSequenceHistoryFilterInput   `json:"and,omitempty"`
+	Or                            []*DeviceFirmwareSequenceHistoryFilterInput   `json:"or,omitempty"`
+	Id                            *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId                      *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
+	DeviceId                      *ComparableGuidOperationFilterInput           `json:"deviceId,omitempty"`
+	SequenceNumber                *ComparableInt32OperationFilterInput          `json:"sequenceNumber,omitempty"`
+	AppRevisionId                 *ComparableGuidOperationFilterInput           `json:"appRevisionId,omitempty"`
+	AppRevisionFirmwareManifestId *ComparableNullableOfGuidOperationFilterInput `json:"appRevisionFirmwareManifestId,omitempty"`
+	ObservedAt                    *ComparableDateTimeOperationFilterInput       `json:"observedAt,omitempty"`
+	Tenant                        *DomainTenantFilterInput                      `json:"tenant,omitempty"`
+	Device                        *DeviceFilterInput                            `json:"device,omitempty"`
+	AppRevision                   *AppRevisionFilterInput                       `json:"appRevision,omitempty"`
+	AppRevisionFirmwareManifest   *AppRevisionFirmwareManifestFilterInput       `json:"appRevisionFirmwareManifest,omitempty"`
+}
+
+// GetAnd returns DeviceFirmwareSequenceHistoryFilterInput.And, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSequenceHistoryFilterInput) GetAnd() []*DeviceFirmwareSequenceHistoryFilterInput {
+	return v.And
+}
+
+// GetOr returns DeviceFirmwareSequenceHistoryFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSequenceHistoryFilterInput) GetOr() []*DeviceFirmwareSequenceHistoryFilterInput {
+	return v.Or
+}
+
+// GetId returns DeviceFirmwareSequenceHistoryFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSequenceHistoryFilterInput) GetId() *ComparableGuidOperationFilterInput {
+	return v.Id
+}
+
+// GetTenantId returns DeviceFirmwareSequenceHistoryFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSequenceHistoryFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
+
+// GetDeviceId returns DeviceFirmwareSequenceHistoryFilterInput.DeviceId, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSequenceHistoryFilterInput) GetDeviceId() *ComparableGuidOperationFilterInput {
+	return v.DeviceId
+}
+
+// GetSequenceNumber returns DeviceFirmwareSequenceHistoryFilterInput.SequenceNumber, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSequenceHistoryFilterInput) GetSequenceNumber() *ComparableInt32OperationFilterInput {
+	return v.SequenceNumber
+}
+
+// GetAppRevisionId returns DeviceFirmwareSequenceHistoryFilterInput.AppRevisionId, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSequenceHistoryFilterInput) GetAppRevisionId() *ComparableGuidOperationFilterInput {
+	return v.AppRevisionId
+}
+
+// GetAppRevisionFirmwareManifestId returns DeviceFirmwareSequenceHistoryFilterInput.AppRevisionFirmwareManifestId, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSequenceHistoryFilterInput) GetAppRevisionFirmwareManifestId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.AppRevisionFirmwareManifestId
+}
+
+// GetObservedAt returns DeviceFirmwareSequenceHistoryFilterInput.ObservedAt, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSequenceHistoryFilterInput) GetObservedAt() *ComparableDateTimeOperationFilterInput {
+	return v.ObservedAt
+}
+
+// GetTenant returns DeviceFirmwareSequenceHistoryFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSequenceHistoryFilterInput) GetTenant() *DomainTenantFilterInput {
+	return v.Tenant
+}
+
+// GetDevice returns DeviceFirmwareSequenceHistoryFilterInput.Device, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSequenceHistoryFilterInput) GetDevice() *DeviceFilterInput { return v.Device }
+
+// GetAppRevision returns DeviceFirmwareSequenceHistoryFilterInput.AppRevision, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSequenceHistoryFilterInput) GetAppRevision() *AppRevisionFilterInput {
+	return v.AppRevision
+}
+
+// GetAppRevisionFirmwareManifest returns DeviceFirmwareSequenceHistoryFilterInput.AppRevisionFirmwareManifest, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSequenceHistoryFilterInput) GetAppRevisionFirmwareManifest() *AppRevisionFirmwareManifestFilterInput {
+	return v.AppRevisionFirmwareManifest
+}
+
+// I am a generated type!
 type DeviceFirmwareSortInput struct {
-	Id     *SortEnumType    `json:"id,omitempty"`
-	McuId  *SortEnumType    `json:"mcuId,omitempty"`
-	Device *DeviceSortInput `json:"device,omitempty"`
+	Id       *SortEnumType          `json:"id,omitempty"`
+	TenantId *SortEnumType          `json:"tenantId,omitempty"`
+	McuId    *SortEnumType          `json:"mcuId,omitempty"`
+	Tenant   *DomainTenantSortInput `json:"tenant,omitempty"`
+	Device   *DeviceSortInput       `json:"device,omitempty"`
 }
 
 // GetId returns DeviceFirmwareSortInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceFirmwareSortInput) GetId() *SortEnumType { return v.Id }
 
+// GetTenantId returns DeviceFirmwareSortInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSortInput) GetTenantId() *SortEnumType { return v.TenantId }
+
 // GetMcuId returns DeviceFirmwareSortInput.McuId, and is useful for accessing the field via an interface.
 func (v *DeviceFirmwareSortInput) GetMcuId() *SortEnumType { return v.McuId }
+
+// GetTenant returns DeviceFirmwareSortInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceFirmwareSortInput) GetTenant() *DomainTenantSortInput { return v.Tenant }
 
 // GetDevice returns DeviceFirmwareSortInput.Device, and is useful for accessing the field via an interface.
 func (v *DeviceFirmwareSortInput) GetDevice() *DeviceSortInput { return v.Device }
 
 // I am a generated type!
 type DeviceInstallStateFilterInput struct {
-	And                           []*DeviceInstallStateFilterInput              `json:"and,omitempty"`
-	Or                            []*DeviceInstallStateFilterInput              `json:"or,omitempty"`
-	Id                            *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
-	DeviceId                      *ComparableGuidOperationFilterInput           `json:"deviceId,omitempty"`
-	AppRevisionId                 *ComparableGuidOperationFilterInput           `json:"appRevisionId,omitempty"`
-	AppRevisionFirmwareManifestId *ComparableNullableOfGuidOperationFilterInput `json:"appRevisionFirmwareManifestId,omitempty"`
-	Device                        *DeviceFilterInput                            `json:"device,omitempty"`
-	AppRevision                   *AppRevisionFilterInput                       `json:"appRevision,omitempty"`
+	And                             []*DeviceInstallStateFilterInput              `json:"and,omitempty"`
+	Or                              []*DeviceInstallStateFilterInput              `json:"or,omitempty"`
+	Id                              *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId                        *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
+	DeviceId                        *ComparableGuidOperationFilterInput           `json:"deviceId,omitempty"`
+	AppRevisionId                   *ComparableGuidOperationFilterInput           `json:"appRevisionId,omitempty"`
+	DeviceFirmwareSequenceHistoryId *ComparableNullableOfGuidOperationFilterInput `json:"deviceFirmwareSequenceHistoryId,omitempty"`
+	Tenant                          *DomainTenantFilterInput                      `json:"tenant,omitempty"`
+	Device                          *DeviceFilterInput                            `json:"device,omitempty"`
+	AppRevision                     *AppRevisionFilterInput                       `json:"appRevision,omitempty"`
+	DeviceFirmwareSequenceHistory   *DeviceFirmwareSequenceHistoryFilterInput     `json:"deviceFirmwareSequenceHistory,omitempty"`
 }
 
 // GetAnd returns DeviceInstallStateFilterInput.And, and is useful for accessing the field via an interface.
@@ -4447,6 +5100,11 @@ func (v *DeviceInstallStateFilterInput) GetOr() []*DeviceInstallStateFilterInput
 // GetId returns DeviceInstallStateFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceInstallStateFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
 
+// GetTenantId returns DeviceInstallStateFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
+
 // GetDeviceId returns DeviceInstallStateFilterInput.DeviceId, and is useful for accessing the field via an interface.
 func (v *DeviceInstallStateFilterInput) GetDeviceId() *ComparableGuidOperationFilterInput {
 	return v.DeviceId
@@ -4457,10 +5115,13 @@ func (v *DeviceInstallStateFilterInput) GetAppRevisionId() *ComparableGuidOperat
 	return v.AppRevisionId
 }
 
-// GetAppRevisionFirmwareManifestId returns DeviceInstallStateFilterInput.AppRevisionFirmwareManifestId, and is useful for accessing the field via an interface.
-func (v *DeviceInstallStateFilterInput) GetAppRevisionFirmwareManifestId() *ComparableNullableOfGuidOperationFilterInput {
-	return v.AppRevisionFirmwareManifestId
+// GetDeviceFirmwareSequenceHistoryId returns DeviceInstallStateFilterInput.DeviceFirmwareSequenceHistoryId, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateFilterInput) GetDeviceFirmwareSequenceHistoryId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.DeviceFirmwareSequenceHistoryId
 }
+
+// GetTenant returns DeviceInstallStateFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
 
 // GetDevice returns DeviceInstallStateFilterInput.Device, and is useful for accessing the field via an interface.
 func (v *DeviceInstallStateFilterInput) GetDevice() *DeviceFilterInput { return v.Device }
@@ -4470,19 +5131,29 @@ func (v *DeviceInstallStateFilterInput) GetAppRevision() *AppRevisionFilterInput
 	return v.AppRevision
 }
 
+// GetDeviceFirmwareSequenceHistory returns DeviceInstallStateFilterInput.DeviceFirmwareSequenceHistory, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateFilterInput) GetDeviceFirmwareSequenceHistory() *DeviceFirmwareSequenceHistoryFilterInput {
+	return v.DeviceFirmwareSequenceHistory
+}
+
 // I am a generated type!
 type DeviceModelFilterInput struct {
 	And                  []*DeviceModelFilterInput                            `json:"and,omitempty"`
 	Or                   []*DeviceModelFilterInput                            `json:"or,omitempty"`
 	Id                   *ComparableGuidOperationFilterInput                  `json:"id,omitempty"`
+	TenantId             *ComparableNullableOfGuidOperationFilterInput        `json:"tenantId,omitempty"`
 	DeviceTypeId         *ComparableGuidOperationFilterInput                  `json:"deviceTypeId,omitempty"`
 	ModelName            *StringOperationFilterInput                          `json:"modelName,omitempty"`
 	Architecture         *ArchitectureOperationFilterInput                    `json:"architecture,omitempty"`
+	IsGloballyShared     *BooleanOperationFilterInput                         `json:"isGloballyShared,omitempty"`
 	CreatedBy            *ComparableNullableOfGuidOperationFilterInput        `json:"createdBy,omitempty"`
 	CreatedAt            *ComparableDateTimeOperationFilterInput              `json:"createdAt,omitempty"`
+	GloballySharedAt     *ComparableNullableOfDateTimeOperationFilterInput    `json:"globallySharedAt,omitempty"`
+	GloballySharedBy     *ComparableNullableOfGuidOperationFilterInput        `json:"globallySharedBy,omitempty"`
 	ModifiedBy           *ComparableNullableOfGuidOperationFilterInput        `json:"modifiedBy,omitempty"`
 	ModifiedAt           *ComparableNullableOfDateTimeOperationFilterInput    `json:"modifiedAt,omitempty"`
 	LastChangedAt        *ComparableDateTimeOperationFilterInput              `json:"lastChangedAt,omitempty"`
+	Tenant               *DomainTenantFilterInput                             `json:"tenant,omitempty"`
 	DeviceType           *DeviceTypeFilterInput                               `json:"deviceType,omitempty"`
 	DeviceModelRevisions *ListFilterInputTypeOfDeviceModelRevisionFilterInput `json:"deviceModelRevisions,omitempty"`
 	AppFirmwares         *ListFilterInputTypeOfAppFirmwareFilterInput         `json:"appFirmwares,omitempty"`
@@ -4498,6 +5169,11 @@ func (v *DeviceModelFilterInput) GetOr() []*DeviceModelFilterInput { return v.Or
 // GetId returns DeviceModelFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceModelFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
 
+// GetTenantId returns DeviceModelFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceModelFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
+
 // GetDeviceTypeId returns DeviceModelFilterInput.DeviceTypeId, and is useful for accessing the field via an interface.
 func (v *DeviceModelFilterInput) GetDeviceTypeId() *ComparableGuidOperationFilterInput {
 	return v.DeviceTypeId
@@ -4511,6 +5187,11 @@ func (v *DeviceModelFilterInput) GetArchitecture() *ArchitectureOperationFilterI
 	return v.Architecture
 }
 
+// GetIsGloballyShared returns DeviceModelFilterInput.IsGloballyShared, and is useful for accessing the field via an interface.
+func (v *DeviceModelFilterInput) GetIsGloballyShared() *BooleanOperationFilterInput {
+	return v.IsGloballyShared
+}
+
 // GetCreatedBy returns DeviceModelFilterInput.CreatedBy, and is useful for accessing the field via an interface.
 func (v *DeviceModelFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperationFilterInput {
 	return v.CreatedBy
@@ -4519,6 +5200,16 @@ func (v *DeviceModelFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperati
 // GetCreatedAt returns DeviceModelFilterInput.CreatedAt, and is useful for accessing the field via an interface.
 func (v *DeviceModelFilterInput) GetCreatedAt() *ComparableDateTimeOperationFilterInput {
 	return v.CreatedAt
+}
+
+// GetGloballySharedAt returns DeviceModelFilterInput.GloballySharedAt, and is useful for accessing the field via an interface.
+func (v *DeviceModelFilterInput) GetGloballySharedAt() *ComparableNullableOfDateTimeOperationFilterInput {
+	return v.GloballySharedAt
+}
+
+// GetGloballySharedBy returns DeviceModelFilterInput.GloballySharedBy, and is useful for accessing the field via an interface.
+func (v *DeviceModelFilterInput) GetGloballySharedBy() *ComparableNullableOfGuidOperationFilterInput {
+	return v.GloballySharedBy
 }
 
 // GetModifiedBy returns DeviceModelFilterInput.ModifiedBy, and is useful for accessing the field via an interface.
@@ -4535,6 +5226,9 @@ func (v *DeviceModelFilterInput) GetModifiedAt() *ComparableNullableOfDateTimeOp
 func (v *DeviceModelFilterInput) GetLastChangedAt() *ComparableDateTimeOperationFilterInput {
 	return v.LastChangedAt
 }
+
+// GetTenant returns DeviceModelFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceModelFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
 
 // GetDeviceType returns DeviceModelFilterInput.DeviceType, and is useful for accessing the field via an interface.
 func (v *DeviceModelFilterInput) GetDeviceType() *DeviceTypeFilterInput { return v.DeviceType }
@@ -4556,13 +5250,15 @@ func (v *DeviceModelFilterInput) GetEntityIdentifier() *EntityIdentifierFilterIn
 
 // I am a generated type!
 type DeviceModelRevisionBridgeAppFilterInput struct {
-	And                   []*DeviceModelRevisionBridgeAppFilterInput `json:"and,omitempty"`
-	Or                    []*DeviceModelRevisionBridgeAppFilterInput `json:"or,omitempty"`
-	Id                    *ComparableGuidOperationFilterInput        `json:"id,omitempty"`
-	DeviceModelRevisionId *ComparableGuidOperationFilterInput        `json:"deviceModelRevisionId,omitempty"`
-	AppId                 *ComparableGuidOperationFilterInput        `json:"appId,omitempty"`
-	DeviceModelRevision   *DeviceModelRevisionFilterInput            `json:"deviceModelRevision,omitempty"`
-	App                   *AppFilterInput                            `json:"app,omitempty"`
+	And                   []*DeviceModelRevisionBridgeAppFilterInput    `json:"and,omitempty"`
+	Or                    []*DeviceModelRevisionBridgeAppFilterInput    `json:"or,omitempty"`
+	Id                    *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId              *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
+	DeviceModelRevisionId *ComparableGuidOperationFilterInput           `json:"deviceModelRevisionId,omitempty"`
+	AppId                 *ComparableGuidOperationFilterInput           `json:"appId,omitempty"`
+	Tenant                *DomainTenantFilterInput                      `json:"tenant,omitempty"`
+	DeviceModelRevision   *DeviceModelRevisionFilterInput               `json:"deviceModelRevision,omitempty"`
+	App                   *AppFilterInput                               `json:"app,omitempty"`
 }
 
 // GetAnd returns DeviceModelRevisionBridgeAppFilterInput.And, and is useful for accessing the field via an interface.
@@ -4580,6 +5276,11 @@ func (v *DeviceModelRevisionBridgeAppFilterInput) GetId() *ComparableGuidOperati
 	return v.Id
 }
 
+// GetTenantId returns DeviceModelRevisionBridgeAppFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionBridgeAppFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
+
 // GetDeviceModelRevisionId returns DeviceModelRevisionBridgeAppFilterInput.DeviceModelRevisionId, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionBridgeAppFilterInput) GetDeviceModelRevisionId() *ComparableGuidOperationFilterInput {
 	return v.DeviceModelRevisionId
@@ -4588,6 +5289,11 @@ func (v *DeviceModelRevisionBridgeAppFilterInput) GetDeviceModelRevisionId() *Co
 // GetAppId returns DeviceModelRevisionBridgeAppFilterInput.AppId, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionBridgeAppFilterInput) GetAppId() *ComparableGuidOperationFilterInput {
 	return v.AppId
+}
+
+// GetTenant returns DeviceModelRevisionBridgeAppFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionBridgeAppFilterInput) GetTenant() *DomainTenantFilterInput {
+	return v.Tenant
 }
 
 // GetDeviceModelRevision returns DeviceModelRevisionBridgeAppFilterInput.DeviceModelRevision, and is useful for accessing the field via an interface.
@@ -4600,27 +5306,31 @@ func (v *DeviceModelRevisionBridgeAppFilterInput) GetApp() *AppFilterInput { ret
 
 // I am a generated type!
 type DeviceModelRevisionFilterInput struct {
-	And                           []*DeviceModelRevisionFilterInput                             `json:"and,omitempty"`
-	Or                            []*DeviceModelRevisionFilterInput                             `json:"or,omitempty"`
-	Id                            *ComparableGuidOperationFilterInput                           `json:"id,omitempty"`
-	DeviceModelId                 *ComparableGuidOperationFilterInput                           `json:"deviceModelId,omitempty"`
-	ModelAssertionId              *ComparableNullableOfGuidOperationFilterInput                 `json:"modelAssertionId,omitempty"`
-	Revision                      *ComparableNullableOfInt32OperationFilterInput                `json:"revision,omitempty"`
-	IsTpmRequired                 *BooleanOperationFilterInput                                  `json:"isTpmRequired,omitempty"`
-	IsPreRegistrationRequired     *BooleanOperationFilterInput                                  `json:"isPreRegistrationRequired,omitempty"`
-	UploadMessage                 *StringOperationFilterInput                                   `json:"uploadMessage,omitempty"`
-	CreatedBy                     *ComparableNullableOfGuidOperationFilterInput                 `json:"createdBy,omitempty"`
-	CreatedAt                     *ComparableDateTimeOperationFilterInput                       `json:"createdAt,omitempty"`
-	ModifiedBy                    *ComparableNullableOfGuidOperationFilterInput                 `json:"modifiedBy,omitempty"`
-	ModifiedAt                    *ComparableNullableOfDateTimeOperationFilterInput             `json:"modifiedAt,omitempty"`
-	LastChangedAt                 *ComparableDateTimeOperationFilterInput                       `json:"lastChangedAt,omitempty"`
-	DeviceModel                   *DeviceModelFilterInput                                       `json:"deviceModel,omitempty"`
-	ModelAssertion                *AssertionFilterInput                                         `json:"modelAssertion,omitempty"`
-	DeviceModelRevisionSnap       *DeviceModelRevisionSnapFilterInput                           `json:"deviceModelRevisionSnap,omitempty"`
-	DeploymentGroups              *ListFilterInputTypeOfDeploymentGroupFilterInput              `json:"deploymentGroups,omitempty"`
-	Devices                       *ListFilterInputTypeOfDeviceFilterInput                       `json:"devices,omitempty"`
-	DeviceModelRevisionBridgeApps *ListFilterInputTypeOfDeviceModelRevisionBridgeAppFilterInput `json:"deviceModelRevisionBridgeApps,omitempty"`
-	EntityIdentifier              *EntityIdentifierFilterInput                                  `json:"entityIdentifier,omitempty"`
+	And                               []*DeviceModelRevisionFilterInput                             `json:"and,omitempty"`
+	Or                                []*DeviceModelRevisionFilterInput                             `json:"or,omitempty"`
+	Id                                *ComparableGuidOperationFilterInput                           `json:"id,omitempty"`
+	TenantId                          *ComparableNullableOfGuidOperationFilterInput                 `json:"tenantId,omitempty"`
+	DeviceModelId                     *ComparableGuidOperationFilterInput                           `json:"deviceModelId,omitempty"`
+	ModelAssertionId                  *ComparableNullableOfGuidOperationFilterInput                 `json:"modelAssertionId,omitempty"`
+	Revision                          *ComparableNullableOfInt32OperationFilterInput                `json:"revision,omitempty"`
+	IsTpmRequired                     *BooleanOperationFilterInput                                  `json:"isTpmRequired,omitempty"`
+	IsPreRegistrationRequired         *BooleanOperationFilterInput                                  `json:"isPreRegistrationRequired,omitempty"`
+	IsDeviceProvisioningClaimRequired *BooleanOperationFilterInput                                  `json:"isDeviceProvisioningClaimRequired,omitempty"`
+	IsAssetAutoCreationEnabled        *BooleanOperationFilterInput                                  `json:"isAssetAutoCreationEnabled,omitempty"`
+	UploadMessage                     *StringOperationFilterInput                                   `json:"uploadMessage,omitempty"`
+	CreatedBy                         *ComparableNullableOfGuidOperationFilterInput                 `json:"createdBy,omitempty"`
+	CreatedAt                         *ComparableDateTimeOperationFilterInput                       `json:"createdAt,omitempty"`
+	ModifiedBy                        *ComparableNullableOfGuidOperationFilterInput                 `json:"modifiedBy,omitempty"`
+	ModifiedAt                        *ComparableNullableOfDateTimeOperationFilterInput             `json:"modifiedAt,omitempty"`
+	LastChangedAt                     *ComparableDateTimeOperationFilterInput                       `json:"lastChangedAt,omitempty"`
+	Tenant                            *DomainTenantFilterInput                                      `json:"tenant,omitempty"`
+	DeviceModel                       *DeviceModelFilterInput                                       `json:"deviceModel,omitempty"`
+	ModelAssertion                    *AssertionFilterInput                                         `json:"modelAssertion,omitempty"`
+	DeviceModelRevisionSnap           *DeviceModelRevisionSnapFilterInput                           `json:"deviceModelRevisionSnap,omitempty"`
+	DeploymentGroups                  *ListFilterInputTypeOfDeploymentGroupFilterInput              `json:"deploymentGroups,omitempty"`
+	Devices                           *ListFilterInputTypeOfDeviceFilterInput                       `json:"devices,omitempty"`
+	DeviceModelRevisionBridgeApps     *ListFilterInputTypeOfDeviceModelRevisionBridgeAppFilterInput `json:"deviceModelRevisionBridgeApps,omitempty"`
+	EntityIdentifier                  *EntityIdentifierFilterInput                                  `json:"entityIdentifier,omitempty"`
 }
 
 // GetAnd returns DeviceModelRevisionFilterInput.And, and is useful for accessing the field via an interface.
@@ -4631,6 +5341,11 @@ func (v *DeviceModelRevisionFilterInput) GetOr() []*DeviceModelRevisionFilterInp
 
 // GetId returns DeviceModelRevisionFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns DeviceModelRevisionFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
 
 // GetDeviceModelId returns DeviceModelRevisionFilterInput.DeviceModelId, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionFilterInput) GetDeviceModelId() *ComparableGuidOperationFilterInput {
@@ -4655,6 +5370,16 @@ func (v *DeviceModelRevisionFilterInput) GetIsTpmRequired() *BooleanOperationFil
 // GetIsPreRegistrationRequired returns DeviceModelRevisionFilterInput.IsPreRegistrationRequired, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionFilterInput) GetIsPreRegistrationRequired() *BooleanOperationFilterInput {
 	return v.IsPreRegistrationRequired
+}
+
+// GetIsDeviceProvisioningClaimRequired returns DeviceModelRevisionFilterInput.IsDeviceProvisioningClaimRequired, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionFilterInput) GetIsDeviceProvisioningClaimRequired() *BooleanOperationFilterInput {
+	return v.IsDeviceProvisioningClaimRequired
+}
+
+// GetIsAssetAutoCreationEnabled returns DeviceModelRevisionFilterInput.IsAssetAutoCreationEnabled, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionFilterInput) GetIsAssetAutoCreationEnabled() *BooleanOperationFilterInput {
+	return v.IsAssetAutoCreationEnabled
 }
 
 // GetUploadMessage returns DeviceModelRevisionFilterInput.UploadMessage, and is useful for accessing the field via an interface.
@@ -4686,6 +5411,9 @@ func (v *DeviceModelRevisionFilterInput) GetModifiedAt() *ComparableNullableOfDa
 func (v *DeviceModelRevisionFilterInput) GetLastChangedAt() *ComparableDateTimeOperationFilterInput {
 	return v.LastChangedAt
 }
+
+// GetTenant returns DeviceModelRevisionFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
 
 // GetDeviceModel returns DeviceModelRevisionFilterInput.DeviceModel, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionFilterInput) GetDeviceModel() *DeviceModelFilterInput {
@@ -4724,15 +5452,17 @@ func (v *DeviceModelRevisionFilterInput) GetEntityIdentifier() *EntityIdentifier
 
 // I am a generated type!
 type DeviceModelRevisionSnapFilterInput struct {
-	And                 []*DeviceModelRevisionSnapFilterInput `json:"and,omitempty"`
-	Or                  []*DeviceModelRevisionSnapFilterInput `json:"or,omitempty"`
-	Id                  *ComparableGuidOperationFilterInput   `json:"id,omitempty"`
-	Base                *StringOperationFilterInput           `json:"base,omitempty"`
-	Grade               *StringOperationFilterInput           `json:"grade,omitempty"`
-	StorageSafety       *StringOperationFilterInput           `json:"storageSafety,omitempty"`
-	Series              *StringOperationFilterInput           `json:"series,omitempty"`
-	Classic             *BooleanOperationFilterInput          `json:"classic,omitempty"`
-	DeviceModelRevision *DeviceModelRevisionFilterInput       `json:"deviceModelRevision,omitempty"`
+	And                 []*DeviceModelRevisionSnapFilterInput         `json:"and,omitempty"`
+	Or                  []*DeviceModelRevisionSnapFilterInput         `json:"or,omitempty"`
+	Id                  *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId            *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
+	Base                *StringOperationFilterInput                   `json:"base,omitempty"`
+	Grade               *StringOperationFilterInput                   `json:"grade,omitempty"`
+	StorageSafety       *StringOperationFilterInput                   `json:"storageSafety,omitempty"`
+	Series              *StringOperationFilterInput                   `json:"series,omitempty"`
+	Classic             *BooleanOperationFilterInput                  `json:"classic,omitempty"`
+	Tenant              *DomainTenantFilterInput                      `json:"tenant,omitempty"`
+	DeviceModelRevision *DeviceModelRevisionFilterInput               `json:"deviceModelRevision,omitempty"`
 }
 
 // GetAnd returns DeviceModelRevisionSnapFilterInput.And, and is useful for accessing the field via an interface.
@@ -4747,6 +5477,11 @@ func (v *DeviceModelRevisionSnapFilterInput) GetOr() []*DeviceModelRevisionSnapF
 
 // GetId returns DeviceModelRevisionSnapFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionSnapFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns DeviceModelRevisionSnapFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionSnapFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
 
 // GetBase returns DeviceModelRevisionSnapFilterInput.Base, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionSnapFilterInput) GetBase() *StringOperationFilterInput { return v.Base }
@@ -4767,6 +5502,9 @@ func (v *DeviceModelRevisionSnapFilterInput) GetClassic() *BooleanOperationFilte
 	return v.Classic
 }
 
+// GetTenant returns DeviceModelRevisionSnapFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionSnapFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
+
 // GetDeviceModelRevision returns DeviceModelRevisionSnapFilterInput.DeviceModelRevision, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionSnapFilterInput) GetDeviceModelRevision() *DeviceModelRevisionFilterInput {
 	return v.DeviceModelRevision
@@ -4775,16 +5513,21 @@ func (v *DeviceModelRevisionSnapFilterInput) GetDeviceModelRevision() *DeviceMod
 // I am a generated type!
 type DeviceModelRevisionSnapSortInput struct {
 	Id                  *SortEnumType                 `json:"id,omitempty"`
+	TenantId            *SortEnumType                 `json:"tenantId,omitempty"`
 	Base                *SortEnumType                 `json:"base,omitempty"`
 	Grade               *SortEnumType                 `json:"grade,omitempty"`
 	StorageSafety       *SortEnumType                 `json:"storageSafety,omitempty"`
 	Series              *SortEnumType                 `json:"series,omitempty"`
 	Classic             *SortEnumType                 `json:"classic,omitempty"`
+	Tenant              *DomainTenantSortInput        `json:"tenant,omitempty"`
 	DeviceModelRevision *DeviceModelRevisionSortInput `json:"deviceModelRevision,omitempty"`
 }
 
 // GetId returns DeviceModelRevisionSnapSortInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionSnapSortInput) GetId() *SortEnumType { return v.Id }
+
+// GetTenantId returns DeviceModelRevisionSnapSortInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionSnapSortInput) GetTenantId() *SortEnumType { return v.TenantId }
 
 // GetBase returns DeviceModelRevisionSnapSortInput.Base, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionSnapSortInput) GetBase() *SortEnumType { return v.Base }
@@ -4801,6 +5544,9 @@ func (v *DeviceModelRevisionSnapSortInput) GetSeries() *SortEnumType { return v.
 // GetClassic returns DeviceModelRevisionSnapSortInput.Classic, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionSnapSortInput) GetClassic() *SortEnumType { return v.Classic }
 
+// GetTenant returns DeviceModelRevisionSnapSortInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionSnapSortInput) GetTenant() *DomainTenantSortInput { return v.Tenant }
+
 // GetDeviceModelRevision returns DeviceModelRevisionSnapSortInput.DeviceModelRevision, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionSnapSortInput) GetDeviceModelRevision() *DeviceModelRevisionSortInput {
 	return v.DeviceModelRevision
@@ -4808,26 +5554,33 @@ func (v *DeviceModelRevisionSnapSortInput) GetDeviceModelRevision() *DeviceModel
 
 // I am a generated type!
 type DeviceModelRevisionSortInput struct {
-	Id                        *SortEnumType                     `json:"id,omitempty"`
-	DeviceModelId             *SortEnumType                     `json:"deviceModelId,omitempty"`
-	ModelAssertionId          *SortEnumType                     `json:"modelAssertionId,omitempty"`
-	Revision                  *SortEnumType                     `json:"revision,omitempty"`
-	IsTpmRequired             *SortEnumType                     `json:"isTpmRequired,omitempty"`
-	IsPreRegistrationRequired *SortEnumType                     `json:"isPreRegistrationRequired,omitempty"`
-	UploadMessage             *SortEnumType                     `json:"uploadMessage,omitempty"`
-	CreatedBy                 *SortEnumType                     `json:"createdBy,omitempty"`
-	CreatedAt                 *SortEnumType                     `json:"createdAt,omitempty"`
-	ModifiedBy                *SortEnumType                     `json:"modifiedBy,omitempty"`
-	ModifiedAt                *SortEnumType                     `json:"modifiedAt,omitempty"`
-	LastChangedAt             *SortEnumType                     `json:"lastChangedAt,omitempty"`
-	DeviceModel               *DeviceModelSortInput             `json:"deviceModel,omitempty"`
-	ModelAssertion            *AssertionSortInput               `json:"modelAssertion,omitempty"`
-	DeviceModelRevisionSnap   *DeviceModelRevisionSnapSortInput `json:"deviceModelRevisionSnap,omitempty"`
-	EntityIdentifier          *EntityIdentifierSortInput        `json:"entityIdentifier,omitempty"`
+	Id                                *SortEnumType                     `json:"id,omitempty"`
+	TenantId                          *SortEnumType                     `json:"tenantId,omitempty"`
+	DeviceModelId                     *SortEnumType                     `json:"deviceModelId,omitempty"`
+	ModelAssertionId                  *SortEnumType                     `json:"modelAssertionId,omitempty"`
+	Revision                          *SortEnumType                     `json:"revision,omitempty"`
+	IsTpmRequired                     *SortEnumType                     `json:"isTpmRequired,omitempty"`
+	IsPreRegistrationRequired         *SortEnumType                     `json:"isPreRegistrationRequired,omitempty"`
+	IsDeviceProvisioningClaimRequired *SortEnumType                     `json:"isDeviceProvisioningClaimRequired,omitempty"`
+	IsAssetAutoCreationEnabled        *SortEnumType                     `json:"isAssetAutoCreationEnabled,omitempty"`
+	UploadMessage                     *SortEnumType                     `json:"uploadMessage,omitempty"`
+	CreatedBy                         *SortEnumType                     `json:"createdBy,omitempty"`
+	CreatedAt                         *SortEnumType                     `json:"createdAt,omitempty"`
+	ModifiedBy                        *SortEnumType                     `json:"modifiedBy,omitempty"`
+	ModifiedAt                        *SortEnumType                     `json:"modifiedAt,omitempty"`
+	LastChangedAt                     *SortEnumType                     `json:"lastChangedAt,omitempty"`
+	Tenant                            *DomainTenantSortInput            `json:"tenant,omitempty"`
+	DeviceModel                       *DeviceModelSortInput             `json:"deviceModel,omitempty"`
+	ModelAssertion                    *AssertionSortInput               `json:"modelAssertion,omitempty"`
+	DeviceModelRevisionSnap           *DeviceModelRevisionSnapSortInput `json:"deviceModelRevisionSnap,omitempty"`
+	EntityIdentifier                  *EntityIdentifierSortInput        `json:"entityIdentifier,omitempty"`
 }
 
 // GetId returns DeviceModelRevisionSortInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionSortInput) GetId() *SortEnumType { return v.Id }
+
+// GetTenantId returns DeviceModelRevisionSortInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionSortInput) GetTenantId() *SortEnumType { return v.TenantId }
 
 // GetDeviceModelId returns DeviceModelRevisionSortInput.DeviceModelId, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionSortInput) GetDeviceModelId() *SortEnumType { return v.DeviceModelId }
@@ -4844,6 +5597,16 @@ func (v *DeviceModelRevisionSortInput) GetIsTpmRequired() *SortEnumType { return
 // GetIsPreRegistrationRequired returns DeviceModelRevisionSortInput.IsPreRegistrationRequired, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionSortInput) GetIsPreRegistrationRequired() *SortEnumType {
 	return v.IsPreRegistrationRequired
+}
+
+// GetIsDeviceProvisioningClaimRequired returns DeviceModelRevisionSortInput.IsDeviceProvisioningClaimRequired, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionSortInput) GetIsDeviceProvisioningClaimRequired() *SortEnumType {
+	return v.IsDeviceProvisioningClaimRequired
+}
+
+// GetIsAssetAutoCreationEnabled returns DeviceModelRevisionSortInput.IsAssetAutoCreationEnabled, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionSortInput) GetIsAssetAutoCreationEnabled() *SortEnumType {
+	return v.IsAssetAutoCreationEnabled
 }
 
 // GetUploadMessage returns DeviceModelRevisionSortInput.UploadMessage, and is useful for accessing the field via an interface.
@@ -4863,6 +5626,9 @@ func (v *DeviceModelRevisionSortInput) GetModifiedAt() *SortEnumType { return v.
 
 // GetLastChangedAt returns DeviceModelRevisionSortInput.LastChangedAt, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionSortInput) GetLastChangedAt() *SortEnumType { return v.LastChangedAt }
+
+// GetTenant returns DeviceModelRevisionSortInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceModelRevisionSortInput) GetTenant() *DomainTenantSortInput { return v.Tenant }
 
 // GetDeviceModel returns DeviceModelRevisionSortInput.DeviceModel, and is useful for accessing the field via an interface.
 func (v *DeviceModelRevisionSortInput) GetDeviceModel() *DeviceModelSortInput { return v.DeviceModel }
@@ -4885,20 +5651,28 @@ func (v *DeviceModelRevisionSortInput) GetEntityIdentifier() *EntityIdentifierSo
 // I am a generated type!
 type DeviceModelSortInput struct {
 	Id               *SortEnumType              `json:"id,omitempty"`
+	TenantId         *SortEnumType              `json:"tenantId,omitempty"`
 	DeviceTypeId     *SortEnumType              `json:"deviceTypeId,omitempty"`
 	ModelName        *SortEnumType              `json:"modelName,omitempty"`
 	Architecture     *SortEnumType              `json:"architecture,omitempty"`
+	IsGloballyShared *SortEnumType              `json:"isGloballyShared,omitempty"`
 	CreatedBy        *SortEnumType              `json:"createdBy,omitempty"`
 	CreatedAt        *SortEnumType              `json:"createdAt,omitempty"`
+	GloballySharedAt *SortEnumType              `json:"globallySharedAt,omitempty"`
+	GloballySharedBy *SortEnumType              `json:"globallySharedBy,omitempty"`
 	ModifiedBy       *SortEnumType              `json:"modifiedBy,omitempty"`
 	ModifiedAt       *SortEnumType              `json:"modifiedAt,omitempty"`
 	LastChangedAt    *SortEnumType              `json:"lastChangedAt,omitempty"`
+	Tenant           *DomainTenantSortInput     `json:"tenant,omitempty"`
 	DeviceType       *DeviceTypeSortInput       `json:"deviceType,omitempty"`
 	EntityIdentifier *EntityIdentifierSortInput `json:"entityIdentifier,omitempty"`
 }
 
 // GetId returns DeviceModelSortInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceModelSortInput) GetId() *SortEnumType { return v.Id }
+
+// GetTenantId returns DeviceModelSortInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceModelSortInput) GetTenantId() *SortEnumType { return v.TenantId }
 
 // GetDeviceTypeId returns DeviceModelSortInput.DeviceTypeId, and is useful for accessing the field via an interface.
 func (v *DeviceModelSortInput) GetDeviceTypeId() *SortEnumType { return v.DeviceTypeId }
@@ -4909,11 +5683,20 @@ func (v *DeviceModelSortInput) GetModelName() *SortEnumType { return v.ModelName
 // GetArchitecture returns DeviceModelSortInput.Architecture, and is useful for accessing the field via an interface.
 func (v *DeviceModelSortInput) GetArchitecture() *SortEnumType { return v.Architecture }
 
+// GetIsGloballyShared returns DeviceModelSortInput.IsGloballyShared, and is useful for accessing the field via an interface.
+func (v *DeviceModelSortInput) GetIsGloballyShared() *SortEnumType { return v.IsGloballyShared }
+
 // GetCreatedBy returns DeviceModelSortInput.CreatedBy, and is useful for accessing the field via an interface.
 func (v *DeviceModelSortInput) GetCreatedBy() *SortEnumType { return v.CreatedBy }
 
 // GetCreatedAt returns DeviceModelSortInput.CreatedAt, and is useful for accessing the field via an interface.
 func (v *DeviceModelSortInput) GetCreatedAt() *SortEnumType { return v.CreatedAt }
+
+// GetGloballySharedAt returns DeviceModelSortInput.GloballySharedAt, and is useful for accessing the field via an interface.
+func (v *DeviceModelSortInput) GetGloballySharedAt() *SortEnumType { return v.GloballySharedAt }
+
+// GetGloballySharedBy returns DeviceModelSortInput.GloballySharedBy, and is useful for accessing the field via an interface.
+func (v *DeviceModelSortInput) GetGloballySharedBy() *SortEnumType { return v.GloballySharedBy }
 
 // GetModifiedBy returns DeviceModelSortInput.ModifiedBy, and is useful for accessing the field via an interface.
 func (v *DeviceModelSortInput) GetModifiedBy() *SortEnumType { return v.ModifiedBy }
@@ -4923,6 +5706,9 @@ func (v *DeviceModelSortInput) GetModifiedAt() *SortEnumType { return v.Modified
 
 // GetLastChangedAt returns DeviceModelSortInput.LastChangedAt, and is useful for accessing the field via an interface.
 func (v *DeviceModelSortInput) GetLastChangedAt() *SortEnumType { return v.LastChangedAt }
+
+// GetTenant returns DeviceModelSortInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceModelSortInput) GetTenant() *DomainTenantSortInput { return v.Tenant }
 
 // GetDeviceType returns DeviceModelSortInput.DeviceType, and is useful for accessing the field via an interface.
 func (v *DeviceModelSortInput) GetDeviceType() *DeviceTypeSortInput { return v.DeviceType }
@@ -4937,6 +5723,7 @@ type DeviceSnapFilterInput struct {
 	And               []*DeviceSnapFilterInput                      `json:"and,omitempty"`
 	Or                []*DeviceSnapFilterInput                      `json:"or,omitempty"`
 	Id                *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId          *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
 	SerialAssertionId *ComparableGuidOperationFilterInput           `json:"serialAssertionId,omitempty"`
 	ModelAssertionId  *ComparableNullableOfGuidOperationFilterInput `json:"modelAssertionId,omitempty"`
 	// Deprecated=true
@@ -4946,6 +5733,7 @@ type DeviceSnapFilterInput struct {
 	DeviceTpmEkPublicKey   *StringOperationFilterInput                   `json:"deviceTpmEkPublicKey,omitempty"`
 	IsTpmRequired          *BooleanOperationFilterInput                  `json:"isTpmRequired,omitempty"`
 	UplinkMode             *UplinkModeOperationFilterInput               `json:"uplinkMode,omitempty"`
+	Tenant                 *DomainTenantFilterInput                      `json:"tenant,omitempty"`
 	Device                 *DeviceFilterInput                            `json:"device,omitempty"`
 	SerialAssertion        *AssertionFilterInput                         `json:"serialAssertion,omitempty"`
 	ModelAssertion         *AssertionFilterInput                         `json:"modelAssertion,omitempty"`
@@ -4961,6 +5749,11 @@ func (v *DeviceSnapFilterInput) GetOr() []*DeviceSnapFilterInput { return v.Or }
 
 // GetId returns DeviceSnapFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceSnapFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns DeviceSnapFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceSnapFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
 
 // GetSerialAssertionId returns DeviceSnapFilterInput.SerialAssertionId, and is useful for accessing the field via an interface.
 func (v *DeviceSnapFilterInput) GetSerialAssertionId() *ComparableGuidOperationFilterInput {
@@ -5000,6 +5793,9 @@ func (v *DeviceSnapFilterInput) GetIsTpmRequired() *BooleanOperationFilterInput 
 // GetUplinkMode returns DeviceSnapFilterInput.UplinkMode, and is useful for accessing the field via an interface.
 func (v *DeviceSnapFilterInput) GetUplinkMode() *UplinkModeOperationFilterInput { return v.UplinkMode }
 
+// GetTenant returns DeviceSnapFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceSnapFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
+
 // GetDevice returns DeviceSnapFilterInput.Device, and is useful for accessing the field via an interface.
 func (v *DeviceSnapFilterInput) GetDevice() *DeviceFilterInput { return v.Device }
 
@@ -5017,24 +5813,29 @@ func (v *DeviceSnapFilterInput) GetDeploymentGroup() *DeploymentGroupFilterInput
 // I am a generated type!
 type DeviceSnapSortInput struct {
 	Id                *SortEnumType `json:"id,omitempty"`
+	TenantId          *SortEnumType `json:"tenantId,omitempty"`
 	SerialAssertionId *SortEnumType `json:"serialAssertionId,omitempty"`
 	ModelAssertionId  *SortEnumType `json:"modelAssertionId,omitempty"`
 	// Deprecated=true
-	DeploymentGroupId      *SortEnumType       `json:"deploymentGroupId,omitempty"`
-	DeviceSnapdPublicKey   *SortEnumType       `json:"deviceSnapdPublicKey,omitempty"`
-	DeviceGatewayPublicKey *SortEnumType       `json:"deviceGatewayPublicKey,omitempty"`
-	DeviceTpmEkPublicKey   *SortEnumType       `json:"deviceTpmEkPublicKey,omitempty"`
-	IsTpmRequired          *SortEnumType       `json:"isTpmRequired,omitempty"`
-	UplinkMode             *SortEnumType       `json:"uplinkMode,omitempty"`
-	Device                 *DeviceSortInput    `json:"device,omitempty"`
-	SerialAssertion        *AssertionSortInput `json:"serialAssertion,omitempty"`
-	ModelAssertion         *AssertionSortInput `json:"modelAssertion,omitempty"`
+	DeploymentGroupId      *SortEnumType          `json:"deploymentGroupId,omitempty"`
+	DeviceSnapdPublicKey   *SortEnumType          `json:"deviceSnapdPublicKey,omitempty"`
+	DeviceGatewayPublicKey *SortEnumType          `json:"deviceGatewayPublicKey,omitempty"`
+	DeviceTpmEkPublicKey   *SortEnumType          `json:"deviceTpmEkPublicKey,omitempty"`
+	IsTpmRequired          *SortEnumType          `json:"isTpmRequired,omitempty"`
+	UplinkMode             *SortEnumType          `json:"uplinkMode,omitempty"`
+	Tenant                 *DomainTenantSortInput `json:"tenant,omitempty"`
+	Device                 *DeviceSortInput       `json:"device,omitempty"`
+	SerialAssertion        *AssertionSortInput    `json:"serialAssertion,omitempty"`
+	ModelAssertion         *AssertionSortInput    `json:"modelAssertion,omitempty"`
 	// Deprecated=true
 	DeploymentGroup *DeploymentGroupSortInput `json:"deploymentGroup,omitempty"`
 }
 
 // GetId returns DeviceSnapSortInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceSnapSortInput) GetId() *SortEnumType { return v.Id }
+
+// GetTenantId returns DeviceSnapSortInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceSnapSortInput) GetTenantId() *SortEnumType { return v.TenantId }
 
 // GetSerialAssertionId returns DeviceSnapSortInput.SerialAssertionId, and is useful for accessing the field via an interface.
 func (v *DeviceSnapSortInput) GetSerialAssertionId() *SortEnumType { return v.SerialAssertionId }
@@ -5062,6 +5863,9 @@ func (v *DeviceSnapSortInput) GetIsTpmRequired() *SortEnumType { return v.IsTpmR
 // GetUplinkMode returns DeviceSnapSortInput.UplinkMode, and is useful for accessing the field via an interface.
 func (v *DeviceSnapSortInput) GetUplinkMode() *SortEnumType { return v.UplinkMode }
 
+// GetTenant returns DeviceSnapSortInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceSnapSortInput) GetTenant() *DomainTenantSortInput { return v.Tenant }
+
 // GetDevice returns DeviceSnapSortInput.Device, and is useful for accessing the field via an interface.
 func (v *DeviceSnapSortInput) GetDevice() *DeviceSortInput { return v.Device }
 
@@ -5078,37 +5882,44 @@ func (v *DeviceSnapSortInput) GetDeploymentGroup() *DeploymentGroupSortInput {
 
 // I am a generated type!
 type DeviceSortInput struct {
-	Id                    *SortEnumType                 `json:"id,omitempty"`
-	DeviceTypeId          *SortEnumType                 `json:"deviceTypeId,omitempty"`
-	DeviceModelRevisionId *SortEnumType                 `json:"deviceModelRevisionId,omitempty"`
-	DeploymentGroupId     *SortEnumType                 `json:"deploymentGroupId,omitempty"`
-	ConnectedDeviceId     *SortEnumType                 `json:"connectedDeviceId,omitempty"`
-	AssetId               *SortEnumType                 `json:"assetId,omitempty"`
-	SerialNumber          *SortEnumType                 `json:"serialNumber,omitempty"`
-	HardwareSerialNumber  *SortEnumType                 `json:"hardwareSerialNumber,omitempty"`
-	DeviceName            *SortEnumType                 `json:"deviceName,omitempty"`
-	IsDeviceActivated     *SortEnumType                 `json:"isDeviceActivated,omitempty"`
-	IsUpdateActivated     *SortEnumType                 `json:"isUpdateActivated,omitempty"`
-	Description           *SortEnumType                 `json:"description,omitempty"`
-	Manufacturer          *SortEnumType                 `json:"manufacturer,omitempty"`
-	CreatedBy             *SortEnumType                 `json:"createdBy,omitempty"`
-	CreatedAt             *SortEnumType                 `json:"createdAt,omitempty"`
-	ModifiedBy            *SortEnumType                 `json:"modifiedBy,omitempty"`
-	ModifiedAt            *SortEnumType                 `json:"modifiedAt,omitempty"`
-	LastChangedAt         *SortEnumType                 `json:"lastChangedAt,omitempty"`
-	DeviceModelRevision   *DeviceModelRevisionSortInput `json:"deviceModelRevision,omitempty"`
-	DeviceType            *DeviceTypeSortInput          `json:"deviceType,omitempty"`
-	DeploymentGroup       *DeploymentGroupSortInput     `json:"deploymentGroup,omitempty"`
-	ConnectedDevice       *DeviceSortInput              `json:"connectedDevice,omitempty"`
-	DeviceSnap            *DeviceSnapSortInput          `json:"deviceSnap,omitempty"`
-	DeviceFirmware        *DeviceFirmwareSortInput      `json:"deviceFirmware,omitempty"`
-	DeviceStatus          *DeviceStatusSortInput        `json:"deviceStatus,omitempty"`
-	DomainAsset           *DomainAssetSortInput         `json:"domainAsset,omitempty"`
-	EntityIdentifier      *EntityIdentifierSortInput    `json:"entityIdentifier,omitempty"`
+	Id                            *SortEnumType                 `json:"id,omitempty"`
+	TenantId                      *SortEnumType                 `json:"tenantId,omitempty"`
+	DeviceTypeId                  *SortEnumType                 `json:"deviceTypeId,omitempty"`
+	DeviceModelRevisionId         *SortEnumType                 `json:"deviceModelRevisionId,omitempty"`
+	DeploymentGroupId             *SortEnumType                 `json:"deploymentGroupId,omitempty"`
+	ConnectedDeviceId             *SortEnumType                 `json:"connectedDeviceId,omitempty"`
+	AssetId                       *SortEnumType                 `json:"assetId,omitempty"`
+	SerialNumber                  *SortEnumType                 `json:"serialNumber,omitempty"`
+	HardwareSerialNumber          *SortEnumType                 `json:"hardwareSerialNumber,omitempty"`
+	DeviceName                    *SortEnumType                 `json:"deviceName,omitempty"`
+	IsDeviceActivated             *SortEnumType                 `json:"isDeviceActivated,omitempty"`
+	IsUpdateActivated             *SortEnumType                 `json:"isUpdateActivated,omitempty"`
+	Description                   *SortEnumType                 `json:"description,omitempty"`
+	Manufacturer                  *SortEnumType                 `json:"manufacturer,omitempty"`
+	RegistrationJson              *SortEnumType                 `json:"registrationJson,omitempty"`
+	RegistrationJsonFormatVersion *SortEnumType                 `json:"registrationJsonFormatVersion,omitempty"`
+	CreatedBy                     *SortEnumType                 `json:"createdBy,omitempty"`
+	CreatedAt                     *SortEnumType                 `json:"createdAt,omitempty"`
+	ModifiedBy                    *SortEnumType                 `json:"modifiedBy,omitempty"`
+	ModifiedAt                    *SortEnumType                 `json:"modifiedAt,omitempty"`
+	LastChangedAt                 *SortEnumType                 `json:"lastChangedAt,omitempty"`
+	Tenant                        *DomainTenantSortInput        `json:"tenant,omitempty"`
+	DeviceModelRevision           *DeviceModelRevisionSortInput `json:"deviceModelRevision,omitempty"`
+	DeviceType                    *DeviceTypeSortInput          `json:"deviceType,omitempty"`
+	DeploymentGroup               *DeploymentGroupSortInput     `json:"deploymentGroup,omitempty"`
+	ConnectedDevice               *DeviceSortInput              `json:"connectedDevice,omitempty"`
+	DeviceSnap                    *DeviceSnapSortInput          `json:"deviceSnap,omitempty"`
+	DeviceFirmware                *DeviceFirmwareSortInput      `json:"deviceFirmware,omitempty"`
+	DeviceStatus                  *DeviceStatusSortInput        `json:"deviceStatus,omitempty"`
+	DomainAsset                   *DomainAssetSortInput         `json:"domainAsset,omitempty"`
+	EntityIdentifier              *EntityIdentifierSortInput    `json:"entityIdentifier,omitempty"`
 }
 
 // GetId returns DeviceSortInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceSortInput) GetId() *SortEnumType { return v.Id }
+
+// GetTenantId returns DeviceSortInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceSortInput) GetTenantId() *SortEnumType { return v.TenantId }
 
 // GetDeviceTypeId returns DeviceSortInput.DeviceTypeId, and is useful for accessing the field via an interface.
 func (v *DeviceSortInput) GetDeviceTypeId() *SortEnumType { return v.DeviceTypeId }
@@ -5146,6 +5957,14 @@ func (v *DeviceSortInput) GetDescription() *SortEnumType { return v.Description 
 // GetManufacturer returns DeviceSortInput.Manufacturer, and is useful for accessing the field via an interface.
 func (v *DeviceSortInput) GetManufacturer() *SortEnumType { return v.Manufacturer }
 
+// GetRegistrationJson returns DeviceSortInput.RegistrationJson, and is useful for accessing the field via an interface.
+func (v *DeviceSortInput) GetRegistrationJson() *SortEnumType { return v.RegistrationJson }
+
+// GetRegistrationJsonFormatVersion returns DeviceSortInput.RegistrationJsonFormatVersion, and is useful for accessing the field via an interface.
+func (v *DeviceSortInput) GetRegistrationJsonFormatVersion() *SortEnumType {
+	return v.RegistrationJsonFormatVersion
+}
+
 // GetCreatedBy returns DeviceSortInput.CreatedBy, and is useful for accessing the field via an interface.
 func (v *DeviceSortInput) GetCreatedBy() *SortEnumType { return v.CreatedBy }
 
@@ -5160,6 +5979,9 @@ func (v *DeviceSortInput) GetModifiedAt() *SortEnumType { return v.ModifiedAt }
 
 // GetLastChangedAt returns DeviceSortInput.LastChangedAt, and is useful for accessing the field via an interface.
 func (v *DeviceSortInput) GetLastChangedAt() *SortEnumType { return v.LastChangedAt }
+
+// GetTenant returns DeviceSortInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceSortInput) GetTenant() *DomainTenantSortInput { return v.Tenant }
 
 // GetDeviceModelRevision returns DeviceSortInput.DeviceModelRevision, and is useful for accessing the field via an interface.
 func (v *DeviceSortInput) GetDeviceModelRevision() *DeviceModelRevisionSortInput {
@@ -5221,6 +6043,7 @@ type DeviceStatusFilterInput struct {
 	And                     []*DeviceStatusFilterInput                        `json:"and,omitempty"`
 	Or                      []*DeviceStatusFilterInput                        `json:"or,omitempty"`
 	Id                      *ComparableGuidOperationFilterInput               `json:"id,omitempty"`
+	TenantId                *ComparableNullableOfGuidOperationFilterInput     `json:"tenantId,omitempty"`
 	LastAppstoreActivity    *ComparableNullableOfDateTimeOperationFilterInput `json:"lastAppstoreActivity,omitempty"`
 	LastMessagingActivity   *ComparableNullableOfDateTimeOperationFilterInput `json:"lastMessagingActivity,omitempty"`
 	LastInstallStateSha3    *StringOperationFilterInput                       `json:"lastInstallStateSha3,omitempty"`
@@ -5233,6 +6056,7 @@ type DeviceStatusFilterInput struct {
 	IsOnline                *BooleanOperationFilterInput                      `json:"isOnline,omitempty"`
 	LastUptime              *ComparableInt64OperationFilterInput              `json:"lastUptime,omitempty"`
 	ModifiedAt              *ComparableNullableOfDateTimeOperationFilterInput `json:"modifiedAt,omitempty"`
+	Tenant                  *DomainTenantFilterInput                          `json:"tenant,omitempty"`
 	Device                  *DeviceFilterInput                                `json:"device,omitempty"`
 }
 
@@ -5244,6 +6068,11 @@ func (v *DeviceStatusFilterInput) GetOr() []*DeviceStatusFilterInput { return v.
 
 // GetId returns DeviceStatusFilterInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceStatusFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns DeviceStatusFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceStatusFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
 
 // GetLastAppstoreActivity returns DeviceStatusFilterInput.LastAppstoreActivity, and is useful for accessing the field via an interface.
 func (v *DeviceStatusFilterInput) GetLastAppstoreActivity() *ComparableNullableOfDateTimeOperationFilterInput {
@@ -5303,29 +6132,37 @@ func (v *DeviceStatusFilterInput) GetModifiedAt() *ComparableNullableOfDateTimeO
 	return v.ModifiedAt
 }
 
+// GetTenant returns DeviceStatusFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceStatusFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
+
 // GetDevice returns DeviceStatusFilterInput.Device, and is useful for accessing the field via an interface.
 func (v *DeviceStatusFilterInput) GetDevice() *DeviceFilterInput { return v.Device }
 
 // I am a generated type!
 type DeviceStatusSortInput struct {
-	Id                      *SortEnumType    `json:"id,omitempty"`
-	LastAppstoreActivity    *SortEnumType    `json:"lastAppstoreActivity,omitempty"`
-	LastMessagingActivity   *SortEnumType    `json:"lastMessagingActivity,omitempty"`
-	LastInstallStateSha3    *SortEnumType    `json:"lastInstallStateSha3,omitempty"`
-	LastStatusSha3          *SortEnumType    `json:"lastStatusSha3,omitempty"`
-	LastIpAddress           *SortEnumType    `json:"lastIpAddress,omitempty"`
-	LastHubEndpoint         *SortEnumType    `json:"lastHubEndpoint,omitempty"`
-	LastHubConnectedAt      *SortEnumType    `json:"lastHubConnectedAt,omitempty"`
-	LastHubDisconnectedAt   *SortEnumType    `json:"lastHubDisconnectedAt,omitempty"`
-	LastUplinkSignalContent *SortEnumType    `json:"lastUplinkSignalContent,omitempty"`
-	IsOnline                *SortEnumType    `json:"isOnline,omitempty"`
-	LastUptime              *SortEnumType    `json:"lastUptime,omitempty"`
-	ModifiedAt              *SortEnumType    `json:"modifiedAt,omitempty"`
-	Device                  *DeviceSortInput `json:"device,omitempty"`
+	Id                      *SortEnumType          `json:"id,omitempty"`
+	TenantId                *SortEnumType          `json:"tenantId,omitempty"`
+	LastAppstoreActivity    *SortEnumType          `json:"lastAppstoreActivity,omitempty"`
+	LastMessagingActivity   *SortEnumType          `json:"lastMessagingActivity,omitempty"`
+	LastInstallStateSha3    *SortEnumType          `json:"lastInstallStateSha3,omitempty"`
+	LastStatusSha3          *SortEnumType          `json:"lastStatusSha3,omitempty"`
+	LastIpAddress           *SortEnumType          `json:"lastIpAddress,omitempty"`
+	LastHubEndpoint         *SortEnumType          `json:"lastHubEndpoint,omitempty"`
+	LastHubConnectedAt      *SortEnumType          `json:"lastHubConnectedAt,omitempty"`
+	LastHubDisconnectedAt   *SortEnumType          `json:"lastHubDisconnectedAt,omitempty"`
+	LastUplinkSignalContent *SortEnumType          `json:"lastUplinkSignalContent,omitempty"`
+	IsOnline                *SortEnumType          `json:"isOnline,omitempty"`
+	LastUptime              *SortEnumType          `json:"lastUptime,omitempty"`
+	ModifiedAt              *SortEnumType          `json:"modifiedAt,omitempty"`
+	Tenant                  *DomainTenantSortInput `json:"tenant,omitempty"`
+	Device                  *DeviceSortInput       `json:"device,omitempty"`
 }
 
 // GetId returns DeviceStatusSortInput.Id, and is useful for accessing the field via an interface.
 func (v *DeviceStatusSortInput) GetId() *SortEnumType { return v.Id }
+
+// GetTenantId returns DeviceStatusSortInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceStatusSortInput) GetTenantId() *SortEnumType { return v.TenantId }
 
 // GetLastAppstoreActivity returns DeviceStatusSortInput.LastAppstoreActivity, and is useful for accessing the field via an interface.
 func (v *DeviceStatusSortInput) GetLastAppstoreActivity() *SortEnumType {
@@ -5372,6 +6209,9 @@ func (v *DeviceStatusSortInput) GetLastUptime() *SortEnumType { return v.LastUpt
 
 // GetModifiedAt returns DeviceStatusSortInput.ModifiedAt, and is useful for accessing the field via an interface.
 func (v *DeviceStatusSortInput) GetModifiedAt() *SortEnumType { return v.ModifiedAt }
+
+// GetTenant returns DeviceStatusSortInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceStatusSortInput) GetTenant() *DomainTenantSortInput { return v.Tenant }
 
 // GetDevice returns DeviceStatusSortInput.Device, and is useful for accessing the field via an interface.
 func (v *DeviceStatusSortInput) GetDevice() *DeviceSortInput { return v.Device }
@@ -5427,8 +6267,10 @@ type DomainAssetFilterInput struct {
 	And          []*DomainAssetFilterInput                     `json:"and,omitempty"`
 	Or           []*DomainAssetFilterInput                     `json:"or,omitempty"`
 	AssetId      *ComparableGuidOperationFilterInput           `json:"assetId,omitempty"`
+	TenantId     *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
 	DeviceId     *ComparableNullableOfGuidOperationFilterInput `json:"deviceId,omitempty"`
 	SerialNumber *StringOperationFilterInput                   `json:"serialNumber,omitempty"`
+	Tenant       *DomainTenantFilterInput                      `json:"tenant,omitempty"`
 	Device       *DeviceFilterInput                            `json:"device,omitempty"`
 }
 
@@ -5441,6 +6283,11 @@ func (v *DomainAssetFilterInput) GetOr() []*DomainAssetFilterInput { return v.Or
 // GetAssetId returns DomainAssetFilterInput.AssetId, and is useful for accessing the field via an interface.
 func (v *DomainAssetFilterInput) GetAssetId() *ComparableGuidOperationFilterInput { return v.AssetId }
 
+// GetTenantId returns DomainAssetFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DomainAssetFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
+
 // GetDeviceId returns DomainAssetFilterInput.DeviceId, and is useful for accessing the field via an interface.
 func (v *DomainAssetFilterInput) GetDeviceId() *ComparableNullableOfGuidOperationFilterInput {
 	return v.DeviceId
@@ -5449,25 +6296,36 @@ func (v *DomainAssetFilterInput) GetDeviceId() *ComparableNullableOfGuidOperatio
 // GetSerialNumber returns DomainAssetFilterInput.SerialNumber, and is useful for accessing the field via an interface.
 func (v *DomainAssetFilterInput) GetSerialNumber() *StringOperationFilterInput { return v.SerialNumber }
 
+// GetTenant returns DomainAssetFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DomainAssetFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
+
 // GetDevice returns DomainAssetFilterInput.Device, and is useful for accessing the field via an interface.
 func (v *DomainAssetFilterInput) GetDevice() *DeviceFilterInput { return v.Device }
 
 // I am a generated type!
 type DomainAssetSortInput struct {
-	AssetId      *SortEnumType    `json:"assetId,omitempty"`
-	DeviceId     *SortEnumType    `json:"deviceId,omitempty"`
-	SerialNumber *SortEnumType    `json:"serialNumber,omitempty"`
-	Device       *DeviceSortInput `json:"device,omitempty"`
+	AssetId      *SortEnumType          `json:"assetId,omitempty"`
+	TenantId     *SortEnumType          `json:"tenantId,omitempty"`
+	DeviceId     *SortEnumType          `json:"deviceId,omitempty"`
+	SerialNumber *SortEnumType          `json:"serialNumber,omitempty"`
+	Tenant       *DomainTenantSortInput `json:"tenant,omitempty"`
+	Device       *DeviceSortInput       `json:"device,omitempty"`
 }
 
 // GetAssetId returns DomainAssetSortInput.AssetId, and is useful for accessing the field via an interface.
 func (v *DomainAssetSortInput) GetAssetId() *SortEnumType { return v.AssetId }
+
+// GetTenantId returns DomainAssetSortInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DomainAssetSortInput) GetTenantId() *SortEnumType { return v.TenantId }
 
 // GetDeviceId returns DomainAssetSortInput.DeviceId, and is useful for accessing the field via an interface.
 func (v *DomainAssetSortInput) GetDeviceId() *SortEnumType { return v.DeviceId }
 
 // GetSerialNumber returns DomainAssetSortInput.SerialNumber, and is useful for accessing the field via an interface.
 func (v *DomainAssetSortInput) GetSerialNumber() *SortEnumType { return v.SerialNumber }
+
+// GetTenant returns DomainAssetSortInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DomainAssetSortInput) GetTenant() *DomainTenantSortInput { return v.Tenant }
 
 // GetDevice returns DomainAssetSortInput.Device, and is useful for accessing the field via an interface.
 func (v *DomainAssetSortInput) GetDevice() *DeviceSortInput { return v.Device }
@@ -5731,6 +6589,26 @@ func (v *DomainTenantFilterInput) GetAlias() *StringOperationFilterInput { retur
 func (v *DomainTenantFilterInput) GetRowVersion() *ComparableInt64OperationFilterInput {
 	return v.RowVersion
 }
+
+// I am a generated type!
+type DomainTenantSortInput struct {
+	TenantId   *SortEnumType `json:"tenantId,omitempty"`
+	TenantName *SortEnumType `json:"tenantName,omitempty"`
+	Alias      *SortEnumType `json:"alias,omitempty"`
+	RowVersion *SortEnumType `json:"rowVersion,omitempty"`
+}
+
+// GetTenantId returns DomainTenantSortInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DomainTenantSortInput) GetTenantId() *SortEnumType { return v.TenantId }
+
+// GetTenantName returns DomainTenantSortInput.TenantName, and is useful for accessing the field via an interface.
+func (v *DomainTenantSortInput) GetTenantName() *SortEnumType { return v.TenantName }
+
+// GetAlias returns DomainTenantSortInput.Alias, and is useful for accessing the field via an interface.
+func (v *DomainTenantSortInput) GetAlias() *SortEnumType { return v.Alias }
+
+// GetRowVersion returns DomainTenantSortInput.RowVersion, and is useful for accessing the field via an interface.
+func (v *DomainTenantSortInput) GetRowVersion() *SortEnumType { return v.RowVersion }
 
 // I am a generated type!
 type EdgeDeviceFilterInput struct {
@@ -6248,12 +7126,102 @@ func (v *EdgeDeviceModelFilterInput) GetFleets() *ListFilterInputTypeOfFleetFilt
 }
 
 // I am a generated type!
+type EntityChangeSetFilterInput struct {
+	And                []*EntityChangeSetFilterInput                 `json:"and,omitempty"`
+	Or                 []*EntityChangeSetFilterInput                 `json:"or,omitempty"`
+	Id                 *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	EntityIdentifierId *ComparableGuidOperationFilterInput           `json:"entityIdentifierId,omitempty"`
+	UserId             *ComparableNullableOfGuidOperationFilterInput `json:"userId,omitempty"`
+	CreatedAt          *ComparableDateTimeOperationFilterInput       `json:"createdAt,omitempty"`
+	ChangeType         *EntityChangeTypeOperationFilterInput         `json:"changeType,omitempty"`
+	ChangeSetJson      *StringOperationFilterInput                   `json:"changeSetJson,omitempty"`
+	EntityIdentifier   *EntityIdentifierFilterInput                  `json:"entityIdentifier,omitempty"`
+}
+
+// GetAnd returns EntityChangeSetFilterInput.And, and is useful for accessing the field via an interface.
+func (v *EntityChangeSetFilterInput) GetAnd() []*EntityChangeSetFilterInput { return v.And }
+
+// GetOr returns EntityChangeSetFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *EntityChangeSetFilterInput) GetOr() []*EntityChangeSetFilterInput { return v.Or }
+
+// GetId returns EntityChangeSetFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *EntityChangeSetFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetEntityIdentifierId returns EntityChangeSetFilterInput.EntityIdentifierId, and is useful for accessing the field via an interface.
+func (v *EntityChangeSetFilterInput) GetEntityIdentifierId() *ComparableGuidOperationFilterInput {
+	return v.EntityIdentifierId
+}
+
+// GetUserId returns EntityChangeSetFilterInput.UserId, and is useful for accessing the field via an interface.
+func (v *EntityChangeSetFilterInput) GetUserId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.UserId
+}
+
+// GetCreatedAt returns EntityChangeSetFilterInput.CreatedAt, and is useful for accessing the field via an interface.
+func (v *EntityChangeSetFilterInput) GetCreatedAt() *ComparableDateTimeOperationFilterInput {
+	return v.CreatedAt
+}
+
+// GetChangeType returns EntityChangeSetFilterInput.ChangeType, and is useful for accessing the field via an interface.
+func (v *EntityChangeSetFilterInput) GetChangeType() *EntityChangeTypeOperationFilterInput {
+	return v.ChangeType
+}
+
+// GetChangeSetJson returns EntityChangeSetFilterInput.ChangeSetJson, and is useful for accessing the field via an interface.
+func (v *EntityChangeSetFilterInput) GetChangeSetJson() *StringOperationFilterInput {
+	return v.ChangeSetJson
+}
+
+// GetEntityIdentifier returns EntityChangeSetFilterInput.EntityIdentifier, and is useful for accessing the field via an interface.
+func (v *EntityChangeSetFilterInput) GetEntityIdentifier() *EntityIdentifierFilterInput {
+	return v.EntityIdentifier
+}
+
+type EntityChangeType string
+
+const (
+	EntityChangeTypeCreated     EntityChangeType = "CREATED"
+	EntityChangeTypeUpdated     EntityChangeType = "UPDATED"
+	EntityChangeTypeSoftDeleted EntityChangeType = "SOFT_DELETED"
+	EntityChangeTypeRestored    EntityChangeType = "RESTORED"
+	EntityChangeTypeDeleted     EntityChangeType = "DELETED"
+)
+
+var AllEntityChangeType = []EntityChangeType{
+	EntityChangeTypeCreated,
+	EntityChangeTypeUpdated,
+	EntityChangeTypeSoftDeleted,
+	EntityChangeTypeRestored,
+	EntityChangeTypeDeleted,
+}
+
+type EntityChangeTypeOperationFilterInput struct {
+	Eq  *EntityChangeType  `json:"eq"`
+	Neq *EntityChangeType  `json:"neq"`
+	In  []EntityChangeType `json:"in"`
+	Nin []EntityChangeType `json:"nin"`
+}
+
+// GetEq returns EntityChangeTypeOperationFilterInput.Eq, and is useful for accessing the field via an interface.
+func (v *EntityChangeTypeOperationFilterInput) GetEq() *EntityChangeType { return v.Eq }
+
+// GetNeq returns EntityChangeTypeOperationFilterInput.Neq, and is useful for accessing the field via an interface.
+func (v *EntityChangeTypeOperationFilterInput) GetNeq() *EntityChangeType { return v.Neq }
+
+// GetIn returns EntityChangeTypeOperationFilterInput.In, and is useful for accessing the field via an interface.
+func (v *EntityChangeTypeOperationFilterInput) GetIn() []EntityChangeType { return v.In }
+
+// GetNin returns EntityChangeTypeOperationFilterInput.Nin, and is useful for accessing the field via an interface.
+func (v *EntityChangeTypeOperationFilterInput) GetNin() []EntityChangeType { return v.Nin }
+
+// I am a generated type!
 type EntityIdentifierFilterInput struct {
 	And        []*EntityIdentifierFilterInput                   `json:"and,omitempty"`
 	Or         []*EntityIdentifierFilterInput                   `json:"or,omitempty"`
 	EntityName *StringOperationFilterInput                      `json:"entityName,omitempty"`
 	Ownerships *ListFilterInputTypeOfEntityOwnershipFilterInput `json:"ownerships,omitempty"`
 	LogBooks   *ListFilterInputTypeOfEntityLogBookFilterInput   `json:"logBooks,omitempty"`
+	ChangeSets *ListFilterInputTypeOfEntityChangeSetFilterInput `json:"changeSets,omitempty"`
 }
 
 // GetAnd returns EntityIdentifierFilterInput.And, and is useful for accessing the field via an interface.
@@ -6275,6 +7243,11 @@ func (v *EntityIdentifierFilterInput) GetOwnerships() *ListFilterInputTypeOfEnti
 // GetLogBooks returns EntityIdentifierFilterInput.LogBooks, and is useful for accessing the field via an interface.
 func (v *EntityIdentifierFilterInput) GetLogBooks() *ListFilterInputTypeOfEntityLogBookFilterInput {
 	return v.LogBooks
+}
+
+// GetChangeSets returns EntityIdentifierFilterInput.ChangeSets, and is useful for accessing the field via an interface.
+func (v *EntityIdentifierFilterInput) GetChangeSets() *ListFilterInputTypeOfEntityChangeSetFilterInput {
+	return v.ChangeSets
 }
 
 // I am a generated type!
@@ -6333,6 +7306,7 @@ func (v *EntityLogBookFilterInput) GetEntityIdentifier() *EntityIdentifierFilter
 type EntityOwnershipFilterInput struct {
 	And       []*EntityOwnershipFilterInput       `json:"and,omitempty"`
 	Or        []*EntityOwnershipFilterInput       `json:"or,omitempty"`
+	Id        *ComparableGuidOperationFilterInput `json:"id,omitempty"`
 	UserId    *ComparableGuidOperationFilterInput `json:"userId,omitempty"`
 	IsCreator *BooleanOperationFilterInput        `json:"isCreator,omitempty"`
 }
@@ -6342,6 +7316,9 @@ func (v *EntityOwnershipFilterInput) GetAnd() []*EntityOwnershipFilterInput { re
 
 // GetOr returns EntityOwnershipFilterInput.Or, and is useful for accessing the field via an interface.
 func (v *EntityOwnershipFilterInput) GetOr() []*EntityOwnershipFilterInput { return v.Or }
+
+// GetId returns EntityOwnershipFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *EntityOwnershipFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
 
 // GetUserId returns EntityOwnershipFilterInput.UserId, and is useful for accessing the field via an interface.
 func (v *EntityOwnershipFilterInput) GetUserId() *ComparableGuidOperationFilterInput { return v.UserId }
@@ -9845,7 +10822,7 @@ type ListFilterInputTypeOfAppFirmwareFilterInput struct {
 	All  *AppFirmwareFilterInput `json:"all,omitempty"`
 	None *AppFirmwareFilterInput `json:"none,omitempty"`
 	Some *AppFirmwareFilterInput `json:"some,omitempty"`
-	Any  *bool                   `json:"any,omitempty"`
+	Any  *bool                   `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfAppFirmwareFilterInput.All, and is useful for accessing the field via an interface.
@@ -9864,11 +10841,36 @@ func (v *ListFilterInputTypeOfAppFirmwareFilterInput) GetSome() *AppFirmwareFilt
 // GetAny returns ListFilterInputTypeOfAppFirmwareFilterInput.Any, and is useful for accessing the field via an interface.
 func (v *ListFilterInputTypeOfAppFirmwareFilterInput) GetAny() *bool { return v.Any }
 
+type ListFilterInputTypeOfAppRevisionBomFilterInput struct {
+	All  *AppRevisionBomFilterInput `json:"all,omitempty"`
+	None *AppRevisionBomFilterInput `json:"none,omitempty"`
+	Some *AppRevisionBomFilterInput `json:"some,omitempty"`
+	Any  *bool                      `json:"any"`
+}
+
+// GetAll returns ListFilterInputTypeOfAppRevisionBomFilterInput.All, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfAppRevisionBomFilterInput) GetAll() *AppRevisionBomFilterInput {
+	return v.All
+}
+
+// GetNone returns ListFilterInputTypeOfAppRevisionBomFilterInput.None, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfAppRevisionBomFilterInput) GetNone() *AppRevisionBomFilterInput {
+	return v.None
+}
+
+// GetSome returns ListFilterInputTypeOfAppRevisionBomFilterInput.Some, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfAppRevisionBomFilterInput) GetSome() *AppRevisionBomFilterInput {
+	return v.Some
+}
+
+// GetAny returns ListFilterInputTypeOfAppRevisionBomFilterInput.Any, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfAppRevisionBomFilterInput) GetAny() *bool { return v.Any }
+
 type ListFilterInputTypeOfAppRevisionDeltaFilterInput struct {
 	All  *AppRevisionDeltaFilterInput `json:"all,omitempty"`
 	None *AppRevisionDeltaFilterInput `json:"none,omitempty"`
 	Some *AppRevisionDeltaFilterInput `json:"some,omitempty"`
-	Any  *bool                        `json:"any,omitempty"`
+	Any  *bool                        `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfAppRevisionDeltaFilterInput.All, and is useful for accessing the field via an interface.
@@ -9893,7 +10895,7 @@ type ListFilterInputTypeOfAppRevisionFilterInput struct {
 	All  *AppRevisionFilterInput `json:"all,omitempty"`
 	None *AppRevisionFilterInput `json:"none,omitempty"`
 	Some *AppRevisionFilterInput `json:"some,omitempty"`
-	Any  *bool                   `json:"any,omitempty"`
+	Any  *bool                   `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfAppRevisionFilterInput.All, and is useful for accessing the field via an interface.
@@ -9916,7 +10918,7 @@ type ListFilterInputTypeOfAppSnapFilterInput struct {
 	All  *AppSnapFilterInput `json:"all,omitempty"`
 	None *AppSnapFilterInput `json:"none,omitempty"`
 	Some *AppSnapFilterInput `json:"some,omitempty"`
-	Any  *bool               `json:"any,omitempty"`
+	Any  *bool               `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfAppSnapFilterInput.All, and is useful for accessing the field via an interface.
@@ -9935,7 +10937,7 @@ type ListFilterInputTypeOfAssertionFilterInput struct {
 	All  *AssertionFilterInput `json:"all,omitempty"`
 	None *AssertionFilterInput `json:"none,omitempty"`
 	Some *AssertionFilterInput `json:"some,omitempty"`
-	Any  *bool                 `json:"any,omitempty"`
+	Any  *bool                 `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfAssertionFilterInput.All, and is useful for accessing the field via an interface.
@@ -10246,7 +11248,7 @@ type ListFilterInputTypeOfDeploymentGroupAdministratorFilterInput struct {
 	All  *DeploymentGroupAdministratorFilterInput `json:"all,omitempty"`
 	None *DeploymentGroupAdministratorFilterInput `json:"none,omitempty"`
 	Some *DeploymentGroupAdministratorFilterInput `json:"some,omitempty"`
-	Any  *bool                                    `json:"any,omitempty"`
+	Any  *bool                                    `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeploymentGroupAdministratorFilterInput.All, and is useful for accessing the field via an interface.
@@ -10271,7 +11273,7 @@ type ListFilterInputTypeOfDeploymentGroupBridgeAppRevisionFilterInput struct {
 	All  *DeploymentGroupBridgeAppRevisionFilterInput `json:"all,omitempty"`
 	None *DeploymentGroupBridgeAppRevisionFilterInput `json:"none,omitempty"`
 	Some *DeploymentGroupBridgeAppRevisionFilterInput `json:"some,omitempty"`
-	Any  *bool                                        `json:"any,omitempty"`
+	Any  *bool                                        `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeploymentGroupBridgeAppRevisionFilterInput.All, and is useful for accessing the field via an interface.
@@ -10298,7 +11300,7 @@ type ListFilterInputTypeOfDeploymentGroupBridgeDeploymentGroupTagFilterInput str
 	All  *DeploymentGroupBridgeDeploymentGroupTagFilterInput `json:"all,omitempty"`
 	None *DeploymentGroupBridgeDeploymentGroupTagFilterInput `json:"none,omitempty"`
 	Some *DeploymentGroupBridgeDeploymentGroupTagFilterInput `json:"some,omitempty"`
-	Any  *bool                                               `json:"any,omitempty"`
+	Any  *bool                                               `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeploymentGroupBridgeDeploymentGroupTagFilterInput.All, and is useful for accessing the field via an interface.
@@ -10325,7 +11327,7 @@ type ListFilterInputTypeOfDeploymentGroupFilterInput struct {
 	All  *DeploymentGroupFilterInput `json:"all,omitempty"`
 	None *DeploymentGroupFilterInput `json:"none,omitempty"`
 	Some *DeploymentGroupFilterInput `json:"some,omitempty"`
-	Any  *bool                       `json:"any,omitempty"`
+	Any  *bool                       `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeploymentGroupFilterInput.All, and is useful for accessing the field via an interface.
@@ -10350,7 +11352,7 @@ type ListFilterInputTypeOfDeviceDailyMessagingActivityFilterInput struct {
 	All  *DeviceDailyMessagingActivityFilterInput `json:"all,omitempty"`
 	None *DeviceDailyMessagingActivityFilterInput `json:"none,omitempty"`
 	Some *DeviceDailyMessagingActivityFilterInput `json:"some,omitempty"`
-	Any  *bool                                    `json:"any,omitempty"`
+	Any  *bool                                    `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceDailyMessagingActivityFilterInput.All, and is useful for accessing the field via an interface.
@@ -10375,7 +11377,7 @@ type ListFilterInputTypeOfDeviceFilterInput struct {
 	All  *DeviceFilterInput `json:"all,omitempty"`
 	None *DeviceFilterInput `json:"none,omitempty"`
 	Some *DeviceFilterInput `json:"some,omitempty"`
-	Any  *bool              `json:"any,omitempty"`
+	Any  *bool              `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceFilterInput.All, and is useful for accessing the field via an interface.
@@ -10394,7 +11396,7 @@ type ListFilterInputTypeOfDeviceInstallStateFilterInput struct {
 	All  *DeviceInstallStateFilterInput `json:"all,omitempty"`
 	None *DeviceInstallStateFilterInput `json:"none,omitempty"`
 	Some *DeviceInstallStateFilterInput `json:"some,omitempty"`
-	Any  *bool                          `json:"any,omitempty"`
+	Any  *bool                          `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceInstallStateFilterInput.All, and is useful for accessing the field via an interface.
@@ -10419,7 +11421,7 @@ type ListFilterInputTypeOfDeviceModelFilterInput struct {
 	All  *DeviceModelFilterInput `json:"all,omitempty"`
 	None *DeviceModelFilterInput `json:"none,omitempty"`
 	Some *DeviceModelFilterInput `json:"some,omitempty"`
-	Any  *bool                   `json:"any,omitempty"`
+	Any  *bool                   `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceModelFilterInput.All, and is useful for accessing the field via an interface.
@@ -10442,7 +11444,7 @@ type ListFilterInputTypeOfDeviceModelRevisionBridgeAppFilterInput struct {
 	All  *DeviceModelRevisionBridgeAppFilterInput `json:"all,omitempty"`
 	None *DeviceModelRevisionBridgeAppFilterInput `json:"none,omitempty"`
 	Some *DeviceModelRevisionBridgeAppFilterInput `json:"some,omitempty"`
-	Any  *bool                                    `json:"any,omitempty"`
+	Any  *bool                                    `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceModelRevisionBridgeAppFilterInput.All, and is useful for accessing the field via an interface.
@@ -10467,7 +11469,7 @@ type ListFilterInputTypeOfDeviceModelRevisionFilterInput struct {
 	All  *DeviceModelRevisionFilterInput `json:"all,omitempty"`
 	None *DeviceModelRevisionFilterInput `json:"none,omitempty"`
 	Some *DeviceModelRevisionFilterInput `json:"some,omitempty"`
-	Any  *bool                           `json:"any,omitempty"`
+	Any  *bool                           `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceModelRevisionFilterInput.All, and is useful for accessing the field via an interface.
@@ -10492,7 +11494,7 @@ type ListFilterInputTypeOfDeviceSnapFilterInput struct {
 	All  *DeviceSnapFilterInput `json:"all,omitempty"`
 	None *DeviceSnapFilterInput `json:"none,omitempty"`
 	Some *DeviceSnapFilterInput `json:"some,omitempty"`
-	Any  *bool                  `json:"any,omitempty"`
+	Any  *bool                  `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceSnapFilterInput.All, and is useful for accessing the field via an interface.
@@ -10561,7 +11563,7 @@ type ListFilterInputTypeOfEdgeDeviceFilterInput struct {
 	All  *EdgeDeviceFilterInput `json:"all,omitempty"`
 	None *EdgeDeviceFilterInput `json:"none,omitempty"`
 	Some *EdgeDeviceFilterInput `json:"some,omitempty"`
-	Any  *bool                  `json:"any,omitempty"`
+	Any  *bool                  `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfEdgeDeviceFilterInput.All, and is useful for accessing the field via an interface.
@@ -10580,7 +11582,7 @@ type ListFilterInputTypeOfEdgeDeviceInstallStateFilterInput struct {
 	All  *EdgeDeviceInstallStateFilterInput `json:"all,omitempty"`
 	None *EdgeDeviceInstallStateFilterInput `json:"none,omitempty"`
 	Some *EdgeDeviceInstallStateFilterInput `json:"some,omitempty"`
-	Any  *bool                              `json:"any,omitempty"`
+	Any  *bool                              `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfEdgeDeviceInstallStateFilterInput.All, and is useful for accessing the field via an interface.
@@ -10605,7 +11607,7 @@ type ListFilterInputTypeOfEdgeDeviceModelBridgeSnapDeclarationFilterInput struct
 	All  *EdgeDeviceModelBridgeSnapDeclarationFilterInput `json:"all,omitempty"`
 	None *EdgeDeviceModelBridgeSnapDeclarationFilterInput `json:"none,omitempty"`
 	Some *EdgeDeviceModelBridgeSnapDeclarationFilterInput `json:"some,omitempty"`
-	Any  *bool                                            `json:"any,omitempty"`
+	Any  *bool                                            `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfEdgeDeviceModelBridgeSnapDeclarationFilterInput.All, and is useful for accessing the field via an interface.
@@ -10628,11 +11630,36 @@ func (v *ListFilterInputTypeOfEdgeDeviceModelBridgeSnapDeclarationFilterInput) G
 	return v.Any
 }
 
+type ListFilterInputTypeOfEntityChangeSetFilterInput struct {
+	All  *EntityChangeSetFilterInput `json:"all,omitempty"`
+	None *EntityChangeSetFilterInput `json:"none,omitempty"`
+	Some *EntityChangeSetFilterInput `json:"some,omitempty"`
+	Any  *bool                       `json:"any"`
+}
+
+// GetAll returns ListFilterInputTypeOfEntityChangeSetFilterInput.All, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfEntityChangeSetFilterInput) GetAll() *EntityChangeSetFilterInput {
+	return v.All
+}
+
+// GetNone returns ListFilterInputTypeOfEntityChangeSetFilterInput.None, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfEntityChangeSetFilterInput) GetNone() *EntityChangeSetFilterInput {
+	return v.None
+}
+
+// GetSome returns ListFilterInputTypeOfEntityChangeSetFilterInput.Some, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfEntityChangeSetFilterInput) GetSome() *EntityChangeSetFilterInput {
+	return v.Some
+}
+
+// GetAny returns ListFilterInputTypeOfEntityChangeSetFilterInput.Any, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfEntityChangeSetFilterInput) GetAny() *bool { return v.Any }
+
 type ListFilterInputTypeOfEntityLogBookFilterInput struct {
 	All  *EntityLogBookFilterInput `json:"all,omitempty"`
 	None *EntityLogBookFilterInput `json:"none,omitempty"`
 	Some *EntityLogBookFilterInput `json:"some,omitempty"`
-	Any  *bool                     `json:"any,omitempty"`
+	Any  *bool                     `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfEntityLogBookFilterInput.All, and is useful for accessing the field via an interface.
@@ -10657,7 +11684,7 @@ type ListFilterInputTypeOfEntityOwnershipFilterInput struct {
 	All  *EntityOwnershipFilterInput `json:"all,omitempty"`
 	None *EntityOwnershipFilterInput `json:"none,omitempty"`
 	Some *EntityOwnershipFilterInput `json:"some,omitempty"`
-	Any  *bool                       `json:"any,omitempty"`
+	Any  *bool                       `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfEntityOwnershipFilterInput.All, and is useful for accessing the field via an interface.
@@ -10682,7 +11709,7 @@ type ListFilterInputTypeOfFleetAdministratorFilterInput struct {
 	All  *FleetAdministratorFilterInput `json:"all,omitempty"`
 	None *FleetAdministratorFilterInput `json:"none,omitempty"`
 	Some *FleetAdministratorFilterInput `json:"some,omitempty"`
-	Any  *bool                          `json:"any,omitempty"`
+	Any  *bool                          `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfFleetAdministratorFilterInput.All, and is useful for accessing the field via an interface.
@@ -10707,7 +11734,7 @@ type ListFilterInputTypeOfFleetBridgeSnapRevisionFilterInput struct {
 	All  *FleetBridgeSnapRevisionFilterInput `json:"all,omitempty"`
 	None *FleetBridgeSnapRevisionFilterInput `json:"none,omitempty"`
 	Some *FleetBridgeSnapRevisionFilterInput `json:"some,omitempty"`
-	Any  *bool                               `json:"any,omitempty"`
+	Any  *bool                               `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfFleetBridgeSnapRevisionFilterInput.All, and is useful for accessing the field via an interface.
@@ -10732,7 +11759,7 @@ type ListFilterInputTypeOfFleetFilterInput struct {
 	All  *FleetFilterInput `json:"all,omitempty"`
 	None *FleetFilterInput `json:"none,omitempty"`
 	Some *FleetFilterInput `json:"some,omitempty"`
-	Any  *bool             `json:"any,omitempty"`
+	Any  *bool             `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfFleetFilterInput.All, and is useful for accessing the field via an interface.
@@ -10751,7 +11778,7 @@ type ListFilterInputTypeOfSnapDeclarationFilterInput struct {
 	All  *SnapDeclarationFilterInput `json:"all,omitempty"`
 	None *SnapDeclarationFilterInput `json:"none,omitempty"`
 	Some *SnapDeclarationFilterInput `json:"some,omitempty"`
-	Any  *bool                       `json:"any,omitempty"`
+	Any  *bool                       `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfSnapDeclarationFilterInput.All, and is useful for accessing the field via an interface.
@@ -10776,7 +11803,7 @@ type ListFilterInputTypeOfSnapDeltaFilterInput struct {
 	All  *SnapDeltaFilterInput `json:"all,omitempty"`
 	None *SnapDeltaFilterInput `json:"none,omitempty"`
 	Some *SnapDeltaFilterInput `json:"some,omitempty"`
-	Any  *bool                 `json:"any,omitempty"`
+	Any  *bool                 `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfSnapDeltaFilterInput.All, and is useful for accessing the field via an interface.
@@ -10795,7 +11822,7 @@ type ListFilterInputTypeOfSnapRevisionFilterInput struct {
 	All  *SnapRevisionFilterInput `json:"all,omitempty"`
 	None *SnapRevisionFilterInput `json:"none,omitempty"`
 	Some *SnapRevisionFilterInput `json:"some,omitempty"`
-	Any  *bool                    `json:"any,omitempty"`
+	Any  *bool                    `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfSnapRevisionFilterInput.All, and is useful for accessing the field via an interface.
@@ -10820,7 +11847,7 @@ type ListFilterInputTypeOfStoreSettingFilterInput struct {
 	All  *StoreSettingFilterInput `json:"all,omitempty"`
 	None *StoreSettingFilterInput `json:"none,omitempty"`
 	Some *StoreSettingFilterInput `json:"some,omitempty"`
-	Any  *bool                    `json:"any,omitempty"`
+	Any  *bool                    `json:"any"`
 }
 
 // GetAll returns ListFilterInputTypeOfStoreSettingFilterInput.All, and is useful for accessing the field via an interface.
@@ -10840,6 +11867,56 @@ func (v *ListFilterInputTypeOfStoreSettingFilterInput) GetSome() *StoreSettingFi
 
 // GetAny returns ListFilterInputTypeOfStoreSettingFilterInput.Any, and is useful for accessing the field via an interface.
 func (v *ListFilterInputTypeOfStoreSettingFilterInput) GetAny() *bool { return v.Any }
+
+type ListFilterInputTypeOfVulnerabilityFindingFilterInput struct {
+	All  *VulnerabilityFindingFilterInput `json:"all,omitempty"`
+	None *VulnerabilityFindingFilterInput `json:"none,omitempty"`
+	Some *VulnerabilityFindingFilterInput `json:"some,omitempty"`
+	Any  *bool                            `json:"any"`
+}
+
+// GetAll returns ListFilterInputTypeOfVulnerabilityFindingFilterInput.All, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfVulnerabilityFindingFilterInput) GetAll() *VulnerabilityFindingFilterInput {
+	return v.All
+}
+
+// GetNone returns ListFilterInputTypeOfVulnerabilityFindingFilterInput.None, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfVulnerabilityFindingFilterInput) GetNone() *VulnerabilityFindingFilterInput {
+	return v.None
+}
+
+// GetSome returns ListFilterInputTypeOfVulnerabilityFindingFilterInput.Some, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfVulnerabilityFindingFilterInput) GetSome() *VulnerabilityFindingFilterInput {
+	return v.Some
+}
+
+// GetAny returns ListFilterInputTypeOfVulnerabilityFindingFilterInput.Any, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfVulnerabilityFindingFilterInput) GetAny() *bool { return v.Any }
+
+type ListFilterInputTypeOfVulnerabilityStatusChangeFilterInput struct {
+	All  *VulnerabilityStatusChangeFilterInput `json:"all,omitempty"`
+	None *VulnerabilityStatusChangeFilterInput `json:"none,omitempty"`
+	Some *VulnerabilityStatusChangeFilterInput `json:"some,omitempty"`
+	Any  *bool                                 `json:"any"`
+}
+
+// GetAll returns ListFilterInputTypeOfVulnerabilityStatusChangeFilterInput.All, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfVulnerabilityStatusChangeFilterInput) GetAll() *VulnerabilityStatusChangeFilterInput {
+	return v.All
+}
+
+// GetNone returns ListFilterInputTypeOfVulnerabilityStatusChangeFilterInput.None, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfVulnerabilityStatusChangeFilterInput) GetNone() *VulnerabilityStatusChangeFilterInput {
+	return v.None
+}
+
+// GetSome returns ListFilterInputTypeOfVulnerabilityStatusChangeFilterInput.Some, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfVulnerabilityStatusChangeFilterInput) GetSome() *VulnerabilityStatusChangeFilterInput {
+	return v.Some
+}
+
+// GetAny returns ListFilterInputTypeOfVulnerabilityStatusChangeFilterInput.Any, and is useful for accessing the field via an interface.
+func (v *ListFilterInputTypeOfVulnerabilityStatusChangeFilterInput) GetAny() *bool { return v.Any }
 
 // I am a generated type!
 type MeasurementCategoryFilterInput struct {
@@ -11582,18 +12659,18 @@ func (v *StoreSettingFilterInput) GetAssertion() *AssertionFilterInput { return 
 type StringOperationFilterInput struct {
 	And       []*StringOperationFilterInput `json:"and,omitempty"`
 	Or        []*StringOperationFilterInput `json:"or,omitempty"`
-	Eq        *string                       `json:"eq,omitempty"`
-	Neq       *string                       `json:"neq,omitempty"`
-	Contains  *string                       `json:"contains,omitempty"`
-	Ncontains *string                       `json:"ncontains,omitempty"`
+	Eq        *string                       `json:"eq"`
+	Neq       *string                       `json:"neq"`
+	Contains  *string                       `json:"contains"`
+	Ncontains *string                       `json:"ncontains"`
 	// This Fiter is Case-Sensitive
-	In []*string `json:"in,omitempty"`
+	In []*string `json:"in"`
 	// This Fiter is Case-Sensitive
-	Nin         []*string `json:"nin,omitempty"`
-	StartsWith  *string   `json:"startsWith,omitempty"`
-	NstartsWith *string   `json:"nstartsWith,omitempty"`
-	EndsWith    *string   `json:"endsWith,omitempty"`
-	NendsWith   *string   `json:"nendsWith,omitempty"`
+	Nin         []*string `json:"nin"`
+	StartsWith  *string   `json:"startsWith"`
+	NstartsWith *string   `json:"nstartsWith"`
+	EndsWith    *string   `json:"endsWith"`
+	NendsWith   *string   `json:"nendsWith"`
 }
 
 // GetAnd returns StringOperationFilterInput.And, and is useful for accessing the field via an interface.
@@ -11863,10 +12940,10 @@ var AllUplinkMode = []UplinkMode{
 }
 
 type UplinkModeOperationFilterInput struct {
-	Eq  *UplinkMode  `json:"eq,omitempty"`
-	Neq *UplinkMode  `json:"neq,omitempty"`
-	In  []UplinkMode `json:"in,omitempty"`
-	Nin []UplinkMode `json:"nin,omitempty"`
+	Eq  *UplinkMode  `json:"eq"`
+	Neq *UplinkMode  `json:"neq"`
+	In  []UplinkMode `json:"in"`
+	Nin []UplinkMode `json:"nin"`
 }
 
 // GetEq returns UplinkModeOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -11880,6 +12957,476 @@ func (v *UplinkModeOperationFilterInput) GetIn() []UplinkMode { return v.In }
 
 // GetNin returns UplinkModeOperationFilterInput.Nin, and is useful for accessing the field via an interface.
 func (v *UplinkModeOperationFilterInput) GetNin() []UplinkMode { return v.Nin }
+
+// I am a generated type!
+type VulnerabilityFilterInput struct {
+	And                     []*VulnerabilityFilterInput                       `json:"and,omitempty"`
+	Or                      []*VulnerabilityFilterInput                       `json:"or,omitempty"`
+	CveId                   *StringOperationFilterInput                       `json:"cveId,omitempty"`
+	CvssScore               *ComparableNullableOfDecimalOperationFilterInput  `json:"cvssScore,omitempty"`
+	CvssSeverity            *StringOperationFilterInput                       `json:"cvssSeverity,omitempty"`
+	CvssVector              *StringOperationFilterInput                       `json:"cvssVector,omitempty"`
+	PublishedDate           *ComparableNullableOfDateTimeOperationFilterInput `json:"publishedDate,omitempty"`
+	ModifiedDate            *ComparableNullableOfDateTimeOperationFilterInput `json:"modifiedDate,omitempty"`
+	Id                      *ComparableGuidOperationFilterInput               `json:"id,omitempty"`
+	DependencyTrackVulnUuid *ComparableNullableOfGuidOperationFilterInput     `json:"dependencyTrackVulnUuid,omitempty"`
+	Source                  *StringOperationFilterInput                       `json:"source,omitempty"`
+	EpssScore               *ComparableNullableOfDecimalOperationFilterInput  `json:"epssScore,omitempty"`
+	EpssPercentile          *ComparableNullableOfDecimalOperationFilterInput  `json:"epssPercentile,omitempty"`
+	Title                   *StringOperationFilterInput                       `json:"title,omitempty"`
+	IsManuallyCreated       *BooleanOperationFilterInput                      `json:"isManuallyCreated,omitempty"`
+	Description             *StringOperationFilterInput                       `json:"description,omitempty"`
+	Recommendation          *StringOperationFilterInput                       `json:"recommendation,omitempty"`
+	DetectedAt              *ComparableDateTimeOperationFilterInput           `json:"detectedAt,omitempty"`
+	CweId                   *ComparableNullableOfInt32OperationFilterInput    `json:"cweId,omitempty"`
+	CweName                 *StringOperationFilterInput                       `json:"cweName,omitempty"`
+	IsKnownExploited        *BooleanOperationFilterInput                      `json:"isKnownExploited,omitempty"`
+	KevDateAdded            *ComparableNullableOfDateTimeOperationFilterInput `json:"kevDateAdded,omitempty"`
+	CreatedBy               *ComparableNullableOfGuidOperationFilterInput     `json:"createdBy,omitempty"`
+	CreatedAt               *ComparableDateTimeOperationFilterInput           `json:"createdAt,omitempty"`
+	ModifiedBy              *ComparableNullableOfGuidOperationFilterInput     `json:"modifiedBy,omitempty"`
+	LastChangedAt           *ComparableDateTimeOperationFilterInput           `json:"lastChangedAt,omitempty"`
+}
+
+// GetAnd returns VulnerabilityFilterInput.And, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetAnd() []*VulnerabilityFilterInput { return v.And }
+
+// GetOr returns VulnerabilityFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetOr() []*VulnerabilityFilterInput { return v.Or }
+
+// GetCveId returns VulnerabilityFilterInput.CveId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetCveId() *StringOperationFilterInput { return v.CveId }
+
+// GetCvssScore returns VulnerabilityFilterInput.CvssScore, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetCvssScore() *ComparableNullableOfDecimalOperationFilterInput {
+	return v.CvssScore
+}
+
+// GetCvssSeverity returns VulnerabilityFilterInput.CvssSeverity, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetCvssSeverity() *StringOperationFilterInput {
+	return v.CvssSeverity
+}
+
+// GetCvssVector returns VulnerabilityFilterInput.CvssVector, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetCvssVector() *StringOperationFilterInput { return v.CvssVector }
+
+// GetPublishedDate returns VulnerabilityFilterInput.PublishedDate, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetPublishedDate() *ComparableNullableOfDateTimeOperationFilterInput {
+	return v.PublishedDate
+}
+
+// GetModifiedDate returns VulnerabilityFilterInput.ModifiedDate, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetModifiedDate() *ComparableNullableOfDateTimeOperationFilterInput {
+	return v.ModifiedDate
+}
+
+// GetId returns VulnerabilityFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetDependencyTrackVulnUuid returns VulnerabilityFilterInput.DependencyTrackVulnUuid, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetDependencyTrackVulnUuid() *ComparableNullableOfGuidOperationFilterInput {
+	return v.DependencyTrackVulnUuid
+}
+
+// GetSource returns VulnerabilityFilterInput.Source, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetSource() *StringOperationFilterInput { return v.Source }
+
+// GetEpssScore returns VulnerabilityFilterInput.EpssScore, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetEpssScore() *ComparableNullableOfDecimalOperationFilterInput {
+	return v.EpssScore
+}
+
+// GetEpssPercentile returns VulnerabilityFilterInput.EpssPercentile, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetEpssPercentile() *ComparableNullableOfDecimalOperationFilterInput {
+	return v.EpssPercentile
+}
+
+// GetTitle returns VulnerabilityFilterInput.Title, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetTitle() *StringOperationFilterInput { return v.Title }
+
+// GetIsManuallyCreated returns VulnerabilityFilterInput.IsManuallyCreated, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetIsManuallyCreated() *BooleanOperationFilterInput {
+	return v.IsManuallyCreated
+}
+
+// GetDescription returns VulnerabilityFilterInput.Description, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetDescription() *StringOperationFilterInput { return v.Description }
+
+// GetRecommendation returns VulnerabilityFilterInput.Recommendation, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetRecommendation() *StringOperationFilterInput {
+	return v.Recommendation
+}
+
+// GetDetectedAt returns VulnerabilityFilterInput.DetectedAt, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetDetectedAt() *ComparableDateTimeOperationFilterInput {
+	return v.DetectedAt
+}
+
+// GetCweId returns VulnerabilityFilterInput.CweId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetCweId() *ComparableNullableOfInt32OperationFilterInput {
+	return v.CweId
+}
+
+// GetCweName returns VulnerabilityFilterInput.CweName, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetCweName() *StringOperationFilterInput { return v.CweName }
+
+// GetIsKnownExploited returns VulnerabilityFilterInput.IsKnownExploited, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetIsKnownExploited() *BooleanOperationFilterInput {
+	return v.IsKnownExploited
+}
+
+// GetKevDateAdded returns VulnerabilityFilterInput.KevDateAdded, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetKevDateAdded() *ComparableNullableOfDateTimeOperationFilterInput {
+	return v.KevDateAdded
+}
+
+// GetCreatedBy returns VulnerabilityFilterInput.CreatedBy, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperationFilterInput {
+	return v.CreatedBy
+}
+
+// GetCreatedAt returns VulnerabilityFilterInput.CreatedAt, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetCreatedAt() *ComparableDateTimeOperationFilterInput {
+	return v.CreatedAt
+}
+
+// GetModifiedBy returns VulnerabilityFilterInput.ModifiedBy, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetModifiedBy() *ComparableNullableOfGuidOperationFilterInput {
+	return v.ModifiedBy
+}
+
+// GetLastChangedAt returns VulnerabilityFilterInput.LastChangedAt, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFilterInput) GetLastChangedAt() *ComparableDateTimeOperationFilterInput {
+	return v.LastChangedAt
+}
+
+// I am a generated type!
+type VulnerabilityFindingFilterInput struct {
+	And                        []*VulnerabilityFindingFilterInput                         `json:"and,omitempty"`
+	Or                         []*VulnerabilityFindingFilterInput                         `json:"or,omitempty"`
+	Status                     *VulnerabilityStatusFilterInput                            `json:"status,omitempty"`
+	FirstSeen                  *ComparableDateTimeOperationFilterInput                    `json:"firstSeen,omitempty"`
+	Id                         *ComparableGuidOperationFilterInput                        `json:"id,omitempty"`
+	TenantId                   *ComparableGuidOperationFilterInput                        `json:"tenantId,omitempty"`
+	VulnerabilityId            *ComparableGuidOperationFilterInput                        `json:"vulnerabilityId,omitempty"`
+	ComponentId                *ComparableGuidOperationFilterInput                        `json:"componentId,omitempty"`
+	AppRevisionId              *ComparableGuidOperationFilterInput                        `json:"appRevisionId,omitempty"`
+	VulnerabilityStatusId      *ComparableGuidOperationFilterInput                        `json:"vulnerabilityStatusId,omitempty"`
+	ResolvedAt                 *ComparableNullableOfDateTimeOperationFilterInput          `json:"resolvedAt,omitempty"`
+	VulnerabilityScanInfoId    *ComparableNullableOfGuidOperationFilterInput              `json:"vulnerabilityScanInfoId,omitempty"`
+	DependencyTrackProjectUuid *ComparableNullableOfGuidOperationFilterInput              `json:"dependencyTrackProjectUuid,omitempty"`
+	IsSuppressed               *BooleanOperationFilterInput                               `json:"isSuppressed,omitempty"`
+	Matrix                     *StringOperationFilterInput                                `json:"matrix,omitempty"`
+	CreatedBy                  *ComparableNullableOfGuidOperationFilterInput              `json:"createdBy,omitempty"`
+	Tenant                     *DomainTenantFilterInput                                   `json:"tenant,omitempty"`
+	Vulnerability              *VulnerabilityFilterInput                                  `json:"vulnerability,omitempty"`
+	Component                  *ComponentFilterInput                                      `json:"component,omitempty"`
+	AppRevision                *AppRevisionFilterInput                                    `json:"appRevision,omitempty"`
+	VulnerabilityScanInfo      *VulnerabilityScanInfoFilterInput                          `json:"vulnerabilityScanInfo,omitempty"`
+	VulnerabilityStatusChanges *ListFilterInputTypeOfVulnerabilityStatusChangeFilterInput `json:"vulnerabilityStatusChanges,omitempty"`
+}
+
+// GetAnd returns VulnerabilityFindingFilterInput.And, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetAnd() []*VulnerabilityFindingFilterInput { return v.And }
+
+// GetOr returns VulnerabilityFindingFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetOr() []*VulnerabilityFindingFilterInput { return v.Or }
+
+// GetStatus returns VulnerabilityFindingFilterInput.Status, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetStatus() *VulnerabilityStatusFilterInput {
+	return v.Status
+}
+
+// GetFirstSeen returns VulnerabilityFindingFilterInput.FirstSeen, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetFirstSeen() *ComparableDateTimeOperationFilterInput {
+	return v.FirstSeen
+}
+
+// GetId returns VulnerabilityFindingFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns VulnerabilityFindingFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetTenantId() *ComparableGuidOperationFilterInput {
+	return v.TenantId
+}
+
+// GetVulnerabilityId returns VulnerabilityFindingFilterInput.VulnerabilityId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetVulnerabilityId() *ComparableGuidOperationFilterInput {
+	return v.VulnerabilityId
+}
+
+// GetComponentId returns VulnerabilityFindingFilterInput.ComponentId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetComponentId() *ComparableGuidOperationFilterInput {
+	return v.ComponentId
+}
+
+// GetAppRevisionId returns VulnerabilityFindingFilterInput.AppRevisionId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetAppRevisionId() *ComparableGuidOperationFilterInput {
+	return v.AppRevisionId
+}
+
+// GetVulnerabilityStatusId returns VulnerabilityFindingFilterInput.VulnerabilityStatusId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetVulnerabilityStatusId() *ComparableGuidOperationFilterInput {
+	return v.VulnerabilityStatusId
+}
+
+// GetResolvedAt returns VulnerabilityFindingFilterInput.ResolvedAt, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetResolvedAt() *ComparableNullableOfDateTimeOperationFilterInput {
+	return v.ResolvedAt
+}
+
+// GetVulnerabilityScanInfoId returns VulnerabilityFindingFilterInput.VulnerabilityScanInfoId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetVulnerabilityScanInfoId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.VulnerabilityScanInfoId
+}
+
+// GetDependencyTrackProjectUuid returns VulnerabilityFindingFilterInput.DependencyTrackProjectUuid, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetDependencyTrackProjectUuid() *ComparableNullableOfGuidOperationFilterInput {
+	return v.DependencyTrackProjectUuid
+}
+
+// GetIsSuppressed returns VulnerabilityFindingFilterInput.IsSuppressed, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetIsSuppressed() *BooleanOperationFilterInput {
+	return v.IsSuppressed
+}
+
+// GetMatrix returns VulnerabilityFindingFilterInput.Matrix, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetMatrix() *StringOperationFilterInput { return v.Matrix }
+
+// GetCreatedBy returns VulnerabilityFindingFilterInput.CreatedBy, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperationFilterInput {
+	return v.CreatedBy
+}
+
+// GetTenant returns VulnerabilityFindingFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
+
+// GetVulnerability returns VulnerabilityFindingFilterInput.Vulnerability, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetVulnerability() *VulnerabilityFilterInput {
+	return v.Vulnerability
+}
+
+// GetComponent returns VulnerabilityFindingFilterInput.Component, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetComponent() *ComponentFilterInput { return v.Component }
+
+// GetAppRevision returns VulnerabilityFindingFilterInput.AppRevision, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetAppRevision() *AppRevisionFilterInput {
+	return v.AppRevision
+}
+
+// GetVulnerabilityScanInfo returns VulnerabilityFindingFilterInput.VulnerabilityScanInfo, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetVulnerabilityScanInfo() *VulnerabilityScanInfoFilterInput {
+	return v.VulnerabilityScanInfo
+}
+
+// GetVulnerabilityStatusChanges returns VulnerabilityFindingFilterInput.VulnerabilityStatusChanges, and is useful for accessing the field via an interface.
+func (v *VulnerabilityFindingFilterInput) GetVulnerabilityStatusChanges() *ListFilterInputTypeOfVulnerabilityStatusChangeFilterInput {
+	return v.VulnerabilityStatusChanges
+}
+
+// I am a generated type!
+type VulnerabilityScanInfoFilterInput struct {
+	And           []*VulnerabilityScanInfoFilterInput               `json:"and,omitempty"`
+	Or            []*VulnerabilityScanInfoFilterInput               `json:"or,omitempty"`
+	Id            *ComparableGuidOperationFilterInput               `json:"id,omitempty"`
+	TenantId      *ComparableNullableOfGuidOperationFilterInput     `json:"tenantId,omitempty"`
+	LastSyncedAt  *ComparableDateTimeOperationFilterInput           `json:"lastSyncedAt,omitempty"`
+	LastDtQueryAt *ComparableNullableOfDateTimeOperationFilterInput `json:"lastDtQueryAt,omitempty"`
+	SyncStatus    *StringOperationFilterInput                       `json:"syncStatus,omitempty"`
+	ErrorMessage  *StringOperationFilterInput                       `json:"errorMessage,omitempty"`
+	ScanSource    *DependencyTrackScanSourceOperationFilterInput    `json:"scanSource,omitempty"`
+	AppRevisionId *ComparableGuidOperationFilterInput               `json:"appRevisionId,omitempty"`
+	ModifiedBy    *ComparableNullableOfGuidOperationFilterInput     `json:"modifiedBy,omitempty"`
+	ModifiedAt    *ComparableNullableOfDateTimeOperationFilterInput `json:"modifiedAt,omitempty"`
+	Tenant        *DomainTenantFilterInput                          `json:"tenant,omitempty"`
+	AppRevision   *AppRevisionFilterInput                           `json:"appRevision,omitempty"`
+}
+
+// GetAnd returns VulnerabilityScanInfoFilterInput.And, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetAnd() []*VulnerabilityScanInfoFilterInput { return v.And }
+
+// GetOr returns VulnerabilityScanInfoFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetOr() []*VulnerabilityScanInfoFilterInput { return v.Or }
+
+// GetId returns VulnerabilityScanInfoFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetTenantId returns VulnerabilityScanInfoFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
+
+// GetLastSyncedAt returns VulnerabilityScanInfoFilterInput.LastSyncedAt, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetLastSyncedAt() *ComparableDateTimeOperationFilterInput {
+	return v.LastSyncedAt
+}
+
+// GetLastDtQueryAt returns VulnerabilityScanInfoFilterInput.LastDtQueryAt, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetLastDtQueryAt() *ComparableNullableOfDateTimeOperationFilterInput {
+	return v.LastDtQueryAt
+}
+
+// GetSyncStatus returns VulnerabilityScanInfoFilterInput.SyncStatus, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetSyncStatus() *StringOperationFilterInput {
+	return v.SyncStatus
+}
+
+// GetErrorMessage returns VulnerabilityScanInfoFilterInput.ErrorMessage, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetErrorMessage() *StringOperationFilterInput {
+	return v.ErrorMessage
+}
+
+// GetScanSource returns VulnerabilityScanInfoFilterInput.ScanSource, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetScanSource() *DependencyTrackScanSourceOperationFilterInput {
+	return v.ScanSource
+}
+
+// GetAppRevisionId returns VulnerabilityScanInfoFilterInput.AppRevisionId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetAppRevisionId() *ComparableGuidOperationFilterInput {
+	return v.AppRevisionId
+}
+
+// GetModifiedBy returns VulnerabilityScanInfoFilterInput.ModifiedBy, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetModifiedBy() *ComparableNullableOfGuidOperationFilterInput {
+	return v.ModifiedBy
+}
+
+// GetModifiedAt returns VulnerabilityScanInfoFilterInput.ModifiedAt, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetModifiedAt() *ComparableNullableOfDateTimeOperationFilterInput {
+	return v.ModifiedAt
+}
+
+// GetTenant returns VulnerabilityScanInfoFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
+
+// GetAppRevision returns VulnerabilityScanInfoFilterInput.AppRevision, and is useful for accessing the field via an interface.
+func (v *VulnerabilityScanInfoFilterInput) GetAppRevision() *AppRevisionFilterInput {
+	return v.AppRevision
+}
+
+// I am a generated type!
+type VulnerabilityStatusChangeFilterInput struct {
+	And                           []*VulnerabilityStatusChangeFilterInput       `json:"and,omitempty"`
+	Or                            []*VulnerabilityStatusChangeFilterInput       `json:"or,omitempty"`
+	Id                            *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId                      *ComparableGuidOperationFilterInput           `json:"tenantId,omitempty"`
+	VulnerabilityFindingId        *ComparableGuidOperationFilterInput           `json:"vulnerabilityFindingId,omitempty"`
+	PreviousVulnerabilityStatusId *ComparableNullableOfGuidOperationFilterInput `json:"previousVulnerabilityStatusId,omitempty"`
+	NewVulnerabilityStatusId      *ComparableGuidOperationFilterInput           `json:"newVulnerabilityStatusId,omitempty"`
+	Reason                        *StringOperationFilterInput                   `json:"reason,omitempty"`
+	CreatedBy                     *ComparableNullableOfGuidOperationFilterInput `json:"createdBy,omitempty"`
+	CreatedAt                     *ComparableDateTimeOperationFilterInput       `json:"createdAt,omitempty"`
+	Tenant                        *DomainTenantFilterInput                      `json:"tenant,omitempty"`
+	PreviousVulnerabilityStatus   *VulnerabilityStatusFilterInput               `json:"previousVulnerabilityStatus,omitempty"`
+	NewVulnerabilityStatus        *VulnerabilityStatusFilterInput               `json:"newVulnerabilityStatus,omitempty"`
+}
+
+// GetAnd returns VulnerabilityStatusChangeFilterInput.And, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusChangeFilterInput) GetAnd() []*VulnerabilityStatusChangeFilterInput {
+	return v.And
+}
+
+// GetOr returns VulnerabilityStatusChangeFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusChangeFilterInput) GetOr() []*VulnerabilityStatusChangeFilterInput {
+	return v.Or
+}
+
+// GetId returns VulnerabilityStatusChangeFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusChangeFilterInput) GetId() *ComparableGuidOperationFilterInput {
+	return v.Id
+}
+
+// GetTenantId returns VulnerabilityStatusChangeFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusChangeFilterInput) GetTenantId() *ComparableGuidOperationFilterInput {
+	return v.TenantId
+}
+
+// GetVulnerabilityFindingId returns VulnerabilityStatusChangeFilterInput.VulnerabilityFindingId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusChangeFilterInput) GetVulnerabilityFindingId() *ComparableGuidOperationFilterInput {
+	return v.VulnerabilityFindingId
+}
+
+// GetPreviousVulnerabilityStatusId returns VulnerabilityStatusChangeFilterInput.PreviousVulnerabilityStatusId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusChangeFilterInput) GetPreviousVulnerabilityStatusId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.PreviousVulnerabilityStatusId
+}
+
+// GetNewVulnerabilityStatusId returns VulnerabilityStatusChangeFilterInput.NewVulnerabilityStatusId, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusChangeFilterInput) GetNewVulnerabilityStatusId() *ComparableGuidOperationFilterInput {
+	return v.NewVulnerabilityStatusId
+}
+
+// GetReason returns VulnerabilityStatusChangeFilterInput.Reason, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusChangeFilterInput) GetReason() *StringOperationFilterInput {
+	return v.Reason
+}
+
+// GetCreatedBy returns VulnerabilityStatusChangeFilterInput.CreatedBy, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusChangeFilterInput) GetCreatedBy() *ComparableNullableOfGuidOperationFilterInput {
+	return v.CreatedBy
+}
+
+// GetCreatedAt returns VulnerabilityStatusChangeFilterInput.CreatedAt, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusChangeFilterInput) GetCreatedAt() *ComparableDateTimeOperationFilterInput {
+	return v.CreatedAt
+}
+
+// GetTenant returns VulnerabilityStatusChangeFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusChangeFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
+
+// GetPreviousVulnerabilityStatus returns VulnerabilityStatusChangeFilterInput.PreviousVulnerabilityStatus, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusChangeFilterInput) GetPreviousVulnerabilityStatus() *VulnerabilityStatusFilterInput {
+	return v.PreviousVulnerabilityStatus
+}
+
+// GetNewVulnerabilityStatus returns VulnerabilityStatusChangeFilterInput.NewVulnerabilityStatus, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusChangeFilterInput) GetNewVulnerabilityStatus() *VulnerabilityStatusFilterInput {
+	return v.NewVulnerabilityStatus
+}
+
+// I am a generated type!
+type VulnerabilityStatusFilterInput struct {
+	And              []*VulnerabilityStatusFilterInput    `json:"and,omitempty"`
+	Or               []*VulnerabilityStatusFilterInput    `json:"or,omitempty"`
+	Id               *ComparableGuidOperationFilterInput  `json:"id,omitempty"`
+	Name             *StringOperationFilterInput          `json:"name,omitempty"`
+	DisplayName      *StringOperationFilterInput          `json:"displayName,omitempty"`
+	SortOrder        *ComparableInt32OperationFilterInput `json:"sortOrder,omitempty"`
+	IsTerminal       *BooleanOperationFilterInput         `json:"isTerminal,omitempty"`
+	EntityIdentifier *EntityIdentifierFilterInput         `json:"entityIdentifier,omitempty"`
+}
+
+// GetAnd returns VulnerabilityStatusFilterInput.And, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusFilterInput) GetAnd() []*VulnerabilityStatusFilterInput { return v.And }
+
+// GetOr returns VulnerabilityStatusFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusFilterInput) GetOr() []*VulnerabilityStatusFilterInput { return v.Or }
+
+// GetId returns VulnerabilityStatusFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusFilterInput) GetId() *ComparableGuidOperationFilterInput { return v.Id }
+
+// GetName returns VulnerabilityStatusFilterInput.Name, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusFilterInput) GetName() *StringOperationFilterInput { return v.Name }
+
+// GetDisplayName returns VulnerabilityStatusFilterInput.DisplayName, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusFilterInput) GetDisplayName() *StringOperationFilterInput {
+	return v.DisplayName
+}
+
+// GetSortOrder returns VulnerabilityStatusFilterInput.SortOrder, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusFilterInput) GetSortOrder() *ComparableInt32OperationFilterInput {
+	return v.SortOrder
+}
+
+// GetIsTerminal returns VulnerabilityStatusFilterInput.IsTerminal, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusFilterInput) GetIsTerminal() *BooleanOperationFilterInput {
+	return v.IsTerminal
+}
+
+// GetEntityIdentifier returns VulnerabilityStatusFilterInput.EntityIdentifier, and is useful for accessing the field via an interface.
+func (v *VulnerabilityStatusFilterInput) GetEntityIdentifier() *EntityIdentifierFilterInput {
+	return v.EntityIdentifier
+}
 
 // __AddAppRevisionToDeploymentGroupMutationInput is used internally by genqlient
 type __AddAppRevisionToDeploymentGroupMutationInput struct {
@@ -13527,7 +15074,7 @@ func (v *findAssetAssetsAssetCollectionSegment) GetItems() []*findAssetAssetsAss
 // I am a generated type!
 type findAssetAssetsAssetCollectionSegmentItemsAsset struct {
 	Id             string                                                                        `json:"id"`
-	AssetName      string                                                                        `json:"assetName"`
+	AssetName      *string                                                                       `json:"assetName"`
 	McuId          *string                                                                       `json:"mcuId"`
 	SerialNo       string                                                                        `json:"serialNo"`
 	DeviceId       *string                                                                       `json:"deviceId"`
@@ -13543,7 +15090,7 @@ type findAssetAssetsAssetCollectionSegmentItemsAsset struct {
 func (v *findAssetAssetsAssetCollectionSegmentItemsAsset) GetId() string { return v.Id }
 
 // GetAssetName returns findAssetAssetsAssetCollectionSegmentItemsAsset.AssetName, and is useful for accessing the field via an interface.
-func (v *findAssetAssetsAssetCollectionSegmentItemsAsset) GetAssetName() string { return v.AssetName }
+func (v *findAssetAssetsAssetCollectionSegmentItemsAsset) GetAssetName() *string { return v.AssetName }
 
 // GetMcuId returns findAssetAssetsAssetCollectionSegmentItemsAsset.McuId, and is useful for accessing the field via an interface.
 func (v *findAssetAssetsAssetCollectionSegmentItemsAsset) GetMcuId() *string { return v.McuId }
@@ -13762,7 +15309,7 @@ func (v *getAssetByIdAssetsAssetCollectionSegment) GetItems() []*getAssetByIdAss
 // I am a generated type!
 type getAssetByIdAssetsAssetCollectionSegmentItemsAsset struct {
 	Id             string                                                                           `json:"id"`
-	AssetName      string                                                                           `json:"assetName"`
+	AssetName      *string                                                                          `json:"assetName"`
 	McuId          *string                                                                          `json:"mcuId"`
 	SerialNo       string                                                                           `json:"serialNo"`
 	DeviceId       *string                                                                          `json:"deviceId"`
@@ -13778,7 +15325,7 @@ type getAssetByIdAssetsAssetCollectionSegmentItemsAsset struct {
 func (v *getAssetByIdAssetsAssetCollectionSegmentItemsAsset) GetId() string { return v.Id }
 
 // GetAssetName returns getAssetByIdAssetsAssetCollectionSegmentItemsAsset.AssetName, and is useful for accessing the field via an interface.
-func (v *getAssetByIdAssetsAssetCollectionSegmentItemsAsset) GetAssetName() string {
+func (v *getAssetByIdAssetsAssetCollectionSegmentItemsAsset) GetAssetName() *string {
 	return v.AssetName
 }
 
@@ -13947,7 +15494,7 @@ func (v *getAssetsAssetsAssetCollectionSegment) GetTotalCount() int { return v.T
 type getAssetsAssetsAssetCollectionSegmentItemsAsset struct {
 	Id               string                                                                        `json:"id"`
 	AssetDescription *string                                                                       `json:"assetDescription"`
-	AssetName        string                                                                        `json:"assetName"`
+	AssetName        *string                                                                       `json:"assetName"`
 	IsSystemOwned    bool                                                                          `json:"isSystemOwned"`
 	ParentAssetId    *string                                                                       `json:"parentAssetId"`
 	SerialNo         string                                                                        `json:"serialNo"`
@@ -13969,7 +15516,7 @@ func (v *getAssetsAssetsAssetCollectionSegmentItemsAsset) GetAssetDescription() 
 }
 
 // GetAssetName returns getAssetsAssetsAssetCollectionSegmentItemsAsset.AssetName, and is useful for accessing the field via an interface.
-func (v *getAssetsAssetsAssetCollectionSegmentItemsAsset) GetAssetName() string { return v.AssetName }
+func (v *getAssetsAssetsAssetCollectionSegmentItemsAsset) GetAssetName() *string { return v.AssetName }
 
 // GetIsSystemOwned returns getAssetsAssetsAssetCollectionSegmentItemsAsset.IsSystemOwned, and is useful for accessing the field via an interface.
 func (v *getAssetsAssetsAssetCollectionSegmentItemsAsset) GetIsSystemOwned() bool {
@@ -16398,7 +17945,7 @@ func (v *getSystemInfoByIdAssetsAssetCollectionSegment) GetItems() []*getSystemI
 type getSystemInfoByIdAssetsAssetCollectionSegmentItemsAsset struct {
 	Id               string                                                                                `json:"id"`
 	AssetDescription *string                                                                               `json:"assetDescription"`
-	AssetName        string                                                                                `json:"assetName"`
+	AssetName        *string                                                                               `json:"assetName"`
 	IsSystemOwned    bool                                                                                  `json:"isSystemOwned"`
 	ParentAssetId    *string                                                                               `json:"parentAssetId"`
 	SerialNo         string                                                                                `json:"serialNo"`
@@ -16417,7 +17964,7 @@ func (v *getSystemInfoByIdAssetsAssetCollectionSegmentItemsAsset) GetAssetDescri
 }
 
 // GetAssetName returns getSystemInfoByIdAssetsAssetCollectionSegmentItemsAsset.AssetName, and is useful for accessing the field via an interface.
-func (v *getSystemInfoByIdAssetsAssetCollectionSegmentItemsAsset) GetAssetName() string {
+func (v *getSystemInfoByIdAssetsAssetCollectionSegmentItemsAsset) GetAssetName() *string {
 	return v.AssetName
 }
 
@@ -16532,7 +18079,7 @@ type getSystemInfoByIdAssetsAssetCollectionSegmentItemsAssetChildAssetsAsset str
 	AssetModelId       string                                                                                                `json:"assetModelId"`
 	ParentAssetId      *string                                                                                               `json:"parentAssetId"`
 	AssetModel         *getSystemInfoByIdAssetsAssetCollectionSegmentItemsAssetChildAssetsAssetAssetModel                    `json:"assetModel"`
-	AssetName          string                                                                                                `json:"assetName"`
+	AssetName          *string                                                                                               `json:"assetName"`
 	AttestationKey     *string                                                                                               `json:"attestationKey"`
 	AttestationKeySha3 *string                                                                                               `json:"attestationKeySha3"`
 	CreatedAt          string                                                                                                `json:"createdAt"`
@@ -16574,7 +18121,7 @@ func (v *getSystemInfoByIdAssetsAssetCollectionSegmentItemsAssetChildAssetsAsset
 }
 
 // GetAssetName returns getSystemInfoByIdAssetsAssetCollectionSegmentItemsAssetChildAssetsAsset.AssetName, and is useful for accessing the field via an interface.
-func (v *getSystemInfoByIdAssetsAssetCollectionSegmentItemsAssetChildAssetsAsset) GetAssetName() string {
+func (v *getSystemInfoByIdAssetsAssetCollectionSegmentItemsAssetChildAssetsAsset) GetAssetName() *string {
 	return v.AssetName
 }
 
@@ -16896,6 +18443,54 @@ type getUserByIdUserTenant struct {
 // GetTenantName returns getUserByIdUserTenant.TenantName, and is useful for accessing the field via an interface.
 func (v *getUserByIdUserTenant) GetTenantName() string { return v.TenantName }
 
+// meMe includes the requested fields of the GraphQL type Me.
+type meMe struct {
+	Id          string                         `json:"id"`
+	TenantId    string                         `json:"tenantId"`
+	DisplayName string                         `json:"displayName"`
+	Email       string                         `json:"email"`
+	Permissions *meMePermissionsUserPermission `json:"permissions"`
+}
+
+// GetId returns meMe.Id, and is useful for accessing the field via an interface.
+func (v *meMe) GetId() string { return v.Id }
+
+// GetTenantId returns meMe.TenantId, and is useful for accessing the field via an interface.
+func (v *meMe) GetTenantId() string { return v.TenantId }
+
+// GetDisplayName returns meMe.DisplayName, and is useful for accessing the field via an interface.
+func (v *meMe) GetDisplayName() string { return v.DisplayName }
+
+// GetEmail returns meMe.Email, and is useful for accessing the field via an interface.
+func (v *meMe) GetEmail() string { return v.Email }
+
+// GetPermissions returns meMe.Permissions, and is useful for accessing the field via an interface.
+func (v *meMe) GetPermissions() *meMePermissionsUserPermission { return v.Permissions }
+
+// meMePermissionsUserPermission includes the requested fields of the GraphQL type UserPermission.
+type meMePermissionsUserPermission struct {
+	Scopes       []string `json:"scopes"`
+	Roles        []string `json:"roles"`
+	IsSuperAdmin bool     `json:"isSuperAdmin"`
+}
+
+// GetScopes returns meMePermissionsUserPermission.Scopes, and is useful for accessing the field via an interface.
+func (v *meMePermissionsUserPermission) GetScopes() []string { return v.Scopes }
+
+// GetRoles returns meMePermissionsUserPermission.Roles, and is useful for accessing the field via an interface.
+func (v *meMePermissionsUserPermission) GetRoles() []string { return v.Roles }
+
+// GetIsSuperAdmin returns meMePermissionsUserPermission.IsSuperAdmin, and is useful for accessing the field via an interface.
+func (v *meMePermissionsUserPermission) GetIsSuperAdmin() bool { return v.IsSuperAdmin }
+
+// meResponse is returned by me on success.
+type meResponse struct {
+	Me *meMe `json:"me"`
+}
+
+// GetMe returns meResponse.Me, and is useful for accessing the field via an interface.
+func (v *meResponse) GetMe() *meMe { return v.Me }
+
 // modifyAssetModelResponse is returned by modifyAssetModel on success.
 type modifyAssetModelResponse struct {
 	UpdateAssetModels []*modifyAssetModelUpdateAssetModelsAssetModel `json:"updateAssetModels"`
@@ -16944,7 +18539,7 @@ func (v *modifyAssetUpdateAssetsAsset) GetId() string { return v.Id }
 // I am a generated type!
 type provisionSystemAssetProvisionSystemAsset struct {
 	Id          string                                                      `json:"id"`
-	AssetName   string                                                      `json:"assetName"`
+	AssetName   *string                                                     `json:"assetName"`
 	SerialNo    string                                                      `json:"serialNo"`
 	ChildAssets []*provisionSystemAssetProvisionSystemAssetChildAssetsAsset `json:"childAssets"`
 }
@@ -16953,7 +18548,7 @@ type provisionSystemAssetProvisionSystemAsset struct {
 func (v *provisionSystemAssetProvisionSystemAsset) GetId() string { return v.Id }
 
 // GetAssetName returns provisionSystemAssetProvisionSystemAsset.AssetName, and is useful for accessing the field via an interface.
-func (v *provisionSystemAssetProvisionSystemAsset) GetAssetName() string { return v.AssetName }
+func (v *provisionSystemAssetProvisionSystemAsset) GetAssetName() *string { return v.AssetName }
 
 // GetSerialNo returns provisionSystemAssetProvisionSystemAsset.SerialNo, and is useful for accessing the field via an interface.
 func (v *provisionSystemAssetProvisionSystemAsset) GetSerialNo() string { return v.SerialNo }
@@ -16969,7 +18564,7 @@ func (v *provisionSystemAssetProvisionSystemAsset) GetChildAssets() []*provision
 // I am a generated type!
 type provisionSystemAssetProvisionSystemAssetChildAssetsAsset struct {
 	Id                 string  `json:"id"`
-	AssetName          string  `json:"assetName"`
+	AssetName          *string `json:"assetName"`
 	SerialNo           string  `json:"serialNo"`
 	McuId              *string `json:"mcuId"`
 	AttestationKey     *string `json:"attestationKey"`
@@ -16980,7 +18575,7 @@ type provisionSystemAssetProvisionSystemAssetChildAssetsAsset struct {
 func (v *provisionSystemAssetProvisionSystemAssetChildAssetsAsset) GetId() string { return v.Id }
 
 // GetAssetName returns provisionSystemAssetProvisionSystemAssetChildAssetsAsset.AssetName, and is useful for accessing the field via an interface.
-func (v *provisionSystemAssetProvisionSystemAssetChildAssetsAsset) GetAssetName() string {
+func (v *provisionSystemAssetProvisionSystemAssetChildAssetsAsset) GetAssetName() *string {
 	return v.AssetName
 }
 
@@ -21865,6 +23460,49 @@ func getUserById(
 	}
 
 	data_ = &getUserByIdResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
+// The query executed by me.
+const me_Operation = `
+query me {
+	me {
+		id
+		tenantId
+		displayName
+		email
+		permissions {
+			scopes
+			roles
+			isSuperAdmin
+		}
+	}
+}
+`
+
+func me(
+	ctx_ context.Context,
+) (data_ *meResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "me",
+		Query:  me_Operation,
+	}
+	var client_ graphql.Client
+
+	client_, err_ = infrastructure.NewGraphqlClient(ctx_)
+	if err_ != nil {
+		return nil, err_
+	}
+
+	data_ = &meResponse{}
 	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(

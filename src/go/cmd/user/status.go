@@ -8,6 +8,7 @@ import (
 	"m2cpcli/format"
 	gql "m2cpcli/graphql"
 	"m2cpcli/tools/console"
+	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -75,11 +76,18 @@ func runStatusCmd(cmd *cobra.Command, args []string) error {
 		timestamp := time.Unix(int64(jwt.ExpirationTime), 0)
 		result.Session["jwtExpirationTime"] = timestamp.Format(time.RFC3339)
 
-		currentTenant, err := gql.TenantById(cmd.Context(), gql.UUID(jwt.TenantId))
-		if err != nil {
-			return fmt.Errorf("could not retrieve tenant metadata: %s", err)
+		// Tenant/permissions info comes from the already-persisted session (see login.go).
+		if tenantId := viper.GetString("tenant-id"); tenantId != "" {
+			result.Session["tenant"] = &gql.Tenant{
+				Id:         gql.UUID(tenantId),
+				Alias:      viper.GetString("tenant-alias"),
+				TenantName: viper.GetString("tenant-name"),
+			}
 		}
-		result.Session["tenant"] = currentTenant
+		// Scopes are deliberately not shown here: "user roles list" is the dedicated
+		// command for scopes (and roles), and fetches them fresh itself.
+		result.Session["roles"] = viper.GetStringSlice("permissions-roles")
+		result.Session["isSuperAdmin"] = viper.GetBool("permissions-is-super-admin")
 	}
 
 	// if jwt flag is set
@@ -114,6 +122,12 @@ func userStatusFormatter(userStatus StatusResult) (string, error) {
 		tenant := userStatus.Session["tenant"].(*gql.Tenant)
 		fleetTree.AddLeaf("Tenant Alias: " + tenant.Alias)
 		fleetTree.AddLeaf("Tenant ID: " + string(tenant.Id))
+	}
+	if roles, ok := userStatus.Session["roles"].([]string); ok && len(roles) > 0 {
+		fleetTree.AddLeaf("Roles: " + strings.Join(roles, ", "))
+	}
+	if isSuperAdmin, ok := userStatus.Session["isSuperAdmin"].(bool); ok && isSuperAdmin {
+		fleetTree.AddLeaf("Super Admin: true")
 	}
 	fleetTree.AddLeaf("Status File: " + userStatus.ConfigFilePath)
 	fleetTree.AddLeaf("JWT: " + userStatus.Session["jwtShow"].(string))

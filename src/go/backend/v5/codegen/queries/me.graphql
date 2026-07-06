@@ -1,0 +1,13 @@
+query me {
+    me {
+        id
+        tenantId
+        displayName
+        email
+        permissions {
+            scopes
+            roles
+            isSuperAdmin
+        }
+    }
+}

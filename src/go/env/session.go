@@ -35,6 +35,43 @@ func StoreSession(method AuthenticationMethod, url, userEmail, privateKeyPath, j
 	return nil
 }
 
+// StoreTenant persists the tenant identity resolved once after login (tenantId via the
+// "me" query, alias/name via a tenant lookup keyed on that id), so subsequent commands
+// can display it without repeating either network call.
+func StoreTenant(tenantId, alias, name string) error {
+	viper.Set("tenant-id", tenantId)
+	viper.Set("tenant-alias", alias)
+	viper.Set("tenant-name", name)
+	if err := viper.WriteConfig(); err != nil {
+		return fmt.Errorf("could not store tenant: %s", err)
+	}
+	return nil
+}
+
+// StorePermissions persists the roles/isSuperAdmin resolved once after login (via the
+// "me" query), so subsequent commands (e.g. status) can display them without repeating
+// that call. Scopes are not persisted here: "user roles list" is the dedicated command
+// for scopes, and fetches them fresh itself.
+func StorePermissions(roles []string, isSuperAdmin bool) error {
+	viper.Set("permissions-roles", roles)
+	viper.Set("permissions-is-super-admin", isSuperAdmin)
+	if err := viper.WriteConfig(); err != nil {
+		return fmt.Errorf("could not store permissions: %s", err)
+	}
+	return nil
+}
+
+// ClearTenantAndPermissions resets the tenant/permissions viper keys set by StoreTenant/
+// StorePermissions to their empty values. Callers are responsible for calling
+// viper.WriteConfig() themselves if the clear should be persisted immediately.
+func ClearTenantAndPermissions() {
+	viper.Set("tenant-id", "")
+	viper.Set("tenant-alias", "")
+	viper.Set("tenant-name", "")
+	viper.Set("permissions-roles", nil)
+	viper.Set("permissions-is-super-admin", nil)
+}
+
 func GetSshDetails(url string, sshUserArg, sshKeyArg string) (sshUser string, sshKey string, err error) {
 	storeId := UrlToStoreId(url)
 
@@ -81,6 +118,7 @@ func UrlToStoreId(url string) string {
 
 func InvalidateSessionJwt() error {
 	viper.Set("jwt", "")
+	ClearTenantAndPermissions()
 	err := viper.WriteConfig()
 	if err != nil {
 		return err

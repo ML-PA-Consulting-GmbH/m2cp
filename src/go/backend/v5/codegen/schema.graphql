@@ -118,13 +118,6 @@ type Query {
     where: UserBridgeRoleFilterInput
     order: [UserBridgeRoleSortInput!]
   ): UserBridgeRoleCollectionSegment
-  userAllowedTenant(id: UUID!): UserAllowedTenant
-  userAllowedTenants(
-    skip: Int
-    take: Int
-    where: UserAllowedTenantFilterInput
-    order: [UserAllowedTenantSortInput!]
-  ): UserAllowedTenantCollectionSegment
   tenant(id: UUID!): Tenant
   tenants(
     skip: Int
@@ -169,7 +162,10 @@ type Query {
     order: [ModuleInstanceSortInput!]
   ): ModuleInstanceCollectionSegment
   currentUser: User
+    @deprecated(reason: "This field is deprecated. Use the 'me' field instead.")
   currentUserToken: CurrentUserToken
+    @deprecated(reason: "This field is deprecated. Use the 'me' field instead.")
+  me: Me
   edgeDeviceLogs(filters: EdgeDeviceLogQueryInput): [EdgeDeviceLogQueryOutput!]!
   logs(filters: LogQueryInput): [LogQueryOutput!]!
   measurementCategory(id: UUID!): MeasurementCategory
@@ -296,30 +292,6 @@ type Query {
     where: AssetAttributeDataTypeFilterInput
     order: [AssetAttributeDataTypeSortInput!]
   ): AssetAttributeDataTypeCollectionSegment
-  virtualDeviceContainerRegistryCredentials: VirtualDeviceContainerRegistryCredentialsOutput!
-  storeSetting(id: UUID!): StoreSetting
-  storeSettings(
-    skip: Int
-    take: Int
-    where: StoreSettingFilterInput
-    order: [StoreSettingSortInput!]
-  ): StoreSettingCollectionSegment
-  storeInfo: StoreInfo!
-  snapStoreVersion: SnapStoreVersionOutput!
-  snapVisibilityPolicy(id: UUID!): SnapVisibilityPolicy
-  snapVisibilityPolicies(
-    skip: Int
-    take: Int
-    where: SnapVisibilityPolicyFilterInput
-    order: [SnapVisibilityPolicySortInput!]
-  ): SnapVisibilityPolicyCollectionSegment
-  snapType(id: UUID!): SnapType
-  snapTypes(
-    skip: Int
-    take: Int
-    where: SnapTypeFilterInput
-    order: [SnapTypeSortInput!]
-  ): SnapTypeCollectionSegment
   snapStatus(id: UUID!): SnapStatus
     @deprecated(
       reason: "This query is deprecated and will be removed in future versions. Use 'appStatus' instead."
@@ -360,13 +332,6 @@ type Query {
     )
   snapRevisionStatisticsLoader(id: UUID): SnapRevisionStatistics
     @deprecated(reason: "This member is marked as obsolete.")
-  snapNamePolicy(id: UUID!): SnapNamePolicy
-  snapNamePolicies(
-    skip: Int
-    take: Int
-    where: SnapNamePolicyFilterInput
-    order: [SnapNamePolicySortInput!]
-  ): SnapNamePolicyCollectionSegment
   snapDelta(id: UUID!): SnapDelta
     @deprecated(
       reason: "This query is deprecated and will be removed in future versions. Use 'appRevisionDelta' instead."
@@ -393,20 +358,6 @@ type Query {
     @deprecated(
       reason: "This query is deprecated and will be removed in future versions. Use 'apps' instead."
     )
-  snapCategory(id: UUID!): SnapCategory
-  snapCategories(
-    skip: Int
-    take: Int
-    where: SnapCategoryFilterInput
-    order: [SnapCategorySortInput!]
-  ): SnapCategoryCollectionSegment
-  pendingAction(id: UUID!): PendingAction
-  pendingActions(
-    skip: Int
-    take: Int
-    where: PendingActionFilterInput
-    order: [PendingActionSortInput!]
-  ): PendingActionCollectionSegment
   fleet(id: UUID!): Fleet
     @deprecated(
       reason: "This query is deprecated and will be removed in future versions. Use 'deploymentGroup' instead."
@@ -470,16 +421,6 @@ type Query {
     @deprecated(
       reason: "This query is deprecated and will be removed in future versions. Use 'devices' instead."
     )
-  edgeDeviceOnlineStatus(
-    deviceSerials: [String!]!
-  ): [DeviceOnlineStatusResponse!]!
-  edgeDeviceSshStatus(
-    input: EdgeDeviceSshStatusInput!
-  ): EdgeDeviceSshStatusOutput!
-  edgeDeviceSystemStats(
-    input: EdgeDeviceSystemStatsInput!
-  ): EdgeDeviceSystemStatsOutput!
-  edgeDevicePing(input: EdgeDevicePingInput!): EdgeDevicePingOutput!
   edgeDeviceModel(id: UUID!): EdgeDeviceModel
     @deprecated(
       reason: "This query is deprecated and will be removed in future versions. Use 'deviceModelRevision' instead."
@@ -547,6 +488,94 @@ type Query {
     @deprecated(
       reason: "This query is deprecated and will be removed in future versions. Use 'deviceInstallStateHistories' instead."
     )
+  vulnerabilityStatus(id: UUID!): VulnerabilityStatus
+  vulnerabilityStatuses(
+    skip: Int
+    take: Int
+    where: VulnerabilityStatusFilterInput
+    order: [VulnerabilityStatusSortInput!]
+  ): VulnerabilityStatusCollectionSegment
+  vulnerabilityStatusChange(id: UUID!): VulnerabilityStatusChange
+  vulnerabilityStatusChanges(
+    skip: Int
+    take: Int
+    where: VulnerabilityStatusChangeFilterInput
+    order: [VulnerabilityStatusChangeSortInput!]
+  ): VulnerabilityStatusChangeCollectionSegment
+  vulnerabilityScanInfo(id: UUID!): VulnerabilityScanInfo
+  vulnerabilityScanInfos(
+    skip: Int
+    take: Int
+    where: VulnerabilityScanInfoFilterInput
+    order: [VulnerabilityScanInfoSortInput!]
+  ): VulnerabilityScanInfoCollectionSegment
+  vulnerabilityFinding(id: UUID!): VulnerabilityFinding
+  vulnerabilityFindings(
+    skip: Int
+    take: Int
+    where: VulnerabilityFindingFilterInput
+    order: [VulnerabilityFindingSortInput!]
+  ): VulnerabilityFindingCollectionSegment
+  vulnerability(id: UUID!): Vulnerability
+  vulnerabilities(
+    skip: Int
+    take: Int
+    where: VulnerabilityFilterInput
+    order: [VulnerabilitySortInput!]
+  ): VulnerabilityCollectionSegment
+  virtualDeviceContainerRegistryCredentials: VirtualDeviceContainerRegistryCredentialsOutput!
+  storeSetting(id: UUID!): StoreSetting
+  storeSettings(
+    skip: Int
+    take: Int
+    where: StoreSettingFilterInput
+    order: [StoreSettingSortInput!]
+  ): StoreSettingCollectionSegment
+  userTenantStoreSetting(tenantId: UUID!): UserTenantStoreSetting!
+  storeInfo: StoreInfo!
+  snapStoreVersion: SnapStoreVersionOutput!
+  snapVisibilityPolicy(id: UUID!): SnapVisibilityPolicy
+  snapVisibilityPolicies(
+    skip: Int
+    take: Int
+    where: SnapVisibilityPolicyFilterInput
+    order: [SnapVisibilityPolicySortInput!]
+  ): SnapVisibilityPolicyCollectionSegment
+  snapType(id: UUID!): SnapType
+  snapTypes(
+    skip: Int
+    take: Int
+    where: SnapTypeFilterInput
+    order: [SnapTypeSortInput!]
+  ): SnapTypeCollectionSegment
+  snapNamePolicy(id: UUID!): SnapNamePolicy
+  snapNamePolicies(
+    skip: Int
+    take: Int
+    where: SnapNamePolicyFilterInput
+    order: [SnapNamePolicySortInput!]
+  ): SnapNamePolicyCollectionSegment
+  snapCategory(id: UUID!): SnapCategory
+  snapCategories(
+    skip: Int
+    take: Int
+    where: SnapCategoryFilterInput
+    order: [SnapCategorySortInput!]
+  ): SnapCategoryCollectionSegment
+  pendingAction(id: UUID!): PendingAction
+  pendingActions(
+    skip: Int
+    take: Int
+    where: PendingActionFilterInput
+    order: [PendingActionSortInput!]
+  ): PendingActionCollectionSegment
+  edgeDeviceSshStatus(
+    input: EdgeDeviceSshStatusInput!
+  ): EdgeDeviceSshStatusOutput!
+  edgeDeviceSystemStats(
+    input: EdgeDeviceSystemStatsInput!
+  ): EdgeDeviceSystemStatsOutput!
+  edgeDevicePing(input: EdgeDevicePingInput!): EdgeDevicePingOutput!
   deviceType(id: UUID!): DeviceType
   deviceTypes(
     skip: Int
@@ -570,6 +599,9 @@ type Query {
     order: [DeviceSortInput!]
   ): DeviceCollectionSegment
   deviceLoader(id: UUID): Device
+  edgeDeviceOnlineStatus(
+    deviceSerials: [String!]!
+  ): [DeviceOnlineStatusResponse!]!
   deviceRpc(id: UUID!): DeviceRpc
   deviceRpcs(
     skip: Int
@@ -577,6 +609,13 @@ type Query {
     where: DeviceRpcFilterInput
     order: [DeviceRpcSortInput!]
   ): DeviceRpcCollectionSegment
+  deviceProvisioningClaim(id: UUID!): DeviceProvisioningClaim
+  deviceProvisioningClaims(
+    skip: Int
+    take: Int
+    where: DeviceProvisioningClaimFilterInput
+    order: [DeviceProvisioningClaimSortInput!]
+  ): DeviceProvisioningClaimCollectionSegment
   deviceModel(id: UUID!): DeviceModel
   deviceModels(
     skip: Int
@@ -651,6 +690,13 @@ type Query {
     order: [DeploymentGroupAdministratorSortInput!]
   ): DeploymentGroupAdministratorCollectionSegment
   dataMessagesDownload(input: DataMesssageDownloadInput!): [DataMessageBlob!]!
+  component(id: UUID!): Component
+  components(
+    skip: Int
+    take: Int
+    where: ComponentFilterInput
+    order: [ComponentSortInput!]
+  ): ComponentCollectionSegment
   blobDownloadLink(id: UUID!): BlobDownloadLink
   blobDownloadLinks(
     skip: Int
@@ -729,6 +775,16 @@ type Query {
     where: AppRevisionDeltaFilterInput
     order: [AppRevisionDeltaSortInput!]
   ): AppRevisionDeltaCollectionSegment
+  downloadAppRevisionBom(
+    input: AppRevisionBomDownloadInput!
+  ): DownloadAppRevisionBomResponse!
+  appRevisionBom(id: UUID!): AppRevisionBom
+  appRevisionBoms(
+    skip: Int
+    take: Int
+    where: AppRevisionBomFilterInput
+    order: [AppRevisionBomSortInput!]
+  ): AppRevisionBomCollectionSegment
   appFirmwareSigningKeys(
     where: AppFirmwareSigningKeyFilterInput
     order: [AppFirmwareSigningKeySortInput!]
@@ -789,6 +845,7 @@ type Mutation {
   initiateUserLogin(input: InitiateUserLoginInput!): InitiateUserLogin!
   userLoginAs(input: UserLoginAsInput!): UserLoginAsOutput!
   userLogout: UserLogoutOutput!
+  userSwitchTenant(input: UserSwitchTenantInput!): UserSwitchTenantOutput!
   createUserBridgeRoles(
     userBridgeRoles: [UserBridgeRoleCreateInput!]!
     where: UserBridgeRoleFilterInput
@@ -805,22 +862,6 @@ type Mutation {
     where: UserBridgeRoleFilterInput
     order: [UserBridgeRoleSortInput!]
   ): [UserBridgeRole!]!
-  createUserAllowedTenants(
-    usersAllowedTenants: [UserAllowedTenantCreateInput!]!
-    where: UserAllowedTenantFilterInput
-    order: [UserAllowedTenantSortInput!]
-  ): [UserAllowedTenant!]!
-  deleteUserAllowedTenants(
-    ids: [UUID!]!
-    where: UserAllowedTenantFilterInput
-    order: [UserAllowedTenantSortInput!]
-  ): [UserAllowedTenant!]!
-  updateUserAllowedTenants(
-    userAllowedTenants: [UserAllowedTenantUpdateInput!]!
-    setNull: UserAllowedTenantSetNullInput
-    where: UserAllowedTenantFilterInput
-    order: [UserAllowedTenantSortInput!]
-  ): [UserAllowedTenant!]!
   createTenants(
     tenants: [TenantCreateInput!]!
     where: TenantFilterInput
@@ -1132,57 +1173,6 @@ type Mutation {
     where: AssetAttributeModelDefaultValueFilterInput
     order: [AssetAttributeModelDefaultValueSortInput!]
   ): [AssetAttributeModelDefaultValue!]!
-  generateTestMessagingConnectionStrings(
-    input: TestMessagingConnectionStringGenerateInput!
-  ): TestMessagingConnectionStringGenerateOutput
-  createStoreSettings(
-    storeSettings: [StoreSettingCreateInput!]!
-    where: StoreSettingFilterInput
-    order: [StoreSettingSortInput!]
-  ): [StoreSetting!]!
-  deleteStoreSettings(
-    ids: [UUID!]!
-    where: StoreSettingFilterInput
-    order: [StoreSettingSortInput!]
-  ): [StoreSetting!]!
-  updateStoreSettings(
-    storeSettings: [StoreSettingUpdateInput!]!
-    setNull: StoreSettingSetNullInput
-    where: StoreSettingFilterInput
-    order: [StoreSettingSortInput!]
-  ): [StoreSetting!]!
-  createSnapVisibilityPolicies(
-    snapVisibilityPolicies: [SnapVisibilityPolicyCreateInput!]!
-    where: SnapVisibilityPolicyFilterInput
-    order: [SnapVisibilityPolicySortInput!]
-  ): [SnapVisibilityPolicy!]!
-  deleteSnapVisibilityPolicies(
-    ids: [UUID!]!
-    where: SnapVisibilityPolicyFilterInput
-    order: [SnapVisibilityPolicySortInput!]
-  ): [SnapVisibilityPolicy!]!
-  updateSnapVisibilityPolicies(
-    snapVisibilityPolicies: [SnapVisibilityPolicyUpdateInput!]!
-    setNull: SnapVisibilityPolicySetNullInput
-    where: SnapVisibilityPolicyFilterInput
-    order: [SnapVisibilityPolicySortInput!]
-  ): [SnapVisibilityPolicy!]!
-  createSnapTypes(
-    snapTypes: [SnapTypeCreateInput!]!
-    where: SnapTypeFilterInput
-    order: [SnapTypeSortInput!]
-  ): [SnapType!]!
-  deleteSnapTypes(
-    ids: [UUID!]!
-    where: SnapTypeFilterInput
-    order: [SnapTypeSortInput!]
-  ): [SnapType!]!
-  updateSnapTypes(
-    snapTypes: [SnapTypeUpdateInput!]!
-    setNull: SnapTypeSetNullInput
-    where: SnapTypeFilterInput
-    order: [SnapTypeSortInput!]
-  ): [SnapType!]!
   createSnapStatuses(
     snapStatuses: [SnapStatusCreateInput!]!
     where: SnapStatusFilterInput
@@ -1205,20 +1195,6 @@ type Mutation {
     where: SnapStatusFilterInput
     order: [SnapStatusSortInput!]
   ): [SnapStatus!]!
-    @deprecated(
-      reason: "This mutation is deprecated and will be removed in future versions."
-    )
-  generateSnapUploadUrl(
-    input: GenerateSnapUploadUrlInput!
-  ): GenerateSnapUploadUrlOutput!
-    @deprecated(
-      reason: "This mutation is deprecated and will be removed in future versions. Use 'initiateAppRevisionUpload' instead."
-    )
-  pushSnap(input: SnapPushInput!): PushSnapOutput!
-    @deprecated(
-      reason: "This mutation is deprecated and will be removed in future versions. Use 'completeAppRevisionUpload' instead."
-    )
-  uploadSnap(input: SnapUploadInput!): UploadSnapOutput!
     @deprecated(
       reason: "This mutation is deprecated and will be removed in future versions."
     )
@@ -1261,22 +1237,6 @@ type Mutation {
     @deprecated(
       reason: "This mutation is deprecated and will be removed in future versions. Use 'updateAppRevisions' instead."
     )
-  createSnapNamePolicies(
-    snapNamePolicies: [SnapNamePolicyCreateInput!]!
-    where: SnapNamePolicyFilterInput
-    order: [SnapNamePolicySortInput!]
-  ): [SnapNamePolicy!]!
-  deleteSnapNamePolicies(
-    ids: [UUID!]!
-    where: SnapNamePolicyFilterInput
-    order: [SnapNamePolicySortInput!]
-  ): [SnapNamePolicy!]!
-  updateSnapNamePolicies(
-    snapNamePolicies: [SnapNamePolicyUpdateInput!]!
-    setNull: SnapNamePolicySetNullInput
-    where: SnapNamePolicyFilterInput
-    order: [SnapNamePolicySortInput!]
-  ): [SnapNamePolicy!]!
   createSnapDeltas(
     snapDeltas: [SnapDeltaCreateInput!]!
     where: SnapDeltaFilterInput
@@ -1327,22 +1287,6 @@ type Mutation {
     @deprecated(
       reason: "This mutation is deprecated and will be removed in future versions."
     )
-  createSnapCategories(
-    snapCategories: [SnapCategoryCreateInput!]!
-    where: SnapCategoryFilterInput
-    order: [SnapCategorySortInput!]
-  ): [SnapCategory!]!
-  deleteSnapCategories(
-    ids: [UUID!]!
-    where: SnapCategoryFilterInput
-    order: [SnapCategorySortInput!]
-  ): [SnapCategory!]!
-  updateSnapCategories(
-    snapCategories: [SnapCategoryUpdateInput!]!
-    setNull: SnapCategorySetNullInput
-    where: SnapCategoryFilterInput
-    order: [SnapCategorySortInput!]
-  ): [SnapCategory!]!
   cloneFleet(
     input: FleetCloneInput!
     where: FleetFilterInput
@@ -1487,12 +1431,9 @@ type Mutation {
     where: EdgeDeviceFilterInput
     order: [EdgeDeviceSortInput!]
   ): [EdgeDevice!]!
-  edgeDeviceRefresh(input: EdgeDeviceRefreshInput!): EdgeDeviceRefreshOutput!
-  edgeDeviceSshOpenV2(input: EdgeDeviceSshOpenInput!): EdgeDeviceSshOpenOutput!
-  edgeDeviceSshResetUser(
-    input: EdgeDeviceSshResetUserInput!
-  ): EdgeDeviceSshUserResetOutput!
-  executeRPC(input: ExecuteRpcInput!): ExecuteRpcOutput!
+    @deprecated(
+      reason: "This mutation is deprecated and will be removed in future versions. Use 'updateDevices' instead."
+    )
   createEdgeDeviceModels(
     edgeDeviceModels: [EdgeDeviceModelCreateInput!]!
     where: EdgeDeviceModelFilterInput
@@ -1626,6 +1567,156 @@ type Mutation {
     @deprecated(
       reason: "This mutation is deprecated and will be removed in future versions."
     )
+  createVulnerabilityFinding(
+    vulnerabilityFinding: VulnerabilityFindingCreateInput!
+  ): VulnerabilityFinding
+  createVulnerabilityFindings(
+    vulnerabilityFindings: [VulnerabilityFindingCreateInput!]!
+    where: VulnerabilityFindingFilterInput
+    order: [VulnerabilityFindingSortInput!]
+  ): [VulnerabilityFinding!]!
+  deleteVulnerabilityFindings(
+    ids: [UUID!]!
+    where: VulnerabilityFindingFilterInput
+    order: [VulnerabilityFindingSortInput!]
+  ): [VulnerabilityFinding!]!
+  updateVulnerabilityFindings(
+    vulnerabilityFindings: [VulnerabilityFindingUpdateInput!]!
+    setNull: VulnerabilityFindingSetNullInput
+    where: VulnerabilityFindingFilterInput
+    order: [VulnerabilityFindingSortInput!]
+  ): [VulnerabilityFinding!]!
+  updateVulnerabilityFindingsStatus(
+    vulnerabilityFindings: [VulnerabilityFindingUpdateStatusInput!]!
+    setNull: VulnerabilityFindingUpdateStatusSetNullInput
+    where: VulnerabilityFindingFilterInput
+    order: [VulnerabilityFindingSortInput!]
+  ): [VulnerabilityFinding!]!
+  createVulnerability(vulnerability: VulnerabilityCreateInput!): Vulnerability
+  createVulnerabilities(
+    vulnerabilities: [VulnerabilityCreateInput!]!
+    where: VulnerabilityFilterInput
+    order: [VulnerabilitySortInput!]
+  ): [Vulnerability!]!
+  deleteVulnerability(id: UUID!): Vulnerability
+  deleteVulnerabilities(
+    ids: [UUID!]!
+    where: VulnerabilityFilterInput
+    order: [VulnerabilitySortInput!]
+  ): [Vulnerability!]!
+  updateVulnerability(
+    vulnerability: VulnerabilityUpdateInput!
+    setNull: VulnerabilitySetNullInput
+  ): Vulnerability
+  updateVulnerabilities(
+    vulnerabilities: [VulnerabilityUpdateInput!]!
+    setNull: VulnerabilitySetNullInput
+    where: VulnerabilityFilterInput
+    order: [VulnerabilitySortInput!]
+  ): [Vulnerability!]!
+  generateTestMessagingConnectionStrings(
+    input: TestMessagingConnectionStringGenerateInput!
+  ): TestMessagingConnectionStringGenerateOutput
+  createStoreSettings(
+    storeSettings: [StoreSettingCreateInput!]!
+    where: StoreSettingFilterInput
+    order: [StoreSettingSortInput!]
+  ): [StoreSetting!]!
+  deleteStoreSettings(
+    ids: [UUID!]!
+    where: StoreSettingFilterInput
+    order: [StoreSettingSortInput!]
+  ): [StoreSetting!]!
+  updateStoreSettings(
+    storeSettings: [StoreSettingUpdateInput!]!
+    setNull: StoreSettingSetNullInput
+    where: StoreSettingFilterInput
+    order: [StoreSettingSortInput!]
+  ): [StoreSetting!]!
+  createSnapVisibilityPolicies(
+    snapVisibilityPolicies: [SnapVisibilityPolicyCreateInput!]!
+    where: SnapVisibilityPolicyFilterInput
+    order: [SnapVisibilityPolicySortInput!]
+  ): [SnapVisibilityPolicy!]!
+  deleteSnapVisibilityPolicies(
+    ids: [UUID!]!
+    where: SnapVisibilityPolicyFilterInput
+    order: [SnapVisibilityPolicySortInput!]
+  ): [SnapVisibilityPolicy!]!
+  updateSnapVisibilityPolicies(
+    snapVisibilityPolicies: [SnapVisibilityPolicyUpdateInput!]!
+    setNull: SnapVisibilityPolicySetNullInput
+    where: SnapVisibilityPolicyFilterInput
+    order: [SnapVisibilityPolicySortInput!]
+  ): [SnapVisibilityPolicy!]!
+  createSnapTypes(
+    snapTypes: [SnapTypeCreateInput!]!
+    where: SnapTypeFilterInput
+    order: [SnapTypeSortInput!]
+  ): [SnapType!]!
+  deleteSnapTypes(
+    ids: [UUID!]!
+    where: SnapTypeFilterInput
+    order: [SnapTypeSortInput!]
+  ): [SnapType!]!
+  updateSnapTypes(
+    snapTypes: [SnapTypeUpdateInput!]!
+    setNull: SnapTypeSetNullInput
+    where: SnapTypeFilterInput
+    order: [SnapTypeSortInput!]
+  ): [SnapType!]!
+  generateSnapUploadUrl(
+    input: GenerateSnapUploadUrlInput!
+  ): GenerateSnapUploadUrlOutput!
+    @deprecated(
+      reason: "This mutation is deprecated and will be removed in future versions. Use 'initiateAppRevisionUpload' instead."
+    )
+  pushSnap(input: SnapPushInput!): PushSnapOutput!
+    @deprecated(
+      reason: "This mutation is deprecated and will be removed in future versions. Use 'completeAppRevisionUpload' instead."
+    )
+  uploadSnap(input: SnapUploadInput!): UploadSnapOutput!
+    @deprecated(
+      reason: "This mutation is deprecated and will be removed in future versions."
+    )
+  createSnapNamePolicies(
+    snapNamePolicies: [SnapNamePolicyCreateInput!]!
+    where: SnapNamePolicyFilterInput
+    order: [SnapNamePolicySortInput!]
+  ): [SnapNamePolicy!]!
+  deleteSnapNamePolicies(
+    ids: [UUID!]!
+    where: SnapNamePolicyFilterInput
+    order: [SnapNamePolicySortInput!]
+  ): [SnapNamePolicy!]!
+  updateSnapNamePolicies(
+    snapNamePolicies: [SnapNamePolicyUpdateInput!]!
+    setNull: SnapNamePolicySetNullInput
+    where: SnapNamePolicyFilterInput
+    order: [SnapNamePolicySortInput!]
+  ): [SnapNamePolicy!]!
+  createSnapCategories(
+    snapCategories: [SnapCategoryCreateInput!]!
+    where: SnapCategoryFilterInput
+    order: [SnapCategorySortInput!]
+  ): [SnapCategory!]!
+  deleteSnapCategories(
+    ids: [UUID!]!
+    where: SnapCategoryFilterInput
+    order: [SnapCategorySortInput!]
+  ): [SnapCategory!]!
+  updateSnapCategories(
+    snapCategories: [SnapCategoryUpdateInput!]!
+    setNull: SnapCategorySetNullInput
+    where: SnapCategoryFilterInput
+    order: [SnapCategorySortInput!]
+  ): [SnapCategory!]!
+  edgeDeviceRefresh(input: EdgeDeviceRefreshInput!): EdgeDeviceRefreshOutput!
+  edgeDeviceSshOpenV2(input: EdgeDeviceSshOpenInput!): EdgeDeviceSshOpenOutput!
+  edgeDeviceSshResetUser(
+    input: EdgeDeviceSshResetUserInput!
+  ): EdgeDeviceSshUserResetOutput!
+  executeRPC(input: ExecuteRpcInput!): ExecuteRpcOutput!
   createDeviceTypes(
     deviceTypes: [DeviceTypeCreateInput!]!
     where: DeviceTypeFilterInput
@@ -1655,6 +1746,11 @@ type Mutation {
     where: DeviceFilterInput
     order: [DeviceSortInput!]
   ): [Device!]!
+  createDeviceProvisioningClaims(
+    deviceProvisioningClaims: [DeviceProvisioningClaimCreateInput!]!
+    where: DeviceProvisioningClaimFilterInput
+    order: [DeviceProvisioningClaimSortInput!]
+  ): [DeviceProvisioningClaim!]!
   createDeviceModels(
     deviceModels: [DeviceModelCreateInput!]!
     where: DeviceModelFilterInput
@@ -1666,6 +1762,11 @@ type Mutation {
     order: [DeviceModelSortInput!]
   ): [DeviceModel!]!
   syncDeviceModels(ids: [UUID!]): DeviceModelSyncDto!
+  shareDeviceModels(
+    deviceModels: [DeviceModelGlobalShareInput!]!
+    where: DeviceModelFilterInput
+    order: [DeviceModelSortInput!]
+  ): [DeviceModel!]!
   updateDeviceModels(
     deviceModels: [DeviceModelUpdateInput!]!
     setNull: SetNullInput
@@ -1762,6 +1863,28 @@ type Mutation {
     where: DeploymentGroupAdministratorFilterInput
     order: [DeploymentGroupAdministratorSortInput!]
   ): [DeploymentGroupAdministrator!]!
+  createComponent(component: ComponentCreateInput!): Component
+  createComponents(
+    components: [ComponentCreateInput!]!
+    where: ComponentFilterInput
+    order: [ComponentSortInput!]
+  ): [Component!]!
+  deleteComponent(id: UUID!): Component
+  deleteComponents(
+    ids: [UUID!]!
+    where: ComponentFilterInput
+    order: [ComponentSortInput!]
+  ): [Component!]!
+  updateComponent(
+    component: ComponentUpdateInput!
+    setNull: ComponentSetNullInput
+  ): Component
+  updateComponents(
+    components: [ComponentUpdateInput!]!
+    setNull: ComponentSetNullInput
+    where: ComponentFilterInput
+    order: [ComponentSortInput!]
+  ): [Component!]!
   createAutoUpdateModes(
     autoUpdateModes: [AutoUpdateModeCreateInput!]!
     where: AutoUpdateModeFilterInput
@@ -1839,6 +1962,11 @@ type Mutation {
     where: AppStatusFilterInput
     order: [AppStatusSortInput!]
   ): [AppStatus!]!
+  shareApps(
+    apps: [AppGlobalShareInput!]!
+    where: AppFilterInput
+    order: [AppSortInput!]
+  ): [App!]!
   updateApps(
     apps: [AppUpdateInput!]!
     setNull: AppSetNullInput
@@ -1857,6 +1985,11 @@ type Mutation {
     where: AppRevisionFilterInput
     order: [AppRevisionSortInput!]
   ): [AppRevision!]!
+  createAppRevisionBoms(
+    appRevisionBoms: [AppRevisionBomCreateInput!]!
+    where: AppRevisionBomFilterInput
+    order: [AppRevisionBomSortInput!]
+  ): [AppRevisionBom!]!
   rotateAppFirmwareSigningKey: AppFirmwareSigningKeyRotateOutput
 }
 
@@ -1883,8 +2016,64 @@ type CurrentUserToken {
   token: String!
 }
 
+"""
+I am a generated type!
+"""
+type EntityChangeSet {
+  id: UUID!
+  entityIdentifierId: UUID!
+  userId: UUID
+  createdAt: DateTime!
+  changeType: EntityChangeType!
+  changeSetJson: String
+  entityIdentifier: EntityIdentifier!
+}
+
+"""
+I am a generated type!
+"""
+type EntityIdentifier {
+  entityName: String!
+  ownerships: [EntityOwnership!]!
+  logBooks: [EntityLogBook!]!
+  changeSets: [EntityChangeSet!]!
+}
+
+"""
+I am a generated type!
+"""
+type EntityLogBook {
+  id: UUID!
+  entityIdentifierId: UUID!
+  userId: UUID
+  createdAt: DateTime!
+  description: String!
+  entityIdentifier: EntityIdentifier!
+  user: UserDisplayInfo
+}
+
+"""
+I am a generated type!
+"""
+type EntityOwnership {
+  id: UUID!
+  userId: UUID!
+  isCreator: Boolean!
+}
+
 type InitiateUserLogin {
   challenge: String!
+}
+
+type Me {
+  accessToken: String!
+  tenants: [UserTenantItem!]!
+  permissions: UserPermission!
+  id: UUID!
+  tenantId: UUID!
+  displayName: String!
+  email: String!
+  storeSetting: UserTenantStoreSetting
 }
 
 """
@@ -1963,9 +2152,9 @@ type Role {
     order: [RoleBridgeScopeSortInput!]
   ): [RoleBridgeScope!]!
   id: UUID!
+  tenantId: UUID
   name: String!
   description: String
-  tenantId: UUID
   isSystemOwned: Boolean!
   isDefaultRole: Boolean!
   createdAt: DateTime!
@@ -1981,6 +2170,7 @@ I am a generated type!
 """
 type RoleBridgeScope {
   id: UUID!
+  tenantId: UUID
   roleId: UUID!
   scopeId: UUID!
   createdAt: DateTime!
@@ -1990,6 +2180,7 @@ type RoleBridgeScope {
   lastChangedAt: DateTime!
   role: Role!
   scope: Scope!
+  tenant: Tenant
 }
 
 type RoleBridgeScopeCollectionSegment {
@@ -2046,6 +2237,14 @@ type TemporaryLogLevel {
 I am a generated type!
 """
 type Tenant {
+  logBooks(
+    where: EntityLogBookFilterInput
+    order: [EntityLogBookSortInput!]
+  ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   id: UUID!
   tenantName: String!
   alias: String!
@@ -2058,6 +2257,7 @@ type Tenant {
   modifiedBy: UUID
   lastChangedAt: DateTime!
   rowVersion: Long! @deprecated(reason: "This member is marked as obsolete.")
+  entityIdentifier: EntityIdentifier
 }
 
 """
@@ -2088,12 +2288,12 @@ type User {
     where: UserBridgeRoleFilterInput
     order: [UserBridgeRoleSortInput!]
   ): [UserBridgeRole!]!
-  userAllowedTenants(
-    where: UserAllowedTenantFilterInput
-    order: [UserAllowedTenantSortInput!]
-  ): [UserAllowedTenant!]!
-  id: UUID!
+  userTenants(
+    where: UserTenantFilterInput
+    order: [UserTenantSortInput!]
+  ): [UserTenant!]!
   tenantId: UUID!
+  id: UUID!
   email: String!
   displayName: String!
   firstName: String
@@ -2101,6 +2301,7 @@ type User {
   sshPublicKey: String
   sshPublicKeySha3: String
   isActive: Boolean!
+  externalUserId: String
   createdAt: DateTime!
   createdBy: UUID
   modifiedAt: DateTime
@@ -2108,33 +2309,6 @@ type User {
   lastChangedAt: DateTime!
   rowVersion: Long!
   tenant: Tenant!
-}
-
-"""
-I am a generated type!
-"""
-type UserAllowedTenant {
-  id: UUID!
-  userId: UUID!
-  tenantId: UUID!
-  expiresAt: DateTime
-  createdBy: UUID
-  createdAt: DateTime!
-  modifiedBy: UUID
-  modifiedAt: DateTime
-  lastChangedAt: DateTime!
-  user: User!
-  tenant: Tenant!
-}
-
-type UserAllowedTenantCollectionSegment {
-  items: [UserAllowedTenant!]
-
-  """
-  Information to aid in pagination.
-  """
-  pageInfo: CollectionSegmentInfo!
-  totalCount: Int!
 }
 
 """
@@ -2203,6 +2377,12 @@ type UserLogoutOutput {
   errorMessage: String @deprecated(reason: "This member is marked as obsolete.")
 }
 
+type UserPermission {
+  scopes: [String!]!
+  roles: [String!]!
+  isSuperAdmin: Boolean!
+}
+
 """
 I am a generated type!
 """
@@ -2245,6 +2425,37 @@ type UserSettingCollectionSegment {
   """
   pageInfo: CollectionSegmentInfo!
   totalCount: Int!
+}
+
+type UserSwitchTenantOutput {
+  accessToken: String!
+}
+
+"""
+I am a generated type!
+"""
+type UserTenant {
+  id: UUID!
+  userId: UUID!
+  tenantId: UUID!
+  isHomeTenant: Boolean!
+  createdAt: DateTime!
+  createdBy: UUID
+  modifiedAt: DateTime
+  modifiedBy: UUID
+  deletedAt: DateTime
+  deletedBy: UUID
+  lastChangedAt: DateTime!
+  user: User!
+  tenant: Tenant!
+}
+
+type UserTenantItem {
+  id: UUID!
+  tenantName: String!
+  isCurrentTenant: Boolean!
+  isHomeTenant: Boolean!
+  isRootTenant: Boolean!
 }
 
 type WebLoginOptions {
@@ -2339,9 +2550,121 @@ input CompleteChallengeInput {
   signedChallenge: String!
 }
 
+"""
+I am a generated type!
+"""
+input EntityChangeSetFilterInput {
+  and: [EntityChangeSetFilterInput!]
+  or: [EntityChangeSetFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  entityIdentifierId: ComparableGuidOperationFilterInput
+  userId: ComparableNullableOfGuidOperationFilterInput
+  createdAt: ComparableDateTimeOperationFilterInput
+  changeType: EntityChangeTypeOperationFilterInput
+  changeSetJson: StringOperationFilterInput
+  entityIdentifier: EntityIdentifierFilterInput
+}
+
+"""
+I am a generated type!
+"""
+input EntityChangeSetSortInput {
+  id: SortEnumType
+  entityIdentifierId: SortEnumType
+  userId: SortEnumType
+  createdAt: SortEnumType
+  changeType: SortEnumType
+  changeSetJson: SortEnumType
+  entityIdentifier: EntityIdentifierSortInput
+}
+
+input EntityChangeTypeOperationFilterInput {
+  eq: EntityChangeType
+  neq: EntityChangeType
+  in: [EntityChangeType!]
+  nin: [EntityChangeType!]
+}
+
+"""
+I am a generated type!
+"""
+input EntityIdentifierFilterInput {
+  and: [EntityIdentifierFilterInput!]
+  or: [EntityIdentifierFilterInput!]
+  entityName: StringOperationFilterInput
+  ownerships: ListFilterInputTypeOfEntityOwnershipFilterInput
+  logBooks: ListFilterInputTypeOfEntityLogBookFilterInput
+  changeSets: ListFilterInputTypeOfEntityChangeSetFilterInput
+}
+
+"""
+I am a generated type!
+"""
+input EntityIdentifierSortInput {
+  entityName: SortEnumType
+}
+
+"""
+I am a generated type!
+"""
+input EntityLogBookFilterInput {
+  and: [EntityLogBookFilterInput!]
+  or: [EntityLogBookFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  entityIdentifierId: ComparableGuidOperationFilterInput
+  userId: ComparableNullableOfGuidOperationFilterInput
+  createdAt: ComparableDateTimeOperationFilterInput
+  description: StringOperationFilterInput
+  entityIdentifier: EntityIdentifierFilterInput
+}
+
+"""
+I am a generated type!
+"""
+input EntityLogBookSortInput {
+  id: SortEnumType
+  entityIdentifierId: SortEnumType
+  userId: SortEnumType
+  createdAt: SortEnumType
+  description: SortEnumType
+  entityIdentifier: EntityIdentifierSortInput
+}
+
+"""
+I am a generated type!
+"""
+input EntityOwnershipFilterInput {
+  and: [EntityOwnershipFilterInput!]
+  or: [EntityOwnershipFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  userId: ComparableGuidOperationFilterInput
+  isCreator: BooleanOperationFilterInput
+}
+
 input InitiateUserLoginInput {
   email: String!
   sshPublicKey: String!
+}
+
+input ListFilterInputTypeOfEntityChangeSetFilterInput {
+  all: EntityChangeSetFilterInput
+  none: EntityChangeSetFilterInput
+  some: EntityChangeSetFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfEntityLogBookFilterInput {
+  all: EntityLogBookFilterInput
+  none: EntityLogBookFilterInput
+  some: EntityLogBookFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfEntityOwnershipFilterInput {
+  all: EntityOwnershipFilterInput
+  none: EntityOwnershipFilterInput
+  some: EntityOwnershipFilterInput
+  any: Boolean
 }
 
 input ListFilterInputTypeOfModuleInstanceFilterInput {
@@ -2358,17 +2681,17 @@ input ListFilterInputTypeOfRoleBridgeScopeFilterInput {
   any: Boolean
 }
 
-input ListFilterInputTypeOfUserAllowedTenantFilterInput {
-  all: UserAllowedTenantFilterInput
-  none: UserAllowedTenantFilterInput
-  some: UserAllowedTenantFilterInput
-  any: Boolean
-}
-
 input ListFilterInputTypeOfUserBridgeRoleFilterInput {
   all: UserBridgeRoleFilterInput
   none: UserBridgeRoleFilterInput
   some: UserBridgeRoleFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfUserTenantFilterInput {
+  all: UserTenantFilterInput
+  none: UserTenantFilterInput
+  some: UserTenantFilterInput
   any: Boolean
 }
 
@@ -2479,6 +2802,7 @@ input RoleBridgeScopeFilterInput {
   and: [RoleBridgeScopeFilterInput!]
   or: [RoleBridgeScopeFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   roleId: ComparableGuidOperationFilterInput
   scopeId: ComparableGuidOperationFilterInput
   createdAt: ComparableDateTimeOperationFilterInput
@@ -2488,6 +2812,7 @@ input RoleBridgeScopeFilterInput {
   lastChangedAt: ComparableDateTimeOperationFilterInput
   role: RoleFilterInput
   scope: ScopeFilterInput
+  tenant: TenantFilterInput
 }
 
 input RoleBridgeScopeSetNullInput {
@@ -2513,6 +2838,7 @@ I am a generated type!
 """
 input RoleBridgeScopeSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   roleId: SortEnumType
   scopeId: SortEnumType
   createdAt: SortEnumType
@@ -2522,6 +2848,7 @@ input RoleBridgeScopeSortInput {
   lastChangedAt: SortEnumType
   role: RoleSortInput
   scope: ScopeSortInput
+  tenant: TenantSortInput
 }
 
 input RoleBridgeScopeUpdateInput {
@@ -2566,9 +2893,9 @@ input RoleFilterInput {
   and: [RoleFilterInput!]
   or: [RoleFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   name: StringOperationFilterInput
   description: StringOperationFilterInput
-  tenantId: ComparableNullableOfGuidOperationFilterInput
   isSystemOwned: BooleanOperationFilterInput
   isDefaultRole: BooleanOperationFilterInput
   createdAt: ComparableDateTimeOperationFilterInput
@@ -2591,9 +2918,9 @@ I am a generated type!
 """
 input RoleSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   name: SortEnumType
   description: SortEnumType
-  tenantId: SortEnumType
   isSystemOwned: SortEnumType
   isDefaultRole: SortEnumType
   createdAt: SortEnumType
@@ -2770,6 +3097,7 @@ input TenantFilterInput {
   Deprecated=true
   """
   rowVersion: ComparableInt64OperationFilterInput
+  entityIdentifier: EntityIdentifierFilterInput
 }
 
 """
@@ -2832,6 +3160,7 @@ input TenantSortInput {
   Deprecated=true
   """
   rowVersion: SortEnumType
+  entityIdentifier: EntityIdentifierSortInput
 }
 
 """
@@ -2876,82 +3205,6 @@ input TenantUpdateInput {
   createdBy: UUID
   modifiedAt: DateTime
   modifiedBy: UUID
-}
-
-input UserAllowedTenantCreateInput {
-  userId: UUID
-  email: String
-  expiresAt: DateTime
-  _tag: String
-  createdBy: UUID
-  createdAt: DateTime
-  modifiedBy: UUID
-  modifiedAt: DateTime
-}
-
-"""
-I am a generated type!
-"""
-input UserAllowedTenantFilterInput {
-  and: [UserAllowedTenantFilterInput!]
-  or: [UserAllowedTenantFilterInput!]
-  id: ComparableGuidOperationFilterInput
-  userId: ComparableGuidOperationFilterInput
-  tenantId: ComparableGuidOperationFilterInput
-  expiresAt: ComparableNullableOfDateTimeOperationFilterInput
-  createdBy: ComparableNullableOfGuidOperationFilterInput
-  createdAt: ComparableDateTimeOperationFilterInput
-  modifiedBy: ComparableNullableOfGuidOperationFilterInput
-  modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
-  lastChangedAt: ComparableDateTimeOperationFilterInput
-  user: UserFilterInput
-  tenant: TenantFilterInput
-}
-
-input UserAllowedTenantSetNullInput {
-  expiresAt: Boolean
-
-  """
-  NotMapped=true
-  """
-  userId: Boolean
-  createdBy: Boolean
-  createdAt: Boolean
-  modifiedBy: Boolean
-  modifiedAt: Boolean
-}
-
-"""
-I am a generated type!
-"""
-input UserAllowedTenantSortInput {
-  id: SortEnumType
-  userId: SortEnumType
-  tenantId: SortEnumType
-  expiresAt: SortEnumType
-  createdBy: SortEnumType
-  createdAt: SortEnumType
-  modifiedBy: SortEnumType
-  modifiedAt: SortEnumType
-  lastChangedAt: SortEnumType
-  user: UserSortInput
-  tenant: TenantSortInput
-}
-
-input UserAllowedTenantUpdateInput {
-  id: UUID!
-  expiresAt: DateTime
-  setNull: UserAllowedTenantSetNullInput
-  _tag: String
-
-  """
-  NotMapped=true
-  """
-  userId: UUID
-  createdBy: UUID
-  createdAt: DateTime
-  modifiedBy: UUID
-  modifiedAt: DateTime
 }
 
 input UserBridgeRoleCreateInput {
@@ -3083,6 +3336,7 @@ input UserFilterInput {
   sshPublicKey: StringOperationFilterInput
   sshPublicKeySha3: StringOperationFilterInput
   isActive: BooleanOperationFilterInput
+  externalUserId: StringOperationFilterInput
   createdAt: ComparableDateTimeOperationFilterInput
   createdBy: ComparableNullableOfGuidOperationFilterInput
   modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
@@ -3091,7 +3345,7 @@ input UserFilterInput {
   rowVersion: ComparableInt64OperationFilterInput
   tenant: TenantFilterInput
   userBridgeRoles: ListFilterInputTypeOfUserBridgeRoleFilterInput
-  userAllowedTenants: ListFilterInputTypeOfUserAllowedTenantFilterInput
+  userTenants: ListFilterInputTypeOfUserTenantFilterInput
 }
 
 input UserLoginAsInput {
@@ -3318,12 +3572,57 @@ input UserSortInput {
   sshPublicKey: SortEnumType
   sshPublicKeySha3: SortEnumType
   isActive: SortEnumType
+  externalUserId: SortEnumType
   createdAt: SortEnumType
   createdBy: SortEnumType
   modifiedAt: SortEnumType
   modifiedBy: SortEnumType
   lastChangedAt: SortEnumType
   rowVersion: SortEnumType
+  tenant: TenantSortInput
+}
+
+input UserSwitchTenantInput {
+  tenantId: UUID!
+}
+
+"""
+I am a generated type!
+"""
+input UserTenantFilterInput {
+  and: [UserTenantFilterInput!]
+  or: [UserTenantFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  userId: ComparableGuidOperationFilterInput
+  tenantId: ComparableGuidOperationFilterInput
+  isHomeTenant: BooleanOperationFilterInput
+  createdAt: ComparableDateTimeOperationFilterInput
+  createdBy: ComparableNullableOfGuidOperationFilterInput
+  modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
+  modifiedBy: ComparableNullableOfGuidOperationFilterInput
+  deletedAt: ComparableNullableOfDateTimeOperationFilterInput
+  deletedBy: ComparableNullableOfGuidOperationFilterInput
+  lastChangedAt: ComparableDateTimeOperationFilterInput
+  user: UserFilterInput
+  tenant: TenantFilterInput
+}
+
+"""
+I am a generated type!
+"""
+input UserTenantSortInput {
+  id: SortEnumType
+  userId: SortEnumType
+  tenantId: SortEnumType
+  isHomeTenant: SortEnumType
+  createdAt: SortEnumType
+  createdBy: SortEnumType
+  modifiedAt: SortEnumType
+  modifiedBy: SortEnumType
+  deletedAt: SortEnumType
+  deletedBy: SortEnumType
+  lastChangedAt: SortEnumType
+  user: UserSortInput
   tenant: TenantSortInput
 }
 
@@ -3381,6 +3680,14 @@ input UserUpdateInput {
 enum ApplyPolicy {
   BEFORE_RESOLVER
   AFTER_RESOLVER
+}
+
+enum EntityChangeType {
+  CREATED
+  UPDATED
+  SOFT_DELETED
+  RESTORED
+  DELETED
 }
 
 enum ModuleHealthStatus {
@@ -3500,6 +3807,10 @@ type Asset {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   assetDescription: String
   serialNo: String!
   assetPairingStatus: AssetPairingStatus!
@@ -3511,7 +3822,7 @@ type Asset {
   attestationKey: String
   attestationKeySha3: String
   mcuId: String
-  assetName: String!
+  assetName: String
   lastDataReceivedAt: DateTime
   isSystemOwned: Boolean!
   isHealthy: Boolean
@@ -3548,6 +3859,10 @@ type AssetAttribute {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   languageISOCode: String
   required: Boolean!
   id: UUID!
@@ -3588,6 +3903,10 @@ type AssetAttributeDataType {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   assetAttributeDataTypeName: String!
   id: UUID!
   createdBy: UUID
@@ -3655,6 +3974,10 @@ type AssetAttributeSet {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   assetAttributeSetName: String!
   id: UUID!
   tenantId: UUID!
@@ -3687,6 +4010,10 @@ type AssetAttributeUnit {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   assetAttributeUnitName: String!
   assetAttributeUnitSymbol: String
   id: UUID!
@@ -3802,6 +4129,10 @@ type AssetModel {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   id: UUID!
   tenantId: UUID
   assetTypeId: UUID!
@@ -3837,6 +4168,10 @@ type AssetModelBridgeAssetAttributeSet {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   id: UUID!
   tenantId: UUID!
   assetModelId: UUID!
@@ -3881,6 +4216,10 @@ type AssetModelTree {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   id: UUID!
   tenantId: UUID!
   assetModelId: UUID!
@@ -3917,6 +4256,10 @@ type AssetModelTreeNode {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   id: UUID!
   tenantId: UUID!
   assetModelTreeId: UUID!
@@ -4017,6 +4360,10 @@ type AssetTag {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   assetTagValue: String!
   id: UUID!
   createdBy: UUID
@@ -4057,6 +4404,10 @@ type AssetType {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   assetTypeCategory: AssetTypeCategory!
   id: UUID!
   tenantId: UUID
@@ -4097,6 +4448,10 @@ type AssetTypeTree {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   id: UUID!
   tenantId: UUID!
   assetTypeId: UUID!
@@ -4133,6 +4488,10 @@ type AssetTypeTreeNode {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   id: UUID!
   tenantId: UUID!
   assetTypeTreeId: UUID!
@@ -4200,36 +4559,6 @@ type DomainDeviceModelRevision {
   revision: Int
   deviceModel: DomainDeviceModel!
   domainDevices: [DomainDevice!]!
-}
-
-"""
-I am a generated type!
-"""
-type EntityIdentifier {
-  entityName: String!
-  ownerships: [EntityOwnership!]!
-  logBooks: [EntityLogBook!]!
-}
-
-"""
-I am a generated type!
-"""
-type EntityLogBook {
-  id: UUID!
-  entityIdentifierId: UUID!
-  userId: UUID
-  createdAt: DateTime!
-  description: String!
-  entityIdentifier: EntityIdentifier!
-  user: UserDisplayInfo
-}
-
-"""
-I am a generated type!
-"""
-type EntityOwnership {
-  userId: UUID!
-  isCreator: Boolean!
 }
 
 """
@@ -4909,9 +5238,9 @@ input AssetCreateInput {
   parentAssetId: UUID
 
   """
-  MinLength=1, MaxLength=256
+  MinLength=0, MaxLength=256
   """
-  assetName: String!
+  assetName: String
 
   """
   MinLength=1, MaxLength=64
@@ -5994,60 +6323,6 @@ input DomainDeviceSortInput {
   deviceModelRevision: DomainDeviceModelRevisionSortInput
 }
 
-"""
-I am a generated type!
-"""
-input EntityIdentifierFilterInput {
-  and: [EntityIdentifierFilterInput!]
-  or: [EntityIdentifierFilterInput!]
-  entityName: StringOperationFilterInput
-  ownerships: ListFilterInputTypeOfEntityOwnershipFilterInput
-  logBooks: ListFilterInputTypeOfEntityLogBookFilterInput
-}
-
-"""
-I am a generated type!
-"""
-input EntityIdentifierSortInput {
-  entityName: SortEnumType
-}
-
-"""
-I am a generated type!
-"""
-input EntityLogBookFilterInput {
-  and: [EntityLogBookFilterInput!]
-  or: [EntityLogBookFilterInput!]
-  id: ComparableGuidOperationFilterInput
-  entityIdentifierId: ComparableGuidOperationFilterInput
-  userId: ComparableNullableOfGuidOperationFilterInput
-  createdAt: ComparableDateTimeOperationFilterInput
-  description: StringOperationFilterInput
-  entityIdentifier: EntityIdentifierFilterInput
-}
-
-"""
-I am a generated type!
-"""
-input EntityLogBookSortInput {
-  id: SortEnumType
-  entityIdentifierId: SortEnumType
-  userId: SortEnumType
-  createdAt: SortEnumType
-  description: SortEnumType
-  entityIdentifier: EntityIdentifierSortInput
-}
-
-"""
-I am a generated type!
-"""
-input EntityOwnershipFilterInput {
-  and: [EntityOwnershipFilterInput!]
-  or: [EntityOwnershipFilterInput!]
-  userId: ComparableGuidOperationFilterInput
-  isCreator: BooleanOperationFilterInput
-}
-
 input ListFilterInputTypeOfAssetAttributeFilterInput {
   all: AssetAttributeFilterInput
   none: AssetAttributeFilterInput
@@ -6146,20 +6421,6 @@ input ListFilterInputTypeOfDomainDeviceModelRevisionFilterInput {
   any: Boolean
 }
 
-input ListFilterInputTypeOfEntityLogBookFilterInput {
-  all: EntityLogBookFilterInput
-  none: EntityLogBookFilterInput
-  some: EntityLogBookFilterInput
-  any: Boolean
-}
-
-input ListFilterInputTypeOfEntityOwnershipFilterInput {
-  all: EntityOwnershipFilterInput
-  none: EntityOwnershipFilterInput
-  some: EntityOwnershipFilterInput
-  any: Boolean
-}
-
 """
 I am a generated type!
 """
@@ -6217,6 +6478,10 @@ type App {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   statistics: AppStatistics!
   id: UUID!
   tenantId: UUID!
@@ -6225,8 +6490,11 @@ type App {
   appName: String!
   description: String!
   summary: String!
+  isGloballyShared: Boolean!
   createdBy: UUID
   createdAt: DateTime!
+  globallySharedAt: DateTime
+  globallySharedBy: UUID
   modifiedBy: UUID
   modifiedAt: DateTime
   lastChangedAt: DateTime!
@@ -6252,8 +6520,10 @@ I am a generated type!
 """
 type AppFirmware {
   id: UUID!
+  tenantId: UUID
   deviceModelId: UUID!
   app: App!
+  tenant: DomainTenant
   deviceModel: DeviceModel!
 }
 
@@ -6292,10 +6562,22 @@ type AppRevision {
     where: AppRevisionDeltaFilterInput
     order: [AppRevisionDeltaSortInput!]
   ): [AppRevisionDelta!]!
+  appRevisionBoms(
+    where: AppRevisionBomFilterInput
+    order: [AppRevisionBomSortInput!]
+  ): [AppRevisionBom!]!
+  vulnerabilityFindings(
+    where: VulnerabilityFindingFilterInput
+    order: [VulnerabilityFindingSortInput!]
+  ): [VulnerabilityFinding!]!
   logBooks(
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   statistics: AppRevisionStatistics!
   id: UUID!
   appId: UUID!
@@ -6312,10 +6594,13 @@ type AppRevision {
   downloadSize: Long!
   fileName: String!
   metadataYaml: String
+  dependencyTrackProjectId: UUID
   gitCommitHash: String
   monopolVersion: String
   upstreamVersion: String
   buildDateTime: DateTime
+  activeCriticalVulnerabilityCount: Int!
+  activeHighVulnerabilityCount: Int!
   createdBy: UUID
   createdAt: DateTime!
   modifiedBy: UUID
@@ -6327,6 +6612,33 @@ type AppRevision {
   appRevisionSnap: AppRevisionSnap
   appRevisionFirmware: AppRevisionFirmware
   entityIdentifier: EntityIdentifier
+}
+
+"""
+I am a generated type!
+"""
+type AppRevisionBom {
+  id: UUID!
+  tenantId: UUID!
+  appRevisionId: UUID!
+  downloadSize: Long!
+  bomFormat: BomFormat!
+  hashSha3: String!
+  dependencyTrackToken: UUID
+  createdBy: UUID
+  createdAt: DateTime!
+  tenant: DomainTenant!
+  appRevision: AppRevision!
+}
+
+type AppRevisionBomCollectionSegment {
+  items: [AppRevisionBom!]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: CollectionSegmentInfo!
+  totalCount: Int!
 }
 
 type AppRevisionCollectionSegment {
@@ -6344,12 +6656,14 @@ I am a generated type!
 """
 type AppRevisionDelta {
   id: UUID!
+  tenantId: UUID
   fromAppRevisionId: UUID!
   toAppRevisionId: UUID!
   deltaFileName: String!
   deltaSha3: String!
   deltaDownloadSize: Long!
   calculatedAt: DateTime!
+  tenant: DomainTenant
   fromAppRevision: AppRevision!
   toAppRevision: AppRevision!
 }
@@ -6369,6 +6683,7 @@ I am a generated type!
 """
 type AppRevisionFirmware {
   id: UUID!
+  tenantId: UUID
   vendorId: String!
   classId: String!
   primaryFirmwareFileName: String!
@@ -6381,6 +6696,7 @@ type AppRevisionFirmware {
   secondaryFirmwareOffset: Int!
   secondaryFirmwareDigestSha256: String!
   secondaryFirmwareInstallSizeBytes: Long!
+  tenant: DomainTenant
   appRevision: AppRevision!
 }
 
@@ -6389,6 +6705,7 @@ I am a generated type!
 """
 type AppRevisionFirmwareManifest {
   id: UUID!
+  tenantId: UUID
   appRevisionId: UUID!
   sequenceNumber: Int!
   manifestBase64: String!
@@ -6396,6 +6713,7 @@ type AppRevisionFirmwareManifest {
   manifestEdgeDeviceIp: String!
   createdBy: UUID
   createdAt: DateTime!
+  tenant: DomainTenant
   appRevision: AppRevision!
 }
 
@@ -6404,10 +6722,12 @@ I am a generated type!
 """
 type AppRevisionSnap {
   id: UUID!
+  tenantId: UUID
   assertionId: UUID!
   appSnapAssertionId: UUID
   snapBase: String
   nonVersionHashSha3Base64Url: String
+  tenant: DomainTenant
   appRevision: AppRevision!
   assertion: Assertion!
   appSnapAssertion: Assertion
@@ -6435,11 +6755,13 @@ I am a generated type!
 """
 type AppSnap {
   id: UUID!
+  tenantId: UUID
   snapTypeId: UUID!
   assertionId: UUID!
   snapCategoryId: UUID
   snapId: String!
   snapBase: String!
+  tenant: DomainTenant
   app: App!
   snapType: SnapType!
   snapCategory: SnapCategory
@@ -6499,13 +6821,21 @@ type Assertion {
     where: EdgeDeviceFilterInput
     order: [EdgeDeviceSortInput!]
   ): [EdgeDevice!]!
+    @deprecated(
+      reason: "This field is deprecated and will be removed in a future release."
+    )
   id: UUID!
+  tenantId: UUID
   assertionTypeId: UUID!
   assertionBody: String!
   assertionBodyNoNewlinesSha384: String
   revision: Int!
+  isGloballyShared: Boolean!
   createdAt: DateTime!
   createdBy: UUID
+  globallySharedAt: DateTime
+  globallySharedBy: UUID
+  tenant: DomainTenant
   assertionType: AssertionType!
 }
 
@@ -6578,7 +6908,12 @@ type BlobDownloadLink {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   id: UUID!
+  tenantId: UUID
   deviceId: UUID!
   appRevisionId: UUID
   appRevisionDeltaId: UUID
@@ -6589,6 +6924,7 @@ type BlobDownloadLink {
   modifiedBy: UUID
   modifiedAt: DateTime
   lastChangedAt: DateTime!
+  tenant: DomainTenant
   device: Device!
   appRevision: AppRevision
   appRevisionDelta: AppRevisionDelta
@@ -6597,6 +6933,32 @@ type BlobDownloadLink {
 
 type BlobDownloadLinkCollectionSegment {
   items: [BlobDownloadLink!]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: CollectionSegmentInfo!
+  totalCount: Int!
+}
+
+"""
+I am a generated type!
+"""
+type Component {
+  purl: String!
+  name: String!
+  version: String!
+  type: String!
+  id: UUID!
+  dependencyTrackComponentUuid: UUID!
+  componentGroup: String
+  isManuallyCreated: Boolean!
+  createdBy: UUID
+  createdAt: DateTime!
+}
+
+type ComponentCollectionSegment {
+  items: [Component!]
 
   """
   Information to aid in pagination.
@@ -6659,19 +7021,27 @@ type DeploymentGroup {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   pendingActionSummary: DeploymentGroupPendingActionSummary!
   id: UUID!
+  tenantId: UUID
   deviceModelRevisionId: UUID!
   autoUpdateModeId: UUID!
   ownerUserId: UUID!
   name: String!
   description: String
   isDeltaUpdateOnly: Boolean!
+  activeCriticalVulnerabilityCount: Int!
+  activeHighVulnerabilityCount: Int!
   createdBy: UUID
   createdAt: DateTime!
   modifiedBy: UUID
   modifiedAt: DateTime
   lastChangedAt: DateTime!
+  tenant: DomainTenant
   deviceModelRevision: DeviceModelRevision!
   autoUpdateMode: AutoUpdateMode!
   entityIdentifier: EntityIdentifier
@@ -6685,7 +7055,12 @@ type DeploymentGroupAdministrator {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   id: UUID!
+  tenantId: UUID
   deploymentGroupId: UUID!
   userId: UUID!
   createdBy: UUID
@@ -6693,6 +7068,7 @@ type DeploymentGroupAdministrator {
   modifiedBy: UUID
   modifiedAt: DateTime
   lastChangedAt: DateTime!
+  tenant: DomainTenant
   deploymentGroup: DeploymentGroup!
   entityIdentifier: EntityIdentifier
 }
@@ -6715,7 +7091,12 @@ type DeploymentGroupBridgeAppRevision {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   id: UUID!
+  tenantId: UUID
   deploymentGroupId: UUID!
   appRevisionId: UUID!
   isCoreApp: Boolean!
@@ -6724,6 +7105,7 @@ type DeploymentGroupBridgeAppRevision {
   modifiedAt: DateTime
   modifiedBy: UUID
   lastChangedAt: DateTime!
+  tenant: DomainTenant
   deploymentGroup: DeploymentGroup!
   appRevision: AppRevision!
   entityIdentifier: EntityIdentifier
@@ -6744,6 +7126,7 @@ I am a generated type!
 """
 type DeploymentGroupBridgeDeploymentGroupTag {
   id: UUID!
+  tenantId: UUID
   deploymentGroupId: UUID!
   deploymentGroupTagId: UUID!
   createdBy: UUID
@@ -6751,6 +7134,7 @@ type DeploymentGroupBridgeDeploymentGroupTag {
   modifiedBy: UUID
   modifiedAt: DateTime
   lastChangedAt: DateTime!
+  tenant: DomainTenant
   deploymentGroup: DeploymentGroup!
   deploymentGroupTag: DeploymentGroupTag!
   entityIdentifier: EntityIdentifier
@@ -6794,13 +7178,19 @@ type DeploymentGroupTag {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   deploymentGroupTagValue: String!
   id: UUID!
+  tenantId: UUID
   createdBy: UUID
   createdAt: DateTime!
   modifiedBy: UUID
   modifiedAt: DateTime
   lastChangedAt: DateTime!
+  tenant: DomainTenant
   entityIdentifier: EntityIdentifier
 }
 
@@ -6834,8 +7224,13 @@ type Device {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   pendingActions: DevicePendingAction!
   id: UUID!
+  tenantId: UUID
   deviceTypeId: UUID!
   deviceModelRevisionId: UUID!
   deploymentGroupId: UUID
@@ -6848,11 +7243,14 @@ type Device {
   isUpdateActivated: Boolean!
   description: String
   manufacturer: String!
+  registrationJson: String
+  registrationJsonFormatVersion: Int
   createdBy: UUID
   createdAt: DateTime!
   modifiedBy: UUID
   modifiedAt: DateTime
   lastChangedAt: DateTime!
+  tenant: DomainTenant
   deviceModelRevision: DeviceModelRevision!
   deviceType: DeviceType!
   deploymentGroup: DeploymentGroup
@@ -6880,12 +7278,14 @@ I am a generated type!
 """
 type DeviceDailyMessagingActivity {
   id: UUID!
+  tenantId: UUID
   deviceId: UUID!
   moduleInstanceId: UUID!
   date: DateTime!
   dataMessagesReceived: Long!
   signalMessagesReceived: Long!
   bytesReceived: Long!
+  tenant: DomainTenant
   device: Device!
 }
 
@@ -6904,8 +7304,27 @@ I am a generated type!
 """
 type DeviceFirmware {
   id: UUID!
+  tenantId: UUID
   mcuId: String
+  tenant: DomainTenant
   device: Device!
+}
+
+"""
+I am a generated type!
+"""
+type DeviceFirmwareSequenceHistory {
+  id: UUID!
+  tenantId: UUID
+  deviceId: UUID!
+  sequenceNumber: Int!
+  appRevisionId: UUID!
+  appRevisionFirmwareManifestId: UUID
+  observedAt: DateTime!
+  tenant: DomainTenant
+  device: Device!
+  appRevision: AppRevision!
+  appRevisionFirmwareManifest: AppRevisionFirmwareManifest
 }
 
 """
@@ -6913,11 +7332,14 @@ I am a generated type!
 """
 type DeviceInstallState {
   id: UUID!
+  tenantId: UUID
   deviceId: UUID!
   appRevisionId: UUID!
-  appRevisionFirmwareManifestId: UUID
+  deviceFirmwareSequenceHistoryId: UUID
+  tenant: DomainTenant
   device: Device!
   appRevision: AppRevision!
+  deviceFirmwareSequenceHistory: DeviceFirmwareSequenceHistory
 }
 
 type DeviceInstallStateCollectionSegment {
@@ -6935,15 +7357,17 @@ I am a generated type!
 """
 type DeviceInstallStateHistory {
   id: UUID!
+  tenantId: UUID
   deviceId: UUID!
   appRevisionId: UUID!
-  appRevisionFirmwareManifestId: UUID
+  deviceFirmwareSequenceHistoryId: UUID
   changeSetId: UUID!
   dateTime: DateTime!
   action: String!
+  tenant: DomainTenant
   device: Device!
   appRevision: AppRevision!
-  appRevisionFirmwareManifest: AppRevisionFirmwareManifest
+  deviceFirmwareSequenceHistory: DeviceFirmwareSequenceHistory
 }
 
 type DeviceInstallStateHistoryCollectionSegment {
@@ -6972,15 +7396,24 @@ type DeviceModel {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   id: UUID!
+  tenantId: UUID
   deviceTypeId: UUID!
   modelName: String!
   architecture: Architecture!
+  isGloballyShared: Boolean!
   createdBy: UUID
   createdAt: DateTime!
+  globallySharedAt: DateTime
+  globallySharedBy: UUID
   modifiedBy: UUID
   modifiedAt: DateTime
   lastChangedAt: DateTime!
+  tenant: DomainTenant
   deviceType: DeviceType!
   entityIdentifier: EntityIdentifier
 }
@@ -7012,18 +7445,26 @@ type DeviceModelRevision {
     where: EntityLogBookFilterInput
     order: [EntityLogBookSortInput!]
   ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
   id: UUID!
+  tenantId: UUID
   deviceModelId: UUID!
   modelAssertionId: UUID
   revision: Int
   isTpmRequired: Boolean!
   isPreRegistrationRequired: Boolean!
+  isDeviceProvisioningClaimRequired: Boolean!
+  isAssetAutoCreationEnabled: Boolean!
   uploadMessage: String!
   createdBy: UUID
   createdAt: DateTime!
   modifiedBy: UUID
   modifiedAt: DateTime
   lastChangedAt: DateTime!
+  tenant: DomainTenant
   deviceModel: DeviceModel!
   modelAssertion: Assertion
   deviceModelRevisionSnap: DeviceModelRevisionSnap
@@ -7035,8 +7476,10 @@ I am a generated type!
 """
 type DeviceModelRevisionBridgeApp {
   id: UUID!
+  tenantId: UUID
   deviceModelRevisionId: UUID!
   appId: UUID!
+  tenant: DomainTenant
   deviceModelRevision: DeviceModelRevision!
   app: App!
 }
@@ -7056,11 +7499,13 @@ I am a generated type!
 """
 type DeviceModelRevisionSnap {
   id: UUID!
+  tenantId: UUID
   base: String!
   grade: String!
   storageSafety: String!
   series: String!
   classic: Boolean!
+  tenant: DomainTenant
   deviceModelRevision: DeviceModelRevision!
 }
 
@@ -7104,8 +7549,35 @@ type DevicePendingActionItem {
 """
 I am a generated type!
 """
+type DeviceProvisioningClaim {
+  id: UUID!
+  tenantId: UUID!
+  deviceId: UUID
+  token: String!
+  expiresAt: DateTime!
+  consumedAt: DateTime
+  createdBy: UUID
+  createdAt: DateTime!
+  tenant: DomainTenant!
+  device: Device
+}
+
+type DeviceProvisioningClaimCollectionSegment {
+  items: [DeviceProvisioningClaim!]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: CollectionSegmentInfo!
+  totalCount: Int!
+}
+
+"""
+I am a generated type!
+"""
 type DeviceRpc {
   id: UUID!
+  tenantId: UUID
   deviceId: UUID!
   commandId: String!
   command: String!
@@ -7116,6 +7588,7 @@ type DeviceRpc {
   expiresAt: DateTime!
   createdAt: DateTime!
   createdBy: UUID
+  tenant: DomainTenant
   device: Device!
 }
 
@@ -7134,6 +7607,7 @@ I am a generated type!
 """
 type DeviceSnap {
   id: UUID!
+  tenantId: UUID
   serialAssertionId: UUID!
   modelAssertionId: UUID
   deploymentGroupId: UUID
@@ -7143,6 +7617,7 @@ type DeviceSnap {
   deviceTpmEkPublicKey: String!
   isTpmRequired: Boolean
   uplinkMode: UplinkMode!
+  tenant: DomainTenant
   device: Device!
   serialAssertion: Assertion!
   modelAssertion: Assertion
@@ -7155,6 +7630,7 @@ I am a generated type!
 """
 type DeviceStatus {
   id: UUID!
+  tenantId: UUID
   lastAppstoreActivity: DateTime
   lastMessagingActivity: DateTime
   lastInstallStateSha3: String
@@ -7167,6 +7643,7 @@ type DeviceStatus {
   isOnline: Boolean!
   lastUptime: Long!
   modifiedAt: DateTime
+  tenant: DomainTenant
   device: Device!
 }
 
@@ -7212,8 +7689,10 @@ I am a generated type!
 """
 type DomainAsset {
   assetId: UUID!
+  tenantId: UUID
   deviceId: UUID
   serialNumber: String!
+  tenant: DomainTenant
   device: Device!
   asset: Asset
 }
@@ -7226,6 +7705,10 @@ type DomainTenant {
   tenantName: String!
   alias: String!
   rowVersion: Long!
+}
+
+type DownloadAppRevisionBomResponse {
+  downloadUrl: String!
 }
 
 type DownloadAppRevisionResponse {
@@ -7643,6 +8126,7 @@ I am a generated type!
 """
 type PendingAction {
   id: UUID!
+  tenantId: UUID
   deviceId: UUID!
   appId: UUID!
   installedAppRevisionId: UUID
@@ -7654,6 +8138,7 @@ type PendingAction {
   createdAt: DateTime!
   modifiedBy: UUID
   modifiedAt: DateTime
+  tenant: DomainTenant
   app: App!
   device: Device!
   installedAppRevision: AppRevision
@@ -7951,6 +8436,12 @@ type SnapVisibilityPolicyCollectionSegment {
   totalCount: Int!
 }
 
+type StatusCountDto {
+  status: String!
+  displayName: String!
+  count: Int!
+}
+
 type StoreInfo {
   runtimeVersion: String!
   version: String!
@@ -7995,10 +8486,182 @@ type UploadSnapOutput {
   continuesToken: String!
 }
 
+type UserTenantStoreSetting {
+  isStoreOwnerTenant: Boolean!
+}
+
 type VirtualDeviceContainerRegistryCredentialsOutput {
   containerRegistryUri: String!
   username: String!
   password: String!
+}
+
+"""
+I am a generated type!
+"""
+type Vulnerability {
+  cveId: String!
+  cvssScore: Decimal
+  cvssSeverity: String!
+  cvssVector: String
+  publishedDate: DateTime
+  modifiedDate: DateTime
+  statusCounts: [StatusCountDto!]!
+  sources: [String!]!
+  componentCount: Int!
+  id: UUID!
+  dependencyTrackVulnUuid: UUID
+  source: String!
+  epssScore: Decimal
+  epssPercentile: Decimal
+  title: String
+  isManuallyCreated: Boolean!
+  description: String
+  recommendation: String
+  detectedAt: DateTime!
+  cweId: Int
+  cweName: String
+  isKnownExploited: Boolean!
+  kevDateAdded: DateTime
+  createdBy: UUID
+  createdAt: DateTime!
+  modifiedBy: UUID
+  lastChangedAt: DateTime!
+}
+
+type VulnerabilityCollectionSegment {
+  items: [Vulnerability!]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: CollectionSegmentInfo!
+  totalCount: Int!
+}
+
+"""
+I am a generated type!
+"""
+type VulnerabilityFinding {
+  vulnerabilityStatusChanges(
+    where: VulnerabilityStatusChangeFilterInput
+    order: [VulnerabilityStatusChangeSortInput!]
+  ): [VulnerabilityStatusChange!]!
+  status: VulnerabilityStatus!
+  firstSeen: DateTime!
+  lastSeen: DateTime!
+  id: UUID!
+  tenantId: UUID!
+  vulnerabilityId: UUID!
+  componentId: UUID!
+  appRevisionId: UUID!
+  vulnerabilityStatusId: UUID!
+  resolvedAt: DateTime
+  vulnerabilityScanInfoId: UUID
+  dependencyTrackProjectUuid: UUID
+  isSuppressed: Boolean!
+  matrix: String
+  createdBy: UUID
+  tenant: DomainTenant!
+  vulnerability: Vulnerability!
+  component: Component!
+  appRevision: AppRevision!
+  vulnerabilityScanInfo: VulnerabilityScanInfo
+}
+
+type VulnerabilityFindingCollectionSegment {
+  items: [VulnerabilityFinding!]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: CollectionSegmentInfo!
+  totalCount: Int!
+}
+
+"""
+I am a generated type!
+"""
+type VulnerabilityScanInfo {
+  id: UUID!
+  tenantId: UUID
+  lastSyncedAt: DateTime!
+  lastDtQueryAt: DateTime
+  syncStatus: String
+  errorMessage: String
+  scanSource: DependencyTrackScanSource!
+  appRevisionId: UUID!
+  modifiedBy: UUID
+  modifiedAt: DateTime
+  tenant: DomainTenant
+  appRevision: AppRevision!
+}
+
+type VulnerabilityScanInfoCollectionSegment {
+  items: [VulnerabilityScanInfo!]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: CollectionSegmentInfo!
+  totalCount: Int!
+}
+
+"""
+I am a generated type!
+"""
+type VulnerabilityStatus {
+  logBooks(
+    where: EntityLogBookFilterInput
+    order: [EntityLogBookSortInput!]
+  ): [EntityLogBook!]!
+  changeSets(
+    where: EntityChangeSetFilterInput
+    order: [EntityChangeSetSortInput!]
+  ): [EntityChangeSet!]!
+  id: UUID!
+  name: String!
+  displayName: String!
+  sortOrder: Int!
+  isTerminal: Boolean!
+  entityIdentifier: EntityIdentifier
+}
+
+"""
+I am a generated type!
+"""
+type VulnerabilityStatusChange {
+  id: UUID!
+  tenantId: UUID!
+  vulnerabilityFindingId: UUID!
+  previousVulnerabilityStatusId: UUID
+  newVulnerabilityStatusId: UUID!
+  reason: String!
+  createdBy: UUID
+  createdAt: DateTime!
+  tenant: DomainTenant!
+  previousVulnerabilityStatus: VulnerabilityStatus
+  newVulnerabilityStatus: VulnerabilityStatus!
+}
+
+type VulnerabilityStatusChangeCollectionSegment {
+  items: [VulnerabilityStatusChange!]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: CollectionSegmentInfo!
+  totalCount: Int!
+}
+
+type VulnerabilityStatusCollectionSegment {
+  items: [VulnerabilityStatus!]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: CollectionSegmentInfo!
+  totalCount: Int!
 }
 
 """
@@ -8014,8 +8677,11 @@ input AppFilterInput {
   appName: StringOperationFilterInput
   description: StringOperationFilterInput
   summary: StringOperationFilterInput
+  isGloballyShared: BooleanOperationFilterInput
   createdBy: ComparableNullableOfGuidOperationFilterInput
   createdAt: ComparableDateTimeOperationFilterInput
+  globallySharedAt: ComparableNullableOfDateTimeOperationFilterInput
+  globallySharedBy: ComparableNullableOfGuidOperationFilterInput
   modifiedBy: ComparableNullableOfGuidOperationFilterInput
   modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
   lastChangedAt: ComparableDateTimeOperationFilterInput
@@ -8035,8 +8701,10 @@ input AppFirmwareFilterInput {
   and: [AppFirmwareFilterInput!]
   or: [AppFirmwareFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deviceModelId: ComparableGuidOperationFilterInput
   app: AppFilterInput
+  tenant: DomainTenantFilterInput
   deviceModel: DeviceModelFilterInput
 }
 
@@ -8059,9 +8727,61 @@ I am a generated type!
 """
 input AppFirmwareSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deviceModelId: SortEnumType
   app: AppSortInput
+  tenant: DomainTenantSortInput
   deviceModel: DeviceModelSortInput
+}
+
+input AppGlobalShareInput {
+  id: UUID!
+  _tag: String
+}
+
+input AppRevisionBomCreateInput {
+  appRevisionId: UUID!
+  sbomContentBase64: String!
+}
+
+input AppRevisionBomDownloadInput {
+  id: UUID!
+}
+
+"""
+I am a generated type!
+"""
+input AppRevisionBomFilterInput {
+  and: [AppRevisionBomFilterInput!]
+  or: [AppRevisionBomFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  tenantId: ComparableGuidOperationFilterInput
+  appRevisionId: ComparableGuidOperationFilterInput
+  downloadSize: ComparableInt64OperationFilterInput
+  bomFormat: BomFormatOperationFilterInput
+  hashSha3: StringOperationFilterInput
+  dependencyTrackToken: ComparableNullableOfGuidOperationFilterInput
+  createdBy: ComparableNullableOfGuidOperationFilterInput
+  createdAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
+  appRevision: AppRevisionFilterInput
+}
+
+"""
+I am a generated type!
+"""
+input AppRevisionBomSortInput {
+  id: SortEnumType
+  tenantId: SortEnumType
+  appRevisionId: SortEnumType
+  downloadSize: SortEnumType
+  bomFormat: SortEnumType
+  hashSha3: SortEnumType
+  dependencyTrackToken: SortEnumType
+  createdBy: SortEnumType
+  createdAt: SortEnumType
+  tenant: DomainTenantSortInput
+  appRevision: AppRevisionSortInput
 }
 
 input AppRevisionCompleteUploadInput {
@@ -8076,12 +8796,14 @@ input AppRevisionDeltaFilterInput {
   and: [AppRevisionDeltaFilterInput!]
   or: [AppRevisionDeltaFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   fromAppRevisionId: ComparableGuidOperationFilterInput
   toAppRevisionId: ComparableGuidOperationFilterInput
   deltaFileName: StringOperationFilterInput
   deltaSha3: StringOperationFilterInput
   deltaDownloadSize: ComparableInt64OperationFilterInput
   calculatedAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
   fromAppRevision: AppRevisionFilterInput
   toAppRevision: AppRevisionFilterInput
 }
@@ -8091,12 +8813,14 @@ I am a generated type!
 """
 input AppRevisionDeltaSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   fromAppRevisionId: SortEnumType
   toAppRevisionId: SortEnumType
   deltaFileName: SortEnumType
   deltaSha3: SortEnumType
   deltaDownloadSize: SortEnumType
   calculatedAt: SortEnumType
+  tenant: DomainTenantSortInput
   fromAppRevision: AppRevisionSortInput
   toAppRevision: AppRevisionSortInput
 }
@@ -8126,10 +8850,13 @@ input AppRevisionFilterInput {
   downloadSize: ComparableInt64OperationFilterInput
   fileName: StringOperationFilterInput
   metadataYaml: StringOperationFilterInput
+  dependencyTrackProjectId: ComparableNullableOfGuidOperationFilterInput
   gitCommitHash: StringOperationFilterInput
   monopolVersion: StringOperationFilterInput
   upstreamVersion: StringOperationFilterInput
   buildDateTime: ComparableNullableOfDateTimeOperationFilterInput
+  activeCriticalVulnerabilityCount: ComparableInt32OperationFilterInput
+  activeHighVulnerabilityCount: ComparableInt32OperationFilterInput
   createdBy: ComparableNullableOfGuidOperationFilterInput
   createdAt: ComparableDateTimeOperationFilterInput
   modifiedBy: ComparableNullableOfGuidOperationFilterInput
@@ -8144,6 +8871,8 @@ input AppRevisionFilterInput {
   deviceInstallStates: ListFilterInputTypeOfDeviceInstallStateFilterInput
   fromAppRevisionDeltas: ListFilterInputTypeOfAppRevisionDeltaFilterInput
   toAppRevisionDeltas: ListFilterInputTypeOfAppRevisionDeltaFilterInput
+  appRevisionBoms: ListFilterInputTypeOfAppRevisionBomFilterInput
+  vulnerabilityFindings: ListFilterInputTypeOfVulnerabilityFindingFilterInput
   entityIdentifier: EntityIdentifierFilterInput
 }
 
@@ -8154,6 +8883,7 @@ input AppRevisionFirmwareFilterInput {
   and: [AppRevisionFirmwareFilterInput!]
   or: [AppRevisionFirmwareFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   vendorId: StringOperationFilterInput
   classId: StringOperationFilterInput
   primaryFirmwareFileName: StringOperationFilterInput
@@ -8166,6 +8896,7 @@ input AppRevisionFirmwareFilterInput {
   secondaryFirmwareOffset: ComparableInt32OperationFilterInput
   secondaryFirmwareDigestSha256: StringOperationFilterInput
   secondaryFirmwareInstallSizeBytes: ComparableInt64OperationFilterInput
+  tenant: DomainTenantFilterInput
   appRevision: AppRevisionFilterInput
 }
 
@@ -8176,6 +8907,7 @@ input AppRevisionFirmwareManifestFilterInput {
   and: [AppRevisionFirmwareManifestFilterInput!]
   or: [AppRevisionFirmwareManifestFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   appRevisionId: ComparableGuidOperationFilterInput
   sequenceNumber: ComparableInt32OperationFilterInput
   manifestBase64: StringOperationFilterInput
@@ -8183,6 +8915,7 @@ input AppRevisionFirmwareManifestFilterInput {
   manifestEdgeDeviceIp: StringOperationFilterInput
   createdBy: ComparableNullableOfGuidOperationFilterInput
   createdAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
   appRevision: AppRevisionFilterInput
 }
 
@@ -8191,6 +8924,7 @@ I am a generated type!
 """
 input AppRevisionFirmwareManifestSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   appRevisionId: SortEnumType
   sequenceNumber: SortEnumType
   manifestBase64: SortEnumType
@@ -8198,6 +8932,7 @@ input AppRevisionFirmwareManifestSortInput {
   manifestEdgeDeviceIp: SortEnumType
   createdBy: SortEnumType
   createdAt: SortEnumType
+  tenant: DomainTenantSortInput
   appRevision: AppRevisionSortInput
 }
 
@@ -8206,6 +8941,7 @@ I am a generated type!
 """
 input AppRevisionFirmwareSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   vendorId: SortEnumType
   classId: SortEnumType
   primaryFirmwareFileName: SortEnumType
@@ -8218,6 +8954,7 @@ input AppRevisionFirmwareSortInput {
   secondaryFirmwareOffset: SortEnumType
   secondaryFirmwareDigestSha256: SortEnumType
   secondaryFirmwareInstallSizeBytes: SortEnumType
+  tenant: DomainTenantSortInput
   appRevision: AppRevisionSortInput
 }
 
@@ -8238,10 +8975,12 @@ input AppRevisionSnapFilterInput {
   and: [AppRevisionSnapFilterInput!]
   or: [AppRevisionSnapFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   assertionId: ComparableGuidOperationFilterInput
   appSnapAssertionId: ComparableNullableOfGuidOperationFilterInput
   snapBase: StringOperationFilterInput
   nonVersionHashSha3Base64Url: StringOperationFilterInput
+  tenant: DomainTenantFilterInput
   appRevision: AppRevisionFilterInput
   assertion: AssertionFilterInput
   appSnapAssertion: AssertionFilterInput
@@ -8252,10 +8991,12 @@ I am a generated type!
 """
 input AppRevisionSnapSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   assertionId: SortEnumType
   appSnapAssertionId: SortEnumType
   snapBase: SortEnumType
   nonVersionHashSha3Base64Url: SortEnumType
+  tenant: DomainTenantSortInput
   appRevision: AppRevisionSortInput
   assertion: AssertionSortInput
   appSnapAssertion: AssertionSortInput
@@ -8280,10 +9021,13 @@ input AppRevisionSortInput {
   downloadSize: SortEnumType
   fileName: SortEnumType
   metadataYaml: SortEnumType
+  dependencyTrackProjectId: SortEnumType
   gitCommitHash: SortEnumType
   monopolVersion: SortEnumType
   upstreamVersion: SortEnumType
   buildDateTime: SortEnumType
+  activeCriticalVulnerabilityCount: SortEnumType
+  activeHighVulnerabilityCount: SortEnumType
   createdBy: SortEnumType
   createdAt: SortEnumType
   modifiedBy: SortEnumType
@@ -8350,11 +9094,13 @@ input AppSnapFilterInput {
   and: [AppSnapFilterInput!]
   or: [AppSnapFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   snapTypeId: ComparableGuidOperationFilterInput
   assertionId: ComparableGuidOperationFilterInput
   snapCategoryId: ComparableNullableOfGuidOperationFilterInput
   snapId: StringOperationFilterInput
   snapBase: StringOperationFilterInput
+  tenant: DomainTenantFilterInput
   app: AppFilterInput
   snapType: SnapTypeFilterInput
   snapCategory: SnapCategoryFilterInput
@@ -8366,11 +9112,13 @@ I am a generated type!
 """
 input AppSnapSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   snapTypeId: SortEnumType
   assertionId: SortEnumType
   snapCategoryId: SortEnumType
   snapId: SortEnumType
   snapBase: SortEnumType
+  tenant: DomainTenantSortInput
   app: AppSortInput
   snapType: SnapTypeSortInput
   snapCategory: SnapCategorySortInput
@@ -8388,8 +9136,11 @@ input AppSortInput {
   appName: SortEnumType
   description: SortEnumType
   summary: SortEnumType
+  isGloballyShared: SortEnumType
   createdBy: SortEnumType
   createdAt: SortEnumType
+  globallySharedAt: SortEnumType
+  globallySharedBy: SortEnumType
   modifiedBy: SortEnumType
   modifiedAt: SortEnumType
   lastChangedAt: SortEnumType
@@ -8526,12 +9277,17 @@ input AssertionFilterInput {
   and: [AssertionFilterInput!]
   or: [AssertionFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   assertionTypeId: ComparableGuidOperationFilterInput
   assertionBody: StringOperationFilterInput
   assertionBodyNoNewlinesSha384: StringOperationFilterInput
   revision: ComparableInt32OperationFilterInput
+  isGloballyShared: BooleanOperationFilterInput
   createdAt: ComparableDateTimeOperationFilterInput
   createdBy: ComparableNullableOfGuidOperationFilterInput
+  globallySharedAt: ComparableNullableOfDateTimeOperationFilterInput
+  globallySharedBy: ComparableNullableOfGuidOperationFilterInput
+  tenant: DomainTenantFilterInput
   assertionType: AssertionTypeFilterInput
   storeSettings: ListFilterInputTypeOfStoreSettingFilterInput
   edgeDevicesWhenModelAssertion: ListFilterInputTypeOfEdgeDeviceFilterInput
@@ -8552,12 +9308,17 @@ I am a generated type!
 """
 input AssertionSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   assertionTypeId: SortEnumType
   assertionBody: SortEnumType
   assertionBodyNoNewlinesSha384: SortEnumType
   revision: SortEnumType
+  isGloballyShared: SortEnumType
   createdAt: SortEnumType
   createdBy: SortEnumType
+  globallySharedAt: SortEnumType
+  globallySharedBy: SortEnumType
+  tenant: DomainTenantSortInput
   assertionType: AssertionTypeSortInput
 }
 
@@ -8685,6 +9446,7 @@ input BlobDownloadLinkFilterInput {
   and: [BlobDownloadLinkFilterInput!]
   or: [BlobDownloadLinkFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deviceId: ComparableGuidOperationFilterInput
   appRevisionId: ComparableNullableOfGuidOperationFilterInput
   appRevisionDeltaId: ComparableNullableOfGuidOperationFilterInput
@@ -8696,6 +9458,7 @@ input BlobDownloadLinkFilterInput {
   modifiedBy: ComparableNullableOfGuidOperationFilterInput
   modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
   lastChangedAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
   device: DeviceFilterInput
   appRevision: AppRevisionFilterInput
   appRevisionDelta: AppRevisionDeltaFilterInput
@@ -8707,6 +9470,7 @@ I am a generated type!
 """
 input BlobDownloadLinkSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deviceId: SortEnumType
   appRevisionId: SortEnumType
   appRevisionDeltaId: SortEnumType
@@ -8718,10 +9482,18 @@ input BlobDownloadLinkSortInput {
   modifiedBy: SortEnumType
   modifiedAt: SortEnumType
   lastChangedAt: SortEnumType
+  tenant: DomainTenantSortInput
   device: DeviceSortInput
   appRevision: AppRevisionSortInput
   appRevisionDelta: AppRevisionDeltaSortInput
   entityIdentifier: EntityIdentifierSortInput
+}
+
+input BomFormatOperationFilterInput {
+  eq: BomFormat
+  neq: BomFormat
+  in: [BomFormat!]
+  nin: [BomFormat!]
 }
 
 input ComparableInt32OperationFilterInput {
@@ -8737,6 +9509,89 @@ input ComparableInt32OperationFilterInput {
   nlt: Int
   lte: Int
   nlte: Int
+}
+
+input ComponentCreateInput {
+  componentGroup: String
+  name: String!
+  version: String!
+  purl: String!
+  type: String!
+  appRevisionId: UUID!
+  _tag: String
+  createdBy: UUID
+  createdAt: DateTime
+}
+
+"""
+I am a generated type!
+"""
+input ComponentFilterInput {
+  and: [ComponentFilterInput!]
+  or: [ComponentFilterInput!]
+  purl: StringOperationFilterInput
+  name: StringOperationFilterInput
+  version: StringOperationFilterInput
+  type: StringOperationFilterInput
+  id: ComparableGuidOperationFilterInput
+  dependencyTrackComponentUuid: ComparableGuidOperationFilterInput
+  componentGroup: StringOperationFilterInput
+  isManuallyCreated: BooleanOperationFilterInput
+  createdBy: ComparableNullableOfGuidOperationFilterInput
+  createdAt: ComparableDateTimeOperationFilterInput
+}
+
+input ComponentSetNullInput {
+  componentGroup: Boolean
+}
+
+"""
+I am a generated type!
+"""
+input ComponentSortInput {
+  purl: SortEnumType
+  name: SortEnumType
+  version: SortEnumType
+  type: SortEnumType
+  id: SortEnumType
+  dependencyTrackComponentUuid: SortEnumType
+  componentGroup: SortEnumType
+  isManuallyCreated: SortEnumType
+  createdBy: SortEnumType
+  createdAt: SortEnumType
+}
+
+input ComponentUpdateInput {
+  id: UUID!
+  componentGroup: String
+  componentName: String
+  componentVersion: String
+  componentPurl: String
+  componentType: String
+  _tag: String
+  setNull: ComponentSetNullInput
+
+  """
+  NotMapped=true
+  """
+  tenantId: UUID
+  createdBy: UUID
+  createdAt: DateTime
+
+  """
+  NotMapped=true
+  """
+  deletedBy: UUID
+
+  """
+  NotMapped=true
+  """
+  deletedAt: DateTime
+
+  """
+  NotMapped=true
+  """
+  isDeleted: Boolean
 }
 
 input CreateModelAssertionCommandInput {
@@ -8759,6 +9614,13 @@ input DataMesssageDownloadInput {
   dateTime: DateTime!
 }
 
+input DependencyTrackScanSourceOperationFilterInput {
+  eq: DependencyTrackScanSource
+  neq: DependencyTrackScanSource
+  in: [DependencyTrackScanSource!]
+  nin: [DependencyTrackScanSource!]
+}
+
 input DeploymentGroupAdministratorCreateInput {
   deploymentGroupId: UUID!
   userId: UUID!
@@ -8774,6 +9636,7 @@ input DeploymentGroupAdministratorFilterInput {
   and: [DeploymentGroupAdministratorFilterInput!]
   or: [DeploymentGroupAdministratorFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deploymentGroupId: ComparableGuidOperationFilterInput
   userId: ComparableGuidOperationFilterInput
   createdBy: ComparableNullableOfGuidOperationFilterInput
@@ -8781,6 +9644,7 @@ input DeploymentGroupAdministratorFilterInput {
   modifiedBy: ComparableNullableOfGuidOperationFilterInput
   modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
   lastChangedAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
   deploymentGroup: DeploymentGroupFilterInput
   entityIdentifier: EntityIdentifierFilterInput
 }
@@ -8806,6 +9670,7 @@ I am a generated type!
 """
 input DeploymentGroupAdministratorSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deploymentGroupId: SortEnumType
   userId: SortEnumType
   createdBy: SortEnumType
@@ -8813,6 +9678,7 @@ input DeploymentGroupAdministratorSortInput {
   modifiedBy: SortEnumType
   modifiedAt: SortEnumType
   lastChangedAt: SortEnumType
+  tenant: DomainTenantSortInput
   deploymentGroup: DeploymentGroupSortInput
   entityIdentifier: EntityIdentifierSortInput
 }
@@ -8851,6 +9717,7 @@ input DeploymentGroupBridgeAppRevisionFilterInput {
   and: [DeploymentGroupBridgeAppRevisionFilterInput!]
   or: [DeploymentGroupBridgeAppRevisionFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deploymentGroupId: ComparableGuidOperationFilterInput
   appRevisionId: ComparableGuidOperationFilterInput
   isCoreApp: BooleanOperationFilterInput
@@ -8859,6 +9726,7 @@ input DeploymentGroupBridgeAppRevisionFilterInput {
   modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
   modifiedBy: ComparableNullableOfGuidOperationFilterInput
   lastChangedAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
   deploymentGroup: DeploymentGroupFilterInput
   appRevision: AppRevisionFilterInput
   entityIdentifier: EntityIdentifierFilterInput
@@ -8890,6 +9758,7 @@ I am a generated type!
 """
 input DeploymentGroupBridgeAppRevisionSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deploymentGroupId: SortEnumType
   appRevisionId: SortEnumType
   isCoreApp: SortEnumType
@@ -8898,6 +9767,7 @@ input DeploymentGroupBridgeAppRevisionSortInput {
   modifiedAt: SortEnumType
   modifiedBy: SortEnumType
   lastChangedAt: SortEnumType
+  tenant: DomainTenantSortInput
   deploymentGroup: DeploymentGroupSortInput
   appRevision: AppRevisionSortInput
   entityIdentifier: EntityIdentifierSortInput
@@ -8937,6 +9807,7 @@ input DeploymentGroupBridgeDeploymentGroupTagFilterInput {
   and: [DeploymentGroupBridgeDeploymentGroupTagFilterInput!]
   or: [DeploymentGroupBridgeDeploymentGroupTagFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deploymentGroupId: ComparableGuidOperationFilterInput
   deploymentGroupTagId: ComparableGuidOperationFilterInput
   createdBy: ComparableNullableOfGuidOperationFilterInput
@@ -8944,6 +9815,7 @@ input DeploymentGroupBridgeDeploymentGroupTagFilterInput {
   modifiedBy: ComparableNullableOfGuidOperationFilterInput
   modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
   lastChangedAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
   deploymentGroup: DeploymentGroupFilterInput
   deploymentGroupTag: DeploymentGroupTagFilterInput
   entityIdentifier: EntityIdentifierFilterInput
@@ -8960,6 +9832,7 @@ I am a generated type!
 """
 input DeploymentGroupBridgeDeploymentGroupTagSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deploymentGroupId: SortEnumType
   deploymentGroupTagId: SortEnumType
   createdBy: SortEnumType
@@ -8967,6 +9840,7 @@ input DeploymentGroupBridgeDeploymentGroupTagSortInput {
   modifiedBy: SortEnumType
   modifiedAt: SortEnumType
   lastChangedAt: SortEnumType
+  tenant: DomainTenantSortInput
   deploymentGroup: DeploymentGroupSortInput
   deploymentGroupTag: DeploymentGroupTagSortInput
   entityIdentifier: EntityIdentifierSortInput
@@ -9046,17 +9920,21 @@ input DeploymentGroupFilterInput {
   and: [DeploymentGroupFilterInput!]
   or: [DeploymentGroupFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deviceModelRevisionId: ComparableGuidOperationFilterInput
   autoUpdateModeId: ComparableGuidOperationFilterInput
   ownerUserId: ComparableGuidOperationFilterInput
   name: StringOperationFilterInput
   description: StringOperationFilterInput
   isDeltaUpdateOnly: BooleanOperationFilterInput
+  activeCriticalVulnerabilityCount: ComparableInt32OperationFilterInput
+  activeHighVulnerabilityCount: ComparableInt32OperationFilterInput
   createdBy: ComparableNullableOfGuidOperationFilterInput
   createdAt: ComparableDateTimeOperationFilterInput
   modifiedBy: ComparableNullableOfGuidOperationFilterInput
   modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
   lastChangedAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
   deviceModelRevision: DeviceModelRevisionFilterInput
   autoUpdateMode: AutoUpdateModeFilterInput
   deploymentGroupAdministrators: ListFilterInputTypeOfDeploymentGroupAdministratorFilterInput
@@ -9109,17 +9987,21 @@ I am a generated type!
 """
 input DeploymentGroupSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deviceModelRevisionId: SortEnumType
   autoUpdateModeId: SortEnumType
   ownerUserId: SortEnumType
   name: SortEnumType
   description: SortEnumType
   isDeltaUpdateOnly: SortEnumType
+  activeCriticalVulnerabilityCount: SortEnumType
+  activeHighVulnerabilityCount: SortEnumType
   createdBy: SortEnumType
   createdAt: SortEnumType
   modifiedBy: SortEnumType
   modifiedAt: SortEnumType
   lastChangedAt: SortEnumType
+  tenant: DomainTenantSortInput
   deviceModelRevision: DeviceModelRevisionSortInput
   autoUpdateMode: AutoUpdateModeSortInput
   entityIdentifier: EntityIdentifierSortInput
@@ -9138,11 +10020,13 @@ input DeploymentGroupTagFilterInput {
   or: [DeploymentGroupTagFilterInput!]
   deploymentGroupTagValue: StringOperationFilterInput
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   createdBy: ComparableNullableOfGuidOperationFilterInput
   createdAt: ComparableDateTimeOperationFilterInput
   modifiedBy: ComparableNullableOfGuidOperationFilterInput
   modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
   lastChangedAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
   deploymentGroupBridgeDeploymentGroupTags: ListFilterInputTypeOfDeploymentGroupBridgeDeploymentGroupTagFilterInput
   entityIdentifier: EntityIdentifierFilterInput
 }
@@ -9153,11 +10037,13 @@ I am a generated type!
 input DeploymentGroupTagSortInput {
   deploymentGroupTagValue: SortEnumType
   id: SortEnumType
+  tenantId: SortEnumType
   createdBy: SortEnumType
   createdAt: SortEnumType
   modifiedBy: SortEnumType
   modifiedAt: SortEnumType
   lastChangedAt: SortEnumType
+  tenant: DomainTenantSortInput
   entityIdentifier: EntityIdentifierSortInput
 }
 
@@ -9188,12 +10074,14 @@ input DeviceDailyMessagingActivityFilterInput {
   and: [DeviceDailyMessagingActivityFilterInput!]
   or: [DeviceDailyMessagingActivityFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deviceId: ComparableGuidOperationFilterInput
   moduleInstanceId: ComparableGuidOperationFilterInput
   date: ComparableDateTimeOperationFilterInput
   dataMessagesReceived: ComparableInt64OperationFilterInput
   signalMessagesReceived: ComparableInt64OperationFilterInput
   bytesReceived: ComparableInt64OperationFilterInput
+  tenant: DomainTenantFilterInput
   device: DeviceFilterInput
 }
 
@@ -9202,12 +10090,14 @@ I am a generated type!
 """
 input DeviceDailyMessagingActivitySortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deviceId: SortEnumType
   moduleInstanceId: SortEnumType
   date: SortEnumType
   dataMessagesReceived: SortEnumType
   signalMessagesReceived: SortEnumType
   bytesReceived: SortEnumType
+  tenant: DomainTenantSortInput
   device: DeviceSortInput
 }
 
@@ -9218,6 +10108,7 @@ input DeviceFilterInput {
   and: [DeviceFilterInput!]
   or: [DeviceFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deviceTypeId: ComparableGuidOperationFilterInput
   deviceModelRevisionId: ComparableGuidOperationFilterInput
   deploymentGroupId: ComparableNullableOfGuidOperationFilterInput
@@ -9230,11 +10121,14 @@ input DeviceFilterInput {
   isUpdateActivated: BooleanOperationFilterInput
   description: StringOperationFilterInput
   manufacturer: StringOperationFilterInput
+  registrationJson: StringOperationFilterInput
+  registrationJsonFormatVersion: ComparableNullableOfInt32OperationFilterInput
   createdBy: ComparableNullableOfGuidOperationFilterInput
   createdAt: ComparableDateTimeOperationFilterInput
   modifiedBy: ComparableNullableOfGuidOperationFilterInput
   modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
   lastChangedAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
   deviceModelRevision: DeviceModelRevisionFilterInput
   deviceType: DeviceTypeFilterInput
   deploymentGroup: DeploymentGroupFilterInput
@@ -9256,8 +10150,46 @@ input DeviceFirmwareFilterInput {
   and: [DeviceFirmwareFilterInput!]
   or: [DeviceFirmwareFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   mcuId: StringOperationFilterInput
+  tenant: DomainTenantFilterInput
   device: DeviceFilterInput
+}
+
+"""
+I am a generated type!
+"""
+input DeviceFirmwareSequenceHistoryFilterInput {
+  and: [DeviceFirmwareSequenceHistoryFilterInput!]
+  or: [DeviceFirmwareSequenceHistoryFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
+  deviceId: ComparableGuidOperationFilterInput
+  sequenceNumber: ComparableInt32OperationFilterInput
+  appRevisionId: ComparableGuidOperationFilterInput
+  appRevisionFirmwareManifestId: ComparableNullableOfGuidOperationFilterInput
+  observedAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
+  device: DeviceFilterInput
+  appRevision: AppRevisionFilterInput
+  appRevisionFirmwareManifest: AppRevisionFirmwareManifestFilterInput
+}
+
+"""
+I am a generated type!
+"""
+input DeviceFirmwareSequenceHistorySortInput {
+  id: SortEnumType
+  tenantId: SortEnumType
+  deviceId: SortEnumType
+  sequenceNumber: SortEnumType
+  appRevisionId: SortEnumType
+  appRevisionFirmwareManifestId: SortEnumType
+  observedAt: SortEnumType
+  tenant: DomainTenantSortInput
+  device: DeviceSortInput
+  appRevision: AppRevisionSortInput
+  appRevisionFirmwareManifest: AppRevisionFirmwareManifestSortInput
 }
 
 """
@@ -9265,7 +10197,9 @@ I am a generated type!
 """
 input DeviceFirmwareSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   mcuId: SortEnumType
+  tenant: DomainTenantSortInput
   device: DeviceSortInput
 }
 
@@ -9276,11 +10210,14 @@ input DeviceInstallStateFilterInput {
   and: [DeviceInstallStateFilterInput!]
   or: [DeviceInstallStateFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deviceId: ComparableGuidOperationFilterInput
   appRevisionId: ComparableGuidOperationFilterInput
-  appRevisionFirmwareManifestId: ComparableNullableOfGuidOperationFilterInput
+  deviceFirmwareSequenceHistoryId: ComparableNullableOfGuidOperationFilterInput
+  tenant: DomainTenantFilterInput
   device: DeviceFilterInput
   appRevision: AppRevisionFilterInput
+  deviceFirmwareSequenceHistory: DeviceFirmwareSequenceHistoryFilterInput
 }
 
 """
@@ -9290,15 +10227,17 @@ input DeviceInstallStateHistoryFilterInput {
   and: [DeviceInstallStateHistoryFilterInput!]
   or: [DeviceInstallStateHistoryFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deviceId: ComparableGuidOperationFilterInput
   appRevisionId: ComparableGuidOperationFilterInput
-  appRevisionFirmwareManifestId: ComparableNullableOfGuidOperationFilterInput
+  deviceFirmwareSequenceHistoryId: ComparableNullableOfGuidOperationFilterInput
   changeSetId: ComparableGuidOperationFilterInput
   dateTime: ComparableDateTimeOperationFilterInput
   action: StringOperationFilterInput
+  tenant: DomainTenantFilterInput
   device: DeviceFilterInput
   appRevision: AppRevisionFilterInput
-  appRevisionFirmwareManifest: AppRevisionFirmwareManifestFilterInput
+  deviceFirmwareSequenceHistory: DeviceFirmwareSequenceHistoryFilterInput
 }
 
 """
@@ -9306,15 +10245,17 @@ I am a generated type!
 """
 input DeviceInstallStateHistorySortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deviceId: SortEnumType
   appRevisionId: SortEnumType
-  appRevisionFirmwareManifestId: SortEnumType
+  deviceFirmwareSequenceHistoryId: SortEnumType
   changeSetId: SortEnumType
   dateTime: SortEnumType
   action: SortEnumType
+  tenant: DomainTenantSortInput
   device: DeviceSortInput
   appRevision: AppRevisionSortInput
-  appRevisionFirmwareManifest: AppRevisionFirmwareManifestSortInput
+  deviceFirmwareSequenceHistory: DeviceFirmwareSequenceHistorySortInput
 }
 
 """
@@ -9322,11 +10263,14 @@ I am a generated type!
 """
 input DeviceInstallStateSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deviceId: SortEnumType
   appRevisionId: SortEnumType
-  appRevisionFirmwareManifestId: SortEnumType
+  deviceFirmwareSequenceHistoryId: SortEnumType
+  tenant: DomainTenantSortInput
   device: DeviceSortInput
   appRevision: AppRevisionSortInput
+  deviceFirmwareSequenceHistory: DeviceFirmwareSequenceHistorySortInput
 }
 
 input DeviceModelCreateInput {
@@ -9351,18 +10295,28 @@ input DeviceModelFilterInput {
   and: [DeviceModelFilterInput!]
   or: [DeviceModelFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deviceTypeId: ComparableGuidOperationFilterInput
   modelName: StringOperationFilterInput
   architecture: ArchitectureOperationFilterInput
+  isGloballyShared: BooleanOperationFilterInput
   createdBy: ComparableNullableOfGuidOperationFilterInput
   createdAt: ComparableDateTimeOperationFilterInput
+  globallySharedAt: ComparableNullableOfDateTimeOperationFilterInput
+  globallySharedBy: ComparableNullableOfGuidOperationFilterInput
   modifiedBy: ComparableNullableOfGuidOperationFilterInput
   modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
   lastChangedAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
   deviceType: DeviceTypeFilterInput
   deviceModelRevisions: ListFilterInputTypeOfDeviceModelRevisionFilterInput
   appFirmwares: ListFilterInputTypeOfAppFirmwareFilterInput
   entityIdentifier: EntityIdentifierFilterInput
+}
+
+input DeviceModelGlobalShareInput {
+  id: UUID!
+  _tag: String
 }
 
 """
@@ -9372,8 +10326,10 @@ input DeviceModelRevisionBridgeAppFilterInput {
   and: [DeviceModelRevisionBridgeAppFilterInput!]
   or: [DeviceModelRevisionBridgeAppFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deviceModelRevisionId: ComparableGuidOperationFilterInput
   appId: ComparableGuidOperationFilterInput
+  tenant: DomainTenantFilterInput
   deviceModelRevision: DeviceModelRevisionFilterInput
   app: AppFilterInput
 }
@@ -9383,8 +10339,10 @@ I am a generated type!
 """
 input DeviceModelRevisionBridgeAppSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deviceModelRevisionId: SortEnumType
   appId: SortEnumType
+  tenant: DomainTenantSortInput
   deviceModelRevision: DeviceModelRevisionSortInput
   app: AppSortInput
 }
@@ -9396,17 +10354,21 @@ input DeviceModelRevisionFilterInput {
   and: [DeviceModelRevisionFilterInput!]
   or: [DeviceModelRevisionFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deviceModelId: ComparableGuidOperationFilterInput
   modelAssertionId: ComparableNullableOfGuidOperationFilterInput
   revision: ComparableNullableOfInt32OperationFilterInput
   isTpmRequired: BooleanOperationFilterInput
   isPreRegistrationRequired: BooleanOperationFilterInput
+  isDeviceProvisioningClaimRequired: BooleanOperationFilterInput
+  isAssetAutoCreationEnabled: BooleanOperationFilterInput
   uploadMessage: StringOperationFilterInput
   createdBy: ComparableNullableOfGuidOperationFilterInput
   createdAt: ComparableDateTimeOperationFilterInput
   modifiedBy: ComparableNullableOfGuidOperationFilterInput
   modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
   lastChangedAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
   deviceModel: DeviceModelFilterInput
   modelAssertion: AssertionFilterInput
   deviceModelRevisionSnap: DeviceModelRevisionSnapFilterInput
@@ -9426,6 +10388,16 @@ input DeviceModelRevisionSetNullInput {
   NotMapped=true
   """
   isPreRegistrationRequired: Boolean
+
+  """
+  NotMapped=true
+  """
+  isAssetAutoCreationEnabled: Boolean
+
+  """
+  NotMapped=true
+  """
+  isDeviceProvisioningClaimRequired: Boolean
 
   """
   NotMapped=true
@@ -9459,11 +10431,13 @@ input DeviceModelRevisionSnapFilterInput {
   and: [DeviceModelRevisionSnapFilterInput!]
   or: [DeviceModelRevisionSnapFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   base: StringOperationFilterInput
   grade: StringOperationFilterInput
   storageSafety: StringOperationFilterInput
   series: StringOperationFilterInput
   classic: BooleanOperationFilterInput
+  tenant: DomainTenantFilterInput
   deviceModelRevision: DeviceModelRevisionFilterInput
 }
 
@@ -9472,11 +10446,13 @@ I am a generated type!
 """
 input DeviceModelRevisionSnapSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   base: SortEnumType
   grade: SortEnumType
   storageSafety: SortEnumType
   series: SortEnumType
   classic: SortEnumType
+  tenant: DomainTenantSortInput
   deviceModelRevision: DeviceModelRevisionSortInput
 }
 
@@ -9485,17 +10461,21 @@ I am a generated type!
 """
 input DeviceModelRevisionSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deviceModelId: SortEnumType
   modelAssertionId: SortEnumType
   revision: SortEnumType
   isTpmRequired: SortEnumType
   isPreRegistrationRequired: SortEnumType
+  isDeviceProvisioningClaimRequired: SortEnumType
+  isAssetAutoCreationEnabled: SortEnumType
   uploadMessage: SortEnumType
   createdBy: SortEnumType
   createdAt: SortEnumType
   modifiedBy: SortEnumType
   modifiedAt: SortEnumType
   lastChangedAt: SortEnumType
+  tenant: DomainTenantSortInput
   deviceModel: DeviceModelSortInput
   modelAssertion: AssertionSortInput
   deviceModelRevisionSnap: DeviceModelRevisionSnapSortInput
@@ -9506,6 +10486,8 @@ input DeviceModelRevisionUpdateInput {
   id: UUID!
   isTpmRequired: Boolean
   isPreRegistrationRequired: Boolean
+  isAssetAutoCreationEnabled: Boolean
+  isDeviceProvisioningClaimRequired: Boolean
   _tag: String
   setNull: DeviceModelRevisionSetNullInput
 
@@ -9539,14 +10521,19 @@ I am a generated type!
 """
 input DeviceModelSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deviceTypeId: SortEnumType
   modelName: SortEnumType
   architecture: SortEnumType
+  isGloballyShared: SortEnumType
   createdBy: SortEnumType
   createdAt: SortEnumType
+  globallySharedAt: SortEnumType
+  globallySharedBy: SortEnumType
   modifiedBy: SortEnumType
   modifiedAt: SortEnumType
   lastChangedAt: SortEnumType
+  tenant: DomainTenantSortInput
   deviceType: DeviceTypeSortInput
   entityIdentifier: EntityIdentifierSortInput
 }
@@ -9568,6 +10555,47 @@ input DeviceModelUpdateInput {
   modifiedAt: DateTime
 }
 
+input DeviceProvisioningClaimCreateInput {
+  """
+  MinLength=0, MaxLength=64
+  """
+  token: String!
+}
+
+"""
+I am a generated type!
+"""
+input DeviceProvisioningClaimFilterInput {
+  and: [DeviceProvisioningClaimFilterInput!]
+  or: [DeviceProvisioningClaimFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  tenantId: ComparableGuidOperationFilterInput
+  deviceId: ComparableNullableOfGuidOperationFilterInput
+  token: StringOperationFilterInput
+  expiresAt: ComparableDateTimeOperationFilterInput
+  consumedAt: ComparableNullableOfDateTimeOperationFilterInput
+  createdBy: ComparableNullableOfGuidOperationFilterInput
+  createdAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
+  device: DeviceFilterInput
+}
+
+"""
+I am a generated type!
+"""
+input DeviceProvisioningClaimSortInput {
+  id: SortEnumType
+  tenantId: SortEnumType
+  deviceId: SortEnumType
+  token: SortEnumType
+  expiresAt: SortEnumType
+  consumedAt: SortEnumType
+  createdBy: SortEnumType
+  createdAt: SortEnumType
+  tenant: DomainTenantSortInput
+  device: DeviceSortInput
+}
+
 """
 I am a generated type!
 """
@@ -9575,6 +10603,7 @@ input DeviceRpcFilterInput {
   and: [DeviceRpcFilterInput!]
   or: [DeviceRpcFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deviceId: ComparableGuidOperationFilterInput
   commandId: StringOperationFilterInput
   command: StringOperationFilterInput
@@ -9585,6 +10614,7 @@ input DeviceRpcFilterInput {
   expiresAt: ComparableDateTimeOperationFilterInput
   createdAt: ComparableDateTimeOperationFilterInput
   createdBy: ComparableNullableOfGuidOperationFilterInput
+  tenant: DomainTenantFilterInput
   device: DeviceFilterInput
 }
 
@@ -9593,6 +10623,7 @@ I am a generated type!
 """
 input DeviceRpcSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deviceId: SortEnumType
   commandId: SortEnumType
   command: SortEnumType
@@ -9603,6 +10634,7 @@ input DeviceRpcSortInput {
   expiresAt: SortEnumType
   createdAt: SortEnumType
   createdBy: SortEnumType
+  tenant: DomainTenantSortInput
   device: DeviceSortInput
 }
 
@@ -9658,6 +10690,7 @@ input DeviceSnapFilterInput {
   and: [DeviceSnapFilterInput!]
   or: [DeviceSnapFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   serialAssertionId: ComparableGuidOperationFilterInput
   modelAssertionId: ComparableNullableOfGuidOperationFilterInput
 
@@ -9670,6 +10703,7 @@ input DeviceSnapFilterInput {
   deviceTpmEkPublicKey: StringOperationFilterInput
   isTpmRequired: BooleanOperationFilterInput
   uplinkMode: UplinkModeOperationFilterInput
+  tenant: DomainTenantFilterInput
   device: DeviceFilterInput
   serialAssertion: AssertionFilterInput
   modelAssertion: AssertionFilterInput
@@ -9719,6 +10753,7 @@ I am a generated type!
 """
 input DeviceSnapSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   serialAssertionId: SortEnumType
   modelAssertionId: SortEnumType
 
@@ -9731,6 +10766,7 @@ input DeviceSnapSortInput {
   deviceTpmEkPublicKey: SortEnumType
   isTpmRequired: SortEnumType
   uplinkMode: SortEnumType
+  tenant: DomainTenantSortInput
   device: DeviceSortInput
   serialAssertion: AssertionSortInput
   modelAssertion: AssertionSortInput
@@ -9779,6 +10815,7 @@ I am a generated type!
 """
 input DeviceSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deviceTypeId: SortEnumType
   deviceModelRevisionId: SortEnumType
   deploymentGroupId: SortEnumType
@@ -9791,11 +10828,14 @@ input DeviceSortInput {
   isUpdateActivated: SortEnumType
   description: SortEnumType
   manufacturer: SortEnumType
+  registrationJson: SortEnumType
+  registrationJsonFormatVersion: SortEnumType
   createdBy: SortEnumType
   createdAt: SortEnumType
   modifiedBy: SortEnumType
   modifiedAt: SortEnumType
   lastChangedAt: SortEnumType
+  tenant: DomainTenantSortInput
   deviceModelRevision: DeviceModelRevisionSortInput
   deviceType: DeviceTypeSortInput
   deploymentGroup: DeploymentGroupSortInput
@@ -9814,6 +10854,7 @@ input DeviceStatusFilterInput {
   and: [DeviceStatusFilterInput!]
   or: [DeviceStatusFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   lastAppstoreActivity: ComparableNullableOfDateTimeOperationFilterInput
   lastMessagingActivity: ComparableNullableOfDateTimeOperationFilterInput
   lastInstallStateSha3: StringOperationFilterInput
@@ -9826,6 +10867,7 @@ input DeviceStatusFilterInput {
   isOnline: BooleanOperationFilterInput
   lastUptime: ComparableInt64OperationFilterInput
   modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
   device: DeviceFilterInput
 }
 
@@ -9834,6 +10876,7 @@ I am a generated type!
 """
 input DeviceStatusSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   lastAppstoreActivity: SortEnumType
   lastMessagingActivity: SortEnumType
   lastInstallStateSha3: SortEnumType
@@ -9846,6 +10889,7 @@ input DeviceStatusSortInput {
   isOnline: SortEnumType
   lastUptime: SortEnumType
   modifiedAt: SortEnumType
+  tenant: DomainTenantSortInput
   device: DeviceSortInput
 }
 
@@ -9933,8 +10977,10 @@ input DomainAssetFilterInput {
   and: [DomainAssetFilterInput!]
   or: [DomainAssetFilterInput!]
   assetId: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deviceId: ComparableNullableOfGuidOperationFilterInput
   serialNumber: StringOperationFilterInput
+  tenant: DomainTenantFilterInput
   device: DeviceFilterInput
 }
 
@@ -9943,8 +10989,10 @@ I am a generated type!
 """
 input DomainAssetSortInput {
   assetId: SortEnumType
+  tenantId: SortEnumType
   deviceId: SortEnumType
   serialNumber: SortEnumType
+  tenant: DomainTenantSortInput
   device: DeviceSortInput
 }
 
@@ -11157,6 +12205,13 @@ input ListFilterInputTypeOfAppFirmwareFilterInput {
   any: Boolean
 }
 
+input ListFilterInputTypeOfAppRevisionBomFilterInput {
+  all: AppRevisionBomFilterInput
+  none: AppRevisionBomFilterInput
+  some: AppRevisionBomFilterInput
+  any: Boolean
+}
+
 input ListFilterInputTypeOfAppRevisionDeltaFilterInput {
   all: AppRevisionDeltaFilterInput
   none: AppRevisionDeltaFilterInput
@@ -11332,6 +12387,20 @@ input ListFilterInputTypeOfStoreSettingFilterInput {
   any: Boolean
 }
 
+input ListFilterInputTypeOfVulnerabilityFindingFilterInput {
+  all: VulnerabilityFindingFilterInput
+  none: VulnerabilityFindingFilterInput
+  some: VulnerabilityFindingFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfVulnerabilityStatusChangeFilterInput {
+  all: VulnerabilityStatusChangeFilterInput
+  none: VulnerabilityStatusChangeFilterInput
+  some: VulnerabilityStatusChangeFilterInput
+  any: Boolean
+}
+
 input ModelAssertionCreateInput {
   modelAssertionJson: String!
   uploadMessage: String!
@@ -11346,6 +12415,7 @@ input PendingActionFilterInput {
   and: [PendingActionFilterInput!]
   or: [PendingActionFilterInput!]
   id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
   deviceId: ComparableGuidOperationFilterInput
   appId: ComparableGuidOperationFilterInput
   installedAppRevisionId: ComparableNullableOfGuidOperationFilterInput
@@ -11357,6 +12427,7 @@ input PendingActionFilterInput {
   createdAt: ComparableDateTimeOperationFilterInput
   modifiedBy: ComparableNullableOfGuidOperationFilterInput
   modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
   app: AppFilterInput
   device: DeviceFilterInput
   installedAppRevision: AppRevisionFilterInput
@@ -11368,6 +12439,7 @@ I am a generated type!
 """
 input PendingActionSortInput {
   id: SortEnumType
+  tenantId: SortEnumType
   deviceId: SortEnumType
   appId: SortEnumType
   installedAppRevisionId: SortEnumType
@@ -11379,6 +12451,7 @@ input PendingActionSortInput {
   createdAt: SortEnumType
   modifiedBy: SortEnumType
   modifiedAt: SortEnumType
+  tenant: DomainTenantSortInput
   app: AppSortInput
   device: DeviceSortInput
   installedAppRevision: AppRevisionSortInput
@@ -12278,10 +13351,443 @@ input UplinkModeOperationFilterInput {
   nin: [UplinkMode!]
 }
 
+input VulnerabilityCreateInput {
+  cveId: String!
+  source: String!
+  cvssScore: Decimal
+  cvssVector: String
+  epssScore: Decimal
+  epssPercentile: Decimal
+  cvssSeverity: String!
+  title: String
+  description: String
+  recommendation: String
+  publishedDate: DateTime
+  detectedAt: DateTime
+  cweId: Int
+  cweName: String
+  isKnownExploited: Boolean
+  kevDateAdded: DateTime
+  _tag: String
+
+  """
+  NotMapped=true
+  """
+  lastChangedAt: DateTime!
+
+  """
+  NotMapped=true
+  """
+  dependencyTrackVulnUuid: UUID
+
+  """
+  NotMapped=true
+  """
+  isDeleted: Boolean!
+  createdBy: UUID
+  createdAt: DateTime
+  modifiedBy: UUID
+  modifiedAt: DateTime
+
+  """
+  NotMapped=true
+  """
+  deletedBy: UUID
+
+  """
+  NotMapped=true
+  """
+  deletedAt: DateTime
+}
+
+"""
+I am a generated type!
+"""
+input VulnerabilityFilterInput {
+  and: [VulnerabilityFilterInput!]
+  or: [VulnerabilityFilterInput!]
+  cveId: StringOperationFilterInput
+  cvssScore: ComparableNullableOfDecimalOperationFilterInput
+  cvssSeverity: StringOperationFilterInput
+  cvssVector: StringOperationFilterInput
+  publishedDate: ComparableNullableOfDateTimeOperationFilterInput
+  modifiedDate: ComparableNullableOfDateTimeOperationFilterInput
+  id: ComparableGuidOperationFilterInput
+  dependencyTrackVulnUuid: ComparableNullableOfGuidOperationFilterInput
+  source: StringOperationFilterInput
+  epssScore: ComparableNullableOfDecimalOperationFilterInput
+  epssPercentile: ComparableNullableOfDecimalOperationFilterInput
+  title: StringOperationFilterInput
+  isManuallyCreated: BooleanOperationFilterInput
+  description: StringOperationFilterInput
+  recommendation: StringOperationFilterInput
+  detectedAt: ComparableDateTimeOperationFilterInput
+  cweId: ComparableNullableOfInt32OperationFilterInput
+  cweName: StringOperationFilterInput
+  isKnownExploited: BooleanOperationFilterInput
+  kevDateAdded: ComparableNullableOfDateTimeOperationFilterInput
+  createdBy: ComparableNullableOfGuidOperationFilterInput
+  createdAt: ComparableDateTimeOperationFilterInput
+  modifiedBy: ComparableNullableOfGuidOperationFilterInput
+  lastChangedAt: ComparableDateTimeOperationFilterInput
+}
+
+input VulnerabilityFindingCreateInput {
+  vulnerabilityId: UUID!
+  componentId: UUID!
+  appRevisionId: UUID!
+  vulnerabilityScanInfoId: UUID
+  _tag: String
+
+  """
+  NotMapped=true
+  """
+  tenantId: UUID
+  createdAt: DateTime
+  createdBy: UUID
+}
+
+"""
+I am a generated type!
+"""
+input VulnerabilityFindingFilterInput {
+  and: [VulnerabilityFindingFilterInput!]
+  or: [VulnerabilityFindingFilterInput!]
+  status: VulnerabilityStatusFilterInput
+  firstSeen: ComparableDateTimeOperationFilterInput
+  id: ComparableGuidOperationFilterInput
+  tenantId: ComparableGuidOperationFilterInput
+  vulnerabilityId: ComparableGuidOperationFilterInput
+  componentId: ComparableGuidOperationFilterInput
+  appRevisionId: ComparableGuidOperationFilterInput
+  vulnerabilityStatusId: ComparableGuidOperationFilterInput
+  resolvedAt: ComparableNullableOfDateTimeOperationFilterInput
+  vulnerabilityScanInfoId: ComparableNullableOfGuidOperationFilterInput
+  dependencyTrackProjectUuid: ComparableNullableOfGuidOperationFilterInput
+  isSuppressed: BooleanOperationFilterInput
+  matrix: StringOperationFilterInput
+  createdBy: ComparableNullableOfGuidOperationFilterInput
+  tenant: DomainTenantFilterInput
+  vulnerability: VulnerabilityFilterInput
+  component: ComponentFilterInput
+  appRevision: AppRevisionFilterInput
+  vulnerabilityScanInfo: VulnerabilityScanInfoFilterInput
+  vulnerabilityStatusChanges: ListFilterInputTypeOfVulnerabilityStatusChangeFilterInput
+}
+
+input VulnerabilityFindingSetNullInput {
+  vulnerabilityScanInfoId: Boolean
+}
+
+"""
+I am a generated type!
+"""
+input VulnerabilityFindingSortInput {
+  status: VulnerabilityStatusSortInput
+  firstSeen: SortEnumType
+  id: SortEnumType
+  tenantId: SortEnumType
+  vulnerabilityId: SortEnumType
+  componentId: SortEnumType
+  appRevisionId: SortEnumType
+  vulnerabilityStatusId: SortEnumType
+  resolvedAt: SortEnumType
+  vulnerabilityScanInfoId: SortEnumType
+  dependencyTrackProjectUuid: SortEnumType
+  isSuppressed: SortEnumType
+  matrix: SortEnumType
+  createdBy: SortEnumType
+  tenant: DomainTenantSortInput
+  vulnerability: VulnerabilitySortInput
+  component: ComponentSortInput
+  appRevision: AppRevisionSortInput
+  vulnerabilityScanInfo: VulnerabilityScanInfoSortInput
+}
+
+input VulnerabilityFindingUpdateInput {
+  id: UUID!
+  vulnerabilityId: UUID
+  componentId: UUID
+  appRevisionId: UUID
+  vulnerabilityScanInfoId: UUID
+  _tag: String
+  setNull: VulnerabilityFindingSetNullInput
+
+  """
+  NotMapped=true
+  """
+  tenantId: UUID
+
+  """
+  NotMapped=true
+  """
+  resolvedAt: DateTime
+
+  """
+  NotMapped=true
+  """
+  dependencyTrackProjectUuid: UUID
+
+  """
+  NotMapped=true
+  """
+  isSuppressed: Boolean
+
+  """
+  NotMapped=true
+  """
+  matrix: String
+
+  """
+  NotMapped=true
+  """
+  isDeleted: Boolean
+  createdBy: UUID
+  createdAt: DateTime
+
+  """
+  NotMapped=true
+  """
+  deletedBy: UUID
+
+  """
+  NotMapped=true
+  """
+  deletedAt: DateTime
+}
+
+input VulnerabilityFindingUpdateStatusInput {
+  id: UUID!
+  vulnerabilityStatusId: UUID
+
+  """
+  MinLength=0, MaxLength=1000
+  """
+  reason: String
+  isSuppressed: Boolean
+  setNull: VulnerabilityFindingUpdateStatusSetNullInput
+  _tag: String
+  createdBy: UUID
+  createdAt: DateTime
+}
+
+input VulnerabilityFindingUpdateStatusSetNullInput {
+  vulnerabilityStatusId: Boolean
+  reason: Boolean
+  isSuppressed: Boolean
+  _tag: String
+}
+
+"""
+I am a generated type!
+"""
+input VulnerabilityScanInfoFilterInput {
+  and: [VulnerabilityScanInfoFilterInput!]
+  or: [VulnerabilityScanInfoFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  tenantId: ComparableNullableOfGuidOperationFilterInput
+  lastSyncedAt: ComparableDateTimeOperationFilterInput
+  lastDtQueryAt: ComparableNullableOfDateTimeOperationFilterInput
+  syncStatus: StringOperationFilterInput
+  errorMessage: StringOperationFilterInput
+  scanSource: DependencyTrackScanSourceOperationFilterInput
+  appRevisionId: ComparableGuidOperationFilterInput
+  modifiedBy: ComparableNullableOfGuidOperationFilterInput
+  modifiedAt: ComparableNullableOfDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
+  appRevision: AppRevisionFilterInput
+}
+
+"""
+I am a generated type!
+"""
+input VulnerabilityScanInfoSortInput {
+  id: SortEnumType
+  tenantId: SortEnumType
+  lastSyncedAt: SortEnumType
+  lastDtQueryAt: SortEnumType
+  syncStatus: SortEnumType
+  errorMessage: SortEnumType
+  scanSource: SortEnumType
+  appRevisionId: SortEnumType
+  modifiedBy: SortEnumType
+  modifiedAt: SortEnumType
+  tenant: DomainTenantSortInput
+  appRevision: AppRevisionSortInput
+}
+
+input VulnerabilitySetNullInput {
+  cvssV3BaseScore: Boolean
+  cvssV3Vector: Boolean
+  epssScore: Boolean
+  epssPercentile: Boolean
+  title: Boolean
+  description: Boolean
+  recommendation: Boolean
+  publishedAt: Boolean
+  cweId: Boolean
+  cweName: Boolean
+  kevDateAdded: Boolean
+}
+
+"""
+I am a generated type!
+"""
+input VulnerabilitySortInput {
+  cveId: SortEnumType
+  cvssScore: SortEnumType
+  cvssSeverity: SortEnumType
+  cvssVector: SortEnumType
+  publishedDate: SortEnumType
+  modifiedDate: SortEnumType
+  id: SortEnumType
+  dependencyTrackVulnUuid: SortEnumType
+  source: SortEnumType
+  epssScore: SortEnumType
+  epssPercentile: SortEnumType
+  title: SortEnumType
+  isManuallyCreated: SortEnumType
+  description: SortEnumType
+  recommendation: SortEnumType
+  detectedAt: SortEnumType
+  cweId: SortEnumType
+  cweName: SortEnumType
+  isKnownExploited: SortEnumType
+  kevDateAdded: SortEnumType
+  createdBy: SortEnumType
+  createdAt: SortEnumType
+  modifiedBy: SortEnumType
+  lastChangedAt: SortEnumType
+}
+
+"""
+I am a generated type!
+"""
+input VulnerabilityStatusChangeFilterInput {
+  and: [VulnerabilityStatusChangeFilterInput!]
+  or: [VulnerabilityStatusChangeFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  tenantId: ComparableGuidOperationFilterInput
+  vulnerabilityFindingId: ComparableGuidOperationFilterInput
+  previousVulnerabilityStatusId: ComparableNullableOfGuidOperationFilterInput
+  newVulnerabilityStatusId: ComparableGuidOperationFilterInput
+  reason: StringOperationFilterInput
+  createdBy: ComparableNullableOfGuidOperationFilterInput
+  createdAt: ComparableDateTimeOperationFilterInput
+  tenant: DomainTenantFilterInput
+  previousVulnerabilityStatus: VulnerabilityStatusFilterInput
+  newVulnerabilityStatus: VulnerabilityStatusFilterInput
+}
+
+"""
+I am a generated type!
+"""
+input VulnerabilityStatusChangeSortInput {
+  id: SortEnumType
+  tenantId: SortEnumType
+  vulnerabilityFindingId: SortEnumType
+  previousVulnerabilityStatusId: SortEnumType
+  newVulnerabilityStatusId: SortEnumType
+  reason: SortEnumType
+  createdBy: SortEnumType
+  createdAt: SortEnumType
+  tenant: DomainTenantSortInput
+  previousVulnerabilityStatus: VulnerabilityStatusSortInput
+  newVulnerabilityStatus: VulnerabilityStatusSortInput
+}
+
+"""
+I am a generated type!
+"""
+input VulnerabilityStatusFilterInput {
+  and: [VulnerabilityStatusFilterInput!]
+  or: [VulnerabilityStatusFilterInput!]
+  id: ComparableGuidOperationFilterInput
+  name: StringOperationFilterInput
+  displayName: StringOperationFilterInput
+  sortOrder: ComparableInt32OperationFilterInput
+  isTerminal: BooleanOperationFilterInput
+  entityIdentifier: EntityIdentifierFilterInput
+}
+
+"""
+I am a generated type!
+"""
+input VulnerabilityStatusSortInput {
+  id: SortEnumType
+  name: SortEnumType
+  displayName: SortEnumType
+  sortOrder: SortEnumType
+  isTerminal: SortEnumType
+  entityIdentifier: EntityIdentifierSortInput
+}
+
+input VulnerabilityUpdateInput {
+  id: UUID!
+  source: String
+  cvssV3BaseScore: Decimal
+  cvssV3Vector: String
+  epssScore: Decimal
+  epssPercentile: Decimal
+  severity: String
+  title: String
+  description: String
+  recommendation: String
+  publishedAt: DateTime
+  detectedAt: DateTime
+  cweId: Int
+  cweName: String
+  isKnownExploited: Boolean
+  kevDateAdded: DateTime
+  lastChangedAt: DateTime
+  _tag: String
+  setNull: VulnerabilitySetNullInput
+
+  """
+  NotMapped=true
+  """
+  dependencyTrackVulnUuid: UUID
+
+  """
+  NotMapped=true
+  """
+  vulnId: String
+
+  """
+  NotMapped=true
+  """
+  isDeleted: Boolean!
+  createdBy: UUID
+  createdAt: DateTime!
+  modifiedBy: UUID
+  modifiedAt: DateTime
+
+  """
+  NotMapped=true
+  """
+  deletedBy: UUID
+
+  """
+  NotMapped=true
+  """
+  deletedAt: DateTime
+}
+
 enum Architecture {
   AMD64
   ARM64
   ARM32
+}
+
+enum BomFormat {
+  UNKNOWN
+  CYCLONE_DX
+  SPDX
+}
+
+enum DependencyTrackScanSource {
+  WEBHOOK
+  BACKGROUND_JOB
 }
 
 enum PendingActionStatus {

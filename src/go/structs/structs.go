@@ -355,12 +355,22 @@ type Brand struct {
 }
 
 type User struct {
-	Id         string  `json:"id,omitempty"`
-	SshKey     *string `json:"developerAccountSshKey,omitempty"`
-	Email      string  `json:"developerAccountSshKeyEmail,omitempty"`
-	Name       string  `json:"developerAccountSshKeyname,omitempty"`
-	TenantId   string  `json:"developerAccountTenantId,omitempty"`
-	TenantName string  `json:"developerAccountTenantName,omitempty"`
+	Id          string       `json:"id,omitempty"`
+	SshKey      *string      `json:"developerAccountSshKey,omitempty"`
+	Email       string       `json:"developerAccountSshKeyEmail,omitempty"`
+	Name        string       `json:"developerAccountSshKeyname,omitempty"`
+	TenantId    string       `json:"developerAccountTenantId,omitempty"`
+	TenantName  string       `json:"developerAccountTenantName,omitempty"`
+	Permissions *Permissions `json:"permissions,omitempty"`
+}
+
+// Permissions is only populated by the "me" query (backend/v5).
+type Permissions struct {
+	Scopes []string `json:"scopes,omitempty"`
+	Roles  []string `json:"roles,omitempty"`
+	// IsSuperAdmin is nil when unresolved rather than false, since no JWT carries this
+	// claim - it is only ever known once the "me" query has actually been called.
+	IsSuperAdmin *bool `json:"isSuperAdmin,omitempty"`
 }
 
 type Tenant struct {

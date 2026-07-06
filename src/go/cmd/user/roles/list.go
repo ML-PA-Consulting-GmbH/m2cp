@@ -1,15 +1,12 @@
 package roles
 
 import (
-	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"m2cpcli/backend"
 	"m2cpcli/format"
 	"m2cpcli/structs"
 	"m2cpcli/tools/console"
 	"sort"
-	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -84,69 +81,36 @@ func runListCmd(cmd *cobra.Command, args []string) (err error) {
 			return fmt.Errorf("no JWT token found. Please login first")
 		}
 
-		user, err = backend.GetCurrentUser(cmd.Context())
+		// backend.GetCurrentUser (the "currentUser" query) cannot resolve identity for
+		// sessions authenticated via the external identity provider (browser-based
+		// login): the legacy resolver returns a nil user, which crashes on unguarded
+		// field access. The "me" query works for both auth methods, so it is used here
+		// instead - for both the user's info and their permissions.
+		me, err := backend.GetMe(cmd.Context())
 		if err != nil {
 			return err
 		}
 
-		parts := strings.Split(jwtToken, ".")
-		payload, _ := base64.RawURLEncoding.DecodeString(parts[1])
-		var claims jwtTokenClaims
+		// Tenant name comes from the already-persisted session (see login.go).
+		tenantName := viper.GetString("tenant-name")
 
-		err = claims.unmarshalJson(payload)
-		if err != nil {
-			return err
+		output.CurrentUser = me
+		output.Claims = jwtTokenClaims{Tenant: tenantName}
+		if me.Permissions != nil {
+			output.Claims.Roles = me.Permissions.Roles
+			output.Claims.Scopes = me.Permissions.Scopes
 		}
+	}
 
-		output.CurrentUser = user
-		output.Claims = claims
+	if output.Claims.Roles == nil {
+		output.Claims.Roles = []string{}
+	}
+	if output.Claims.Scopes == nil {
+		output.Claims.Scopes = []string{}
 	}
 
 	if err = format.PrintFormattedOutput(cmd, output, listOutputFormatter); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-func (c *jwtTokenClaims) unmarshalJson(data []byte) error {
-	type Alias jwtTokenClaims
-	aux := &struct {
-		Roles  interface{} `json:"role_values"`
-		Scopes interface{} `json:"scopes"`
-		*Alias
-	}{
-		Alias: (*Alias)(c),
-	}
-
-	if err := json.Unmarshal(data, &aux); err != nil {
-		return err
-	}
-
-	switch v := aux.Roles.(type) {
-	case string:
-		c.Roles = []string{v}
-	case []interface{}:
-		for _, item := range v {
-			if str, ok := item.(string); ok {
-				c.Roles = append(c.Roles, str)
-			}
-		}
-	default:
-		return fmt.Errorf("invalid type for role_values")
-	}
-
-	switch v := aux.Scopes.(type) {
-	case string:
-		c.Scopes = []string{v}
-	case []interface{}:
-		for _, item := range v {
-			if str, ok := item.(string); ok {
-				c.Scopes = append(c.Scopes, str)
-			}
-		}
-	default:
-		return fmt.Errorf("invalid type for scopes")
 	}
 
 	return nil

@@ -9,14 +9,11 @@ import (
 )
 
 type JsonWebToken struct {
-	TenantId       string
 	ExpirationTime float64
 }
 
-func NewJsonWebToken(jwt string) (*JsonWebToken, error) {
-	if jwt == "" {
-		return nil, nil
-	}
+// DecodeJwtClaims decodes the payload segment of a JWT into a claims map.
+func DecodeJwtClaims(jwt string) (map[string]interface{}, error) {
 	parts := strings.Split(jwt, ".")
 	if len(parts) != 3 {
 		return nil, fmt.Errorf("could not split JWT")
@@ -27,19 +24,26 @@ func NewJsonWebToken(jwt string) (*JsonWebToken, error) {
 		return nil, fmt.Errorf("could not decode JWT")
 	}
 
-	result := JsonWebToken{}
 	var claims map[string]interface{}
-	err = json.Unmarshal(payload, &claims)
-	if err != nil {
+	if err := json.Unmarshal(payload, &claims); err != nil {
 		return nil, fmt.Errorf("could not unmarshall JWT")
 	}
+	return claims, nil
+}
 
-	var ok bool
-	result.TenantId, ok = claims["tenant_id"].(string)
-	if !ok {
-		return nil, fmt.Errorf("could not find TenantId")
+func NewJsonWebToken(jwt string) (*JsonWebToken, error) {
+	if jwt == "" {
+		return nil, nil
 	}
 
+	claims, err := DecodeJwtClaims(jwt)
+	if err != nil {
+		return nil, err
+	}
+
+	result := JsonWebToken{}
+
+	var ok bool
 	result.ExpirationTime, ok = claims["exp"].(float64)
 	if !ok {
 		return nil, fmt.Errorf("could not find ExpirationTime")

@@ -46,7 +46,7 @@ func FindAsset(ctx context.Context, q string) ([]structs.Asset, error) {
 	for i, asset := range res.Assets.Items {
 		component := structs.Asset{
 			Id:                     asset.Id,
-			Name:                   asset.AssetName,
+			Name:                   tools.MaybeStringToString(asset.AssetName, ""),
 			Serial:                 asset.SerialNo,
 			McuId:                  asset.McuId,
 			AssetModelId:           asset.AssetModel.Id,
@@ -98,7 +98,7 @@ func GetAssetById(ctx context.Context, q string) (*structs.Asset, error) {
 	asset := res.Assets.Items[0]
 	component := structs.Asset{
 		Id:                     asset.Id,
-		Name:                   asset.AssetName,
+		Name:                   tools.MaybeStringToString(asset.AssetName, ""),
 		Serial:                 asset.SerialNo,
 		McuId:                  asset.McuId,
 		AssetModelName:         asset.AssetModel.AssetModelName,
@@ -209,7 +209,7 @@ func GetSystemsList(ctx context.Context, filters []structs.BackendQueryFilter) (
 					McuId:                  resItem.McuId,
 					Components:             []structs.Asset{},
 					IsSystemOwned:          tools.Ptr(resItem.IsSystemOwned),
-					Name:                   resItem.AssetName,
+					Name:                   tools.MaybeStringToString(resItem.AssetName, ""),
 					Description:            resItem.AssetDescription,
 					ParentAssetId:          resItem.ParentAssetId,
 					AssetModelId:           resItem.AssetModel.Id,
@@ -290,7 +290,7 @@ func ProvisionSystemAsset(ctx context.Context, input *structs.SystemAssetProvisi
 	out := &structs.SystemAssetProvisionOutput{
 		SystemAsset: structs.SystemAssetProvisionOutputSystem{
 			Id:          res.ProvisionSystemAsset.Id,
-			AssetName:   res.ProvisionSystemAsset.AssetName,
+			AssetName:   tools.MaybeStringToString(res.ProvisionSystemAsset.AssetName, ""),
 			SerialNo:    res.ProvisionSystemAsset.SerialNo,
 			ChildAssets: make([]*structs.SystemAssetProvisionOutputChildAsset, len(res.ProvisionSystemAsset.ChildAssets)),
 		},
@@ -298,7 +298,7 @@ func ProvisionSystemAsset(ctx context.Context, input *structs.SystemAssetProvisi
 	for i, children := range res.ProvisionSystemAsset.ChildAssets {
 		out.SystemAsset.ChildAssets[i] = &structs.SystemAssetProvisionOutputChildAsset{
 			Id:                 children.Id,
-			AssetName:          children.AssetName,
+			AssetName:          tools.MaybeStringToString(children.AssetName, ""),
 			SerialNo:           children.SerialNo,
 			McuId:              children.McuId,
 			AttestationKey:     children.AttestationKey,
