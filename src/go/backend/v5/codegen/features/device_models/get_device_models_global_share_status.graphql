@@ -1,0 +1,8 @@
+query GetDeviceModelsGlobalShareStatus($ids: [UUID!]!, $take: Int) {
+    deviceModels(where: { id: { in: $ids } }, take: $take) {
+        items {
+            id
+            isGloballyShared
+        }
+    }
+}

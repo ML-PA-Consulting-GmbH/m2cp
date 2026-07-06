@@ -1,0 +1,6 @@
+query GetDeviceModelIdByRevisionId($id: UUID!) {
+    deviceModelRevision(id: $id) {
+        id
+        deviceModelId
+    }
+}

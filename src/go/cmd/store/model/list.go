@@ -22,11 +22,13 @@ type ListOutput struct {
 
 type ListOutputItem struct {
 	Id             string `json:"id"`
+	DeviceModelId  string `json:"deviceModelId"`
 	DeviceTypeName string `json:"deviceTypeName"`
 	Architecture   string `json:"architecture"`
 	ModelName      string `json:"modelName"`
 	Revision       int    `json:"revision"`
 	UploadMessage  string `json:"uploadMessage"`
+	Shared         string `json:"shared"`
 }
 
 func init() {
@@ -54,6 +56,7 @@ func runListCmd(cmd *cobra.Command, args []string) error {
 				}
 				items = append(items, ListOutputItem{
 					Id:             item.Id,
+					DeviceModelId:  item.DeviceModelId,
 					Architecture:   strings.ToLower(string(item.DeviceModel.Architecture)),
 					DeviceTypeName: getDeviceTypeName(item.DeviceModel.DeviceTypeId),
 					ModelName:      item.DeviceModel.ModelName,
@@ -67,6 +70,30 @@ func runListCmd(cmd *cobra.Command, args []string) error {
 
 		hasNextPage = result.DeviceModelRevisions.PageInfo.HasNextPage
 		skip += take
+	}
+
+	deviceModelIdSet := make(map[string]struct{}, len(items))
+	for _, item := range items {
+		deviceModelIdSet[item.DeviceModelId] = struct{}{}
+	}
+	deviceModelIds := make([]string, 0, len(deviceModelIdSet))
+	for id := range deviceModelIdSet {
+		deviceModelIds = append(deviceModelIds, id)
+	}
+
+	sharedStatus, sharedSupported, err := backend.GetDeviceModelsGlobalShareStatus(cmd.Context(), deviceModelIds)
+	if err != nil {
+		return err
+	}
+	for i := range items {
+		switch {
+		case !sharedSupported:
+			items[i].Shared = "n/a"
+		case sharedStatus[items[i].DeviceModelId]:
+			items[i].Shared = "true"
+		default:
+			items[i].Shared = "false"
+		}
 	}
 
 	output := ListOutput{
@@ -96,6 +123,7 @@ func customModelListFormatter(result ListOutput) (string, error) {
 		"modelName":      "Name",
 		"revision":       "Revision",
 		"uploadMessage":  "Upload Message",
+		"shared":         "Shared",
 	})
 
 	for _, item := range items {
@@ -106,10 +134,11 @@ func customModelListFormatter(result ListOutput) (string, error) {
 			"modelName":      item.ModelName,
 			"revision":       strconv.Itoa(item.Revision),
 			"uploadMessage":  strings.TrimSpace(tools.ShortenRight(item.UploadMessage, 60)),
+			"shared":         item.Shared,
 		})
 	}
 
-	outputStr := table.Sorts([]string{"deviceTypeName", "modelName", "revision"}).StringSelect([]string{"id", "deviceTypeName", "modelName", "revision", "architecture", "uploadMessage"})
+	outputStr := table.Sorts([]string{"deviceTypeName", "modelName", "revision"}).StringSelect([]string{"id", "deviceTypeName", "modelName", "revision", "architecture", "uploadMessage", "shared"})
 
 	return outputStr, nil
 }

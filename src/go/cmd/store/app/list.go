@@ -35,6 +35,7 @@ type listOutputItem struct {
 	appName      string
 	tenantAlias  string
 	description  string
+	shared       string
 }
 
 func init() {
@@ -147,6 +148,26 @@ func runListCmd(cmd *cobra.Command, args []string) error {
 		skip += take
 	}
 
+	appIds := make([]string, len(items))
+	for i, item := range items {
+		appIds[i] = item.id
+	}
+
+	sharedStatus, sharedSupported, err := backend.GetAppsGlobalShareStatus(cmd.Context(), appIds)
+	if err != nil {
+		return err
+	}
+	for i := range items {
+		switch {
+		case !sharedSupported:
+			items[i].shared = "n/a"
+		case sharedStatus[items[i].id]:
+			items[i].shared = "true"
+		default:
+			items[i].shared = "false"
+		}
+	}
+
 	output := listOutput{
 		items: items,
 	}
@@ -163,6 +184,7 @@ func customAppListFormatter(result listOutput) (string, error) {
 		"appName":      "App Name",
 		"tenantAlias":  "Tenant",
 		"description":  "Description",
+		"shared":       "Shared",
 	})
 
 	for _, item := range items {
@@ -173,9 +195,10 @@ func customAppListFormatter(result listOutput) (string, error) {
 			"appName":      item.appName,
 			"tenantAlias":  item.tenantAlias,
 			"description":  strings.TrimSpace(tools.ShortenRight(item.description, 40)),
+			"shared":       item.shared,
 		})
 	}
 
-	outputStr := table.Sorts([]string{"appTypeName", "appName"}).StringSelect([]string{"id", "architecture", "appTypeName", "appName", "tenantAlias", "description"})
+	outputStr := table.Sorts([]string{"appTypeName", "appName"}).StringSelect([]string{"id", "architecture", "appTypeName", "appName", "tenantAlias", "description", "shared"})
 	return outputStr, nil
 }

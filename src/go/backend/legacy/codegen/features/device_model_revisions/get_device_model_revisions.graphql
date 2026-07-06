@@ -6,6 +6,7 @@ query GetDeviceModelRevisionList(
     deviceModelRevisions(where: $filter, take: $take, skip: $skip) {
         items {
             id
+            deviceModelId
             deviceModel {
                 modelName
                 deviceTypeId

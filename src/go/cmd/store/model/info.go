@@ -36,6 +36,7 @@ type SnapRevisionRow struct {
 
 type InfoResult struct {
 	DeviceModelRevision *backend.GetDeviceModelRevisionInfoByIdResponse `json:"device_model_revision,omitempty"`
+	IsGloballyShared    *bool                                           `json:"is_globally_shared,omitempty"`
 }
 
 func extractSnapDeclarations(bridge []gql.EdgeDeviceModelBridgeSnapDeclaration) []gql.SnapDeclaration {
@@ -57,8 +58,22 @@ func runInfoCmd(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	var isGloballyShared *bool
+	if deviceModelRevision.DeviceModelRevision != nil {
+		deviceModelId := deviceModelRevision.DeviceModelRevision.DeviceModelId
+		sharedStatus, sharedSupported, err := backend.GetDeviceModelsGlobalShareStatus(cmd.Context(), []string{deviceModelId})
+		if err != nil {
+			return err
+		}
+		if sharedSupported {
+			shared := sharedStatus[deviceModelId]
+			isGloballyShared = &shared
+		}
+	}
+
 	modelInfoResult := InfoResult{
 		DeviceModelRevision: deviceModelRevision,
+		IsGloballyShared:    isGloballyShared,
 	}
 
 	return format.PrintFormattedOutput(cmd, modelInfoResult, customModelInfoFormatter)
@@ -74,6 +89,9 @@ func customModelInfoFormatter(res InfoResult) (string, error) {
 	info.Add("TPM required", strconv.FormatBool(res.DeviceModelRevision.DeviceModelRevision.IsTpmRequired))
 	info.Add("Pre-Registration required", strconv.FormatBool(res.DeviceModelRevision.DeviceModelRevision.IsPreRegistrationRequired))
 	info.Add("Upload Message", res.DeviceModelRevision.DeviceModelRevision.UploadMessage)
+	if res.IsGloballyShared != nil {
+		info.Add("Globally Shared", strconv.FormatBool(*res.IsGloballyShared))
+	}
 
 	modelSnapsTable := format.NewTable(map[string]string{
 		"1id":      "Id",

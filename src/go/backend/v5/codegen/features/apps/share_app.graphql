@@ -1,0 +1,8 @@
+mutation ShareApp($id: UUID!) {
+    shareApps(apps: [{ id: $id }]) {
+        id
+        isGloballyShared
+        globallySharedAt
+        globallySharedBy
+    }
+}

@@ -1,0 +1,8 @@
+mutation ShareDeviceModel($id: UUID!) {
+    shareDeviceModels(deviceModels: [{ id: $id }]) {
+        id
+        isGloballyShared
+        globallySharedAt
+        globallySharedBy
+    }
+}

@@ -12,8 +12,9 @@ import (
 )
 
 type output struct {
-	AppInfo      backend.GetAppInfoResponse
-	AppRevisions backend.GetAppRevisionsByAppIdResponse
+	AppInfo          backend.GetAppInfoResponse
+	AppRevisions     backend.GetAppRevisionsByAppIdResponse
+	IsGloballyShared *bool
 }
 
 var infoCmd = &cobra.Command{
@@ -86,9 +87,20 @@ func runInfoCmd(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	var isGloballyShared *bool
+	sharedStatus, sharedSupported, err := backend.GetAppsGlobalShareStatus(cmd.Context(), []string{appId})
+	if err != nil {
+		return err
+	}
+	if sharedSupported {
+		shared := sharedStatus[appId]
+		isGloballyShared = &shared
+	}
+
 	outputObj := output{
-		AppInfo:      *appInfo,
-		AppRevisions: *appRevisions,
+		AppInfo:          *appInfo,
+		AppRevisions:     *appRevisions,
+		IsGloballyShared: isGloballyShared,
 	}
 
 	return format.PrintFormattedOutput(cmd, outputObj, customAppInfoFormatter)
@@ -118,6 +130,9 @@ func customAppInfoFormatter(outputObj output) (string, error) {
 	appInfoTree.AddLeaf("Summary: " + app.Summary)
 	appInfoTree.AddLeaf("Description: " + app.Description)
 	appInfoTree.AddLeaf("Created: " + app.CreatedAt)
+	if outputObj.IsGloballyShared != nil {
+		appInfoTree.AddLeaf("Globally Shared: " + strconv.FormatBool(*outputObj.IsGloballyShared))
+	}
 
 	outputStr += appInfoTree.String()
 

@@ -4,8 +4,6 @@ package legacy
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"m2cpcli/backend/infrastructure"
 
 	"github.com/Khan/genqlient/graphql"
@@ -2799,8 +2797,8 @@ func (v *AutoUpdateModeSortInput) GetDescription() *SortEnumType { return v.Desc
 func (v *AutoUpdateModeSortInput) GetDisplayOrder() *SortEnumType { return v.DisplayOrder }
 
 type BooleanOperationFilterInput struct {
-	Eq  *bool `json:"eq"`
-	Neq *bool `json:"neq"`
+	Eq  *bool `json:"eq,omitempty"`
+	Neq *bool `json:"neq,omitempty"`
 }
 
 // GetEq returns BooleanOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -2810,18 +2808,18 @@ func (v *BooleanOperationFilterInput) GetEq() *bool { return v.Eq }
 func (v *BooleanOperationFilterInput) GetNeq() *bool { return v.Neq }
 
 type ComparableDateTimeOperationFilterInput struct {
-	Eq   *string  `json:"eq"`
-	Neq  *string  `json:"neq"`
-	In   []string `json:"in"`
-	Nin  []string `json:"nin"`
-	Gt   *string  `json:"gt"`
-	Ngt  *string  `json:"ngt"`
-	Gte  *string  `json:"gte"`
-	Ngte *string  `json:"ngte"`
-	Lt   *string  `json:"lt"`
-	Nlt  *string  `json:"nlt"`
-	Lte  *string  `json:"lte"`
-	Nlte *string  `json:"nlte"`
+	Eq   *string  `json:"eq,omitempty"`
+	Neq  *string  `json:"neq,omitempty"`
+	In   []string `json:"in,omitempty"`
+	Nin  []string `json:"nin,omitempty"`
+	Gt   *string  `json:"gt,omitempty"`
+	Ngt  *string  `json:"ngt,omitempty"`
+	Gte  *string  `json:"gte,omitempty"`
+	Ngte *string  `json:"ngte,omitempty"`
+	Lt   *string  `json:"lt,omitempty"`
+	Nlt  *string  `json:"nlt,omitempty"`
+	Lte  *string  `json:"lte,omitempty"`
+	Nlte *string  `json:"nlte,omitempty"`
 }
 
 // GetEq returns ComparableDateTimeOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -2861,18 +2859,18 @@ func (v *ComparableDateTimeOperationFilterInput) GetLte() *string { return v.Lte
 func (v *ComparableDateTimeOperationFilterInput) GetNlte() *string { return v.Nlte }
 
 type ComparableGuidOperationFilterInput struct {
-	Eq   *string  `json:"eq"`
-	Neq  *string  `json:"neq"`
-	In   []string `json:"in"`
-	Nin  []string `json:"nin"`
-	Gt   *string  `json:"gt"`
-	Ngt  *string  `json:"ngt"`
-	Gte  *string  `json:"gte"`
-	Ngte *string  `json:"ngte"`
-	Lt   *string  `json:"lt"`
-	Nlt  *string  `json:"nlt"`
-	Lte  *string  `json:"lte"`
-	Nlte *string  `json:"nlte"`
+	Eq   *string  `json:"eq,omitempty"`
+	Neq  *string  `json:"neq,omitempty"`
+	In   []string `json:"in,omitempty"`
+	Nin  []string `json:"nin,omitempty"`
+	Gt   *string  `json:"gt,omitempty"`
+	Ngt  *string  `json:"ngt,omitempty"`
+	Gte  *string  `json:"gte,omitempty"`
+	Ngte *string  `json:"ngte,omitempty"`
+	Lt   *string  `json:"lt,omitempty"`
+	Nlt  *string  `json:"nlt,omitempty"`
+	Lte  *string  `json:"lte,omitempty"`
+	Nlte *string  `json:"nlte,omitempty"`
 }
 
 // GetEq returns ComparableGuidOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -3014,18 +3012,18 @@ func (v *ComparableInt64OperationFilterInput) GetLte() *int64 { return v.Lte }
 func (v *ComparableInt64OperationFilterInput) GetNlte() *int64 { return v.Nlte }
 
 type ComparableNullableOfDateTimeOperationFilterInput struct {
-	Eq   *string   `json:"eq"`
-	Neq  *string   `json:"neq"`
-	In   []*string `json:"in"`
-	Nin  []*string `json:"nin"`
-	Gt   *string   `json:"gt"`
-	Ngt  *string   `json:"ngt"`
-	Gte  *string   `json:"gte"`
-	Ngte *string   `json:"ngte"`
-	Lt   *string   `json:"lt"`
-	Nlt  *string   `json:"nlt"`
-	Lte  *string   `json:"lte"`
-	Nlte *string   `json:"nlte"`
+	Eq   *string   `json:"eq,omitempty"`
+	Neq  *string   `json:"neq,omitempty"`
+	In   []*string `json:"in,omitempty"`
+	Nin  []*string `json:"nin,omitempty"`
+	Gt   *string   `json:"gt,omitempty"`
+	Ngt  *string   `json:"ngt,omitempty"`
+	Gte  *string   `json:"gte,omitempty"`
+	Ngte *string   `json:"ngte,omitempty"`
+	Lt   *string   `json:"lt,omitempty"`
+	Nlt  *string   `json:"nlt,omitempty"`
+	Lte  *string   `json:"lte,omitempty"`
+	Nlte *string   `json:"nlte,omitempty"`
 }
 
 // GetEq returns ComparableNullableOfDateTimeOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -3116,18 +3114,18 @@ func (v *ComparableNullableOfDecimalOperationFilterInput) GetLte() *float64 { re
 func (v *ComparableNullableOfDecimalOperationFilterInput) GetNlte() *float64 { return v.Nlte }
 
 type ComparableNullableOfGuidOperationFilterInput struct {
-	Eq   *string   `json:"eq"`
-	Neq  *string   `json:"neq"`
-	In   []*string `json:"in"`
-	Nin  []*string `json:"nin"`
-	Gt   *string   `json:"gt"`
-	Ngt  *string   `json:"ngt"`
-	Gte  *string   `json:"gte"`
-	Ngte *string   `json:"ngte"`
-	Lt   *string   `json:"lt"`
-	Nlt  *string   `json:"nlt"`
-	Lte  *string   `json:"lte"`
-	Nlte *string   `json:"nlte"`
+	Eq   *string   `json:"eq,omitempty"`
+	Neq  *string   `json:"neq,omitempty"`
+	In   []*string `json:"in,omitempty"`
+	Nin  []*string `json:"nin,omitempty"`
+	Gt   *string   `json:"gt,omitempty"`
+	Ngt  *string   `json:"ngt,omitempty"`
+	Gte  *string   `json:"gte,omitempty"`
+	Ngte *string   `json:"ngte,omitempty"`
+	Lt   *string   `json:"lt,omitempty"`
+	Nlt  *string   `json:"nlt,omitempty"`
+	Lte  *string   `json:"lte,omitempty"`
+	Nlte *string   `json:"nlte,omitempty"`
 }
 
 // GetEq returns ComparableNullableOfGuidOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -3167,18 +3165,18 @@ func (v *ComparableNullableOfGuidOperationFilterInput) GetLte() *string { return
 func (v *ComparableNullableOfGuidOperationFilterInput) GetNlte() *string { return v.Nlte }
 
 type ComparableNullableOfInt32OperationFilterInput struct {
-	Eq   *int   `json:"eq"`
-	Neq  *int   `json:"neq"`
-	In   []*int `json:"in"`
-	Nin  []*int `json:"nin"`
-	Gt   *int   `json:"gt"`
-	Ngt  *int   `json:"ngt"`
-	Gte  *int   `json:"gte"`
-	Ngte *int   `json:"ngte"`
-	Lt   *int   `json:"lt"`
-	Nlt  *int   `json:"nlt"`
-	Lte  *int   `json:"lte"`
-	Nlte *int   `json:"nlte"`
+	Eq   *int   `json:"eq,omitempty"`
+	Neq  *int   `json:"neq,omitempty"`
+	In   []*int `json:"in,omitempty"`
+	Nin  []*int `json:"nin,omitempty"`
+	Gt   *int   `json:"gt,omitempty"`
+	Ngt  *int   `json:"ngt,omitempty"`
+	Gte  *int   `json:"gte,omitempty"`
+	Ngte *int   `json:"ngte,omitempty"`
+	Lt   *int   `json:"lt,omitempty"`
+	Nlt  *int   `json:"nlt,omitempty"`
+	Lte  *int   `json:"lte,omitempty"`
+	Nlte *int   `json:"nlte,omitempty"`
 }
 
 // GetEq returns ComparableNullableOfInt32OperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -3248,24 +3246,6 @@ type CompleteAppRevisionUploadResponse struct {
 // GetCompleteAppRevisionUpload returns CompleteAppRevisionUploadResponse.CompleteAppRevisionUpload, and is useful for accessing the field via an interface.
 func (v *CompleteAppRevisionUploadResponse) GetCompleteAppRevisionUpload() *CompleteAppRevisionUploadCompleteAppRevisionUploadAppRevision {
 	return v.CompleteAppRevisionUpload
-}
-
-// CompleteChallengeCompleteChallenge includes the requested fields of the GraphQL type CompleteChallenge.
-type CompleteChallengeCompleteChallenge struct {
-	Token string `json:"token"`
-}
-
-// GetToken returns CompleteChallengeCompleteChallenge.Token, and is useful for accessing the field via an interface.
-func (v *CompleteChallengeCompleteChallenge) GetToken() string { return v.Token }
-
-// CompleteChallengeResponse is returned by CompleteChallenge on success.
-type CompleteChallengeResponse struct {
-	CompleteChallenge *CompleteChallengeCompleteChallenge `json:"completeChallenge"`
-}
-
-// GetCompleteChallenge returns CompleteChallengeResponse.CompleteChallenge, and is useful for accessing the field via an interface.
-func (v *CompleteChallengeResponse) GetCompleteChallenge() *CompleteChallengeCompleteChallenge {
-	return v.CompleteChallenge
 }
 
 // CreateDeploymentGroupFromDeviceCreateDeploymentGroupFromDeviceDeploymentGroup includes the requested fields of the GraphQL type DeploymentGroup.
@@ -8076,6 +8056,7 @@ func (v *GetDeviceModelIdByTypeNameRevisionResponse) GetEdgeDeviceModels() *GetD
 // I am a generated type!
 type GetDeviceModelRevisionInfoByIdDeviceModelRevision struct {
 	Id                            string                                                                                                        `json:"id"`
+	DeviceModelId                 string                                                                                                        `json:"deviceModelId"`
 	Revision                      *int                                                                                                          `json:"revision"`
 	IsTpmRequired                 bool                                                                                                          `json:"isTpmRequired"`
 	IsPreRegistrationRequired     bool                                                                                                          `json:"isPreRegistrationRequired"`
@@ -8087,6 +8068,11 @@ type GetDeviceModelRevisionInfoByIdDeviceModelRevision struct {
 
 // GetId returns GetDeviceModelRevisionInfoByIdDeviceModelRevision.Id, and is useful for accessing the field via an interface.
 func (v *GetDeviceModelRevisionInfoByIdDeviceModelRevision) GetId() string { return v.Id }
+
+// GetDeviceModelId returns GetDeviceModelRevisionInfoByIdDeviceModelRevision.DeviceModelId, and is useful for accessing the field via an interface.
+func (v *GetDeviceModelRevisionInfoByIdDeviceModelRevision) GetDeviceModelId() string {
+	return v.DeviceModelId
+}
 
 // GetRevision returns GetDeviceModelRevisionInfoByIdDeviceModelRevision.Revision, and is useful for accessing the field via an interface.
 func (v *GetDeviceModelRevisionInfoByIdDeviceModelRevision) GetRevision() *int { return v.Revision }
@@ -8274,6 +8260,7 @@ func (v *GetDeviceModelRevisionListDeviceModelRevisionsDeviceModelRevisionCollec
 // I am a generated type!
 type GetDeviceModelRevisionListDeviceModelRevisionsDeviceModelRevisionCollectionSegmentItemsDeviceModelRevision struct {
 	Id            string                                                                                                                 `json:"id"`
+	DeviceModelId string                                                                                                                 `json:"deviceModelId"`
 	DeviceModel   *GetDeviceModelRevisionListDeviceModelRevisionsDeviceModelRevisionCollectionSegmentItemsDeviceModelRevisionDeviceModel `json:"deviceModel"`
 	Revision      *int                                                                                                                   `json:"revision"`
 	UploadMessage string                                                                                                                 `json:"uploadMessage"`
@@ -8282,6 +8269,11 @@ type GetDeviceModelRevisionListDeviceModelRevisionsDeviceModelRevisionCollection
 // GetId returns GetDeviceModelRevisionListDeviceModelRevisionsDeviceModelRevisionCollectionSegmentItemsDeviceModelRevision.Id, and is useful for accessing the field via an interface.
 func (v *GetDeviceModelRevisionListDeviceModelRevisionsDeviceModelRevisionCollectionSegmentItemsDeviceModelRevision) GetId() string {
 	return v.Id
+}
+
+// GetDeviceModelId returns GetDeviceModelRevisionListDeviceModelRevisionsDeviceModelRevisionCollectionSegmentItemsDeviceModelRevision.DeviceModelId, and is useful for accessing the field via an interface.
+func (v *GetDeviceModelRevisionListDeviceModelRevisionsDeviceModelRevisionCollectionSegmentItemsDeviceModelRevision) GetDeviceModelId() string {
+	return v.DeviceModelId
 }
 
 // GetDeviceModel returns GetDeviceModelRevisionListDeviceModelRevisionsDeviceModelRevisionCollectionSegmentItemsDeviceModelRevision.DeviceModel, and is useful for accessing the field via an interface.
@@ -9450,24 +9442,6 @@ func (v *InitiateAppRevisionUploadResponse) GetInitiateAppRevisionUpload() *Init
 	return v.InitiateAppRevisionUpload
 }
 
-// InitiateUserLoginInitiateUserLogin includes the requested fields of the GraphQL type InitiateUserLogin.
-type InitiateUserLoginInitiateUserLogin struct {
-	Challenge string `json:"challenge"`
-}
-
-// GetChallenge returns InitiateUserLoginInitiateUserLogin.Challenge, and is useful for accessing the field via an interface.
-func (v *InitiateUserLoginInitiateUserLogin) GetChallenge() string { return v.Challenge }
-
-// InitiateUserLoginResponse is returned by InitiateUserLogin on success.
-type InitiateUserLoginResponse struct {
-	InitiateUserLogin *InitiateUserLoginInitiateUserLogin `json:"initiateUserLogin"`
-}
-
-// GetInitiateUserLogin returns InitiateUserLoginResponse.InitiateUserLogin, and is useful for accessing the field via an interface.
-func (v *InitiateUserLoginResponse) GetInitiateUserLogin() *InitiateUserLoginInitiateUserLogin {
-	return v.InitiateUserLogin
-}
-
 type ListFilterInputTypeOfAppFirmwareFilterInput struct {
 	All  *AppFirmwareFilterInput `json:"all,omitempty"`
 	None *AppFirmwareFilterInput `json:"none,omitempty"`
@@ -10259,7 +10233,7 @@ type ListFilterInputTypeOfEntityLogBookFilterInput struct {
 	All  *EntityLogBookFilterInput `json:"all,omitempty"`
 	None *EntityLogBookFilterInput `json:"none,omitempty"`
 	Some *EntityLogBookFilterInput `json:"some,omitempty"`
-	Any  *bool                     `json:"any"`
+	Any  *bool                     `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfEntityLogBookFilterInput.All, and is useful for accessing the field via an interface.
@@ -10284,7 +10258,7 @@ type ListFilterInputTypeOfEntityOwnershipFilterInput struct {
 	All  *EntityOwnershipFilterInput `json:"all,omitempty"`
 	None *EntityOwnershipFilterInput `json:"none,omitempty"`
 	Some *EntityOwnershipFilterInput `json:"some,omitempty"`
-	Any  *bool                       `json:"any"`
+	Any  *bool                       `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfEntityOwnershipFilterInput.All, and is useful for accessing the field via an interface.
@@ -11209,18 +11183,18 @@ func (v *StoreSettingFilterInput) GetAssertion() *AssertionFilterInput { return 
 type StringOperationFilterInput struct {
 	And       []*StringOperationFilterInput `json:"and,omitempty"`
 	Or        []*StringOperationFilterInput `json:"or,omitempty"`
-	Eq        *string                       `json:"eq"`
-	Neq       *string                       `json:"neq"`
-	Contains  *string                       `json:"contains"`
-	Ncontains *string                       `json:"ncontains"`
+	Eq        *string                       `json:"eq,omitempty"`
+	Neq       *string                       `json:"neq,omitempty"`
+	Contains  *string                       `json:"contains,omitempty"`
+	Ncontains *string                       `json:"ncontains,omitempty"`
 	// This Fiter is Case-Sensitive
-	In []*string `json:"in"`
+	In []*string `json:"in,omitempty"`
 	// This Fiter is Case-Sensitive
-	Nin         []*string `json:"nin"`
-	StartsWith  *string   `json:"startsWith"`
-	NstartsWith *string   `json:"nstartsWith"`
-	EndsWith    *string   `json:"endsWith"`
-	NendsWith   *string   `json:"nendsWith"`
+	Nin         []*string `json:"nin,omitempty"`
+	StartsWith  *string   `json:"startsWith,omitempty"`
+	NstartsWith *string   `json:"nstartsWith,omitempty"`
+	EndsWith    *string   `json:"endsWith,omitempty"`
+	NendsWith   *string   `json:"nendsWith,omitempty"`
 }
 
 // GetAnd returns StringOperationFilterInput.And, and is useful for accessing the field via an interface.
@@ -11527,18 +11501,6 @@ type __CompleteAppRevisionUploadInput struct {
 
 // GetInput returns __CompleteAppRevisionUploadInput.Input, and is useful for accessing the field via an interface.
 func (v *__CompleteAppRevisionUploadInput) GetInput() *AppRevisionCompleteUploadInput { return v.Input }
-
-// __CompleteChallengeInput is used internally by genqlient
-type __CompleteChallengeInput struct {
-	Challenge       string `json:"challenge"`
-	SignedChallenge string `json:"signedChallenge"`
-}
-
-// GetChallenge returns __CompleteChallengeInput.Challenge, and is useful for accessing the field via an interface.
-func (v *__CompleteChallengeInput) GetChallenge() string { return v.Challenge }
-
-// GetSignedChallenge returns __CompleteChallengeInput.SignedChallenge, and is useful for accessing the field via an interface.
-func (v *__CompleteChallengeInput) GetSignedChallenge() string { return v.SignedChallenge }
 
 // __CreateDeploymentGroupFromDeviceInput is used internally by genqlient
 type __CreateDeploymentGroupFromDeviceInput struct {
@@ -12015,18 +11977,6 @@ type __InitiateAppRevisionUploadInput struct {
 
 // GetInput returns __InitiateAppRevisionUploadInput.Input, and is useful for accessing the field via an interface.
 func (v *__InitiateAppRevisionUploadInput) GetInput() *AppRevisionInitiateUploadInput { return v.Input }
-
-// __InitiateUserLoginInput is used internally by genqlient
-type __InitiateUserLoginInput struct {
-	Email        string `json:"email"`
-	SshPublicKey string `json:"sshPublicKey"`
-}
-
-// GetEmail returns __InitiateUserLoginInput.Email, and is useful for accessing the field via an interface.
-func (v *__InitiateUserLoginInput) GetEmail() string { return v.Email }
-
-// GetSshPublicKey returns __InitiateUserLoginInput.SshPublicKey, and is useful for accessing the field via an interface.
-func (v *__InitiateUserLoginInput) GetSshPublicKey() string { return v.SshPublicKey }
 
 // __ModifyDeviceInput is used internally by genqlient
 type __ModifyDeviceInput struct {
@@ -16711,47 +16661,6 @@ func CompleteAppRevisionUpload(
 	return data_, err_
 }
 
-// The mutation executed by CompleteChallenge.
-const CompleteChallenge_Operation = `
-mutation CompleteChallenge ($challenge: String!, $signedChallenge: String!) {
-	completeChallenge(input: {challenge:$challenge,signedChallenge:$signedChallenge}) {
-		token
-	}
-}
-`
-
-func CompleteChallenge(
-	ctx_ context.Context,
-	challenge string,
-	signedChallenge string,
-) (data_ *CompleteChallengeResponse, err_ error) {
-	req_ := &graphql.Request{
-		OpName: "CompleteChallenge",
-		Query:  CompleteChallenge_Operation,
-		Variables: &__CompleteChallengeInput{
-			Challenge:       challenge,
-			SignedChallenge: signedChallenge,
-		},
-	}
-	var client_ graphql.Client
-
-	client_, err_ = infrastructure.NewGraphqlClient(ctx_)
-	if err_ != nil {
-		return nil, err_
-	}
-
-	data_ = &CompleteChallengeResponse{}
-	resp_ := &graphql.Response{Data: data_}
-
-	err_ = client_.MakeRequest(
-		ctx_,
-		req_,
-		resp_,
-	)
-
-	return data_, err_
-}
-
 // The mutation executed by CreateDeploymentGroupFromDevice.
 const CreateDeploymentGroupFromDevice_Operation = `
 mutation CreateDeploymentGroupFromDevice ($input: DeploymentGroupCreateFromDeviceInput!) {
@@ -18166,6 +18075,7 @@ const GetDeviceModelRevisionInfoById_Operation = `
 query GetDeviceModelRevisionInfoById ($id: UUID!) {
 	deviceModelRevision(id: $id) {
 		id
+		deviceModelId
 		revision
 		isTpmRequired
 		isPreRegistrationRequired
@@ -18232,6 +18142,7 @@ query GetDeviceModelRevisionList ($filter: DeviceModelRevisionFilterInput, $take
 	deviceModelRevisions(where: $filter, take: $take, skip: $skip) {
 		items {
 			id
+			deviceModelId
 			deviceModel {
 				modelName
 				deviceTypeId
@@ -18961,47 +18872,6 @@ func InitiateAppRevisionUpload(
 	}
 
 	data_ = &InitiateAppRevisionUploadResponse{}
-	resp_ := &graphql.Response{Data: data_}
-
-	err_ = client_.MakeRequest(
-		ctx_,
-		req_,
-		resp_,
-	)
-
-	return data_, err_
-}
-
-// The mutation executed by InitiateUserLogin.
-const InitiateUserLogin_Operation = `
-mutation InitiateUserLogin ($email: String!, $sshPublicKey: String!) {
-	initiateUserLogin(input: {email:$email,sshPublicKey:$sshPublicKey}) {
-		challenge
-	}
-}
-`
-
-func InitiateUserLogin(
-	ctx_ context.Context,
-	email string,
-	sshPublicKey string,
-) (data_ *InitiateUserLoginResponse, err_ error) {
-	req_ := &graphql.Request{
-		OpName: "InitiateUserLogin",
-		Query:  InitiateUserLogin_Operation,
-		Variables: &__InitiateUserLoginInput{
-			Email:        email,
-			SshPublicKey: sshPublicKey,
-		},
-	}
-	var client_ graphql.Client
-
-	client_, err_ = infrastructure.NewGraphqlClient(ctx_)
-	if err_ != nil {
-		return nil, err_
-	}
-
-	data_ = &InitiateUserLoginResponse{}
 	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
@@ -21006,8 +20876,6 @@ func getDeviceList(
 	data_ = &getDeviceListResponse{}
 	resp_ := &graphql.Response{Data: data_}
 
-	j, _ := json.Marshal(req_)
-	fmt.Println(string(j))
 	err_ = client_.MakeRequest(
 		ctx_,
 		req_,

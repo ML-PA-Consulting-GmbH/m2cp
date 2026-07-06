@@ -1,0 +1,8 @@
+query GetAppsGlobalShareStatus($ids: [UUID!]!, $take: Int) {
+    apps(where: { id: { in: $ids } }, take: $take) {
+        items {
+            id
+            isGloballyShared
+        }
+    }
+}

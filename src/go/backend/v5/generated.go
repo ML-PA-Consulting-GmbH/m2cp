@@ -8636,6 +8636,43 @@ func (v *GetAppsByRatingResponse) GetAppRevisions() *GetAppsByRatingAppRevisions
 	return v.AppRevisions
 }
 
+// GetAppsGlobalShareStatusAppsAppCollectionSegment includes the requested fields of the GraphQL type AppCollectionSegment.
+type GetAppsGlobalShareStatusAppsAppCollectionSegment struct {
+	Items []*GetAppsGlobalShareStatusAppsAppCollectionSegmentItemsApp `json:"items"`
+}
+
+// GetItems returns GetAppsGlobalShareStatusAppsAppCollectionSegment.Items, and is useful for accessing the field via an interface.
+func (v *GetAppsGlobalShareStatusAppsAppCollectionSegment) GetItems() []*GetAppsGlobalShareStatusAppsAppCollectionSegmentItemsApp {
+	return v.Items
+}
+
+// GetAppsGlobalShareStatusAppsAppCollectionSegmentItemsApp includes the requested fields of the GraphQL type App.
+// The GraphQL type's documentation follows.
+//
+// I am a generated type!
+type GetAppsGlobalShareStatusAppsAppCollectionSegmentItemsApp struct {
+	Id               string `json:"id"`
+	IsGloballyShared bool   `json:"isGloballyShared"`
+}
+
+// GetId returns GetAppsGlobalShareStatusAppsAppCollectionSegmentItemsApp.Id, and is useful for accessing the field via an interface.
+func (v *GetAppsGlobalShareStatusAppsAppCollectionSegmentItemsApp) GetId() string { return v.Id }
+
+// GetIsGloballyShared returns GetAppsGlobalShareStatusAppsAppCollectionSegmentItemsApp.IsGloballyShared, and is useful for accessing the field via an interface.
+func (v *GetAppsGlobalShareStatusAppsAppCollectionSegmentItemsApp) GetIsGloballyShared() bool {
+	return v.IsGloballyShared
+}
+
+// GetAppsGlobalShareStatusResponse is returned by GetAppsGlobalShareStatus on success.
+type GetAppsGlobalShareStatusResponse struct {
+	Apps *GetAppsGlobalShareStatusAppsAppCollectionSegment `json:"apps"`
+}
+
+// GetApps returns GetAppsGlobalShareStatusResponse.Apps, and is useful for accessing the field via an interface.
+func (v *GetAppsGlobalShareStatusResponse) GetApps() *GetAppsGlobalShareStatusAppsAppCollectionSegment {
+	return v.Apps
+}
+
 // GetAssertionByIdAssertion includes the requested fields of the GraphQL type Assertion.
 // The GraphQL type's documentation follows.
 //
@@ -9387,6 +9424,33 @@ func (v *GetDeviceModelByIdWithAssertionResponse) GetEdgeDeviceModel() *GetDevic
 	return v.EdgeDeviceModel
 }
 
+// GetDeviceModelIdByRevisionIdDeviceModelRevision includes the requested fields of the GraphQL type DeviceModelRevision.
+// The GraphQL type's documentation follows.
+//
+// I am a generated type!
+type GetDeviceModelIdByRevisionIdDeviceModelRevision struct {
+	Id            string `json:"id"`
+	DeviceModelId string `json:"deviceModelId"`
+}
+
+// GetId returns GetDeviceModelIdByRevisionIdDeviceModelRevision.Id, and is useful for accessing the field via an interface.
+func (v *GetDeviceModelIdByRevisionIdDeviceModelRevision) GetId() string { return v.Id }
+
+// GetDeviceModelId returns GetDeviceModelIdByRevisionIdDeviceModelRevision.DeviceModelId, and is useful for accessing the field via an interface.
+func (v *GetDeviceModelIdByRevisionIdDeviceModelRevision) GetDeviceModelId() string {
+	return v.DeviceModelId
+}
+
+// GetDeviceModelIdByRevisionIdResponse is returned by GetDeviceModelIdByRevisionId on success.
+type GetDeviceModelIdByRevisionIdResponse struct {
+	DeviceModelRevision *GetDeviceModelIdByRevisionIdDeviceModelRevision `json:"deviceModelRevision"`
+}
+
+// GetDeviceModelRevision returns GetDeviceModelIdByRevisionIdResponse.DeviceModelRevision, and is useful for accessing the field via an interface.
+func (v *GetDeviceModelIdByRevisionIdResponse) GetDeviceModelRevision() *GetDeviceModelIdByRevisionIdDeviceModelRevision {
+	return v.DeviceModelRevision
+}
+
 // GetDeviceModelIdByTypeNameRevisionEdgeDeviceModelsEdgeDeviceModelCollectionSegment includes the requested fields of the GraphQL type EdgeDeviceModelCollectionSegment.
 type GetDeviceModelIdByTypeNameRevisionEdgeDeviceModelsEdgeDeviceModelCollectionSegment struct {
 	Items []*GetDeviceModelIdByTypeNameRevisionEdgeDeviceModelsEdgeDeviceModelCollectionSegmentItemsEdgeDeviceModel `json:"items"`
@@ -9696,6 +9760,45 @@ type GetDeviceModelRevisionListResponse struct {
 // GetDeviceModelRevisions returns GetDeviceModelRevisionListResponse.DeviceModelRevisions, and is useful for accessing the field via an interface.
 func (v *GetDeviceModelRevisionListResponse) GetDeviceModelRevisions() *GetDeviceModelRevisionListDeviceModelRevisionsDeviceModelRevisionCollectionSegment {
 	return v.DeviceModelRevisions
+}
+
+// GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegment includes the requested fields of the GraphQL type DeviceModelCollectionSegment.
+type GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegment struct {
+	Items []*GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegmentItemsDeviceModel `json:"items"`
+}
+
+// GetItems returns GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegment.Items, and is useful for accessing the field via an interface.
+func (v *GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegment) GetItems() []*GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegmentItemsDeviceModel {
+	return v.Items
+}
+
+// GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegmentItemsDeviceModel includes the requested fields of the GraphQL type DeviceModel.
+// The GraphQL type's documentation follows.
+//
+// I am a generated type!
+type GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegmentItemsDeviceModel struct {
+	Id               string `json:"id"`
+	IsGloballyShared bool   `json:"isGloballyShared"`
+}
+
+// GetId returns GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegmentItemsDeviceModel.Id, and is useful for accessing the field via an interface.
+func (v *GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegmentItemsDeviceModel) GetId() string {
+	return v.Id
+}
+
+// GetIsGloballyShared returns GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegmentItemsDeviceModel.IsGloballyShared, and is useful for accessing the field via an interface.
+func (v *GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegmentItemsDeviceModel) GetIsGloballyShared() bool {
+	return v.IsGloballyShared
+}
+
+// GetDeviceModelsGlobalShareStatusResponse is returned by GetDeviceModelsGlobalShareStatus on success.
+type GetDeviceModelsGlobalShareStatusResponse struct {
+	DeviceModels *GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegment `json:"deviceModels"`
+}
+
+// GetDeviceModels returns GetDeviceModelsGlobalShareStatusResponse.DeviceModels, and is useful for accessing the field via an interface.
+func (v *GetDeviceModelsGlobalShareStatusResponse) GetDeviceModels() *GetDeviceModelsGlobalShareStatusDeviceModelsDeviceModelCollectionSegment {
+	return v.DeviceModels
 }
 
 // GetDevicesByDeploymentGroupIdDevicesDeviceCollectionSegment includes the requested fields of the GraphQL type DeviceCollectionSegment.
@@ -12093,6 +12196,76 @@ type SetDeviceToDeadUpdateEdgeDevicesEdgeDevice struct {
 // GetDeviceSerial returns SetDeviceToDeadUpdateEdgeDevicesEdgeDevice.DeviceSerial, and is useful for accessing the field via an interface.
 func (v *SetDeviceToDeadUpdateEdgeDevicesEdgeDevice) GetDeviceSerial() string { return v.DeviceSerial }
 
+// ShareAppResponse is returned by ShareApp on success.
+type ShareAppResponse struct {
+	ShareApps []*ShareAppShareAppsApp `json:"shareApps"`
+}
+
+// GetShareApps returns ShareAppResponse.ShareApps, and is useful for accessing the field via an interface.
+func (v *ShareAppResponse) GetShareApps() []*ShareAppShareAppsApp { return v.ShareApps }
+
+// ShareAppShareAppsApp includes the requested fields of the GraphQL type App.
+// The GraphQL type's documentation follows.
+//
+// I am a generated type!
+type ShareAppShareAppsApp struct {
+	Id               string  `json:"id"`
+	IsGloballyShared bool    `json:"isGloballyShared"`
+	GloballySharedAt *string `json:"globallySharedAt"`
+	GloballySharedBy *string `json:"globallySharedBy"`
+}
+
+// GetId returns ShareAppShareAppsApp.Id, and is useful for accessing the field via an interface.
+func (v *ShareAppShareAppsApp) GetId() string { return v.Id }
+
+// GetIsGloballyShared returns ShareAppShareAppsApp.IsGloballyShared, and is useful for accessing the field via an interface.
+func (v *ShareAppShareAppsApp) GetIsGloballyShared() bool { return v.IsGloballyShared }
+
+// GetGloballySharedAt returns ShareAppShareAppsApp.GloballySharedAt, and is useful for accessing the field via an interface.
+func (v *ShareAppShareAppsApp) GetGloballySharedAt() *string { return v.GloballySharedAt }
+
+// GetGloballySharedBy returns ShareAppShareAppsApp.GloballySharedBy, and is useful for accessing the field via an interface.
+func (v *ShareAppShareAppsApp) GetGloballySharedBy() *string { return v.GloballySharedBy }
+
+// ShareDeviceModelResponse is returned by ShareDeviceModel on success.
+type ShareDeviceModelResponse struct {
+	ShareDeviceModels []*ShareDeviceModelShareDeviceModelsDeviceModel `json:"shareDeviceModels"`
+}
+
+// GetShareDeviceModels returns ShareDeviceModelResponse.ShareDeviceModels, and is useful for accessing the field via an interface.
+func (v *ShareDeviceModelResponse) GetShareDeviceModels() []*ShareDeviceModelShareDeviceModelsDeviceModel {
+	return v.ShareDeviceModels
+}
+
+// ShareDeviceModelShareDeviceModelsDeviceModel includes the requested fields of the GraphQL type DeviceModel.
+// The GraphQL type's documentation follows.
+//
+// I am a generated type!
+type ShareDeviceModelShareDeviceModelsDeviceModel struct {
+	Id               string  `json:"id"`
+	IsGloballyShared bool    `json:"isGloballyShared"`
+	GloballySharedAt *string `json:"globallySharedAt"`
+	GloballySharedBy *string `json:"globallySharedBy"`
+}
+
+// GetId returns ShareDeviceModelShareDeviceModelsDeviceModel.Id, and is useful for accessing the field via an interface.
+func (v *ShareDeviceModelShareDeviceModelsDeviceModel) GetId() string { return v.Id }
+
+// GetIsGloballyShared returns ShareDeviceModelShareDeviceModelsDeviceModel.IsGloballyShared, and is useful for accessing the field via an interface.
+func (v *ShareDeviceModelShareDeviceModelsDeviceModel) GetIsGloballyShared() bool {
+	return v.IsGloballyShared
+}
+
+// GetGloballySharedAt returns ShareDeviceModelShareDeviceModelsDeviceModel.GloballySharedAt, and is useful for accessing the field via an interface.
+func (v *ShareDeviceModelShareDeviceModelsDeviceModel) GetGloballySharedAt() *string {
+	return v.GloballySharedAt
+}
+
+// GetGloballySharedBy returns ShareDeviceModelShareDeviceModelsDeviceModel.GloballySharedBy, and is useful for accessing the field via an interface.
+func (v *ShareDeviceModelShareDeviceModelsDeviceModel) GetGloballySharedBy() *string {
+	return v.GloballySharedBy
+}
+
 // I am a generated type!
 type SnapCategoryFilterInput struct {
 	And         []*SnapCategoryFilterInput          `json:"and,omitempty"`
@@ -13696,6 +13869,18 @@ type __GetAppsByRatingInput struct {
 // GetRating returns __GetAppsByRatingInput.Rating, and is useful for accessing the field via an interface.
 func (v *__GetAppsByRatingInput) GetRating() string { return v.Rating }
 
+// __GetAppsGlobalShareStatusInput is used internally by genqlient
+type __GetAppsGlobalShareStatusInput struct {
+	Ids  []string `json:"ids"`
+	Take *int     `json:"take"`
+}
+
+// GetIds returns __GetAppsGlobalShareStatusInput.Ids, and is useful for accessing the field via an interface.
+func (v *__GetAppsGlobalShareStatusInput) GetIds() []string { return v.Ids }
+
+// GetTake returns __GetAppsGlobalShareStatusInput.Take, and is useful for accessing the field via an interface.
+func (v *__GetAppsGlobalShareStatusInput) GetTake() *int { return v.Take }
+
 // __GetAssertionByIdInput is used internally by genqlient
 type __GetAssertionByIdInput struct {
 	Id string `json:"id"`
@@ -13806,6 +13991,14 @@ type __GetDeviceModelByIdWithAssertionInput struct {
 // GetId returns __GetDeviceModelByIdWithAssertionInput.Id, and is useful for accessing the field via an interface.
 func (v *__GetDeviceModelByIdWithAssertionInput) GetId() string { return v.Id }
 
+// __GetDeviceModelIdByRevisionIdInput is used internally by genqlient
+type __GetDeviceModelIdByRevisionIdInput struct {
+	Id string `json:"id"`
+}
+
+// GetId returns __GetDeviceModelIdByRevisionIdInput.Id, and is useful for accessing the field via an interface.
+func (v *__GetDeviceModelIdByRevisionIdInput) GetId() string { return v.Id }
+
 // __GetDeviceModelIdByTypeNameRevisionInput is used internally by genqlient
 type __GetDeviceModelIdByTypeNameRevisionInput struct {
 	ModelType     string `json:"modelType"`
@@ -13847,6 +14040,18 @@ func (v *__GetDeviceModelRevisionListInput) GetTake() *int { return v.Take }
 
 // GetSkip returns __GetDeviceModelRevisionListInput.Skip, and is useful for accessing the field via an interface.
 func (v *__GetDeviceModelRevisionListInput) GetSkip() *int { return v.Skip }
+
+// __GetDeviceModelsGlobalShareStatusInput is used internally by genqlient
+type __GetDeviceModelsGlobalShareStatusInput struct {
+	Ids  []string `json:"ids"`
+	Take *int     `json:"take"`
+}
+
+// GetIds returns __GetDeviceModelsGlobalShareStatusInput.Ids, and is useful for accessing the field via an interface.
+func (v *__GetDeviceModelsGlobalShareStatusInput) GetIds() []string { return v.Ids }
+
+// GetTake returns __GetDeviceModelsGlobalShareStatusInput.Take, and is useful for accessing the field via an interface.
+func (v *__GetDeviceModelsGlobalShareStatusInput) GetTake() *int { return v.Take }
 
 // __GetDevicesByDeploymentGroupIdInput is used internally by genqlient
 type __GetDevicesByDeploymentGroupIdInput struct {
@@ -14043,6 +14248,22 @@ type __SetDeviceToDeadInput struct {
 
 // GetId returns __SetDeviceToDeadInput.Id, and is useful for accessing the field via an interface.
 func (v *__SetDeviceToDeadInput) GetId() string { return v.Id }
+
+// __ShareAppInput is used internally by genqlient
+type __ShareAppInput struct {
+	Id string `json:"id"`
+}
+
+// GetId returns __ShareAppInput.Id, and is useful for accessing the field via an interface.
+func (v *__ShareAppInput) GetId() string { return v.Id }
+
+// __ShareDeviceModelInput is used internally by genqlient
+type __ShareDeviceModelInput struct {
+	Id string `json:"id"`
+}
+
+// GetId returns __ShareDeviceModelInput.Id, and is useful for accessing the field via an interface.
+func (v *__ShareDeviceModelInput) GetId() string { return v.Id }
 
 // __UnsetDeviceDeploymentGroupInput is used internally by genqlient
 type __UnsetDeviceDeploymentGroupInput struct {
@@ -19803,6 +20024,50 @@ func GetAppsByRating(
 	return data_, err_
 }
 
+// The query executed by GetAppsGlobalShareStatus.
+const GetAppsGlobalShareStatus_Operation = `
+query GetAppsGlobalShareStatus ($ids: [UUID!]!, $take: Int) {
+	apps(where: {id:{in:$ids}}, take: $take) {
+		items {
+			id
+			isGloballyShared
+		}
+	}
+}
+`
+
+func GetAppsGlobalShareStatus(
+	ctx_ context.Context,
+	ids []string,
+	take *int,
+) (data_ *GetAppsGlobalShareStatusResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "GetAppsGlobalShareStatus",
+		Query:  GetAppsGlobalShareStatus_Operation,
+		Variables: &__GetAppsGlobalShareStatusInput{
+			Ids:  ids,
+			Take: take,
+		},
+	}
+	var client_ graphql.Client
+
+	client_, err_ = infrastructure.NewGraphqlClient(ctx_)
+	if err_ != nil {
+		return nil, err_
+	}
+
+	data_ = &GetAppsGlobalShareStatusResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
 // The query executed by GetAssertionById.
 const GetAssertionById_Operation = `
 query GetAssertionById ($id: UUID!) {
@@ -20330,6 +20595,46 @@ func GetDeviceModelByIdWithAssertion(
 	return data_, err_
 }
 
+// The query executed by GetDeviceModelIdByRevisionId.
+const GetDeviceModelIdByRevisionId_Operation = `
+query GetDeviceModelIdByRevisionId ($id: UUID!) {
+	deviceModelRevision(id: $id) {
+		id
+		deviceModelId
+	}
+}
+`
+
+func GetDeviceModelIdByRevisionId(
+	ctx_ context.Context,
+	id string,
+) (data_ *GetDeviceModelIdByRevisionIdResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "GetDeviceModelIdByRevisionId",
+		Query:  GetDeviceModelIdByRevisionId_Operation,
+		Variables: &__GetDeviceModelIdByRevisionIdInput{
+			Id: id,
+		},
+	}
+	var client_ graphql.Client
+
+	client_, err_ = infrastructure.NewGraphqlClient(ctx_)
+	if err_ != nil {
+		return nil, err_
+	}
+
+	data_ = &GetDeviceModelIdByRevisionIdResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
 // The query executed by GetDeviceModelIdByTypeNameRevision.
 const GetDeviceModelIdByTypeNameRevision_Operation = `
 query GetDeviceModelIdByTypeNameRevision ($modelType: String!, $modelName: String!, $modelRevision: Int!) {
@@ -20484,6 +20789,50 @@ func GetDeviceModelRevisionList(
 	}
 
 	data_ = &GetDeviceModelRevisionListResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
+// The query executed by GetDeviceModelsGlobalShareStatus.
+const GetDeviceModelsGlobalShareStatus_Operation = `
+query GetDeviceModelsGlobalShareStatus ($ids: [UUID!]!, $take: Int) {
+	deviceModels(where: {id:{in:$ids}}, take: $take) {
+		items {
+			id
+			isGloballyShared
+		}
+	}
+}
+`
+
+func GetDeviceModelsGlobalShareStatus(
+	ctx_ context.Context,
+	ids []string,
+	take *int,
+) (data_ *GetDeviceModelsGlobalShareStatusResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "GetDeviceModelsGlobalShareStatus",
+		Query:  GetDeviceModelsGlobalShareStatus_Operation,
+		Variables: &__GetDeviceModelsGlobalShareStatusInput{
+			Ids:  ids,
+			Take: take,
+		},
+	}
+	var client_ graphql.Client
+
+	client_, err_ = infrastructure.NewGraphqlClient(ctx_)
+	if err_ != nil {
+		return nil, err_
+	}
+
+	data_ = &GetDeviceModelsGlobalShareStatusResponse{}
 	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
@@ -21396,6 +21745,90 @@ func SetDeviceToDead(
 	}
 
 	data_ = &SetDeviceToDeadResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
+// The mutation executed by ShareApp.
+const ShareApp_Operation = `
+mutation ShareApp ($id: UUID!) {
+	shareApps(apps: [{id:$id}]) {
+		id
+		isGloballyShared
+		globallySharedAt
+		globallySharedBy
+	}
+}
+`
+
+func ShareApp(
+	ctx_ context.Context,
+	id string,
+) (data_ *ShareAppResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "ShareApp",
+		Query:  ShareApp_Operation,
+		Variables: &__ShareAppInput{
+			Id: id,
+		},
+	}
+	var client_ graphql.Client
+
+	client_, err_ = infrastructure.NewGraphqlClient(ctx_)
+	if err_ != nil {
+		return nil, err_
+	}
+
+	data_ = &ShareAppResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
+// The mutation executed by ShareDeviceModel.
+const ShareDeviceModel_Operation = `
+mutation ShareDeviceModel ($id: UUID!) {
+	shareDeviceModels(deviceModels: [{id:$id}]) {
+		id
+		isGloballyShared
+		globallySharedAt
+		globallySharedBy
+	}
+}
+`
+
+func ShareDeviceModel(
+	ctx_ context.Context,
+	id string,
+) (data_ *ShareDeviceModelResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "ShareDeviceModel",
+		Query:  ShareDeviceModel_Operation,
+		Variables: &__ShareDeviceModelInput{
+			Id: id,
+		},
+	}
+	var client_ graphql.Client
+
+	client_, err_ = infrastructure.NewGraphqlClient(ctx_)
+	if err_ != nil {
+		return nil, err_
+	}
+
+	data_ = &ShareDeviceModelResponse{}
 	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
