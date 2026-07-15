@@ -143,6 +143,7 @@ Every user automatically receives the **Default** role upon account creation. Th
 - Update device configurations
 - Create, modify, clone, and delete deployment groups
 - Assign, update, and remove app revisions to/from deployment groups
+- Add or remove co-admins in deployment groups owned by the user
 - Install and update apps on devices
 - Execute RPC calls on own devices
 - SSH into own devices
@@ -172,6 +173,10 @@ Every user automatically receives the **Default** role upon account creation. Th
 | `Fleet.Update.All` | Update any deployment group |
 | `Fleet.Clone.All` | Clone any deployment group |
 | `Fleet.Delete.All` | Delete any deployment group |
+| `DeploymentGroupAdministrator.Create.All` | Add co-admins to the deployment group |  
+| `DeploymentGroupAdministrator.Delete.All` | Remove co-admins from the deployment group |
+| `DeploymentGroupAdministrator.Read.All` | View the co-admins of a deployment group |
+| `DeploymentGroupAdministrator.Update.All` | Edit co-admins in a deployment group |
 | `FleetBridgeSnapRevision.Read.All` | View fleet app assignments |
 | `FleetBridgeSnapRevision.Create.All` | Assign apps to deployment groups |
 | `FleetBridgeSnapRevision.Update.All` | Update deployment group app assignments |
@@ -188,23 +193,24 @@ Every user automatically receives the **Default** role upon account creation. Th
 
 ### Device Admin
 
-**Full operational control over all devices and fleets in the system.** This is the most powerful device-facing role and should only be granted to engineers who need system-wide device management authority.
+**Full operational control over all devices in the system.** This is the most powerful device-facing role and should only be granted to engineers who need system-wide device management authority.
 
 **Intended for:** Senior device engineers, infrastructure or operations team leads who must act across all devices.
 
-**Access level:** Unrestricted device and deployment group management across the entire system
+**Access level:** Unrestricted device management across the entire system (provided they are owners or co-admins of the respective deployment groups)
 
 **What this role allows:**
-- Everything a Device Manager can do, applied to any device or deployment group in the system
+- Everything a Device Manager can do, applied to any device or owned deployment group in the system
 - SSH into any device in the system
 - Execute RPC calls on any device in the system (tenant-wide)
 - Relink devices (reassign device identity or connectivity)
-- Create, update, and delete physical asset models
-- Create, update, and delete system assets
+- Create, update, and delete physical asset models (if user is also an Asset Admin)
+- Create, update, and delete system assets (if user is also an Asset Admin)
 
 **What this role does NOT allow:**
 - Uploading or publishing software to the store
 - Managing users or roles
+- Managing deployment groups where the user is NOT owner or co-admin
 
 **Technical scopes** (in addition to Device Manager scopes):
 
@@ -363,11 +369,73 @@ Every user automatically receives the **Default** role upon account creation. Th
 
 | Scope | Meaning |
 |-------|---------|
+| `Asset.Create.Tenant` | Create an asset instance in the tenant |
+| `Asset.Delete.Tenant` | Delete asset instances in the tenant |
+| `Asset.Provision.Tenant` | Verify asset provisioning in the tenant |
 | `Asset.Read.Tenant` | View assets in the tenant |
-| `AssetModel.Read.Tenant` | View asset models in the tenant |
+| `Asset.Sync.Tenant` | Sync assets in the tenant |
+| `Asset.Update.Tenant` | Edit assets in the tenant |
+| `Asset.VerifyProvisioning.Tenant` | Verify asset provisioning in the tenant |
+| `AssetAttribute.Create.Tenant` | Create attribute in the tenant |
+| `AssetAttribute.Delete.Tenant` | Delete attribute in the tenant |
+| `AssetAttribute.Read.Tenant` | View attribute in the tenant |
+| `AssetAttribute.Update.Tenant` | Edit attribute in the tenant |
+| `AssetAttributeDataType.Read.Tenant` | Read attribute data types in the tenant |
+| `AssetAttributeSet.Create.Tenant` | Create attribute set in the tenant |
+| `AssetAttributeSet.Delete.Tenant` | Delete attribute set in the tenant |
+| `AssetAttributeSet.Read.Tenant` | View attribute set in the tenant |
+| `AssetAttributeSet.Update.Tenant` | Edit attribute set in the tenant |
+| `AssetAttributeUnit.Create.Tenant` | Create asset attributes in the tenant|
+| `AssetAttributeUnit.Delete.Tenant` | Delete asset attributes in the tenant|
+| `AssetAttributeUnit.Read.Tenant` |  View asset attributes in the tenant|
+| `AssetAttributeUnit.Update.Tenant` |  Edit asset attributes in the tenant|
+| `AssetAttributeValue.Create.Tenant` | Set asset attribute values in the tenant|
+| `AssetAttributeValue.Delete.Tenant` | Delete asset attribute values in the tenant|
+| `AssetAttributeValue.Read.Tenant` | View asset attribute values in the tenant|
+| `AssetAttributeValue.Update.Tenant` | Edit asset attribute values in the tenant|
+| `AssetBridgeAssetTag.Create.Tenant` | Create an asset tag in the tenant|
+| `AssetBridgeAssetTag.Delete.Tenant` | Delete an asset tag in the tenant|
+| `AssetBridgeAssetTag.Read.Tenant` | View asset tags in the tenant|
+| `AssetBridgeAssetTag.Update.Tenant` | Assign a tag to an asset in the tenant|
 | `AssetModel.Create.Tenant` | Create asset models in the tenant |
-| `SystemAsset.Update.Tenant` | Update system assets in the tenant |
-| `SystemAsset.Delete.Tenant` | Delete system assets in the tenant |
+| `AssetModel.Delete.Tenant` | Delete asset models in the tenant |
+| `AssetModel.Read.Tenant` | View asset models in the tenant |
+| `AssetModel.Update.Tenant` | Edit asset models in the tenant |
+| `AssetModelBridgeAssetAttributeSet.Create.Tenant` | Allows the user to create model-attribute-set associations within their own tenant |
+| `AssetModelBridgeAssetAttributeSet.Delete.Tenant` | Allows the user to delete model-attribute-set associations within their own tenant |
+| `AssetModelBridgeAssetAttributeSet.Read.Tenant` | Allows the user to read model-attribute-set associations within their own tenant |
+| `AssetModelDefaultValue.Create.Tenant` | Create asset model default values in the tenant|
+| `AssetModelDefaultValue.Delete.Tenant` | Delete asset model default values in the tenant|
+| `AssetModelDefaultValue.Read.Tenant` | View asset model default values in the tenant|
+| `AssetModelDefaultValue.Update.Tenant` | Edit asset model default values in the tenant|
+| `AssetModelTree.Create.Tenant` | Create asset model trees in the tenant|
+| `AssetModelTree.Delete.Tenant` | Delete asset model trees in the tenant|
+| `AssetModelTree.Read.Tenant` |  View asset model trees in the tenant|
+| `AssetModelTree.Update.Tenant` | Edit asset model trees in the tenant|
+| `AssetModelTreeNode.Create.Tenant` | Create asset model tree nodes in the tenant|
+| `AssetModelTreeNode.Delete.Tenant` | Delete asset model tree nodes in the tenant|
+| `AssetModelTreeNode.Read.Tenant` | View asset model tree nodes  in the tenant|
+| `AssetModelTreeNode.Update.Tenant` | Edit asset model tree nodes in the tenant|
+| `AssetTag.Create.Tenant` | Create asset tags in the tenant|
+| `AssetTag.Delete.Tenant` | Delete asset tags in the tenant|
+| `AssetTag.Read.Tenant` | View assset tags in the tenant|
+| `AssetTag.Update.Tenant` | Edit asset tags in the tenant|
+| `AssetType.Create.Tenant` | Create asset types in the tenant|
+| `AssetType.Delete.Tenant` | Delete asset types in the tenant|
+| `AssetType.Read.Tenant` | View asset types in the tenant|
+| `AssetType.Update.Tenant` | Edit asset types in the tenant|
+| `AssetTypeTree.Create.Tenant` | Create asset type trees in the tenant|
+| `AssetTypeTree.Delete.Tenant` | Delete asset type trees in the tenant|
+| `AssetTypeTree.Read.Tenant` | View asset type trees in the tenant|
+| `AssetTypeTree.Update.Tenant` | Update asset type trees in the tenant|
+| `AssetTypeTreeNode.Create.Tenant` | Create asset type tree note in the tenant|
+| `AssetTypeTreeNode.Delete.Tenant` | Delete asset type tree note in the tenant|
+| `AssetTypeTreeNode.Read.Tenant` | View asset type tree note in the tenant|
+| `AssetTypeTreeNode.Update.Tenant` | Update asset type tree note in the tenant|
+| `MeasurementCategory.Read.Tenant` | Read measurement categories in the tenant|
+| `SystemAsset.Delete.Tenant` | Delete system owned assets in the tenant|
+| `SystemAsset.Update.Tenant` | Edit system owned assets in the tenant|
+
 
 
 ### User Admin
@@ -576,7 +644,7 @@ All permission scopes in a single view. Read **across a row** to find every role
 | Users & Roles | `UserAllowedTenant.Delete.Tenant` | | | | | | | | | | ● | | | | ★ |
 | Devices | `EdgeDevice.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | | ★ |
 | Devices | `EdgeDevice.Update.All` | | | | ● | ● | | | ● | | | | | | ★ |
-| Devices | `EdgeDevice.RPC.Own` | | | ● | ● | | | | | | | | | | ★ |
+| Devices | `EdgeDevice.RPC.Own` | | | ● | ● | ● | | | | | | | | | ★ |
 | Devices | `EdgeDevice.RPC.Tenant` | | | | | ● | | | | | | | | | ★ |
 | Devices | `EdgeDevice.RPC_SSH.Own` | | | ● | ● | ● | | | | | | | | | ★ |
 | Devices | `Device.Relink.All` | | | | | ● | | | | | | | | | ★ |
@@ -593,6 +661,10 @@ All permission scopes in a single view. Read **across a row** to find every role
 | Deployment Groups | `Fleet.Update.All` | | | | ● | ● | | | | | | | | | ★ |
 | Deployment Groups | `Fleet.Clone.All` | | | | ● | ● | | | | | | | | | ★ |
 | Deployment Groups | `Fleet.Delete.All` | | | | ● | ● | | | | | | | | | ★ |
+| Deployment Groups | `DeploymentGroupAdministrator.Create.All` | | | | ● | ● | | | | | | | | | ★ |
+| Deployment Groups | `DeploymentGroupAdministrator.Delete.All` | | | | ● | ● | | | | | | | | | ★ |
+| Deployment Groups | `DeploymentGroupAdministrator.Read.All` | | | | ● | ● | | | | | | | | | ★ |
+| Deployment Groups | `DeploymentGroupAdministrator.Update.All` | | | | ● | ● | | | | | | | | | ★ |
 | Deployment Groups | `FleetBridgeSnapRevision.Read.All` | | ★ | | ● | ● | | ★ | | | | | | | ★ |
 | Deployment Groups | `FleetBridgeSnapRevision.Create.All` | | | | ● | ● | | | | | | | | | ★ |
 | Deployment Groups | `FleetBridgeSnapRevision.Update.All` | | | | ● | ● | | | | | | | | | ★ |
@@ -617,11 +689,72 @@ All permission scopes in a single view. Read **across a row** to find every role
 | Assertions | `ModelAssertion.Create.All` | | | | | | | | | | | | | ● | ★ |
 | Assertions | `SystemUserAssertion.Create.All` | | | | | | | | | | | | | ● | ★ |
 | Assets | `Asset.Read.All` | | ● | ● | ● | ● | | ★ | | | | | | | ★ |
+| Assets | `Asset.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `Asset.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `Asset.Provision.Tenant` | | | | | | | | | ● | | | | | ★ |
 | Assets | `Asset.Read.Tenant` | | | | | | ● | | | ● | | | | | ★ |
+| Assets | `Asset.Sync.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `Asset.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `Asset.VerifyProvisioning.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttribute.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttribute.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttribute.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttribute.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttributeDataType.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttributeSet.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttributeSet.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttributeSet.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttributeSet.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttributeUnit.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttributeUnit.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttributeUnit.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttributeUnit.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttributeValue.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttributeValue.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttributeValue.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetAttributeValue.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetBridgeAssetTag.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetBridgeAssetTag.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetBridgeAssetTag.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetBridgeAssetTag.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
 | Assets | `AssetModel.Read.All` | | ★ | | ● | ● | | ★ | | | | | | | ★ |
 | Assets | `AssetModel.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
 | Assets | `AssetModel.Create.All` | | | | | ● | | | | | | | | | ★ |
 | Assets | `AssetModel.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModel.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModel.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelBridgeAssetAttributeSet.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelBridgeAssetAttributeSet.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelBridgeAssetAttributeSet.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelDefaultValue.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelDefaultValue.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelDefaultValue.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelDefaultValue.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelTree.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelTree.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelTree.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelTree.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelTreeNode.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelTreeNode.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelTreeNode.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetModelTreeNode.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetTag.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetTag.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetTag.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetTag.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetType.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetType.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetType.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetType.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetTypeTree.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetTypeTree.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetTypeTree.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetTypeTree.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetTypeTreeNode.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetTypeTreeNode.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetTypeTreeNode.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `AssetTypeTreeNode.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
+| Assets | `MeasurementCategory.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
 | Assets | `SystemAsset.Provision.All` | | | | | | | | | | | | ● | | ★ |
 | Assets | `SystemAsset.Update.All` | | | | | ● | | | | | | | | | ★ |
 | Assets | `SystemAsset.Update.Tenant` | | | | | | | | | ● | | | | | ★ |

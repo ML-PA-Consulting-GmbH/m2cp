@@ -176,14 +176,16 @@ Whenever one of these conditions is met, the update sequence depicted on the dia
 
 #### Peers Discovery
 
-_m2cp-coap_ prepares for an imminent refresh call to the App Store by trying to gather as much information as possible
-about the _RTDs_ in its local network. To achieve this, it sends a multicast CoAP request to the local network:`GET coap://[ff02::1]/whoami/2`
-and additionally sends individual `GET /whoami/2` requests to all _known peers_ (RTDs it has seen recently).
-Successful responses contain an [RTD Details Data Object](#rtd-details) in their body and `2.05 Content` as result code.
-_m2cp-coap_ waits 3 seconds for responses from the _Real Time Devices_ and updates the _known peers_ list using the received information.
+**Active Discovery**
 
-The update mechanism does _not_ rely on the _RTDs_ answering to these discovery requests. It's designed to support a broad range of legacy RTDs and RTDs with limited capability.
-Implementing these endpoints is recommended, though, for fast and efficient updates. Some _RTDs_ don't have a CoAP server. They announce themselves as described in [Serve Firmware Updates](#serve-firmware-updates).
+_m2cp-coap_ prepares for an imminent refresh call to the App Store by trying to gather as much information as possible
+about the _RTDs_ in its local network. To achieve this, it sends [`GET /whoami/2`](Tech_CoAP.md#get-whoami-2) to the IPv6 multicast address `ff02::1` and to all _known peers_ individually.
+_m2cp-coap_ waits 3 seconds for responses and updates the _known peers_ list using the received information.
+Implementing [`GET /whoami/2`](Tech_CoAP.md#get-whoami-2) is recommended for fast and efficient updates.
+
+**Passive Discovery**
+
+The update mechanism does _not_ rely on the _RTDs_ answering to these discovery requests. It's designed to support a broad range of legacy RTDs and RTDs with limited capability. Some _RTDs_ don't have a CoAP server. They announce themselves by using the [`POST hello/2`](Tech_CoAP.md#post-hello-2) endpoint. Calls to [`POST /suit/mani`](Tech_CoAP.md#post-suit-mani) endpoint are also used to monitor available RTDs, as described in [Serve Firmware Updates](#serve-firmware-updates).
 
 
 #### Refresh Call
@@ -220,29 +222,29 @@ Now _m2cp-coap_ is ready to serve any update action received from the App Store 
 
 #### Announce Updates
 
-- _m2cp-coap_ now announces the availability of new firmware to the _RTDs_ in the network both by multicast and individual coap requests to all known peers at `PUT /update/1` with the manifest of the available update in the message body.
+- _m2cp-coap_ now announces the availability of new firmware to the concerned _RTDs_ as individual CoAP requests using [`PUT /update/1`](Tech_CoAP.md#put-update-1), with the SUIT manifest included in the message body.
 - Some _Real Time Devices_ will take the manifest and ask for the available binaries.
-- Some _Real Time Devices_ will ask for the available updates.
-- Some _Real Time Devices_ will react at all.
+- Some _Real Time Devices_ will ignore the manifest and ask for updates separately.
+- Some _Real Time Devices_ will not react at all.
 
 #### Serve Firmware Updates
 
-- _Real Time Devices_ can ask _m2cp-coap_ for available updates at any time using  `POST /suit/mani` providing an [RTD Data Object](#rtd-data-object) in the message body
-- If there is an update action to be executed, _m2cp-coap_ responds by returning the manifests of the firmware packages to be installed to the _RTDs_. If there is no update action, it returns an empty response with an error code 4.04 (not found).
-- The _Real Time Devices_ validates the manifests, aborts if validation fails
-- The _RTD_ downloads the firmware from the ED at `POST /suit/fw/<app-revison-id>/<slot>` (the exact URL is in the manifest)
+- _Real Time Devices_ can ask _m2cp-coap_ for available updates at any time using [`POST /suit/mani`](Tech_CoAP.md#post-suit-mani), providing their current state in the request body. If no update is pending, `4.04 Not Found` is returned.
+- The _Real Time Devices_ validate the received manifest and abort if validation fails
+- The _RTD_ downloads the firmware binary using [`GET /suit/fw/{app-revision-id}/{slot}`](Tech_CoAP.md#get-suit-fw-app-revision-id-slot) (the exact URL is embedded in the manifest)
 - The _Real Time Devices_ install the firmware packages
-- If failed, it rolls back, if successful, it marks the new partition as active. Optionally: report result of the update process to `POST /suit/result/{sequence-number}?error={uint}`
-- After reboot call _m2cp-coap_ `POST /hello/2` to announce the new state of the RTD
+- If failed, it rolls back; if successful, it marks the new partition as active. Optionally: report the result using [`POST /suit/result/{sequence-number}`](Tech_CoAP.md#post-suit-result-sequence-number)
+- After reboot, the RTD calls the [`POST /hello/2`](Tech_CoAP.md#post-hello-2) endpoint of _m2cp-coap_ to announce the new state of the RTD. This signals a successful update and also triggers a new update cycle.
+
 
 #### Wait
 
 Most of the time _m2cp-coap_ is waiting for the next iteration of the update process to start, still serving the available updates and waiting for a trigger condition to be met.
 
 A new update cycle is triggered by _m2cp-coap_ learning new information about its peers from:
-- An unknown _RTD_ announcing itself to _m2cp-coap_ at `POST /hello/2` with an [RTD Data Object](#rtd-data-object) in the message body
-- A known _RTD_ sending `POST /hello/2` with an [RTD Data Object](#rtd-data-object) in the message body after booting a new firmware
-- A known or unknown _RTD_ calling _m2cp-coap_ with `POST /suit/mani` providing an [RTD Data Object](#rtd-data-object) in the message body
+- An unknown _RTD_ announcing itself to _m2cp-coap_ via [`POST /hello/2`](Tech_CoAP.md#post-hello-2)
+- A known _RTD_ sending [`POST /hello/2`](Tech_CoAP.md#post-hello-2) after booting a new firmware
+- A known or unknown _RTD_ calling _m2cp-coap_ via [`POST /suit/mani`](Tech_CoAP.md#post-suit-mani)
 
 It can also be triggered by the App Store Service via a RPC requesting an immediate refresh due to a changed target state
 
@@ -345,45 +347,9 @@ This is a security mechanism of the SUIT protocol to prevent rollback attacks.
 #### RTD Details
 <a id="realtime_device_details_data_object"></a>
 
-When RTDs report their details, they use one of the two following formats:
+See [CoAP — RTD Details](Tech_CoAP.md#rtd-details) for the full JSON and CBOR format definitions.
 
-(rtd-data-object)=
-JSON Format:
-```javascript
-{
-  "hw_serial":"12345", // The Device Hardware Serial
-  "hw_model":"PMIC 1.08", // The Device Hardware Model
-  "hw_vendor":"mlpa", // The Device Hardware Vendor
-  "mcu_id":"123abc",  // Optional: The MCU ID
-  "dev_model":"pmic", // The Device Model of the Real Time Device
-  "app_name":"fw-pmic", // The name of the App running on the Real Time Device
-  "app_version":"3.2.1", // The semver version of the App running on the Real Time Device
-  "seq_no":2001000, // The sequence number of the current firmware installation
-  "uptime": 12345, // The uptime of the Real Time Device in seconds
-  "keys": ["key1", "key2", "..."] // Array of base64 encoded public keys
-}
-```
-
-CBOR Format:
-```text
-DeviceInfo = {
-  0: tstr,       ; hw_serial
-  1: tstr,       ; hw_model
-  2: tstr,       ; hw_vendor
-  3: tstr,       ; dev_model
-  4: tstr,       ; app_name
-  5: tstr,       ; app_version
-  6: uint,       ; seq_no
-  7: uint,       ; uptime
-  8: [+ bstr]    ; keys 
-  9: ? tstr      ; mcu_id (optional)
-}
-```
-
-These details are used in:
-- ED calling RTD `GET /whoami/2` (Response Code `2.05 Content`) to ask for device details
-- RTD calling ED `POST /suit/mani` (Response Code `2.05 Content`) to ask for updates
-- RTD calling ED `POST /hello/2` to announce their existence
+These details are exchanged via [`GET /whoami/2`](Tech_CoAP.md#get-whoami-2), [`POST /suit/mani`](Tech_CoAP.md#post-suit-mani), and [`POST /hello/2`](Tech_CoAP.md#post-hello-2).
 
 #### Firmware Refresh Request
 <a id="data_format_firmware_refresh_request"></a>
@@ -436,57 +402,56 @@ MCU id is used to generate the OS-Serial of an RTD, so that it can be uniquely i
 
 ### Endpoints
 
-Here's an overview of all the relevant endpoints used in the update process (ED: _m2cp-coap_ on the Edge Device, AS: App Store Service)
+For full specifications see [CoAP — Endpoints](Tech_CoAP.md#endpoints).
 
-| From | To  | Method | Endpoint                                   | Body                                                  | Response                                                | Description                                                                                                |
-|------|-----|--------|--------------------------------------------|-------------------------------------------------------|---------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
-| ED   | AS  | GET    | /api/v2/mlpa/firmware/refresh              | [Firmware REfresh Request](#firmware-refresh-request) | [Firmware REfresh Response](#firmware-refresh-response) | _m2cp-coap_ sends list of known peers and their state to App Store Service, asking for new update actions  |
-| RTD  | ED  | POST   | /hello/2                                   | [RTD Details](#rtd-details)                           | A RTD reports its details                               |
-| RTD  | ED  | POST   | /hello/1                                   | LEGACY endpoint for RTDs to report their details      |
-| RTD  | ED  | GET    | /suit/fw/{app-revison-id}/{slot}           | none                                                  | firmware                                                | download a firmware file                                                                                   | 
-| RTD  | ED  | GET    | /suit/mani                                 | [RTD Details](#rtd-details)                           | A manifest binary                                       | Ask for available updates                                                                                  |
-| RTD  | ED  | POST   | /suit/result/{sequence-number}?error={uint} | none                                                  | none                                                    | RTD reports firmware update result to ED                                                                   |
-| RTD  | ED  | POST   | /report/update/result/1?success={0,1}      | none                                                  | none                                                    | LEGACY alias of /suit/result/{sequence-number}?success={0,1}                                               |
-| ED   | RTD | PUT    | /update/1                                  | manifest binary                                       | none                                                    | ED announces available updates to RTD                                                                      |
-| ED   | RTD | GET    | /whoami/2                                  | none                                                  | RTD Details                                             | ED asks RTD for its details, RTD responds with its details in a RTD Data Object                            |
-| ED   | RTD | GET    | /whoami/1                                  | none                                                  | Legacy RTD information in JSON format                   | ED asks RTD for its details, RTD responds with its details in a legacy JSON format                         |
+**CoAP Endpoints**
+
+| Host | Method | Path                                        | Description                                                                       |
+|------|--------|---------------------------------------------|-----------------------------------------------------------------------------------|
+| ED   | POST   | /hello/2                                    | RTD announces itself or reports new firmware state — [spec](Tech_CoAP.md#post-hello-2) |
+| ED   | POST   | /hello/1                                    | LEGACY: RTD announces itself — [spec](Tech_CoAP.md#post-hello-1)                 |
+| ED   | GET    | /suit/fw/{app-revision-id}/{slot}           | RTD downloads a firmware binary — [spec](Tech_CoAP.md#get-suit-fw-app-revision-id-slot) |
+| ED   | POST    | /suit/mani                                  | RTD requests available update manifest — [spec](Tech_CoAP.md#post-suit-mani)      |
+| ED   | POST   | /suit/result/{sequence-number}?error={uint} | RTD reports firmware update result — [spec](Tech_CoAP.md#post-suit-result-sequence-number) |
+| ED   | POST   | /report/update/result/1?success={0,1}       | LEGACY alias of /suit/result/… — [spec](Tech_CoAP.md#post-report-update-result-1) |
+| ED   | POST   | /fw/1/m/{hw-serial}                         | LEGACY: RTD without CoAP server requests a manifest — [spec](Tech_CoAP.md#post-fw-1-m-hw-serial) |
+| RTD  | PUT    | /update/1                                   | ED announces available firmware update — [spec](Tech_CoAP.md#put-update-1)       |
+| RTD  | GET    | /whoami/2                                   | ED queries RTD for its current details — [spec](Tech_CoAP.md#get-whoami-2)       |
+| RTD  | GET    | /whoami/1                                   | LEGACY: ED queries RTD for its details — [spec](Tech_CoAP.md#get-whoami-1)       |
+
+**HTTP Endpoint (App Store Service)**
+
+| Host | Method | Path                          | Description |
+|------|--------|-------------------------------|-------------|
+| Appstore   | GET    | /api/v2/mlpa/firmware/refresh | _m2cp-coap_ submits the list of known peers with their current state and receives the set of update actions to execute. Request body: [Firmware Refresh Request](#firmware-refresh-request). Response body: [Firmware Refresh Response](#firmware-refresh-response). |
 
 ### Edge Cases
 
 #### Legacy Real Time Devices
 
-For legacy _RTDs_ running a CoAP server but not having the `/whoami/2` endpoint, we call `GET coap://[ff02::1]/whoami/1` or `GET /whoami/1`.
-Devices will respond with following JSON body:
-```json
-{
-  "sn":12345, // The Hardware Serial
-  "board":"foobar", // The Device Model Name
-  "app_rev":2001000 // The sequence number of the current firmware installation
-}
-```
-Those values have to be translated to the RTD Data Object:
-- `sn` is assigned to `hw_serial`
-- "mlpa" is used as a constant value for `hw_vendor`
-- `board` is assigned to `device_model`, `hw_model` and `app_name`
-- `app_rev` is assigned to `seq_no`
-- `app_rev` is converted to a semver and assigned to `app_version` (semver integer encoding: major*10^6 + minor*10^3 + patch*10^0)
+For legacy devices the OS Serial Number is a UUIDv5 generated from namespace `32e58df2-3b30-11f0-9033-325096b39f47` and the string `'mlpa-legacy$' + <hw-serial-decimal>`.
+
+For legacy _RTDs_ running a CoAP server but not implementing [`GET /whoami/2`](Tech_CoAP.md#get-whoami-2), _m2cp-coap_ falls back to [`GET /whoami/1`](Tech_CoAP.md#get-whoami-1) (both unicast and multicast). The response of that endpoint needs to be mapped to the RTD information Stored in Known Peers:
+
+**Mapping**
+| Peer field | Response field  | 
+|--------------|-----------------|
+| Hardware Serial | `sn`          |
+| Device Model    | `board`      |
+| Sequence Number | `app_rev`    |
+
+Uptime and Firmware Signing Keys are queried separately via [/uptime/1](Tech_CoAP.md#get-uptime-1) and [/suit/keys](Tech_CoAP.md#get-suit-keys).
 
 
-Legacy _RTDs_ without CoAP server announce themselves to the _ED_ by sending a CoAP request to `/fw/1/m/<hw-serial>` (with `<hw-serial>` being a base64 encoded integer),
-asking for a manifest. They report their installation state with the following query parameters:
 
-````
-fwt: Firmware Type (int)
-hwr: Hardware Revision (int)
-fwr: Firmware Revision (int)
-````
-
-- `fwt (int)`: This legacy identifier 'Firmware Type' can be resolved to a _Device Model_ by the Backend through a lookup in the _Real Time Device Models_ table.
-- `hwr (int)`: Can be safely ignored, was never used
-- `fwr (int)`: The _sequence number_ of the currently installed firmware
-
-For these legacy devices we calculate the OS Serial Number as a UUID generated using namespace `32e58df2-3b30-11f0-9033-325096b39f47` and
-the string concatenation `'mlpa-legacy$' + <hw-serial-decimal>`.
+Legacy _RTDs_ that request firmware use [`POST /fw/1/m/{hw-serial}`](Tech_CoAP.md#post-fw-1-m-hw-serial). This is also used for discovering Peers/RTDs. See [CoAP — `POST /fw/1/m/{hw-serial}`](Tech_CoAP.md#post-fw-1-m-hw-serial) for the endpoint specification. In this case the request of the RTD needs to be mapped to the RTD information.
+**Mapping**
+| Peer field | Request field  |  
+|--------------|-----------------|
+| Hardware Serial | `hw-serial` (Path parameter) |
+| Firmware Type   | `fwt` (Query parameter) | 
+| Sequence Number | `fwr` (Query parameter) |
+|Device Model    |  *not set* (can be derived from the firmware type) |
 
 
 #### Sparse _RTD_ Uptime

@@ -39,7 +39,7 @@
             L-IoT Documentation
           </a>
               <div class="version">
-                Version 1.14.8
+                Version 1.15.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -318,6 +318,11 @@
 <li class="toctree-l3"><a class="reference internal" href="Messages.html#data-visualization">5.2.10. Data Visualization</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#simulating-oid-data-flow">5.3. Simulating OID Data Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#without-m2cp-coap">5.3.1. Without m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#monitoring-heartbeats">5.3.2. Monitoring Heartbeats</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="APIs_Backend.html">6. Backend APIs</a><ul>
@@ -396,6 +401,43 @@
 <li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-discovery">5.4.1. Node discovery</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-information">5.4.2. Node information</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-rpc">5.4.3. Node RPC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_CoAP.html">6. CoAP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_CoAP.html#endpoints">6.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#din-1-sensorid">6.1.1. <code class="docutils literal notranslate"><span class="pre">/din/1/{sensorId}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#din-2-osserial">6.1.2. <code class="docutils literal notranslate"><span class="pre">/din/2/{osSerial}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#whoami-2">6.1.3. <code class="docutils literal notranslate"><span class="pre">/whoami/2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#whoami-1">6.1.4. <code class="docutils literal notranslate"><span class="pre">/whoami/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#uptime-1">6.1.5. <code class="docutils literal notranslate"><span class="pre">/uptime/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#t-1">6.1.6. <code class="docutils literal notranslate"><span class="pre">/t/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#realtime-1">6.1.7. <code class="docutils literal notranslate"><span class="pre">/realtime/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-clients-1">6.1.8. <code class="docutils literal notranslate"><span class="pre">/status/clients/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-online-1">6.1.9. <code class="docutils literal notranslate"><span class="pre">/status/online/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-ping-1">6.1.10. <code class="docutils literal notranslate"><span class="pre">/status/ping/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-refresh-1">6.1.11. <code class="docutils literal notranslate"><span class="pre">/status/refresh/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-snaps-1">6.1.12. <code class="docutils literal notranslate"><span class="pre">/status/snaps/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#hello-2">6.1.13. <code class="docutils literal notranslate"><span class="pre">/hello/2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#hello-1">6.1.14. <code class="docutils literal notranslate"><span class="pre">/hello/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-keys">6.1.15. <code class="docutils literal notranslate"><span class="pre">suit/keys</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-mani">6.1.16. <code class="docutils literal notranslate"><span class="pre">/suit/mani</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-fw-app-revision-id-slot">6.1.17. <code class="docutils literal notranslate"><span class="pre">/suit/fw/{app-revision-id}/{slot}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-result-sequence-number">6.1.18. <code class="docutils literal notranslate"><span class="pre">/suit/result/{sequence-number}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#report-update-result-1">6.1.19. <code class="docutils literal notranslate"><span class="pre">/report/update/result/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#fw-1-m-hw-serial">6.1.20. <code class="docutils literal notranslate"><span class="pre">/fw/1/m/{hw-serial}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#cmd-1-sensorid">6.1.21. <code class="docutils literal notranslate"><span class="pre">/cmd/1/{sensorId}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#update-1">6.1.22. <code class="docutils literal notranslate"><span class="pre">/update/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#notify-poweroff-1">6.1.23. <code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#shutdown-1">6.1.24. <code class="docutils literal notranslate"><span class="pre">/shutdown/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#request-uptime-1">6.1.25. <code class="docutils literal notranslate"><span class="pre">/request_uptime/1</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_CoAP.html#formats">6.2. Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#rtd-details">6.2.1. RTD Details</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#commandbatch">6.2.2. CommandBatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#responsebatch">6.2.3. ResponseBatch</a></li>
 </ul>
 </li>
 </ul>
@@ -633,13 +675,13 @@ reliable even if networking availability and RTDs uptime is sparse.</p>
 <a class="drawio reference internal image-reference" href="_images/realtime_device_firmware_updates1.png" id="rtos-firmware-updates-page-1"><img alt="Real Time Device Firmware Updates" class="drawio align-center" id="rtos-firmware-updates-page-1" src="_images/realtime_device_firmware_updates1.png" style="width: 100%;" /></a>
 <section id="peers-discovery">
 <h4>Peers Discovery<a class="headerlink" href="#peers-discovery" title="Permalink to this heading"></a></h4>
+<p><strong>Active Discovery</strong></p>
 <p><em>m2cp-coap</em> prepares for an imminent refresh call to the App Store by trying to gather as much information as possible
-about the <em>RTDs</em> in its local network. To achieve this, it sends a multicast CoAP request to the local network:<code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">coap://[ff02::1]/whoami/2</span></code>
-and additionally sends individual <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/whoami/2</span></code> requests to all <em>known peers</em> (RTDs it has seen recently).
-Successful responses contain an <a class="reference internal" href="#rtd-details">RTD Details Data Object</a> in their body and <code class="docutils literal notranslate"><span class="pre">2.05</span> <span class="pre">Content</span></code> as result code.
-<em>m2cp-coap</em> waits 3 seconds for responses from the <em>Real Time Devices</em> and updates the <em>known peers</em> list using the received information.</p>
-<p>The update mechanism does <em>not</em> rely on the <em>RTDs</em> answering to these discovery requests. It’s designed to support a broad range of legacy RTDs and RTDs with limited capability.
-Implementing these endpoints is recommended, though, for fast and efficient updates. Some <em>RTDs</em> don’t have a CoAP server. They announce themselves as described in <a class="reference internal" href="#serve-firmware-updates">Serve Firmware Updates</a>.</p>
+about the <em>RTDs</em> in its local network. To achieve this, it sends <a class="reference internal" href="Tech_CoAP.html#get-whoami-2"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/whoami/2</span></code></span></a> to the IPv6 multicast address <code class="docutils literal notranslate"><span class="pre">ff02::1</span></code> and to all <em>known peers</em> individually.
+<em>m2cp-coap</em> waits 3 seconds for responses and updates the <em>known peers</em> list using the received information.
+Implementing <a class="reference internal" href="Tech_CoAP.html#get-whoami-2"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/whoami/2</span></code></span></a> is recommended for fast and efficient updates.</p>
+<p><strong>Passive Discovery</strong></p>
+<p>The update mechanism does <em>not</em> rely on the <em>RTDs</em> answering to these discovery requests. It’s designed to support a broad range of legacy RTDs and RTDs with limited capability. Some <em>RTDs</em> don’t have a CoAP server. They announce themselves by using the <a class="reference internal" href="Tech_CoAP.html#post-hello-2"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">hello/2</span></code></span></a> endpoint. Calls to <a class="reference internal" href="Tech_CoAP.html#post-suit-mani"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/suit/mani</span></code></span></a> endpoint are also used to monitor available RTDs, as described in <a class="reference internal" href="#serve-firmware-updates">Serve Firmware Updates</a>.</p>
 </section>
 <section id="refresh-call">
 <h4>Refresh Call<a class="headerlink" href="#refresh-call" title="Permalink to this heading"></a></h4>
@@ -674,22 +716,21 @@ the need of updating Devices in the field. This allows us to monitor and refine 
 <section id="announce-updates">
 <h4>Announce Updates<a class="headerlink" href="#announce-updates" title="Permalink to this heading"></a></h4>
 <ul class="simple">
-<li><p><em>m2cp-coap</em> now announces the availability of new firmware to the <em>RTDs</em> in the network both by multicast and individual coap requests to all known peers at <code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/update/1</span></code> with the manifest of the available update in the message body.</p></li>
+<li><p><em>m2cp-coap</em> now announces the availability of new firmware to the concerned <em>RTDs</em> as individual CoAP requests using <a class="reference internal" href="Tech_CoAP.html#put-update-1"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/update/1</span></code></span></a>, with the SUIT manifest included in the message body.</p></li>
 <li><p>Some <em>Real Time Devices</em> will take the manifest and ask for the available binaries.</p></li>
-<li><p>Some <em>Real Time Devices</em> will ask for the available updates.</p></li>
-<li><p>Some <em>Real Time Devices</em> will react at all.</p></li>
+<li><p>Some <em>Real Time Devices</em> will ignore the manifest and ask for updates separately.</p></li>
+<li><p>Some <em>Real Time Devices</em> will not react at all.</p></li>
 </ul>
 </section>
 <section id="serve-firmware-updates">
 <h4>Serve Firmware Updates<a class="headerlink" href="#serve-firmware-updates" title="Permalink to this heading"></a></h4>
 <ul class="simple">
-<li><p><em>Real Time Devices</em> can ask <em>m2cp-coap</em> for available updates at any time using  <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/suit/mani</span></code> providing an <a class="reference internal" href="#rtd-data-object">RTD Data Object</a> in the message body</p></li>
-<li><p>If there is an update action to be executed, <em>m2cp-coap</em> responds by returning the manifests of the firmware packages to be installed to the <em>RTDs</em>. If there is no update action, it returns an empty response with an error code 4.04 (not found).</p></li>
-<li><p>The <em>Real Time Devices</em> validates the manifests, aborts if validation fails</p></li>
-<li><p>The <em>RTD</em> downloads the firmware from the ED at <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/suit/fw/&lt;app-revison-id&gt;/&lt;slot&gt;</span></code> (the exact URL is in the manifest)</p></li>
+<li><p><em>Real Time Devices</em> can ask <em>m2cp-coap</em> for available updates at any time using <a class="reference internal" href="Tech_CoAP.html#post-suit-mani"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/suit/mani</span></code></span></a>, providing their current state in the request body. If no update is pending, <code class="docutils literal notranslate"><span class="pre">4.04</span> <span class="pre">Not</span> <span class="pre">Found</span></code> is returned.</p></li>
+<li><p>The <em>Real Time Devices</em> validate the received manifest and abort if validation fails</p></li>
+<li><p>The <em>RTD</em> downloads the firmware binary using <a class="reference internal" href="Tech_CoAP.html#get-suit-fw-app-revision-id-slot"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/suit/fw/{app-revision-id}/{slot}</span></code></span></a> (the exact URL is embedded in the manifest)</p></li>
 <li><p>The <em>Real Time Devices</em> install the firmware packages</p></li>
-<li><p>If failed, it rolls back, if successful, it marks the new partition as active. Optionally: report result of the update process to <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/suit/result/{sequence-number}?error={uint}</span></code></p></li>
-<li><p>After reboot call <em>m2cp-coap</em> <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/hello/2</span></code> to announce the new state of the RTD</p></li>
+<li><p>If failed, it rolls back; if successful, it marks the new partition as active. Optionally: report the result using <a class="reference internal" href="Tech_CoAP.html#post-suit-result-sequence-number"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/suit/result/{sequence-number}</span></code></span></a></p></li>
+<li><p>After reboot, the RTD calls the <a class="reference internal" href="Tech_CoAP.html#post-hello-2"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/hello/2</span></code></span></a> endpoint of <em>m2cp-coap</em> to announce the new state of the RTD. This signals a successful update and also triggers a new update cycle.</p></li>
 </ul>
 </section>
 <section id="wait">
@@ -697,9 +738,9 @@ the need of updating Devices in the field. This allows us to monitor and refine 
 <p>Most of the time <em>m2cp-coap</em> is waiting for the next iteration of the update process to start, still serving the available updates and waiting for a trigger condition to be met.</p>
 <p>A new update cycle is triggered by <em>m2cp-coap</em> learning new information about its peers from:</p>
 <ul class="simple">
-<li><p>An unknown <em>RTD</em> announcing itself to <em>m2cp-coap</em> at <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/hello/2</span></code> with an <a class="reference internal" href="#rtd-data-object">RTD Data Object</a> in the message body</p></li>
-<li><p>A known <em>RTD</em> sending <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/hello/2</span></code> with an <a class="reference internal" href="#rtd-data-object">RTD Data Object</a> in the message body after booting a new firmware</p></li>
-<li><p>A known or unknown <em>RTD</em> calling <em>m2cp-coap</em> with <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/suit/mani</span></code> providing an <a class="reference internal" href="#rtd-data-object">RTD Data Object</a> in the message body</p></li>
+<li><p>An unknown <em>RTD</em> announcing itself to <em>m2cp-coap</em> via <a class="reference internal" href="Tech_CoAP.html#post-hello-2"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/hello/2</span></code></span></a></p></li>
+<li><p>A known <em>RTD</em> sending <a class="reference internal" href="Tech_CoAP.html#post-hello-2"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/hello/2</span></code></span></a> after booting a new firmware</p></li>
+<li><p>A known or unknown <em>RTD</em> calling <em>m2cp-coap</em> via <a class="reference internal" href="Tech_CoAP.html#post-suit-mani"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/suit/mani</span></code></span></a></p></li>
 </ul>
 <p>It can also be triggered by the App Store Service via a RPC requesting an immediate refresh due to a changed target state</p>
 <p>If none of the above triggers happened a new update process will start after 6 hours.</p>
@@ -789,43 +830,8 @@ This is a security mechanism of the SUIT protocol to prevent rollback attacks.</
 <section id="rtd-details">
 <h4>RTD Details<a class="headerlink" href="#rtd-details" title="Permalink to this heading"></a></h4>
 <p><a id="realtime_device_details_data_object"></a></p>
-<p>When RTDs report their details, they use one of the two following formats:</p>
-<p id="rtd-data-object">JSON Format:</p>
-<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="s2">&quot;hw_serial&quot;</span><span class="o">:</span><span class="s2">&quot;12345&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// The Device Hardware Serial</span>
-<span class="w">  </span><span class="s2">&quot;hw_model&quot;</span><span class="o">:</span><span class="s2">&quot;PMIC 1.08&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// The Device Hardware Model</span>
-<span class="w">  </span><span class="s2">&quot;hw_vendor&quot;</span><span class="o">:</span><span class="s2">&quot;mlpa&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// The Device Hardware Vendor</span>
-<span class="w">  </span><span class="s2">&quot;mcu_id&quot;</span><span class="o">:</span><span class="s2">&quot;123abc&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1">// Optional: The MCU ID</span>
-<span class="w">  </span><span class="s2">&quot;dev_model&quot;</span><span class="o">:</span><span class="s2">&quot;pmic&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// The Device Model of the Real Time Device</span>
-<span class="w">  </span><span class="s2">&quot;app_name&quot;</span><span class="o">:</span><span class="s2">&quot;fw-pmic&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// The name of the App running on the Real Time Device</span>
-<span class="w">  </span><span class="s2">&quot;app_version&quot;</span><span class="o">:</span><span class="s2">&quot;3.2.1&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// The semver version of the App running on the Real Time Device</span>
-<span class="w">  </span><span class="s2">&quot;seq_no&quot;</span><span class="o">:</span><span class="mf">2001000</span><span class="p">,</span><span class="w"> </span><span class="c1">// The sequence number of the current firmware installation</span>
-<span class="w">  </span><span class="s2">&quot;uptime&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">12345</span><span class="p">,</span><span class="w"> </span><span class="c1">// The uptime of the Real Time Device in seconds</span>
-<span class="w">  </span><span class="s2">&quot;keys&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;key1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;key2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">]</span><span class="w"> </span><span class="c1">// Array of base64 encoded public keys</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>CBOR Format:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>DeviceInfo = {
-  0: tstr,       ; hw_serial
-  1: tstr,       ; hw_model
-  2: tstr,       ; hw_vendor
-  3: tstr,       ; dev_model
-  4: tstr,       ; app_name
-  5: tstr,       ; app_version
-  6: uint,       ; seq_no
-  7: uint,       ; uptime
-  8: [+ bstr]    ; keys 
-  9: ? tstr      ; mcu_id (optional)
-}
-</pre></div>
-</div>
-<p>These details are used in:</p>
-<ul class="simple">
-<li><p>ED calling RTD <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/whoami/2</span></code> (Response Code <code class="docutils literal notranslate"><span class="pre">2.05</span> <span class="pre">Content</span></code>) to ask for device details</p></li>
-<li><p>RTD calling ED <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/suit/mani</span></code> (Response Code <code class="docutils literal notranslate"><span class="pre">2.05</span> <span class="pre">Content</span></code>) to ask for updates</p></li>
-<li><p>RTD calling ED <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/hello/2</span></code> to announce their existence</p></li>
-</ul>
+<p>See <a class="reference internal" href="Tech_CoAP.html#rtd-details"><span class="std std-ref">CoAP — RTD Details</span></a> for the full JSON and CBOR format definitions.</p>
+<p>These details are exchanged via <a class="reference internal" href="Tech_CoAP.html#get-whoami-2"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/whoami/2</span></code></span></a>, <a class="reference internal" href="Tech_CoAP.html#post-suit-mani"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/suit/mani</span></code></span></a>, and <a class="reference internal" href="Tech_CoAP.html#post-hello-2"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/hello/2</span></code></span></a>.</p>
 </section>
 <section id="firmware-refresh-request">
 <h4>Firmware Refresh Request<a class="headerlink" href="#firmware-refresh-request" title="Permalink to this heading"></a></h4>
@@ -878,98 +884,83 @@ MCU id is used to generate the OS-Serial of an RTD, so that it can be uniquely i
 </section>
 <section id="endpoints">
 <h3><span class="section-number">4.2.3. </span>Endpoints<a class="headerlink" href="#endpoints" title="Permalink to this heading"></a></h3>
-<p>Here’s an overview of all the relevant endpoints used in the update process (ED: <em>m2cp-coap</em> on the Edge Device, AS: App Store Service)</p>
+<p>For full specifications see <a class="reference internal" href="Tech_CoAP.html#endpoints"><span class="std std-ref">CoAP — Endpoints</span></a>.</p>
+<p><strong>CoAP Endpoints</strong></p>
 <table class="docutils align-default">
 <thead>
-<tr class="row-odd"><th class="head"><p>From</p></th>
-<th class="head"><p>To</p></th>
+<tr class="row-odd"><th class="head"><p>Host</p></th>
 <th class="head"><p>Method</p></th>
-<th class="head"><p>Endpoint</p></th>
-<th class="head"><p>Body</p></th>
-<th class="head"><p>Response</p></th>
+<th class="head"><p>Path</p></th>
 <th class="head"><p>Description</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>ED</p></td>
-<td><p>AS</p></td>
-<td><p>GET</p></td>
-<td><p>/api/v2/mlpa/firmware/refresh</p></td>
-<td><p><a class="reference internal" href="#firmware-refresh-request">Firmware REfresh Request</a></p></td>
-<td><p><a class="reference internal" href="#firmware-refresh-response">Firmware REfresh Response</a></p></td>
-<td><p><em>m2cp-coap</em> sends list of known peers and their state to App Store Service, asking for new update actions</p></td>
-</tr>
-<tr class="row-odd"><td><p>RTD</p></td>
-<td><p>ED</p></td>
 <td><p>POST</p></td>
 <td><p>/hello/2</p></td>
-<td><p><a class="reference internal" href="#rtd-details">RTD Details</a></p></td>
-<td><p>A RTD reports its details</p></td>
-<td><p></p></td>
+<td><p>RTD announces itself or reports new firmware state — <a class="reference internal" href="Tech_CoAP.html#post-hello-2"><span class="std std-ref">spec</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p>RTD</p></td>
-<td><p>ED</p></td>
+<tr class="row-odd"><td><p>ED</p></td>
 <td><p>POST</p></td>
 <td><p>/hello/1</p></td>
-<td><p>LEGACY endpoint for RTDs to report their details</p></td>
-<td><p></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p>RTD</p></td>
-<td><p>ED</p></td>
-<td><p>GET</p></td>
-<td><p>/suit/fw/{app-revison-id}/{slot}</p></td>
-<td><p>none</p></td>
-<td><p>firmware</p></td>
-<td><p>download a firmware file</p></td>
-</tr>
-<tr class="row-even"><td><p>RTD</p></td>
-<td><p>ED</p></td>
-<td><p>GET</p></td>
-<td><p>/suit/mani</p></td>
-<td><p><a class="reference internal" href="#rtd-details">RTD Details</a></p></td>
-<td><p>A manifest binary</p></td>
-<td><p>Ask for available updates</p></td>
-</tr>
-<tr class="row-odd"><td><p>RTD</p></td>
-<td><p>ED</p></td>
-<td><p>POST</p></td>
-<td><p>/suit/result/{sequence-number}?error={uint}</p></td>
-<td><p>none</p></td>
-<td><p>none</p></td>
-<td><p>RTD reports firmware update result to ED</p></td>
-</tr>
-<tr class="row-even"><td><p>RTD</p></td>
-<td><p>ED</p></td>
-<td><p>POST</p></td>
-<td><p>/report/update/result/1?success={0,1}</p></td>
-<td><p>none</p></td>
-<td><p>none</p></td>
-<td><p>LEGACY alias of /suit/result/{sequence-number}?success={0,1}</p></td>
-</tr>
-<tr class="row-odd"><td><p>ED</p></td>
-<td><p>RTD</p></td>
-<td><p>PUT</p></td>
-<td><p>/update/1</p></td>
-<td><p>manifest binary</p></td>
-<td><p>none</p></td>
-<td><p>ED announces available updates to RTD</p></td>
+<td><p>LEGACY: RTD announces itself — <a class="reference internal" href="Tech_CoAP.html#post-hello-1"><span class="std std-ref">spec</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p>ED</p></td>
-<td><p>RTD</p></td>
 <td><p>GET</p></td>
-<td><p>/whoami/2</p></td>
-<td><p>none</p></td>
-<td><p>RTD Details</p></td>
-<td><p>ED asks RTD for its details, RTD responds with its details in a RTD Data Object</p></td>
+<td><p>/suit/fw/{app-revision-id}/{slot}</p></td>
+<td><p>RTD downloads a firmware binary — <a class="reference internal" href="Tech_CoAP.html#get-suit-fw-app-revision-id-slot"><span class="std std-ref">spec</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p>ED</p></td>
-<td><p>RTD</p></td>
+<td><p>POST</p></td>
+<td><p>/suit/mani</p></td>
+<td><p>RTD requests available update manifest — <a class="reference internal" href="Tech_CoAP.html#post-suit-mani"><span class="std std-ref">spec</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>ED</p></td>
+<td><p>POST</p></td>
+<td><p>/suit/result/{sequence-number}?error={uint}</p></td>
+<td><p>RTD reports firmware update result — <a class="reference internal" href="Tech_CoAP.html#post-suit-result-sequence-number"><span class="std std-ref">spec</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>ED</p></td>
+<td><p>POST</p></td>
+<td><p>/report/update/result/1?success={0,1}</p></td>
+<td><p>LEGACY alias of /suit/result/… — <a class="reference internal" href="Tech_CoAP.html#post-report-update-result-1"><span class="std std-ref">spec</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>ED</p></td>
+<td><p>POST</p></td>
+<td><p>/fw/1/m/{hw-serial}</p></td>
+<td><p>LEGACY: RTD without CoAP server requests a manifest — <a class="reference internal" href="Tech_CoAP.html#post-fw-1-m-hw-serial"><span class="std std-ref">spec</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>RTD</p></td>
+<td><p>PUT</p></td>
+<td><p>/update/1</p></td>
+<td><p>ED announces available firmware update — <a class="reference internal" href="Tech_CoAP.html#put-update-1"><span class="std std-ref">spec</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>RTD</p></td>
+<td><p>GET</p></td>
+<td><p>/whoami/2</p></td>
+<td><p>ED queries RTD for its current details — <a class="reference internal" href="Tech_CoAP.html#get-whoami-2"><span class="std std-ref">spec</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>RTD</p></td>
 <td><p>GET</p></td>
 <td><p>/whoami/1</p></td>
-<td><p>none</p></td>
-<td><p>Legacy RTD information in JSON format</p></td>
-<td><p>ED asks RTD for its details, RTD responds with its details in a legacy JSON format</p></td>
+<td><p>LEGACY: ED queries RTD for its details — <a class="reference internal" href="Tech_CoAP.html#get-whoami-1"><span class="std std-ref">spec</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>HTTP Endpoint (App Store Service)</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Host</p></th>
+<th class="head"><p>Method</p></th>
+<th class="head"><p>Path</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Appstore</p></td>
+<td><p>GET</p></td>
+<td><p>/api/v2/mlpa/firmware/refresh</p></td>
+<td><p><em>m2cp-coap</em> submits the list of known peers with their current state and receives the set of update actions to execute. Request body: <a class="reference internal" href="#firmware-refresh-request">Firmware Refresh Request</a>. Response body: <a class="reference internal" href="#firmware-refresh-response">Firmware Refresh Response</a>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -978,37 +969,51 @@ MCU id is used to generate the OS-Serial of an RTD, so that it can be uniquely i
 <h3><span class="section-number">4.2.4. </span>Edge Cases<a class="headerlink" href="#edge-cases" title="Permalink to this heading"></a></h3>
 <section id="legacy-real-time-devices">
 <h4>Legacy Real Time Devices<a class="headerlink" href="#legacy-real-time-devices" title="Permalink to this heading"></a></h4>
-<p>For legacy <em>RTDs</em> running a CoAP server but not having the <code class="docutils literal notranslate"><span class="pre">/whoami/2</span></code> endpoint, we call <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">coap://[ff02::1]/whoami/1</span></code> or <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/whoami/1</span></code>.
-Devices will respond with following JSON body:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;sn&quot;</span><span class="p">:</span><span class="mi">12345</span><span class="p">,</span><span class="w"> </span><span class="c1">// The Hardware Serial</span>
-<span class="w">  </span><span class="nt">&quot;board&quot;</span><span class="p">:</span><span class="s2">&quot;foobar&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// The Device Model Name</span>
-<span class="w">  </span><span class="nt">&quot;app_rev&quot;</span><span class="p">:</span><span class="mi">2001000</span><span class="w"> </span><span class="c1">// The sequence number of the current firmware installation</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Those values have to be translated to the RTD Data Object:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">sn</span></code> is assigned to <code class="docutils literal notranslate"><span class="pre">hw_serial</span></code></p></li>
-<li><p>“mlpa” is used as a constant value for <code class="docutils literal notranslate"><span class="pre">hw_vendor</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">board</span></code> is assigned to <code class="docutils literal notranslate"><span class="pre">device_model</span></code>, <code class="docutils literal notranslate"><span class="pre">hw_model</span></code> and <code class="docutils literal notranslate"><span class="pre">app_name</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">app_rev</span></code> is assigned to <code class="docutils literal notranslate"><span class="pre">seq_no</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">app_rev</span></code> is converted to a semver and assigned to <code class="docutils literal notranslate"><span class="pre">app_version</span></code> (semver integer encoding: major<em>10^6 + minor</em>10^3 + patch*10^0)</p></li>
-</ul>
-<p>Legacy <em>RTDs</em> without CoAP server announce themselves to the <em>ED</em> by sending a CoAP request to <code class="docutils literal notranslate"><span class="pre">/fw/1/m/&lt;hw-serial&gt;</span></code> (with <code class="docutils literal notranslate"><span class="pre">&lt;hw-serial&gt;</span></code> being a base64 encoded integer),
-asking for a manifest. They report their installation state with the following query parameters:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fwt</span><span class="p">:</span> <span class="n">Firmware</span> <span class="n">Type</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="n">hwr</span><span class="p">:</span> <span class="n">Hardware</span> <span class="n">Revision</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="n">fwr</span><span class="p">:</span> <span class="n">Firmware</span> <span class="n">Revision</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">fwt</span> <span class="pre">(int)</span></code>: This legacy identifier ‘Firmware Type’ can be resolved to a <em>Device Model</em> by the Backend through a lookup in the <em>Real Time Device Models</em> table.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">hwr</span> <span class="pre">(int)</span></code>: Can be safely ignored, was never used</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">fwr</span> <span class="pre">(int)</span></code>: The <em>sequence number</em> of the currently installed firmware</p></li>
-</ul>
-<p>For these legacy devices we calculate the OS Serial Number as a UUID generated using namespace <code class="docutils literal notranslate"><span class="pre">32e58df2-3b30-11f0-9033-325096b39f47</span></code> and
-the string concatenation <code class="docutils literal notranslate"><span class="pre">'mlpa-legacy$'</span> <span class="pre">+</span> <span class="pre">&lt;hw-serial-decimal&gt;</span></code>.</p>
+<p>For legacy devices the OS Serial Number is a UUIDv5 generated from namespace <code class="docutils literal notranslate"><span class="pre">32e58df2-3b30-11f0-9033-325096b39f47</span></code> and the string <code class="docutils literal notranslate"><span class="pre">'mlpa-legacy$'</span> <span class="pre">+</span> <span class="pre">&lt;hw-serial-decimal&gt;</span></code>.</p>
+<p>For legacy <em>RTDs</em> running a CoAP server but not implementing <a class="reference internal" href="Tech_CoAP.html#get-whoami-2"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/whoami/2</span></code></span></a>, <em>m2cp-coap</em> falls back to <a class="reference internal" href="Tech_CoAP.html#get-whoami-1"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/whoami/1</span></code></span></a> (both unicast and multicast). The response of that endpoint needs to be mapped to the RTD information Stored in Known Peers:</p>
+<p><strong>Mapping</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Peer field</p></th>
+<th class="head"><p>Response field</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Hardware Serial</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sn</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Device Model</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">board</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Sequence Number</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">app_rev</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Uptime and Firmware Signing Keys are queried separately via <a class="reference internal" href="Tech_CoAP.html#get-uptime-1"><span class="std std-ref">/uptime/1</span></a> and <a class="reference internal" href="Tech_CoAP.html#get-suit-keys"><span class="std std-ref">/suit/keys</span></a>.</p>
+<p>Legacy <em>RTDs</em> that request firmware use <a class="reference internal" href="Tech_CoAP.html#post-fw-1-m-hw-serial"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/fw/1/m/{hw-serial}</span></code></span></a>. This is also used for discovering Peers/RTDs. See <a class="reference internal" href="Tech_CoAP.html#post-fw-1-m-hw-serial"><span class="std std-ref">CoAP — <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/fw/1/m/{hw-serial}</span></code></span></a> for the endpoint specification. In this case the request of the RTD needs to be mapped to the RTD information.
+<strong>Mapping</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Peer field</p></th>
+<th class="head"><p>Request field</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Hardware Serial</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">hw-serial</span></code> (Path parameter)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Firmware Type</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fwt</span></code> (Query parameter)</p></td>
+</tr>
+<tr class="row-even"><td><p>Sequence Number</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fwr</span></code> (Query parameter)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Device Model</p></td>
+<td><p><em>not set</em> (can be derived from the firmware type)</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="sparse-rtd-uptime">
 <h4>Sparse <em>RTD</em> Uptime<a class="headerlink" href="#sparse-rtd-uptime" title="Permalink to this heading"></a></h4>

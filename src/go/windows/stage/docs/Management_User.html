@@ -39,7 +39,7 @@
             L-IoT Documentation
           </a>
               <div class="version">
-                Version 1.14.8
+                Version 1.15.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -318,6 +318,11 @@
 <li class="toctree-l3"><a class="reference internal" href="Messages.html#data-visualization">5.2.10. Data Visualization</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#simulating-oid-data-flow">5.3. Simulating OID Data Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#without-m2cp-coap">5.3.1. Without m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#monitoring-heartbeats">5.3.2. Monitoring Heartbeats</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="APIs_Backend.html">6. Backend APIs</a><ul>
@@ -396,6 +401,43 @@
 <li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-discovery">5.4.1. Node discovery</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-information">5.4.2. Node information</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-rpc">5.4.3. Node RPC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_CoAP.html">6. CoAP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_CoAP.html#endpoints">6.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#din-1-sensorid">6.1.1. <code class="docutils literal notranslate"><span class="pre">/din/1/{sensorId}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#din-2-osserial">6.1.2. <code class="docutils literal notranslate"><span class="pre">/din/2/{osSerial}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#whoami-2">6.1.3. <code class="docutils literal notranslate"><span class="pre">/whoami/2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#whoami-1">6.1.4. <code class="docutils literal notranslate"><span class="pre">/whoami/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#uptime-1">6.1.5. <code class="docutils literal notranslate"><span class="pre">/uptime/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#t-1">6.1.6. <code class="docutils literal notranslate"><span class="pre">/t/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#realtime-1">6.1.7. <code class="docutils literal notranslate"><span class="pre">/realtime/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-clients-1">6.1.8. <code class="docutils literal notranslate"><span class="pre">/status/clients/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-online-1">6.1.9. <code class="docutils literal notranslate"><span class="pre">/status/online/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-ping-1">6.1.10. <code class="docutils literal notranslate"><span class="pre">/status/ping/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-refresh-1">6.1.11. <code class="docutils literal notranslate"><span class="pre">/status/refresh/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-snaps-1">6.1.12. <code class="docutils literal notranslate"><span class="pre">/status/snaps/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#hello-2">6.1.13. <code class="docutils literal notranslate"><span class="pre">/hello/2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#hello-1">6.1.14. <code class="docutils literal notranslate"><span class="pre">/hello/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-keys">6.1.15. <code class="docutils literal notranslate"><span class="pre">suit/keys</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-mani">6.1.16. <code class="docutils literal notranslate"><span class="pre">/suit/mani</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-fw-app-revision-id-slot">6.1.17. <code class="docutils literal notranslate"><span class="pre">/suit/fw/{app-revision-id}/{slot}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-result-sequence-number">6.1.18. <code class="docutils literal notranslate"><span class="pre">/suit/result/{sequence-number}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#report-update-result-1">6.1.19. <code class="docutils literal notranslate"><span class="pre">/report/update/result/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#fw-1-m-hw-serial">6.1.20. <code class="docutils literal notranslate"><span class="pre">/fw/1/m/{hw-serial}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#cmd-1-sensorid">6.1.21. <code class="docutils literal notranslate"><span class="pre">/cmd/1/{sensorId}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#update-1">6.1.22. <code class="docutils literal notranslate"><span class="pre">/update/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#notify-poweroff-1">6.1.23. <code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#shutdown-1">6.1.24. <code class="docutils literal notranslate"><span class="pre">/shutdown/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#request-uptime-1">6.1.25. <code class="docutils literal notranslate"><span class="pre">/request_uptime/1</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_CoAP.html#formats">6.2. Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#rtd-details">6.2.1. RTD Details</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#commandbatch">6.2.2. CommandBatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#responsebatch">6.2.3. ResponseBatch</a></li>
 </ul>
 </li>
 </ul>
@@ -758,6 +800,7 @@
 <li><p>Update device configurations</p></li>
 <li><p>Create, modify, clone, and delete deployment groups</p></li>
 <li><p>Assign, update, and remove app revisions to/from deployment groups</p></li>
+<li><p>Add or remove co-admins in deployment groups owned by the user</p></li>
 <li><p>Install and update apps on devices</p></li>
 <li><p>Execute RPC calls on own devices</p></li>
 <li><p>SSH into own devices</p></li>
@@ -818,6 +861,18 @@
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Delete.All</span></code></p></td>
 <td><p>Delete any deployment group</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DeploymentGroupAdministrator.Create.All</span></code></p></td>
+<td><p>Add co-admins to the deployment group</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DeploymentGroupAdministrator.Delete.All</span></code></p></td>
+<td><p>Remove co-admins from the deployment group</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DeploymentGroupAdministrator.Read.All</span></code></p></td>
+<td><p>View the co-admins of a deployment group</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DeploymentGroupAdministrator.Update.All</span></code></p></td>
+<td><p>Edit co-admins in a deployment group</p></td>
+</tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FleetBridgeSnapRevision.Read.All</span></code></p></td>
 <td><p>View fleet app assignments</p></td>
 </tr>
@@ -859,22 +914,23 @@
 </section>
 <section id="device-admin">
 <h3><span class="section-number">5.2.5. </span>Device Admin<a class="headerlink" href="#device-admin" title="Permalink to this heading"></a></h3>
-<p><strong>Full operational control over all devices and fleets in the system.</strong> This is the most powerful device-facing role and should only be granted to engineers who need system-wide device management authority.</p>
+<p><strong>Full operational control over all devices in the system.</strong> This is the most powerful device-facing role and should only be granted to engineers who need system-wide device management authority.</p>
 <p><strong>Intended for:</strong> Senior device engineers, infrastructure or operations team leads who must act across all devices.</p>
-<p><strong>Access level:</strong> Unrestricted device and deployment group management across the entire system</p>
+<p><strong>Access level:</strong> Unrestricted device management across the entire system (provided they are owners or co-admins of the respective deployment groups)</p>
 <p><strong>What this role allows:</strong></p>
 <ul class="simple">
-<li><p>Everything a Device Manager can do, applied to any device or deployment group in the system</p></li>
+<li><p>Everything a Device Manager can do, applied to any device or owned deployment group in the system</p></li>
 <li><p>SSH into any device in the system</p></li>
 <li><p>Execute RPC calls on any device in the system (tenant-wide)</p></li>
 <li><p>Relink devices (reassign device identity or connectivity)</p></li>
-<li><p>Create, update, and delete physical asset models</p></li>
-<li><p>Create, update, and delete system assets</p></li>
+<li><p>Create, update, and delete physical asset models (if user is also an Asset Admin)</p></li>
+<li><p>Create, update, and delete system assets (if user is also an Asset Admin)</p></li>
 </ul>
 <p><strong>What this role does NOT allow:</strong></p>
 <ul class="simple">
 <li><p>Uploading or publishing software to the store</p></li>
 <li><p>Managing users or roles</p></li>
+<li><p>Managing deployment groups where the user is NOT owner or co-admin</p></li>
 </ul>
 <p><strong>Technical scopes</strong> (in addition to Device Manager scopes):</p>
 <table class="docutils align-default">
@@ -1147,20 +1203,203 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Asset.Read.Tenant</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Asset.Create.Tenant</span></code></p></td>
+<td><p>Create an asset instance in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Asset.Delete.Tenant</span></code></p></td>
+<td><p>Delete asset instances in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Asset.Provision.Tenant</span></code></p></td>
+<td><p>Verify asset provisioning in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Asset.Read.Tenant</span></code></p></td>
 <td><p>View assets in the tenant</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Read.Tenant</span></code></p></td>
-<td><p>View asset models in the tenant</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Asset.Sync.Tenant</span></code></p></td>
+<td><p>Sync assets in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Asset.Update.Tenant</span></code></p></td>
+<td><p>Edit assets in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Asset.VerifyProvisioning.Tenant</span></code></p></td>
+<td><p>Verify asset provisioning in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttribute.Create.Tenant</span></code></p></td>
+<td><p>Create attribute in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttribute.Delete.Tenant</span></code></p></td>
+<td><p>Delete attribute in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttribute.Read.Tenant</span></code></p></td>
+<td><p>View attribute in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttribute.Update.Tenant</span></code></p></td>
+<td><p>Edit attribute in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeDataType.Read.Tenant</span></code></p></td>
+<td><p>Read attribute data types in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeSet.Create.Tenant</span></code></p></td>
+<td><p>Create attribute set in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeSet.Delete.Tenant</span></code></p></td>
+<td><p>Delete attribute set in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeSet.Read.Tenant</span></code></p></td>
+<td><p>View attribute set in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeSet.Update.Tenant</span></code></p></td>
+<td><p>Edit attribute set in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeUnit.Create.Tenant</span></code></p></td>
+<td><p>Create asset attributes in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeUnit.Delete.Tenant</span></code></p></td>
+<td><p>Delete asset attributes in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeUnit.Read.Tenant</span></code></p></td>
+<td><p>View asset attributes in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeUnit.Update.Tenant</span></code></p></td>
+<td><p>Edit asset attributes in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeValue.Create.Tenant</span></code></p></td>
+<td><p>Set asset attribute values in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeValue.Delete.Tenant</span></code></p></td>
+<td><p>Delete asset attribute values in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeValue.Read.Tenant</span></code></p></td>
+<td><p>View asset attribute values in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeValue.Update.Tenant</span></code></p></td>
+<td><p>Edit asset attribute values in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetBridgeAssetTag.Create.Tenant</span></code></p></td>
+<td><p>Create an asset tag in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetBridgeAssetTag.Delete.Tenant</span></code></p></td>
+<td><p>Delete an asset tag in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetBridgeAssetTag.Read.Tenant</span></code></p></td>
+<td><p>View asset tags in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetBridgeAssetTag.Update.Tenant</span></code></p></td>
+<td><p>Assign a tag to an asset in the tenant</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Create.Tenant</span></code></p></td>
 <td><p>Create asset models in the tenant</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Update.Tenant</span></code></p></td>
-<td><p>Update system assets in the tenant</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Delete.Tenant</span></code></p></td>
+<td><p>Delete asset models in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Read.Tenant</span></code></p></td>
+<td><p>View asset models in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Update.Tenant</span></code></p></td>
+<td><p>Edit asset models in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelBridgeAssetAttributeSet.Create.Tenant</span></code></p></td>
+<td><p>Allows the user to create model-attribute-set associations within their own tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelBridgeAssetAttributeSet.Delete.Tenant</span></code></p></td>
+<td><p>Allows the user to delete model-attribute-set associations within their own tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelBridgeAssetAttributeSet.Read.Tenant</span></code></p></td>
+<td><p>Allows the user to read model-attribute-set associations within their own tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelDefaultValue.Create.Tenant</span></code></p></td>
+<td><p>Create asset model default values in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelDefaultValue.Delete.Tenant</span></code></p></td>
+<td><p>Delete asset model default values in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelDefaultValue.Read.Tenant</span></code></p></td>
+<td><p>View asset model default values in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelDefaultValue.Update.Tenant</span></code></p></td>
+<td><p>Edit asset model default values in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTree.Create.Tenant</span></code></p></td>
+<td><p>Create asset model trees in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTree.Delete.Tenant</span></code></p></td>
+<td><p>Delete asset model trees in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTree.Read.Tenant</span></code></p></td>
+<td><p>View asset model trees in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTree.Update.Tenant</span></code></p></td>
+<td><p>Edit asset model trees in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTreeNode.Create.Tenant</span></code></p></td>
+<td><p>Create asset model tree nodes in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTreeNode.Delete.Tenant</span></code></p></td>
+<td><p>Delete asset model tree nodes in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTreeNode.Read.Tenant</span></code></p></td>
+<td><p>View asset model tree nodes  in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTreeNode.Update.Tenant</span></code></p></td>
+<td><p>Edit asset model tree nodes in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetTag.Create.Tenant</span></code></p></td>
+<td><p>Create asset tags in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetTag.Delete.Tenant</span></code></p></td>
+<td><p>Delete asset tags in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetTag.Read.Tenant</span></code></p></td>
+<td><p>View assset tags in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetTag.Update.Tenant</span></code></p></td>
+<td><p>Edit asset tags in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetType.Create.Tenant</span></code></p></td>
+<td><p>Create asset types in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetType.Delete.Tenant</span></code></p></td>
+<td><p>Delete asset types in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetType.Read.Tenant</span></code></p></td>
+<td><p>View asset types in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetType.Update.Tenant</span></code></p></td>
+<td><p>Edit asset types in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTree.Create.Tenant</span></code></p></td>
+<td><p>Create asset type trees in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTree.Delete.Tenant</span></code></p></td>
+<td><p>Delete asset type trees in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTree.Read.Tenant</span></code></p></td>
+<td><p>View asset type trees in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTree.Update.Tenant</span></code></p></td>
+<td><p>Update asset type trees in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTreeNode.Create.Tenant</span></code></p></td>
+<td><p>Create asset type tree note in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTreeNode.Delete.Tenant</span></code></p></td>
+<td><p>Delete asset type tree note in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTreeNode.Read.Tenant</span></code></p></td>
+<td><p>View asset type tree note in the tenant</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTreeNode.Update.Tenant</span></code></p></td>
+<td><p>Update asset type tree note in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MeasurementCategory.Read.Tenant</span></code></p></td>
+<td><p>Read measurement categories in the tenant</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Delete.Tenant</span></code></p></td>
-<td><p>Delete system assets in the tenant</p></td>
+<td><p>Delete system owned assets in the tenant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Update.Tenant</span></code></p></td>
+<td><p>Edit system owned assets in the tenant</p></td>
 </tr>
 </tbody>
 </table>
@@ -1975,7 +2214,7 @@
 <td class="text-center"><p></p></td>
 <td class="text-center"><p>●</p></td>
 <td class="text-center"><p>●</p></td>
-<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>
@@ -2243,6 +2482,74 @@
 </tr>
 <tr class="row-even"><td><p>Deployment Groups</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">Fleet.Delete.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Deployment Groups</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DeploymentGroupAdministrator.Create.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Deployment Groups</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DeploymentGroupAdministrator.Delete.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Deployment Groups</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DeploymentGroupAdministrator.Read.All</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Deployment Groups</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DeploymentGroupAdministrator.Update.All</span></code></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>
@@ -2667,6 +2974,57 @@
 <td class="text-center"><p>★</p></td>
 </tr>
 <tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Asset.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Asset.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Asset.Provision.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">Asset.Read.Tenant</span></code></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>
@@ -2683,7 +3041,415 @@
 <td class="text-center"><p></p></td>
 <td class="text-center"><p>★</p></td>
 </tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Asset.Sync.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
 <tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Asset.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Asset.VerifyProvisioning.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttribute.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttribute.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttribute.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttribute.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeDataType.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeSet.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeSet.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeSet.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeSet.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeUnit.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeUnit.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeUnit.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeUnit.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeValue.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeValue.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeValue.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetAttributeValue.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetBridgeAssetTag.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetBridgeAssetTag.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetBridgeAssetTag.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetBridgeAssetTag.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Read.All</span></code></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p>★</p></td>
@@ -2700,7 +3466,7 @@
 <td class="text-center"><p></p></td>
 <td class="text-center"><p>★</p></td>
 </tr>
-<tr class="row-odd"><td><p>Assets</p></td>
+<tr class="row-even"><td><p>Assets</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Read.Tenant</span></code></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>
@@ -2717,7 +3483,7 @@
 <td class="text-center"><p></p></td>
 <td class="text-center"><p>★</p></td>
 </tr>
-<tr class="row-even"><td><p>Assets</p></td>
+<tr class="row-odd"><td><p>Assets</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Create.All</span></code></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>
@@ -2734,7 +3500,7 @@
 <td class="text-center"><p></p></td>
 <td class="text-center"><p>★</p></td>
 </tr>
-<tr class="row-odd"><td><p>Assets</p></td>
+<tr class="row-even"><td><p>Assets</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Create.Tenant</span></code></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>
@@ -2751,7 +3517,585 @@
 <td class="text-center"><p></p></td>
 <td class="text-center"><p>★</p></td>
 </tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
 <tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModel.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelBridgeAssetAttributeSet.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelBridgeAssetAttributeSet.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelBridgeAssetAttributeSet.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelDefaultValue.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelDefaultValue.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelDefaultValue.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelDefaultValue.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTree.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTree.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTree.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTree.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTreeNode.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTreeNode.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTreeNode.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetModelTreeNode.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetTag.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetTag.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetTag.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetTag.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetType.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetType.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetType.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetType.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTree.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTree.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTree.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTree.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTreeNode.Create.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTreeNode.Delete.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTreeNode.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AssetTypeTreeNode.Update.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-even"><td><p>Assets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MeasurementCategory.Read.Tenant</span></code></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>●</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p>★</p></td>
+</tr>
+<tr class="row-odd"><td><p>Assets</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Provision.All</span></code></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>
@@ -2768,7 +4112,7 @@
 <td class="text-center"><p></p></td>
 <td class="text-center"><p>★</p></td>
 </tr>
-<tr class="row-odd"><td><p>Assets</p></td>
+<tr class="row-even"><td><p>Assets</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Update.All</span></code></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>
@@ -2785,7 +4129,7 @@
 <td class="text-center"><p></p></td>
 <td class="text-center"><p>★</p></td>
 </tr>
-<tr class="row-even"><td><p>Assets</p></td>
+<tr class="row-odd"><td><p>Assets</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Update.Tenant</span></code></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>
@@ -2802,7 +4146,7 @@
 <td class="text-center"><p></p></td>
 <td class="text-center"><p>★</p></td>
 </tr>
-<tr class="row-odd"><td><p>Assets</p></td>
+<tr class="row-even"><td><p>Assets</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Delete.All</span></code></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>
@@ -2819,7 +4163,7 @@
 <td class="text-center"><p></p></td>
 <td class="text-center"><p>★</p></td>
 </tr>
-<tr class="row-even"><td><p>Assets</p></td>
+<tr class="row-odd"><td><p>Assets</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">SystemAsset.Delete.Tenant</span></code></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>
@@ -2836,7 +4180,7 @@
 <td class="text-center"><p></p></td>
 <td class="text-center"><p>★</p></td>
 </tr>
-<tr class="row-odd"><td><p>Assets</p></td>
+<tr class="row-even"><td><p>Assets</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">DataMessage.Download.Own</span></code></p></td>
 <td class="text-center"><p></p></td>
 <td class="text-center"><p></p></td>

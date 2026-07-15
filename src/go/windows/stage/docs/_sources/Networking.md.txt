@@ -38,12 +38,11 @@ $ coap-client -m GET 'coap://[fe80::df7:2023:1:1%eth1]/whoami/1'
 
 ## Common CoAP endpoints
 
-Here's a list of some of the most common and useful CoAP endpoints. For a full list with detailed specifications
-of each endpoint, please refer to the document "M2CP Protocol".
+Here's a list of some of the most common and useful CoAP endpoints. For full specifications of endpoints, see [Tech CoAP — Endpoints](Tech_CoAP.md#endpoints).
 
 ### /whoami/1
 
-Each coap client is supposed to implement this endpoint, which shall deliver a self-description of the node.
+Returns a self-description of the CoAP node. Every node in the M2CP system is expected to implement this endpoint — see [CoAP spec](Tech_CoAP.md#get-whoami-1-node-self-description) for the full response format.
 
 Example:
 
@@ -52,41 +51,11 @@ $ coap-client -m GET 'coap://[fe80::df7:2023:1:1%eth1]/whoami/1'
 {"sn":1234,"board":"mlpa_control","app":"mlpa_control_pmic","app_ver":"0","app_rev":0}
 ```
 
-With PUT, the same endpoint can be used to write the [Hardware Serial
-Number](Glossary.md#hardware-serial-number) of a [Edge
-Device](Glossary.md#edge-device). The PUT operation can be performed
-only once -- the device will store the assigned serial and not allow
-any changes afterward.
-
-The serial is supposed to be sent in the body of a PUT call to
-`/whoami/1`. The serial, which is a 16-bit unsigned integer, must be
-encoded in little endian and base64 without padding.
-
-For example: The Hardware Serial Number `8667` is encoded as `2yE`, as
-you can calculate yourself with this Python snippet:
-
-```python3
->>> import struct
->>> import base64
->>> hardware_serial = 8667
->>> base64.b64encode(struct.pack('<H', hardware_serial)).decode().rstrip('=')
-'2yE'
-```
-
-To translate from encoded value to integer, you may do:
-
-```python3
->>> import struct
->>> import base64
->>> encoded_serial = '2yE'
->>> struct.unpack('<H', base64.b64decode(encoded_serial + '=' * (-len(encoded_serial) % 4)))[0]
-8667
-```
-
+With `POST`, the same endpoint is used during provisioning to write the [Hardware Serial Number](Glossary.md#hardware-serial-number) of an Edge Device (write-once) — see [CoAP spec](Tech_CoAP.md#post-whoami-1-serial-number-provisioning) for encoding details.
 
 ### /uptime/1
 
-Returns the number of seconds the node is running as string encoded integer.
+Returns the number of seconds the node has been running as a string-encoded integer — see [CoAP spec](Tech_CoAP.md#get-uptime-1).
 
 
 ## Power Management
@@ -99,73 +68,46 @@ granted uptime and it will cut the power, once the time is up.
 
 ### m2cp-coap's part in power management
 
-The software that is responsible for managing uptime and initiating
-the Linux system shutdown in time, before the PMU cuts the power, is
-`m2cp-coap`.
+The software responsible for managing uptime and initiating the Linux system shutdown in time is _m2cp-coap_. It reacts to power notifications from the PMU via [`POST /notify/poweroff/1`](Tech_CoAP.md#post-notify-poweroff-1) and allows applications to request uptime via [`PUT /request_uptime/1`](Tech_CoAP.md#put-request_uptime-1). The PMU can also command an immediate shutdown via [`POST /shutdown/1`](Tech_CoAP.md#post-shutdown-1). See the [CoAP endpoint specs](Tech_CoAP.md#power-management-endpoints) for the full protocol definition.
 
-By default, `m2cp-coap` will do nothing until a PMU introduces itself
-by sending a CoAP message to the `/notify/poweroff/1` endpoint.
-
-Every received `/notify/poweroff/1` call will update the known address
-of the PMU and the event of receiving the notification can be traced
-in the logs of `m2cp-coap` as:
+_m2cp-coap_ is dormant until a PMU introduces itself by sending the first `/notify/poweroff/1` message, which also registers the PMU's address. The received address is logged:
 
 ```console
 $ sudo m2cp logs -f m2cp-coap
 ...setting power-board address to [...]
 ```
 
-Once introduced, the PMU is expected to periodically send
-`/notify/poweroff/1` notification with the amount of granted uptime
-left in seconds. At zero seconds the power will be cut. Currently, the
-notification is sent every 10 seconds, but the period could vary.
+The PMU sends `/notify/poweroff/1` periodically (typically every 10 seconds) with the remaining uptime in seconds. On each notification _m2cp-coap_ compares the incoming `seconds` value against the highest uptime currently requested by any application or by _m2cp-coap_ itself, plus the expected shutdown duration. If the incoming budget is smaller than that sum, _m2cp-coap_ requests more uptime from the PMU. If the PMU does not grant the requested amount and the budget drops below the shutdown duration threshold, _m2cp-coap_ initiates a system shutdown. The current shutdown duration is 50 seconds — applications must not depend on this exact value.
 
-For illustration, the notification of 60 seconds of uptime left could
-be injected manually by:
-
-```console
-$ coap-client -m POST "coap://[fe80::df7:2023:1:2%eth0]/notify/poweroff/1?seconds=60"
-```
-
-where `fe80::df7:2023:1:2` is the link-local address of the Linux
-system and `eth0` is the network interface that is used.
-
-`m2cp-coap` receives this amount of uptime and compares it to its list
-of uptime requirements. `m2cp-coap` maintains a minimum uptime for
-itself and also collects uptime requests from other apps or users. If
-the granted uptime is smaller than the maximum requested uptime plus
-the expected time for a safe shutdown, then `m2cp-coap` will request
-more uptime at the PMU. If the PMU does not grant the requested amount
-of uptime and the notified amount gets below the threshold of the
-shutdown duration, `m2cp-coap` will initiate a shutdown of the Linux
-system. Currently the shutdown time is 50 seconds, but no application
-must depend on it.
-
-The minimum amount of system uptime is currently 6 minutes. The value
-is persisted in `m2cp-coap`'s `$SNAP_COMMON/power-manager.yaml` as
-`uptime-minimum`:
+The minimum system uptime (default 360 s) is configurable and persisted in `$SNAP_COMMON/power-manager.yaml`:
 
 ```console
 $ cat /var/snap/m2cp-coap/common/power-manager.yaml
 uptime-minimum: 360
 ```
 
+For illustration, injecting a notification of 60 seconds of uptime manually:
+
+```console
+$ coap-client -m POST "coap://[fe80::df7:2023:1:2%eth0]/notify/poweroff/1?seconds=60"
+```
+
+Here `fe80::df7:2023:1:2` is the link-local address of the Linux system (M2CP SoM) and `eth0` is the network interface used.
+
 
 ### App's uptime requests
 
-App can request uptime at `m2cp-coap` by using the
-`/request_uptime/1` endpoint. It has to be a PUT request with the
-arguments `app` and `seconds`. For example, to request 300 seconds of
-uptime for the App "example", the request equals:
+Apps request uptime from _m2cp-coap_ via [`PUT /request_uptime/1`](Tech_CoAP.md#put-request_uptime-1), providing the `app` name and `seconds` as query parameters (max 1000 s). See the [CoAP endpoint spec](Tech_CoAP.md#put-request_uptime-1) for details.
+
+_m2cp-coap_ maintains a list of uptime requests per application. On each `/notify/poweroff/1` notification it compares the remaining budget against the highest outstanding request plus the shutdown duration, and asks the PMU for more time if needed.
+
+For convenience, the SDK provides a function for this — see [Requesting App Runtime](Development_Edge.md#requesting-application-runtime).
+
+Example:
 
 ```console
 $ coap-client -m PUT "coap://[fe80::df7:2023:1:2%eth0]/request_uptime/1?app=example&seconds=300"
 ```
-
-The maximum amount that can be requested is limited to 1000 seconds by
-`m2cp-coap`. For conveinience, the SDK provides a function to request
-uptime as described in [Requesting App
-Runtime](Development_Edge.md#requesting-application-runtime).
 
 
 ### getUptimeRequests RPC

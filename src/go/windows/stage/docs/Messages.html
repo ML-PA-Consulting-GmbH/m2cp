@@ -39,7 +39,7 @@
             L-IoT Documentation
           </a>
               <div class="version">
-                Version 1.14.8
+                Version 1.15.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -318,6 +318,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#data-visualization">5.2.10. Data Visualization</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#simulating-oid-data-flow">5.3. Simulating OID Data Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#without-m2cp-coap">5.3.1. Without m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#monitoring-heartbeats">5.3.2. Monitoring Heartbeats</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="APIs_Backend.html">6. Backend APIs</a><ul>
@@ -396,6 +401,43 @@
 <li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-discovery">5.4.1. Node discovery</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-information">5.4.2. Node information</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-rpc">5.4.3. Node RPC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_CoAP.html">6. CoAP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_CoAP.html#endpoints">6.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#din-1-sensorid">6.1.1. <code class="docutils literal notranslate"><span class="pre">/din/1/{sensorId}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#din-2-osserial">6.1.2. <code class="docutils literal notranslate"><span class="pre">/din/2/{osSerial}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#whoami-2">6.1.3. <code class="docutils literal notranslate"><span class="pre">/whoami/2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#whoami-1">6.1.4. <code class="docutils literal notranslate"><span class="pre">/whoami/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#uptime-1">6.1.5. <code class="docutils literal notranslate"><span class="pre">/uptime/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#t-1">6.1.6. <code class="docutils literal notranslate"><span class="pre">/t/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#realtime-1">6.1.7. <code class="docutils literal notranslate"><span class="pre">/realtime/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-clients-1">6.1.8. <code class="docutils literal notranslate"><span class="pre">/status/clients/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-online-1">6.1.9. <code class="docutils literal notranslate"><span class="pre">/status/online/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-ping-1">6.1.10. <code class="docutils literal notranslate"><span class="pre">/status/ping/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-refresh-1">6.1.11. <code class="docutils literal notranslate"><span class="pre">/status/refresh/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-snaps-1">6.1.12. <code class="docutils literal notranslate"><span class="pre">/status/snaps/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#hello-2">6.1.13. <code class="docutils literal notranslate"><span class="pre">/hello/2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#hello-1">6.1.14. <code class="docutils literal notranslate"><span class="pre">/hello/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-keys">6.1.15. <code class="docutils literal notranslate"><span class="pre">suit/keys</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-mani">6.1.16. <code class="docutils literal notranslate"><span class="pre">/suit/mani</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-fw-app-revision-id-slot">6.1.17. <code class="docutils literal notranslate"><span class="pre">/suit/fw/{app-revision-id}/{slot}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-result-sequence-number">6.1.18. <code class="docutils literal notranslate"><span class="pre">/suit/result/{sequence-number}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#report-update-result-1">6.1.19. <code class="docutils literal notranslate"><span class="pre">/report/update/result/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#fw-1-m-hw-serial">6.1.20. <code class="docutils literal notranslate"><span class="pre">/fw/1/m/{hw-serial}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#cmd-1-sensorid">6.1.21. <code class="docutils literal notranslate"><span class="pre">/cmd/1/{sensorId}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#update-1">6.1.22. <code class="docutils literal notranslate"><span class="pre">/update/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#notify-poweroff-1">6.1.23. <code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#shutdown-1">6.1.24. <code class="docutils literal notranslate"><span class="pre">/shutdown/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#request-uptime-1">6.1.25. <code class="docutils literal notranslate"><span class="pre">/request_uptime/1</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_CoAP.html#formats">6.2. Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#rtd-details">6.2.1. RTD Details</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#commandbatch">6.2.2. CommandBatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#responsebatch">6.2.3. ResponseBatch</a></li>
 </ul>
 </li>
 </ul>
@@ -604,6 +646,81 @@ trace it in its log:</p>
 </pre></div>
 </div>
 <p>From <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span> <span class="pre">6.1.0</span></code> onwards, the log level can be modified using the RPC “setLogLevel”. This allows you to increase the log level to “debug” to see more detailed logs.</p>
+<p>To send a test packet to <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> directly (without physical hardware), use <code class="docutils literal notranslate"><span class="pre">dev-m2cpctl</span> <span class="pre">coap</span> <span class="pre">data</span></code>. The following examples use OID 1 (unknown to <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code>, so the raw protobuf is forwarded) and OID 42 (known to <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code>, so it is parsed inline and forwarded as a parsed message).</p>
+<section id="din-1-oid-not-known-by-m2cp-coap">
+<h4>/din/1 — OID not known by m2cp-coap<a class="headerlink" href="#din-1-oid-not-known-by-m2cp-coap" title="Permalink to this heading"></a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dev-m2cpctl.m2cpctl<span class="w"> </span>coap<span class="w"> </span>data<span class="w"> </span><span class="m">1</span><span class="w"> </span>--hw-serial<span class="w"> </span><span class="m">123</span>
+<span class="go">Sending data to [fdea:dbee:f::1]:5683</span>
+<span class="go">Endpoint: /din/1/ew</span>
+<span class="go">Payload: ARwIhJGfywYQzsLxBRoKZGVtby1tb2RlbCUAUH1E</span>
+<span class="go">Result Code: Valid (67)</span>
+<span class="go">Result Body:</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dev-m2cpctl.m2cpctl<span class="w"> </span>message<span class="w"> </span>listen<span class="w"> </span>--data
+<span class="go">...</span>
+<span class="go">[16:47:00.000]--[DATA    ]--[sensor.ew.oid.1.protobuf.m2cp-coap.b9961153-efa6-520b-b21f-905d34d775e3]-&gt;[sensor.ew.oid.1.protobuf.m2cp-coap.b9961153-efa6-520b-b21f-905d34d775e3]-[5882b7eb-e1b2-4ef0-bedd-5ad919f4e355]</span>
+
+<span class="go">[16:47:00.000]--[DATA    ]--[sensor.ew.oid.1.parsed.demo-oid-parsers.b9961153-efa6-520b-b21f-905d34d775e3]-&gt;[sensor.ew.oid.1.parsed.demo-oid-parsers.b9961153-efa6-520b-b21f-905d34d775e3]-[2d8b0350-3969-4f81-8af0-1e14718bbf4d]</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+<p>The raw protobuf message appears first on <code class="docutils literal notranslate"><span class="pre">sensor.ew.oid.1.protobuf.m2cp-coap.&lt;ed-serial&gt;</span></code>, followed by a second message on <code class="docutils literal notranslate"><span class="pre">sensor.ew.oid.1.parsed.demo-oid-parsers.&lt;ed-serial&gt;</span></code> once a custom parser picks it up.</p>
+</section>
+<section id="din-1-oid-known-by-m2cp-coap">
+<h4>/din/1 — OID known by m2cp-coap<a class="headerlink" href="#din-1-oid-known-by-m2cp-coap" title="Permalink to this heading"></a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dev-m2cpctl.m2cpctl<span class="w"> </span>coap<span class="w"> </span>data<span class="w"> </span><span class="m">42</span><span class="w"> </span>--hw-serial<span class="w"> </span><span class="m">123</span>
+<span class="go">Sending data to [fdea:dbee:f::1]:5683</span>
+<span class="go">Endpoint: /din/1/ew</span>
+<span class="go">Payload: KiEIABCAmsOdBhiQtsOdBiAeKM7C8QUwsf/lKTjoB0AISA8=</span>
+<span class="go">Result Code: Valid (67)</span>
+<span class="go">Result Body:</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dev-m2cpctl.m2cpctl<span class="w"> </span>message<span class="w"> </span>listen<span class="w"> </span>--data
+<span class="go">...</span>
+<span class="go">[16:51:00.000]--[DATA    ]--[sensor.ew.oid.42.parsed.m2cp-coap.b9961153-efa6-520b-b21f-905d34d775e3]-&gt;[sensor.ew.oid.42.parsed.m2cp-coap.b9961153-efa6-520b-b21f-905d34d775e3]-[749569b4-c634-4b27-8e8f-dc0302897efd]</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+<p>For a known OID, <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> parses the protobuf itself and emits a single parsed message directly. No intermediate <code class="docutils literal notranslate"><span class="pre">protobuf</span></code> topic is created.</p>
+</section>
+<section id="din-2-oid-not-known-by-m2cp-coap">
+<h4>/din/2 — OID not known by m2cp-coap<a class="headerlink" href="#din-2-oid-not-known-by-m2cp-coap" title="Permalink to this heading"></a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dev-m2cpctl.m2cpctl<span class="w"> </span>coap<span class="w"> </span>data<span class="w"> </span><span class="m">1</span><span class="w"> </span>--os-serial<span class="w"> </span>ab-cd-ef
+<span class="go">Sending data to [fdea:dbee:f::1]:5683</span>
+<span class="go">Endpoint: /din/2/YWItY2QtZWY</span>
+<span class="go">Payload: ARwIo5KfywYQzsLxBRoKZGVtby1tb2RlbCUAUH1E</span>
+<span class="go">Result Code: Valid (67)</span>
+<span class="go">Result Body:</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dev-m2cpctl.m2cpctl<span class="w"> </span>message<span class="w"> </span>listen<span class="w"> </span>--data
+<span class="go">...</span>
+<span class="go">[16:49:39.000]--[DATA    ]--[oid.1.protobuf.m2cp-coap.ab-cd-ef]-&gt;[oid.1.protobuf.m2cp-coap.ab-cd-ef]-[7d7b5d5b-6281-4cb3-9b46-78d67253d5e5]</span>
+
+<span class="go">[16:49:39.000]--[DATA    ]--[oid.1.parsed.protobuf-parser.ab-cd-ef]-&gt;[oid.1.parsed.protobuf-parser.ab-cd-ef]-[98f26794-8fba-4d66-b6b9-ec00880f2654]</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+<p>Note: <code class="docutils literal notranslate"><span class="pre">/din/2</span></code> topics omit the <code class="docutils literal notranslate"><span class="pre">sensor.</span></code> prefix that <code class="docutils literal notranslate"><span class="pre">/din/1</span></code> uses. The OS serial (<code class="docutils literal notranslate"><span class="pre">ab-cd-ef</span></code>) appears directly as the device identifier.</p>
+</section>
+<section id="din-2-oid-known-by-m2cp-coap">
+<h4>/din/2 — OID known by m2cp-coap<a class="headerlink" href="#din-2-oid-known-by-m2cp-coap" title="Permalink to this heading"></a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dev-m2cpctl.m2cpctl<span class="w"> </span>coap<span class="w"> </span>data<span class="w"> </span><span class="m">42</span><span class="w"> </span>--os-serial<span class="w"> </span>ab-cd-ef
+<span class="go">Sending data to [fdea:dbee:f::1]:5683</span>
+<span class="go">Endpoint: /din/2/YWItY2QtZWY</span>
+<span class="go">Payload: KiEIABCAmsOdBhiQtsOdBiAeKM7C8QUwsf/lKTjoB0AISA8=</span>
+<span class="go">Result Code: Valid (67)</span>
+<span class="go">Result Body:</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dev-m2cpctl.m2cpctl<span class="w"> </span>message<span class="w"> </span>listen<span class="w"> </span>--data
+<span class="go">...</span>
+<span class="go">[16:51:49.000]--[DATA    ]--[oid.42.parsed.m2cp-coap.ab-cd-ef]-&gt;[oid.42.parsed.m2cp-coap.ab-cd-ef]-[e661df5d-c0a1-48e6-8ebb-3620746306eb]</span>
+<span class="go">...</span>
+</pre></div>
+</div>
 <p><code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> will parse some generic <a class="reference external" href="https://protobuf.dev/">Protocol
 Buffers</a> (Protobuf) payloads on its own. Every
 recognized Protobuf has a unique OID assigned. See the table below to
@@ -680,6 +797,7 @@ compare Protobuf names and OIDs.</p>
 </table>
 <p>Note, OID 18 is the only Protobuf that is parsed and forwarded as a
 SIGNAL, generally Protobufs are forwarded as DATA messages.</p>
+</section>
 </section>
 <section id="m2cp-message-hub">
 <h3><span class="section-number">5.2.4. </span>m2cp-message-hub<a class="headerlink" href="#m2cp-message-hub" title="Permalink to this heading"></a></h3>
@@ -806,6 +924,107 @@ fields <code class="docutils literal notranslate"><span class="pre">topic;origin
 <section id="data-visualization">
 <h3><span class="section-number">5.2.10. </span>Data Visualization<a class="headerlink" href="#data-visualization" title="Permalink to this heading"></a></h3>
 <p>Any data visualization, e.g. Grafana, is not implemented by default.</p>
+</section>
+</section>
+<section id="simulating-oid-data-flow">
+<h2><span class="section-number">5.3. </span>Simulating OID Data Flow<a class="headerlink" href="#simulating-oid-data-flow" title="Permalink to this heading"></a></h2>
+<p>When developing or debugging on an ED without physical RTD hardware, you can inject OID messages directly using <code class="docutils literal notranslate"><span class="pre">dev-m2cpctl</span></code>. This is useful for verifying that parsers, routing, and heartbeats are working correctly without needing a real sensor.</p>
+<section id="without-m2cp-coap">
+<h3><span class="section-number">5.3.1. </span>Without m2cp-coap<a class="headerlink" href="#without-m2cp-coap" title="Permalink to this heading"></a></h3>
+<p>You can bypass CoAP entirely and inject a message straight into the message-hub. This is the fastest way to check that a parser application responds correctly.</p>
+<section id="din-1">
+<h4>din/1<a class="headerlink" href="#din-1" title="Permalink to this heading"></a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dev-m2cpctl.m2cpctl<span class="w"> </span>message<span class="w"> </span>data<span class="w"> </span>testapp<span class="w"> </span><span class="m">1</span><span class="w"> </span>--hw-serial<span class="w"> </span><span class="m">123</span>
+<span class="go">2026/01/14 16:44:42 Sent successfully (sent: 0, failed: 0)</span>
+<span class="go">sent: 1</span>
+<span class="go">failed: 0</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dev-m2cpctl.m2cpctl<span class="w"> </span>message<span class="w"> </span>listen<span class="w"> </span>--data
+<span class="go">...</span>
+<span class="go">[16:44:42.000]--[DATA    ]--[sensor.123.oid.1.protobuf.testapp.eaa3f553-e500-4c79-afb0-7c4ae3a05c7a]-&gt;[sensor.123.oid.1.protobuf.testapp.eaa3f553-e500-4c79-afb0-7c4ae3a05c7a]-[b3a3b8b1-e1b8-4949-8a14-ced72699844f]</span>
+
+
+<span class="go">[16:44:42.000]--[DATA    ]--[sensor.123.oid.1.parsed.demo-oid-parsers.b9961153-efa6-520b-b21f-905d34d775e3]-&gt;[sensor.123.oid.1.parsed.demo-oid-parsers.b9961153-efa6-520b-b21f-905d34d775e3]-[81440eed-16cf-4d8d-8247-832771c3021c]</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+</section>
+<section id="din-2">
+<h4>din/2<a class="headerlink" href="#din-2" title="Permalink to this heading"></a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dev-m2cpctl.m2cpctl<span class="w"> </span>message<span class="w"> </span>data<span class="w"> </span>testapp<span class="w"> </span><span class="m">1</span><span class="w"> </span>-s<span class="w"> </span>ab-cd-ef
+<span class="go">2026/01/14 16:44:58 Sent successfully (sent: 0, failed: 0)</span>
+<span class="go">sent: 1</span>
+<span class="go">failed: 0</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dev-m2cpctl.m2cpctl<span class="w"> </span>message<span class="w"> </span>listen<span class="w"> </span>--data
+<span class="go">...</span>
+<span class="go">[16:44:58.000]--[DATA    ]--[oid.1.protobuf.testapp.ab-cd-ef]-&gt;[oid.1.protobuf.testapp.ab-cd-ef]-[518452bb-f59c-42d0-ad1c-6f04d40fe1c0]</span>
+
+
+<span class="go">[16:44:58.000]--[DATA    ]--[oid.1.parsed.protobuf-parser.ab-cd-ef]-&gt;[oid.1.parsed.protobuf-parser.ab-cd-ef]-[75965565-5c9d-4060-9723-8341363de0e2]</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="monitoring-heartbeats">
+<h3><span class="section-number">5.3.2. </span>Monitoring Heartbeats<a class="headerlink" href="#monitoring-heartbeats" title="Permalink to this heading"></a></h3>
+<p>Parser apps and <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> both emit periodic heartbeat signals. Checking these is a quick way to confirm that messages are flowing through correctly.</p>
+<section id="demo-oid-parsers-heartbeat">
+<h4>demo-oid-parsers heartbeat<a class="headerlink" href="#demo-oid-parsers-heartbeat" title="Permalink to this heading"></a></h4>
+<p>Before any messages are sent the heartbeat shows zero counts:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;uptime&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;msg-received&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;rows-parsed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;rows-forwarded&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;reportedDeviceInfo&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>After each OID 1 message <code class="docutils literal notranslate"><span class="pre">msg-received</span></code> and <code class="docutils literal notranslate"><span class="pre">rows-parsed</span></code> increment:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;uptime&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;msg-received&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;rows-parsed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;rows-forwarded&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;reportedDeviceInfo&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>OID 42 messages are not parsed by <code class="docutils literal notranslate"><span class="pre">demo-oid-parsers</span></code>, so sending those produces no change in its heartbeat.</p>
+</section>
+<section id="m2cp-coap-heartbeat">
+<h4>m2cp-coap heartbeat<a class="headerlink" href="#m2cp-coap-heartbeat" title="Permalink to this heading"></a></h4>
+<p>Before any messages are sent:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;uptime&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;running&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;remaining&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">86400</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;server&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;received&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;parsed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;forwarded&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;failed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;peers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For each OID 1 message (unknown OID — forwarded as raw protobuf), <code class="docutils literal notranslate"><span class="pre">received</span></code> and <code class="docutils literal notranslate"><span class="pre">forwarded</span></code> increment while <code class="docutils literal notranslate"><span class="pre">parsed</span></code> stays 0:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;uptime&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;running&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">750</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;remaining&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">86400</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;server&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;received&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;parsed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;forwarded&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;failed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;peers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For each OID 42 message (known OID — parsed by <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code>), both <code class="docutils literal notranslate"><span class="pre">received</span></code> and <code class="docutils literal notranslate"><span class="pre">parsed</span></code> increment:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;uptime&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;running&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">950</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;remaining&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">86400</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;server&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;received&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;parsed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;forwarded&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;failed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;peers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 </section>

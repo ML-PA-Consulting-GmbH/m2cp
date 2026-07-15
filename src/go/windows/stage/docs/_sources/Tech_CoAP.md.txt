@@ -1,0 +1,722 @@
+# CoAP
+
+This section provides reference definitions for the CoAP interface of the L.IoT system. It covers the available endpoints and the data formats used in CoAP messages.
+
+- [Endpoints](Tech_CoAP.md#endpoints)
+  Definitions of the CoAP endpoints exposed by nodes in the L.IoT system, including [`/din/1/{sensorId}`](Tech_CoAP.md#post-din-1-sensorid) and [`/din/2/{osSerial}`](Tech_CoAP.md#post-din-2-osserial) for RTD data ingestion, and [`/cmd/1/{sensorId}`](Tech_CoAP.md#post-cmd-1-sensorid) for RTD command batch exchange.
+
+- [Formats](Tech_CoAP.md#formats)
+  Definitions of the data formats used in CoAP messages, including [`RTD Details`](Tech_CoAP.md#rtd-details), [`CommandBatch`](Tech_CoAP.md#commandbatch), and [`ResponseBatch`](Tech_CoAP.md#responsebatch).
+
+## Endpoints
+
+The following subsections define each CoAP endpoint used in the L.IoT system.
+
+---
+
+#### `/din/1/{sensorId}`
+<a id="post-din-1-sensorid"></a>
+
+**Purpose:** A Real Time Device sends one or more data messages to the Edge Device, identified by its hardware serial number.
+
+| Property     | Value                                                             |
+|--------------|-------------------------------------------------------------------|
+| Direction    | RTD → ED                                                          |
+| Method       | POST                                                              |
+| Path Params  | `sensorId`: base64-encoded hardware serial of the RTD             |
+| Request Body | Binary: one or more framed protobuf messages (see below)          |
+| Response     | —                                                                 |
+
+_m2cp-coap_ parses each message, dispatches it to a registered OID parser if one exists, and forwards the result into the messaging system. If no parser is registered for a given OID, the raw protobuf is forwarded as unparsed data. Messages with OID 18 are handled specially as log/signal messages. Data is tagged with the `sensorId` as the device identifier ([DIN1 standard](Tech_Messaging.md#log-message-rtos-to-cloud)).
+
+**Resulting message topics**
+<!-- TODO: Move this to a new section dedicated to more detailed message topics. Tech_Messaging.md is concerned with the general messaging system. Implementations don't have a place yet so it is here for now -->
+Messages are published on the message-hub using the [address format](Tech_Messaging.md#address-format) `<feature>.<app>.<device>`.
+
+For `/din/1`, `<device>` is the [OS Serial Number](Glossary.md#os-serial-number) of the Edge Device serial. The feature and app segments depend on whether the OID is known to `m2cp-coap`:
+
+| Scenario | Topic (feature part) | App segment | Notes |
+|---|---|---|---|
+| OID unknown to `m2cp-coap` | `sensor.<sensorId>.oid.<oid>.protobuf` | `m2cp-coap` | Raw protobuf forwarded as-is |
+| OID unknown, custom parser present | `sensor.<sensorId>.oid.<oid>.parsed` | `<parser-app>` | Parser emits second message after consuming the protobuf message |
+| OID known to `m2cp-coap` | `sensor.<sensorId>.oid.<oid>.parsed` | `m2cp-coap` | Parsed inline; no intermediate protobuf message |
+
+`sensorId` is the base64-encoded [hardware serial](Glossary.md#hardware-serial-number) of the RTD, as provided in the URL path parameter.
+
+
+Example (OID 1, `sensorId` = `ew`, ED serial = `b9961153-efa6-520b-b21f-905d34d775e3`):
+```
+sensor.ew.oid.1.protobuf.m2cp-coap.b9961153-efa6-520b-b21f-905d34d775e3
+sensor.ew.oid.1.parsed.demo-oid-parsers.b9961153-efa6-520b-b21f-905d34d775e3
+```
+
+See [`/din/2/{osSerial}`](#post-din-2-osserial) for the alternative that uses the [OS Serial Number](Glossary.md#os-serial-number) of the **RTD** instead.
+
+See also: [Messaging — Data Points to Data Visualization](Tech_Messaging.md#data-points-to-data-visualization), [DATA Flow Debugging — m2cp-coap](Messages.md#m2cp-coap), [Simulating OID Data Flow](Messages.md#simulating-oid-data-flow)
+
+---
+
+#### `/din/2/{osSerial}`
+<a id="post-din-2-osserial"></a>
+
+**Purpose:** A Real Time Device sends one or more data messages to the Edge Device, identified by its OS Serial Number.
+
+| Property     | Value                                                                          |
+|--------------|--------------------------------------------------------------------------------|
+| Direction    | RTD → ED                                                                       |
+| Method       | POST                                                                           |
+| Path Params  | `osSerial`: URL-safe base64 (no padding) of the RTD's OS Serial Number (UUIDv5) |
+| Request Body | Binary: one or more framed protobuf messages (see below)                       |
+| Response     | —                                                                              |
+
+Behaviour is similar to [`/din/1`](#post-din-1-sensorid) except that the device is identified by its [OS Serial Number](Glossary.md#os-serial-number) rather than its [hardware serial](Glossary.md#hardware-serial-number). 
+
+
+The **advantage** over [`/din/1`](#post-din-1-sensorid) is that using the RTDs OS Serial Number allows to discover the messages of one specific RTD even if it is moving between different Edge Devices. With `din/1`, one has to search through different EDs messages, which is far more complex and time consuming.
+
+The OS Serial Number for an RTD is a UUIDv5 derived from hardware properties — see [Tech Lifecycle RTD — Known Peers](Tech_Lifecycle_RTD.md#m2cp-coap-known-peers) for the derivation details.
+
+**Resulting message topics**
+<!-- TODO: Move this to a new section dedicated to more detailed message topics. Tech_Messaging.md is concerned with the general messaging system. Implementations don't have a place yet so it is here for now -->
+Messages are published on the message-hub using the [address format](Tech_Messaging.md#address-format) `<feature>.<app>.<device>`.
+
+In comparison to `/din/1`, the RTDs OS Serial Number is used directly in the `<device>` segment instead of the EDs OS Serial Number. Thus the hardware serial (sensorId) in the topic can be omitted.
+
+| Scenario | Topic (feature part) | App segment | Notes |
+|---|---|---|---|
+| OID unknown to `m2cp-coap` | `oid.<oid>.protobuf` | `m2cp-coap` | Raw protobuf forwarded as-is |
+| OID unknown, custom parser present | `oid.<oid>.parsed` | `<parser-app>` | Parser emits second message after consuming the protobuf message |
+| OID known to `m2cp-coap` | `oid.<oid>.parsed` | `m2cp-coap` | Parsed inline; no intermediate protobuf message |
+
+The full address includes the OS serial as the `<device>` segment. Example (OID 1, OS serial = `ab-cd-ef`):
+```
+oid.1.protobuf.m2cp-coap.ab-cd-ef
+oid.1.parsed.protobuf-parser.ab-cd-ef
+```
+
+See also: [Messaging — Data Points to Data Visualization](Tech_Messaging.md#data-points-to-data-visualization), [DATA Flow Debugging — m2cp-coap](Messages.md#m2cp-coap), [Simulating OID Data Flow](Messages.md#simulating-oid-data-flow)
+
+---
+
+
+#### `/whoami/2`
+<a id="get-whoami-2"></a>
+
+**Purpose:**  Supersedes [whoami/1](#get-whoami-1) on Real Time Devices. An Edge Device queries a Real Time Device for its current hardware and firmware details. 
+
+| Property     | Value                       |
+|--------------|-----------------------------|
+| Direction    | ED → RTD                    |
+| Method       | GET                         |
+| Request Body | —                           |
+| Response     | [RTD Details](#rtd-details) |
+
+This endpoint is called during the Peers Discovery phase, both via IPv6 multicast (`GET coap://[ff02::1]/whoami/2`) and by individual unicast requests to each known peer.
+Implementing this endpoint is recommended for better discovery, but is not required — Real Time Devices that do not implement a CoAP server can instead announce themselves using [`/hello/2`](#post-hello-2).
+
+See also: [Peers Discovery](Tech_Lifecycle_RTD.md#peers-discovery)
+
+---
+
+#### `/whoami/1`
+<a id="get-whoami-1"></a>
+<a id="get-whoami-1-node-self-description"></a>
+
+| Method | Direction | Purpose |
+|--------|-----------|---------|
+| GET    | Any client → Any node | Node self-description; expected on all CoAP nodes |
+| POST   | Provisioning tool → Edge Device | Serial number provisioning (write-once; Edge Device only) |
+
+##### GET
+
+**Purpose:** Returns a self-description of the CoAP node. Every CoAP node with a server in the L.IoT system is expected to implement this endpoint.
+
+| Property     | Value                                    |
+|--------------|------------------------------------------|
+| Direction    | Any client → Any node                    |
+| Request Body | —                                        |
+| Response     | JSON object with device identity fields  |
+
+The response format differs between node types:
+
+**Edge Device** (served by _m2cp-coap_):
+
+| Field                | Description                                        |
+|----------------------|----------------------------------------------------|
+| `sn`                 | Hardware serial number (uint32)                    |
+| `edge_device_serial` | Linux device name / OS-level serial                |
+| `board`              | Board model name (from snap model assertion)       |
+| `app`                | Snap name of _m2cp-coap_                           |
+| `app_ver`            | Snap version of _m2cp-coap_                        |
+| `app_rev`            | Snap revision number of _m2cp-coap_                |
+
+```json
+{"sn": 1234, "edge_device_serial": "device-abc", "board": "mlpa_control", "app": "m2cp-coap", "app_ver": "2.18.3", "app_rev": 3}
+```
+
+**Real Time Device** ( superseded by [`/whoami/2`](#get-whoami-2)):
+
+| Field     | Description                                   |
+|-----------|-----------------------------------------------|
+| `sn`      | Hardware serial number                        |
+| `board`   | Board model name                              |
+| `app_rev` | Firmware sequence number (integer)            |
+
+```json
+{"sn": 12345, "board": "foobar", "app_rev": 2001000}
+```
+
+See also: [Legacy Real Time Devices](Tech_Lifecycle_RTD.md#legacy-real-time-devices)
+
+##### POST
+<a id="post-whoami-1-serial-number-provisioning"></a>
+
+**Purpose:** Writes the [Hardware Serial Number](Glossary.md#hardware-serial-number) of an Edge Device. The operation can be performed only once — the device stores the assigned serial and rejects subsequent writes. 
+
+| Property     | Value                                                        |
+|--------------|--------------------------------------------------------------|
+| Direction    | Provisioning tool → Edge Device                              |
+| Method       | POST                                                         |
+| Host         | Edge Device only (not implemented by RTDs)                   |
+| Request Body | Hardware serial number: 16-bit unsigned integer, little-endian, base64-encoded without padding |
+| Response     | —                                                            |
+
+The serial is a 16-bit unsigned integer encoded in little-endian byte order and base64 without padding.
+
+Example — encoding serial `8667` to `2yE`:
+
+```python3
+import struct, base64
+hardware_serial = 8667
+base64.b64encode(struct.pack('<H', hardware_serial)).decode().rstrip('=')
+# '2yE'
+```
+
+Decoding back to integer:
+
+```python3
+import struct, base64
+encoded_serial = '2yE'
+struct.unpack('<H', base64.b64decode(encoded_serial + '=' * (-len(encoded_serial) % 4)))[0]
+# 8667
+```
+
+---
+
+#### `/uptime/1`
+<a id="get-uptime-1"></a>
+
+**Purpose:** Returns the number of seconds the node has been running. Every CoAP node in the L.IoT system is expected to implement this endpoint.
+
+| Property     | Value                                    |
+|--------------|------------------------------------------|
+| Direction    | Any client → Any node                    |
+| Method       | GET                                      |
+| Request Body | —                                        |
+| Response     | Uptime in seconds as a decimal string-encoded integer |
+
+---
+
+#### `/t/1`
+
+**Purpose:** Returns the current system time of the node. This endpoint is Edge Device specific and is not expected to be implemented by Real Time Devices.
+
+| Property     | Value                     |
+|--------------|---------------------------|
+| Direction    | Any client → Edge Device  |
+| Method       | GET                       |
+| Request Body | —                         |
+| Response     | Current system time: 8-byte little-endian Unix timestamp (seconds since epoch)      |
+
+
+---
+
+#### `/realtime/1`
+<a id="get-realtime-1"></a>
+
+**Purpose:** Returns the current UTC time of the Edge Device as a JSON-encoded ISO 8601 string.
+
+| Property     | Value                                      |
+|--------------|--------------------------------------------|
+| Direction    | Any client → Edge Device                   |
+| Method       | GET                                        |
+| Request Body | —                                          |
+| Response     | JSON string: current UTC time in `YYYYMMDDTHHmmssZ` format |
+
+Example response:
+
+```json
+"20260407T143000Z"
+```
+
+---
+
+#### `/status/clients/1`
+<a id="get-status-clients-1"></a>
+
+**Purpose:** Returns the list of known CoAP clients (RTDs) that the Edge Device has seen.
+
+| Property     | Value                                         |
+|--------------|-----------------------------------------------|
+| Direction    | Any client → Edge Device                      |
+| Method       | GET                                           |
+| Request Body | —                                             |
+| Response     | JSON array of known clients                   |
+
+Each entry in the response array contains the client's IP address and the timestamp it was last seen:
+
+```json
+[
+  {
+    "Address": "fe80::1",
+    "LastSeen": "20260407T143000Z"
+  }
+]
+```
+
+`LastSeen` is formatted as a compact ISO 8601 UTC string (`YYYYMMDDTHHmmssZ`), matching the format used by [`/realtime/1`](#get-realtime-1). An empty array is returned if no clients are known.
+
+---
+
+#### `/status/online/1`
+<a id="get-status-online-1"></a>
+
+**Purpose:** Reports the internet connectivity status of the Edge Device by running a set of active probes.
+
+| Property     | Value                                    |
+|--------------|------------------------------------------|
+| Direction    | Any client → Edge Device                 |
+| Method       | GET                                      |
+| Request Body | —                                        |
+| Response     | JSON object with one field per probe     |
+
+Each field in the response is either `"ok"` or an error string describing the failure:
+
+| Field           | Probe                                                      |
+|-----------------|------------------------------------------------------------|
+| `tcp`           | TCP echo to `45.79.112.203:4242`                          |
+| `pingIp4`       | ICMP ping to `8.8.8.8` (IPv4)                             |
+| `pingIp6`       | ICMP ping to `2001:4860:4860::8888` (IPv6)                |
+| `pingDomainIp4` | ICMP ping to `google.com` via IPv4 (tests DNS resolution) |
+| `pingDomainIp6` | ICMP ping to `google.com` via IPv6 (tests DNS resolution) |
+
+Example response:
+
+```json
+{
+  "tcp": "ok",
+  "pingIp4": "ok",
+  "pingIp6": "ok",
+  "pingDomainIp4": "ok",
+  "pingDomainIp6": "error ping command failed: exit status 1"
+}
+```
+
+---
+
+#### `/status/ping/1`
+<a id="get-status-ping-1"></a>
+
+**Purpose:** Pings an arbitrary address from the Edge Device, optionally via a specific network interface.
+
+| Property     | Value                                                                     |
+|--------------|---------------------------------------------------------------------------|
+| Direction    | Any client → Edge Device                                                  |
+| Method       | GET                                                                       |
+| Query Params | `interface={string}`: network interface to use (optional); `address={string}`: target host or IP (required) |
+| Request Body | —                                                                         |
+| Response     | Plain text: `ok` or an error string                                       |
+
+The ping is issued with a 15-second timeout (`-W15`). If `interface` is provided, the ping is bound to that interface (`-I<interface>`).
+
+Example:
+
+```console
+$ coap-client -m GET "coap://[fe80::df7:2023:1:2%eth0]/status/ping/1?interface=eth0&address=8.8.8.8"
+ok
+```
+
+---
+
+#### `/status/refresh/1`
+<a id="get-status-refresh-1"></a>
+
+**Purpose:** Returns the timestamp of the most recent successful snap refresh on the Edge Device.
+
+| Property     | Value                                                                       |
+|--------------|-----------------------------------------------------------------------------|
+| Direction    | Any client → Edge Device                                                    |
+| Method       | GET                                                                         |
+| Request Body | —                                                                           |
+| Response     | Plain text: timestamp of the last successful snap refresh in `YYYYMMDDTHHmmssZ` format, or an error if none has been recorded |
+
+The timestamp is sourced from `snap changes` and corresponds to the completion time of the latest `Done` entry for a `Refresh all snaps` operation.
+
+---
+
+#### `/status/snaps/1`
+<a id="get-status-snaps-1"></a>
+
+**Purpose:** Returns the list of installed snaps on the Edge Device.
+
+| Property     | Value                                       |
+|--------------|---------------------------------------------|
+| Direction    | Any client → Edge Device                    |
+| Method       | GET                                         |
+| Request Body | —                                           |
+| Response     | JSON array of installed snaps               |
+
+Each entry is a 3-element JSON array of `[name, version, revision]`, sourced from `snap list`:
+
+```json
+[
+  ["m2cp-coap", "6.2.0", "42"],
+  ["m2cp-gateway", "3.1.0", "17"]
+]
+```
+
+---
+
+#### `/hello/2`
+<a id="post-hello-2"></a>
+
+**Purpose:** A Real Time Device announces itself to the Edge Device, or reports its current state after booting new firmware.
+
+| Property     | Value                                                |
+|--------------|------------------------------------------------------|
+| Direction    | RTD → ED                                             |
+| Method       | POST                                                 |
+| Request Body | [RTD Details](#rtd-details) (JSON or CBOR)           |
+| Response     | —                                                    |
+
+This endpoint is called by a Real Time Device to announce its existence or to report a state change.
+Is used to keep track of RTDs in the EDs surroundings.
+See also: [Firmware Updates (modernised)](Tech_Lifecycle_RTD.md#peers-discovery)
+
+---
+
+#### `/hello/1`
+<a id="post-hello-1"></a>
+
+**Purpose:** Legacy endpoint for a Real Time Device to announce itself to the Edge Device.
+
+| Property     | Value                              |
+|--------------|------------------------------------|
+| Direction    | RTD → ED                           |
+| Method       | POST                               |
+| Query Params | `fwt={int}`: Firmware Type (maps to Device Model via backend lookup); `hwr={int}`: Hardware Revision (ignored); `fwr={int}`: Sequence Number of the current installed Firmware (legacy name: Firmware Revision) |
+| Request Body | `{"id": <HW Serial>, "uptime": <Unix int Uptime>}`     |
+| Response     | —                                  |
+This is the legacy counterpart of [`/hello/2`](#post-hello-2).
+It is used by older Real Time Device firmware that does not support the modern data formats.
+
+---
+
+#### `suit/keys`
+<a id="get-suit-keys"></a>
+
+**Purpose:** _m2cp-coap_ retrieves the public SUIT signing keys from a legacy Real Time Device. Modern devices expose their keys via the `keys` field in [RTD Details](#rtd-details) (returned by [`/whoami/2`](#get-whoami-2)); this endpoint is the fallback for devices that only implement [`/whoami/1`](#get-whoami-1).
+
+| Property     | Value                                         |
+|--------------|-----------------------------------------------|
+| Direction    | ED → RTD                                      |
+| Method       | GET                                           |
+| Request Body | —                                             |
+| Response     | CBOR-encoded array of public keys (binary)    |
+
+The response is a CBOR array of byte strings, each element being a raw public key:
+
+```text
+Keys = [+ bstr]   ; one entry per public key
+```
+
+This endpoint is called during legacy peer discovery.
+
+See also: [Legacy Real Time Devices](Tech_Lifecycle_RTD.md#legacy-real-time-devices)
+
+---
+
+#### `/suit/mani`
+<a id="post-suit-mani"></a>
+
+**Purpose:** A Real Time Device requests available firmware update manifests from the Edge Device.
+
+| Property     | Value                                                                  |
+|--------------|------------------------------------------------------------------------|
+| Direction    | RTD → ED                                                               |
+| Method       | POST                                                                    |
+| Request Body | [RTD Details](#rtd-details) (JSON or CBOR)                             |
+| Response     | SUIT manifest (binary), or `4.04 Not Found` if no update is available  |
+| CoAP Code    | `2.05 Content` on success                                              |
+
+The Real Time Device sends its current state as an [RTD Details](#rtd-details) object in the request body.
+_m2cp-coap_ looks up whether an update action exists for this device and responds with the applicable SUIT manifest.
+If no update is pending, it responds with `4.04 Not Found`.
+See also: [Serve Firmware Updates](Tech_Lifecycle_RTD.md#serve-firmware-updates)
+
+Calling this endpoint also acts as an implicit self announcement as well (See [Peers Discovery](Tech_Lifecycle_RTD.md#peers-discovery)).
+
+
+---
+
+#### `/suit/fw/{app-revision-id}/{slot}`
+<a id="get-suit-fw-app-revision-id-slot"></a>
+
+**Purpose:** A Real Time Device downloads a firmware binary from the Edge Device.
+
+| Property    | Value                                                                                 |
+|-------------|---------------------------------------------------------------------------------------|
+| Direction   | RTD → ED                                                                              |
+| Method      | GET                                                                                   |
+| Path Params | `app-revision-id`: UUID of the App Revision; `slot`: firmware slot index (0 or 1)    |
+| Request Body | —                                                                                    |
+| Response    | Firmware binary                                                                       |
+
+The exact URL for this endpoint is embedded in the SUIT manifest returned by [`/suit/mani`](#post-suit-mani).
+The Real Time Device uses the manifest to determine which firmware binary to request for each slot.
+
+See also: [Serve Firmware Updates](Tech_Lifecycle_RTD.md#serve-firmware-updates)
+
+---
+
+#### `/suit/result/{sequence-number}`
+<a id="post-suit-result-sequence-number"></a>
+
+**Purpose:** A Real Time Device reports the result of a firmware update attempt to the Edge Device.
+
+| Property     | Value                                                                    |
+|--------------|--------------------------------------------------------------------------|
+| Direction    | RTD → ED                                                                 |
+| Method       | POST                                                                     |
+| Path Params  | `sequence-number`: sequence number of the update that was applied        |
+| Query Params | `error={uint}`: error code; `0` indicates success                        |
+| Request Body | —                                                                        |
+| Response     | —                                                                        |
+
+This endpoint is optional for the Real Time Device.
+Reporting the update result allows _m2cp-coap_ to confirm success and trigger the next update cycle sooner.
+
+See also: [Serve Firmware Updates](Tech_Lifecycle_RTD.md#serve-firmware-updates)
+
+---
+
+#### `/report/update/result/1`
+<a id="post-report-update-result-1"></a>
+
+**Purpose:** Legacy alias for [`/suit/result/{sequence-number}`](#post-suit-result-sequence-number) to report firmware update results.
+
+| Property     | Value                                        |
+|--------------|----------------------------------------------|
+| Direction    | RTD → ED                                     |
+| Method       | POST                                         |
+| Query Params | `success={0,1}`: `1` for success, `0` for failure |
+| Request Body | —                                            |
+| Response     | —                                            |
+
+Used by older firmware versions that have not yet adopted [`/suit/result/{sequence-number}`](#post-suit-result-sequence-number).
+
+---
+
+#### `/fw/1/m/{hw-serial}`
+<a id="post-fw-1-m-hw-serial"></a>
+
+**Purpose:** Legacy endpoint used by Real Time Devices without a CoAP server to request a firmware manifest.
+
+| Property     | Value                                                                                          |
+|--------------|------------------------------------------------------------------------------------------------|
+| Direction    | RTD → ED                                                                                       |
+| Method       | POST                                                                                           |
+| Path Params  | `hw-serial`: base64-encoded hardware serial integer                                            |
+| Query Params | `fwt={int}`: Firmware Type (maps to Device Model via backend lookup); `hwr={int}`: Hardware Revision (ignored); `fwr={int}`: currently installed Firmware Revision (sequence number) |
+| Request Body | —                                                                                              |
+| Response     | Manifest                                                                                       |
+
+This endpoint is used exclusively by legacy Real Time Devices not implementing [`/suit/mani`](#post-suit-mani).
+
+See also: [Legacy Real Time Devices](Tech_Lifecycle_RTD.md#legacy-real-time-devices)
+
+---
+
+#### `/cmd/1/{sensorId}`
+<a id="post-cmd-1-sensorid"></a>
+
+**Purpose:** A Real Time Device reports the result of the previously executed command batch and requests the next one from the Edge Device.
+
+| Property     | Value                                                                          |
+|--------------|--------------------------------------------------------------------------------|
+| Direction    | RTD → ED                                                                       |
+| Method       | POST                                                                           |
+| Path Params  | `sensorId`: base64-encoded hardware serial of the RTD                          |
+| Request Body | [ResponseBatch](#responsebatch) (CBOR)                                         |
+| Response     | [CommandBatch](#commandbatch) (CBOR, `2.05 Content`), or `2.03 Valid` if no next batch is available, or `4.12 Precondition Failed` if the exit code does not satisfy the next batch's constraint |
+
+The RTD sends the result of the last executed command batch as a CBOR-encoded [`ResponseBatch`](#responsebatch).
+
+_m2cp-coap_ processes the result and looks up the next command batch (sequence number = reported `seq` + 1) for the device. The next batch is returned only if:
+
+- A batch with the next sequence number exists for the device, **and**
+- The batch's `LastExitCodeConstraint` is satisfied by the exit code of the last command in the reported result (or the constraint is unconstrained, i.e. `-1`).
+
+If a _fast-forward_ batch exists for the device at a higher sequence number, it takes precedence over the next entry.
+
+On success the response body contains the CBOR-encoded [`CommandBatch`](#commandbatch).
+
+---
+
+#### `/update/1`
+<a id="put-update-1"></a>
+
+**Purpose:** _m2cp-coap_ announces the availability of a new firmware update to a Real Time Device.
+
+| Property     | Value                          |
+|--------------|--------------------------------|
+| Direction    | ED → RTD                       |
+| Method       | PUT                            |
+| Request Body | optional: SUIT manifest (binary)         |
+| Response     | —                              |
+
+After downloading new firmware from the App Store Service, _m2cp-coap_ announces the available updates(`coap://[ff02::1]/update/1`) as individual unicast requests to all known peers.
+The SUIT manifest of the available update is included in the message body for non-legacy devices.
+
+See also: [Announce Updates](Tech_Lifecycle_RTD.md#announce-updates)
+
+
+---
+
+#### `/notify/poweroff/1`
+<a id="post-notify-poweroff-1"></a>
+<a id="power-management-endpoints"></a>
+
+**Purpose:** The PMU notifies _m2cp-coap_ of the remaining uptime granted to the Linux system. This is one of three power management endpoints served by _m2cp-coap_ on the Edge Device — see also [`/shutdown/1`](#post-shutdown-1) and [`/request_uptime/1`](#put-request_uptime-1).
+
+| Property     | Value                                         |
+|--------------|-----------------------------------------------|
+| Direction    | PMU → ED                                      |
+| Method       | POST                                          |
+| Query Params | `seconds={uint}`: remaining uptime in seconds |
+| Request Body | —                                             |
+| Response     | —                                             |
+
+The first call also registers the PMU's address with _m2cp-coap_, activating power state tracking. The PMU is expected to send this notification periodically (typically every 10 seconds).
+
+See also: [Networking — Power Management](Networking.md#power-management)
+
+---
+
+#### `/shutdown/1`
+<a id="post-shutdown-1"></a>
+
+**Purpose:** The PMU instructs _m2cp-coap_ to shut down the Linux system immediately.
+
+| Property     | Value           |
+|--------------|-----------------|
+| Direction    | PMU → ED        |
+| Method       | POST            |
+| Request Body | —               |
+| Response     | —               |
+
+Unlike [`/notify/poweroff/1`](#post-notify-poweroff-1), which manages the remaining uptime budget, this endpoint is an immediate shutdown command. _m2cp-coap_ triggers the system shutdown as soon as the request is received.
+
+See also: [Networking — Power Management](Networking.md#power-management)
+
+---
+
+#### `/request_uptime/1`
+<a id="put-request_uptime-1"></a>
+
+**Purpose:** An application requests additional uptime from _m2cp-coap_.
+
+| Property     | Value                                                    |
+|--------------|----------------------------------------------------------|
+| Direction    | App → ED                                                 |
+| Method       | PUT                                                      |
+| Query Params | `app={string}`: requesting application name; `seconds={uint}`: requested uptime in seconds (max 1000) |
+| Request Body | —                                                        |
+| Response     | —                                                        |
+
+The SDK provides a convenience function for this — see [Requesting App Runtime](Development_Edge.md#requesting-application-runtime).
+
+See also: [Networking — Power Management](Networking.md#power-management), [Networking — getUptimeRequests RPC](Networking.md#getuptimerequests-rpc)
+
+---
+
+## Formats
+
+The following data formats are used in CoAP message bodies.
+
+### RTD Details
+<a id="rtd-details"></a>
+
+RTD Details describe a Real Time Device's current hardware and firmware state. They are exchanged via:
+
+- [`/hello/2`](#post-hello-2): RTD announces itself to the ED
+- [`/suit/mani`](#post-suit-mani): RTD requests a firmware manifest from the ED
+- [`/whoami/2`](#get-whoami-2): ED receives RTD details from the RTD
+
+Both JSON and CBOR encodings are supported.
+
+**JSON Format:**
+
+```json
+{
+  "hw_serial": "12345",      // The Device Hardware Serial
+  "hw_model": "PMIC 1.08",   // The Device Hardware Model
+  "hw_vendor": "mlpa",       // The Device Hardware Vendor
+  "mcu_id": "123abc",        // Optional: The MCU ID
+  "dev_model": "pmic",       // The Device Model of the Real Time Device
+  "app_name": "fw-pmic",     // The name of the App running on the Real Time Device
+  "app_version": "3.2.1",    // The semver version of the App running on the Real Time Device
+  "seq_no": 2001000,         // The sequence number of the current firmware installation
+  "uptime": 12345,           // The uptime of the Real Time Device in seconds
+  "keys": ["key1", "key2"]   // Array of base64 encoded public keys
+}
+```
+
+**CBOR Format:**
+
+```text
+DeviceInfo = {
+  0: tstr,       ; hw_serial
+  1: tstr,       ; hw_model
+  2: tstr,       ; hw_vendor
+  3: tstr,       ; dev_model
+  4: tstr,       ; app_name
+  5: tstr,       ; app_version
+  6: uint,       ; seq_no
+  7: uint,       ; uptime
+  8: [+ bstr]    ; keys
+  9: ? tstr      ; mcu_id (optional)
+}
+```
+
+### CommandBatch
+<a id="commandbatch"></a>
+
+A `CommandBatch` is a CBOR-encoded ordered list of commands for a Real Time Device to execute. It is returned by [`/cmd/1/{sensorId}`](#post-cmd-1-sensorid) on success.
+
+```text
+CommandBatch = {
+  "seq": uint,      ; sequence number of this batch
+  "cmd": [+ Cmd],   ; ordered list of commands to execute
+  "cfg": any        ; optional: configuration object
+}
+
+Cmd = { tstr => any }   ; command name => argument(s)
+```
+
+### ResponseBatch
+<a id="responsebatch"></a>
+
+A `ResponseBatch` is a CBOR-encoded report of the execution results of a previously received [`CommandBatch`](#commandbatch). It is sent by a Real Time Device as the request body of [`/cmd/1/{sensorId}`](#post-cmd-1-sensorid).
+
+```text
+ResponseBatch = {
+  "seq": uint,           ; sequence number of the batch that was executed
+  "rsp": [+ ResponseRsp] ; per-command results (omitted if empty)
+  "error": int           ; CBOR parsing error code, if the batch could not be parsed (omitted if 0)
+}
+
+ResponseRsp = { tstr => [output, exitCode] }
+; output    = any    (stdout/stderr lines or similar)
+; exitCode  = uint
+```

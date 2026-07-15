@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>6. CoAP &mdash; L-IoT Documentation  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/drawio.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/MLPA-FavIcon-neg-weiss.ico"/>
+    <link rel="canonical" href="http://apu.ml-pa.loc/docs/customers/Tech_CoAP.html" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Glossary" href="Glossary.html" />
+    <link rel="prev" title="5. Messaging" href="Tech_Messaging.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: black" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            L-IoT Documentation
+          </a>
+              <div class="version">
+                Version 1.15.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Tools.html">2. Tools Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Tools.html#browser-ui">2.1. Browser UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Tools.html#cli-tools">2.2. CLI Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#windows-cli-tool">2.2.1. Windows CLI Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#linux-cli-tools">2.2.2. Linux CLI Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Tools.html#login-and-usage">2.2.3. Login and Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Backend.html">3. Cloud Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#installing-backend-services">3.1. Installing Backend Services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#azure">3.1.1. Azure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#constraints-on-secrets">3.2. Constraints on secrets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#secrets">3.2.1. Secrets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#container-registry">3.3. Container Registry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#event-api">3.4. Event API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#full-list-of-entities">3.4.1. Full List of Entities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#receiving-data-points">3.4.2. Receiving Data Points</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#graphql-api">3.5. GraphQL API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Backend.html#rest-api">3.6. REST API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#authentication-authorization">3.6.1. Authentication &amp; Authorization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#swagger-api-documentation">3.6.2. Swagger API Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Backend.html#requests">3.6.3. Requests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installation_Device.html">4. Devices Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installation_Device.html#provisioning-process-of-externally-produced-edge-devices">4.1. Provisioning Process of Externally Produced Edge Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#installing-edge-os">4.1.1. Installing Edge OS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#test-sd-card-of-a-device">4.1.2. Test SD Card of a Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Installation_Device.html#os-image-inspection">4.1.3. OS Image Inspection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_User.html">5. User Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#quick-reference">5.1. Quick Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#roles-in-detail">5.2. Roles in Detail</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#default">5.2.1. Default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#observer">5.2.2. Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#system-analyst">5.2.3. System Analyst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#device-manager">5.2.4. Device Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#device-admin">5.2.5. Device Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-developer">5.2.6. Software Developer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-manager">5.2.7. Software Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#software-admin">5.2.8. Software Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#asset-admin">5.2.9. Asset Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#user-admin">5.2.10. User Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#business-application">5.2.11. Business Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#manufacturing-service">5.2.12. Manufacturing Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#core-admin">5.2.13. Core Admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#super-admin">5.2.14. Super Admin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#rolepermission-scope-matrix">5.3. Role–Permission Scope Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#scope-naming-convention">5.4. Scope Naming Convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#role-decision-guide">5.5. Role Decision Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-1-is-this-a-human-user-or-a-machine-service-account">5.5.1. Step 1 — Is this a human user or a machine/service account?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-2-what-is-their-primary-area-of-responsibility">5.5.2. Step 2 — What is their primary area of responsibility?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-3-user-administration">5.5.3. Step 3 — User administration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-4-device-operations">5.5.4. Step 4 — Device operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-5-software-roles">5.5.5. Step 5 — Software roles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_User.html#step-6-read-only-and-monitoring">5.5.6. Step 6 — Read-only and monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_User.html#assigning-roles">5.6. Assigning Roles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Asset.html">6. Asset Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#concept-of-assets">6.1. Concept of Assets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#relevant-user-roles">6.2. Relevant User Roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-management-with-the-cli">6.3. Asset Management with the CLI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#working-with-asset-models">6.3.1. Working with Asset Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#working-with-assets">6.3.2. Working with Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#linking-assets">6.3.3. Linking Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Asset.html#searching-and-finding-assets">6.3.4. Searching and Finding Assets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-creation-during-the-installation-process">6.4. Asset Creation during the installation process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#disable-the-asset-service-pre-registration-requirement">6.5. Disable the Asset Service Pre-Registration Requirement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Asset.html#asset-management-with-the-ecosystem-web-ui">6.6. Asset Management with the Ecosystem Web-UI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Software.html">7. Software Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#uploading-app-revisions">7.1. Uploading App Revisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#review">7.2. Review</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#deployment">7.3. Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Software.html#the-ml-pa-release-process">7.4. The ML!PA release process</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#steps-to-create-a-release">7.4.1. Steps to create a release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#contents-of-a-release-package">7.4.2. Contents of a release package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Software.html#security-updates">7.4.3. Security Updates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Management_Device.html">8. Devices Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#list-devices">8.1. List Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#device-details">8.2. Device Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deployment-groups">8.3. Deployment Groups</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#deployment-groups-administrator-and-co-administrators">8.3.1. Deployment Group’s Administrator and Co-Administrators</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deploying-an-app-revision">8.4. Deploying an App Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#manually-trigger-deployment">8.5. Manually Trigger Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#analyzing-deployment">8.6. Analyzing Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#edge-devices">8.6.1. Edge Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#real-time-devices">8.6.2. Real Time Devices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#deployment-history">8.7. Deployment History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#toggle-rtd-updates">8.8. Toggle RTD Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#device-logs">8.9. Device Logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#reverse-ssh-access">8.10. Reverse-SSH Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Management_Device.html#advanced-troubleshooting">8.11. Advanced Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#tpm-da-lockout-mode">8.11.1. TPM DA Lockout Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Management_Device.html#inspecting-the-state-json">8.11.2. Inspecting the state.json</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Development_Edge.html">1. Edge Device Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#learning-path-for-app-developers">1.1. Learning Path for App Developers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#tools-for-app-development">1.2. Tools for App Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#build-applications-in-go-with-m2cp-go">1.2.1. Build Applications in Go with m2cp-go</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#package-applications-with-m2cp-snap">1.2.2. Package applications with m2cp-snap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#run-existing-software-within-an-m2cp-app-using-the-state-machine">1.2.3. Run existing software within an M2CP App using the State Machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#m2cp-app-crafting">1.3. M2CP App Crafting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-building-m2cp-apps">1.3.1. Questions and Answers: Building M2CP Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-debugging-m2cp-apps">1.3.2. Questions and Answers: Debugging M2CP Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#questions-and-answers-m2cp-app-deployment">1.3.3. Questions and Answers: M2CP App Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#upload-new-software-to-the-store">1.4. Upload new Software to the store</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#rate-a-version">1.4.1. Rate a version</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#edge-device-sdk">1.5. Edge Device SDK</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#installing-the-edge-device-sdk">1.5.1. Installing the Edge Device SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#setting-up-dev-environment">1.5.2. Setting Up Dev Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#using-the-edge-device-sdk">1.5.3. Using the Edge Device SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#tutorials">1.5.4. Tutorials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#python-edge-device-sdk">1.5.5. Python Edge Device SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#gpio">1.6. GPIO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#gpio-tools">1.6.1. GPIO Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#using-state-machine-with-gpio">1.6.2. Using State Machine with GPIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#gpio-led-blinking">1.6.3. GPIO LED Blinking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#rename-a-network-interface">1.7. Rename a Network Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#manual-remote-procedure-calls-rpc">1.8. Manual Remote Procedure Calls (RPC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-discovery">1.8.1. Node discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-information">1.8.2. Node information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#node-rpc">1.8.3. Node RPC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_Edge.html#json-mode">1.8.4. JSON mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_Edge.html#protect-edge-devices-via-basic-firewall">1.9. Protect Edge Devices via Basic Firewall</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Virtual_Devices.html">2. Virtual Edge Devices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#what-is-a-virtual-device">2.1. What is a Virtual Device?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#prerequisites">2.2. Prerequisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#installation-of-docker">2.2.1. Installation of Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#usage-of-virtual-devices">2.3. Usage of Virtual Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#list-virtual-devices">2.3.1. List Virtual Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#create-a-virtual-device">2.3.2. Create a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#delete-a-virtual-device">2.3.3. Delete a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#start-stop-a-virtual-device">2.3.4. Start/Stop a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#attach-to-a-virtual-device">2.3.5. Attach to a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#install-an-app-from-local-host-in-a-virtual-device">2.3.6. Install an App from Local Host in a Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#copy-files-from-host-to-the-virtual-device">2.3.7. Copy Files from Host to the Virtual Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#copy-files-from-virtual-device-to-host">2.3.8. Copy files from Virtual Device to Host</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Virtual_Devices.html#testing-or-debugging-applications-with-a-virtual-device">2.4. Testing or Debugging Applications with a Virtual Device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#testing-coap-clients-against-m2cp-coap">2.4.1. Testing CoAP clients against m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Virtual_Devices.html#debugging-applications-in-a-virtual-device">2.4.2. Debugging Applications in a Virtual Device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Development_RTD.html">3. Real Time Device Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#identifying-devices">3.1. Identifying Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-device-name">3.1.1. From Device Name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-hardware-serial-number">3.1.2. From Hardware Serial Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#from-hardware-assembly-number">3.1.3. From Hardware Assembly Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#by-device-type">3.1.4. By Device Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#creating-device-models">3.2. Creating Device Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#uploading-firmware">3.3. Uploading Firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#assigning-firmware-to-real-time-devices">3.4. Assigning Firmware to Real-time Devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#creating-a-new-deployment-group-for-a-real-time-device">3.4.1. Creating a new Deployment Group for a Real-time Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#adding-the-app-to-the-deployment-group">3.4.2. Adding the app to the deployment group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#adding-the-device-to-the-deployment-group">3.4.3. Adding the device to the deployment group</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#monitoring-firmware-deployment">3.5. Monitoring Firmware Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#debugging-problem-scenarios">3.5.1. Debugging Problem Scenarios</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#legacy">3.6. Legacy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#id1">3.6.1. Uploading Firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#prerequisites">3.6.2. Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#firmware-files">3.6.3. Firmware Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#packaging-tool">3.6.4. Packaging Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#deployment">3.6.5. Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#validation">3.6.6. Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Networking.html">4. CoAP and Networking</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#lan-addresses">4.1. LAN Addresses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#contacting-modules">4.2. Contacting Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#common-coap-endpoints">4.3. Common CoAP endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#whoami-1">4.3.1. /whoami/1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#uptime-1">4.3.2. /uptime/1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Networking.html#power-management">4.4. Power Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#m2cp-coaps-part-in-power-management">4.4.1. m2cp-coap’s part in power management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#apps-uptime-requests">4.4.2. App’s uptime requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#getuptimerequests-rpc">4.4.3. getUptimeRequests RPC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Networking.html#dev-m2cpctl-integration">4.4.4. dev-m2cpctl integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Messages.html">5. Messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#monitoring-messages">5.1. Monitoring Messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#using-the-m2cp-device-message-listen-cli-command">5.1.1. Using the m2cp device message listen CLI Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#monitoring-with-azure-iot-hub-explorer">5.1.2. Monitoring with Azure IoT Hub Explorer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#conclusion">5.1.3. Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#data-flow-debugging">5.2. DATA Flow Debugging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#mcus">5.2.1. MCUs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#ingoing-packets-analysis">5.2.2. Ingoing Packets Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-coap">5.2.3. m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-message-hub">5.2.4. m2cp-message-hub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-coap-a-z-custom-parser">5.2.5. m2cp-coap-[a-z]+ Custom Parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-gateway">5.2.6. m2cp-gateway</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#m2cp-gateway-uplink-output-buffer">5.2.7. m2cp-gateway Uplink Output Buffer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#inspecting-data-messages-in-the-cloud">5.2.8. Inspecting DATA messages in the cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#inspecting-signal-messages-in-the-cloud">5.2.9. Inspecting SIGNAL messages in the cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#data-visualization">5.2.10. Data Visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#simulating-oid-data-flow">5.3. Simulating OID Data Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#without-m2cp-coap">5.3.1. Without m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#monitoring-heartbeats">5.3.2. Monitoring Heartbeats</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="APIs_Backend.html">6. Backend APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="APIs_Backend.html#user-service">6.1. User Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="APIs_Backend.html#app-store-service">6.2. App Store Service</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Technical Specification</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Tech_Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Architecture.html">2. Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#edge-system">2.1. Edge System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#edge-device">2.1.1. Edge Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#real-time-devices">2.1.2. Real Time Devices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#cloud-backend">2.2. Cloud Backend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#gateway-service">2.2.1. Gateway Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#user-service">2.2.2. User Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#log-service">2.2.3. Log Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#asset-service">2.2.4. Asset Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#signalr-hub-service">2.2.5. SignalR Hub Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#domain-event-exporter-service">2.2.6. Domain Event Exporter Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#app-store-service">2.2.7. App Store Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#assertion-service">2.2.8. Assertion Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#ssh-relay-service">2.2.9. SSH Relay Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Architecture.html#service-bus">2.2.10. Service Bus</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Architecture.html#id33">2.3. User Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Lifecycle_ED.html">3. Edge Device Lifecycle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#building-an-os-image">3.1. Building an OS Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#initial-provisioning-of-an-edge-device-os-installation">3.2. Initial Provisioning of an Edge Device &amp; OS Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#registration-of-an-edge-device-with-the-appstore">3.3. Registration of an Edge Device with the Appstore</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_ED.html#terminology">3.3.1. Terminology:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#authorization-of-an-edge-device">3.4. Authorization of an Edge Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#software-update">3.5. Software Update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#establishing-the-messaging-uplink">3.6. Establishing the Messaging Uplink</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#re-installation-of-the-os">3.7. Re-Installation of the OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_ED.html#re-registration-with-a-different-appstore">3.8. Re-Registration with a different Appstore</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Lifecycle_RTD.html">4. Real Time Device Lifecycle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_RTD.html#firmware-updates-1-0-legacy">4.1. Firmware Updates 1.0 (Legacy)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Lifecycle_RTD.html#firmware-updates-2-0-current">4.2. Firmware Updates 2.0 (current)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#update-cycle">4.2.1. Update Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#data-formats">4.2.2. Data Formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#endpoints">4.2.3. Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Lifecycle_RTD.html#edge-cases">4.2.4. Edge Cases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_Messaging.html">5. Messaging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#typical-message-routing">5.1. Typical Message Routing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#log-message-linux-app-to-cloud">5.1.1. Log Message Linux App to Cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#log-message-rtos-to-cloud">5.1.2. Log Message RTOS to Cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#local-to-device-rpc-via-backend">5.1.3. Local To Device RPC via Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#app-to-app-rpc-on-a-device">5.1.4. App To App RPC on a Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#device-to-device-rpc-via-ip">5.1.5. Device To Device RPC via IP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#data-points-to-data-visualization">5.2. Data Points to Data Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#m2cp-messaging-protocol">5.3. M2CP Messaging Protocol</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#changelog">5.3.1. Changelog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#message-format">5.3.2. Message Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#message-routing">5.3.3. Message Routing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_Messaging.html#nodes-and-remote-procedure-calls-rpc">5.4. Nodes and Remote Procedure Calls (RPC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-discovery">5.4.1. Node discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-information">5.4.2. Node information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-rpc">5.4.3. Node RPC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. CoAP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#endpoints">6.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#din-1-sensorid">6.1.1. <code class="docutils literal notranslate"><span class="pre">/din/1/{sensorId}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#din-2-osserial">6.1.2. <code class="docutils literal notranslate"><span class="pre">/din/2/{osSerial}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#whoami-2">6.1.3. <code class="docutils literal notranslate"><span class="pre">/whoami/2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#whoami-1">6.1.4. <code class="docutils literal notranslate"><span class="pre">/whoami/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uptime-1">6.1.5. <code class="docutils literal notranslate"><span class="pre">/uptime/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-1">6.1.6. <code class="docutils literal notranslate"><span class="pre">/t/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#realtime-1">6.1.7. <code class="docutils literal notranslate"><span class="pre">/realtime/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#status-clients-1">6.1.8. <code class="docutils literal notranslate"><span class="pre">/status/clients/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#status-online-1">6.1.9. <code class="docutils literal notranslate"><span class="pre">/status/online/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#status-ping-1">6.1.10. <code class="docutils literal notranslate"><span class="pre">/status/ping/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#status-refresh-1">6.1.11. <code class="docutils literal notranslate"><span class="pre">/status/refresh/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#status-snaps-1">6.1.12. <code class="docutils literal notranslate"><span class="pre">/status/snaps/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hello-2">6.1.13. <code class="docutils literal notranslate"><span class="pre">/hello/2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hello-1">6.1.14. <code class="docutils literal notranslate"><span class="pre">/hello/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#suit-keys">6.1.15. <code class="docutils literal notranslate"><span class="pre">suit/keys</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#suit-mani">6.1.16. <code class="docutils literal notranslate"><span class="pre">/suit/mani</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#suit-fw-app-revision-id-slot">6.1.17. <code class="docutils literal notranslate"><span class="pre">/suit/fw/{app-revision-id}/{slot}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#suit-result-sequence-number">6.1.18. <code class="docutils literal notranslate"><span class="pre">/suit/result/{sequence-number}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#report-update-result-1">6.1.19. <code class="docutils literal notranslate"><span class="pre">/report/update/result/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fw-1-m-hw-serial">6.1.20. <code class="docutils literal notranslate"><span class="pre">/fw/1/m/{hw-serial}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmd-1-sensorid">6.1.21. <code class="docutils literal notranslate"><span class="pre">/cmd/1/{sensorId}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#update-1">6.1.22. <code class="docutils literal notranslate"><span class="pre">/update/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notify-poweroff-1">6.1.23. <code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shutdown-1">6.1.24. <code class="docutils literal notranslate"><span class="pre">/shutdown/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#request-uptime-1">6.1.25. <code class="docutils literal notranslate"><span class="pre">/request_uptime/1</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#formats">6.2. Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rtd-details">6.2.1. RTD Details</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#commandbatch">6.2.2. CommandBatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#responsebatch">6.2.3. ResponseBatch</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Glossary</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">1. Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app">1.1. App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-registration">1.2. App Store Registration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-service">1.3. App Store Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#app-store-ui">1.4. App Store UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#architecture">1.5. Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset">1.6. Asset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-attestation-key">1.7. Asset Attestation Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-hierarchy">1.8. Asset Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-management-ui">1.9. Asset Management UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-model">1.10. Asset Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-name">1.11. Asset Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-service">1.12. Asset Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-type">1.13. Asset Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#asset-type-category">1.14. Asset Type Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#backend-services">1.15. Backend Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#deployment-group">1.16. Deployment Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device">1.17. Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-id">1.18. Device ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-hardware">1.19. Device Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-management">1.20. Device Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model">1.21. Device Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model-name">1.22. Device Model Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-model-revision">1.23. Device Model Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-name">1.24. Device Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#device-type">1.25. Device Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#ecosystem-ui">1.26. Ecosystem UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-device">1.27. Edge Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-device-sdk">1.28. Edge Device SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#edge-os">1.29. Edge OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#firmware-package">1.30. Firmware Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model">1.31. Hardware Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model-name">1.32. Hardware Model Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-vendor">1.33. Hardware Vendor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-model-revision">1.34. Hardware Model Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#hardware-serial-number">1.35. Hardware Serial Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#mcu-id">1.36. MCU ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp">1.37. M2CP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-coap">1.38. m2cp-coap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-gateway">1.39. m2cp-gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#m2cp-message-hub">1.40. m2cp-message-hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#l-iot">1.41. L-IoT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#os-serial-number">1.42. OS Serial Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#real-time-device">1.43. Real Time Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#real-time-device-sdk">1.44. Real Time Device SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#snapd">1.45. Snapd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#snap-package">1.46. Snap Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#tenant">1.47. Tenant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#user-service">1.48. User Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Glossary.html#virtual-device">1.49. Virtual Device</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Legacy_Glossary.html">2. Legacy Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#dev-m2cpctl">2.1. dev-m2cpctl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#fleet">2.2. Fleet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-device">2.3. M2CP Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-cli">2.4. M2CP CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-coap">2.5. m2cp-coap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-control-tools">2.6. M2CP Control Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-core-apps">2.7. M2CP Core Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-gateway">2.8. m2cp-gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-go">2.9. m2cp-go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-listen">2.10. m2cp-listen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-logstat">2.11. m2cp-logstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-message-hub">2.12. m2cp-message-hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-simsensor">2.13. m2cp-simsensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-sdk">2.14. M2CP SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-sdk-go">2.15. m2cp-sdk-go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-snap">2.16. m2cp-snap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-timesync">2.17. m2cp-timesync</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#m2cp-toolchain">2.18. M2CP Toolchain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#real-time-device-peripheral-iot-device">2.19. Real-Time Device / Peripheral / IoT Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Legacy_Glossary.html#snapd">2.20. snapd</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Revision History</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Revision_History.html">1. Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">L-IoT Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">6. </span>CoAP</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="coap">
+<h1><span class="section-number">6. </span>CoAP<a class="headerlink" href="#coap" title="Permalink to this heading"></a></h1>
+<p>This section provides reference definitions for the CoAP interface of the L.IoT system. It covers the available endpoints and the data formats used in CoAP messages.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#endpoints"><span class="std std-ref">Endpoints</span></a>
+Definitions of the CoAP endpoints exposed by nodes in the L.IoT system, including <a class="reference internal" href="#post-din-1-sensorid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">/din/1/{sensorId}</span></code></span></a> and <a class="reference internal" href="#post-din-2-osserial"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">/din/2/{osSerial}</span></code></span></a> for RTD data ingestion, and <a class="reference internal" href="#post-cmd-1-sensorid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">/cmd/1/{sensorId}</span></code></span></a> for RTD command batch exchange.</p></li>
+<li><p><a class="reference internal" href="#formats"><span class="std std-ref">Formats</span></a>
+Definitions of the data formats used in CoAP messages, including <a class="reference internal" href="#rtd-details"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">RTD</span> <span class="pre">Details</span></code></span></a>, <a class="reference internal" href="#commandbatch"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">CommandBatch</span></code></span></a>, and <a class="reference internal" href="#responsebatch"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ResponseBatch</span></code></span></a>.</p></li>
+</ul>
+<section id="endpoints">
+<h2><span class="section-number">6.1. </span>Endpoints<a class="headerlink" href="#endpoints" title="Permalink to this heading"></a></h2>
+<p>The following subsections define each CoAP endpoint used in the L.IoT system.</p>
+<hr class="docutils" />
+<section id="din-1-sensorid">
+<h3><span class="section-number">6.1.1. </span><code class="docutils literal notranslate"><span class="pre">/din/1/{sensorId}</span></code><a class="headerlink" href="#din-1-sensorid" title="Permalink to this heading"></a></h3>
+<p><a id="post-din-1-sensorid"></a></p>
+<p><strong>Purpose:</strong> A Real Time Device sends one or more data messages to the Edge Device, identified by its hardware serial number.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>RTD → ED</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>POST</p></td>
+</tr>
+<tr class="row-even"><td><p>Path Params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sensorId</span></code>: base64-encoded hardware serial of the RTD</p></td>
+</tr>
+<tr class="row-odd"><td><p>Request Body</p></td>
+<td><p>Binary: one or more framed protobuf messages (see below)</p></td>
+</tr>
+<tr class="row-even"><td><p>Response</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+<p><em>m2cp-coap</em> parses each message, dispatches it to a registered OID parser if one exists, and forwards the result into the messaging system. If no parser is registered for a given OID, the raw protobuf is forwarded as unparsed data. Messages with OID 18 are handled specially as log/signal messages. Data is tagged with the <code class="docutils literal notranslate"><span class="pre">sensorId</span></code> as the device identifier (<a class="reference internal" href="Tech_Messaging.html#log-message-rtos-to-cloud"><span class="std std-ref">DIN1 standard</span></a>).</p>
+<p><strong>Resulting message topics</strong></p>
+<!-- TODO: Move this to a new section dedicated to more detailed message topics. Tech_Messaging.md is concerned with the general messaging system. Implementations don't have a place yet so it is here for now -->
+<p>Messages are published on the message-hub using the <a class="reference internal" href="Tech_Messaging.html#address-format"><span class="std std-ref">address format</span></a> <code class="docutils literal notranslate"><span class="pre">&lt;feature&gt;.&lt;app&gt;.&lt;device&gt;</span></code>.</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">/din/1</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;device&gt;</span></code> is the <a class="reference internal" href="Glossary.html#os-serial-number"><span class="std std-ref">OS Serial Number</span></a> of the Edge Device serial. The feature and app segments depend on whether the OID is known to <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scenario</p></th>
+<th class="head"><p>Topic (feature part)</p></th>
+<th class="head"><p>App segment</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>OID unknown to <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sensor.&lt;sensorId&gt;.oid.&lt;oid&gt;.protobuf</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code></p></td>
+<td><p>Raw protobuf forwarded as-is</p></td>
+</tr>
+<tr class="row-odd"><td><p>OID unknown, custom parser present</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sensor.&lt;sensorId&gt;.oid.&lt;oid&gt;.parsed</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;parser-app&gt;</span></code></p></td>
+<td><p>Parser emits second message after consuming the protobuf message</p></td>
+</tr>
+<tr class="row-even"><td><p>OID known to <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sensor.&lt;sensorId&gt;.oid.&lt;oid&gt;.parsed</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code></p></td>
+<td><p>Parsed inline; no intermediate protobuf message</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">sensorId</span></code> is the base64-encoded <a class="reference internal" href="Glossary.html#hardware-serial-number"><span class="std std-ref">hardware serial</span></a> of the RTD, as provided in the URL path parameter.</p>
+<p>Example (OID 1, <code class="docutils literal notranslate"><span class="pre">sensorId</span></code> = <code class="docutils literal notranslate"><span class="pre">ew</span></code>, ED serial = <code class="docutils literal notranslate"><span class="pre">b9961153-efa6-520b-b21f-905d34d775e3</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sensor</span><span class="o">.</span><span class="n">ew</span><span class="o">.</span><span class="n">oid</span><span class="mf">.1</span><span class="o">.</span><span class="n">protobuf</span><span class="o">.</span><span class="n">m2cp</span><span class="o">-</span><span class="n">coap</span><span class="o">.</span><span class="n">b9961153</span><span class="o">-</span><span class="n">efa6</span><span class="o">-</span><span class="mi">520</span><span class="n">b</span><span class="o">-</span><span class="n">b21f</span><span class="o">-</span><span class="mi">905</span><span class="n">d34d775e3</span>
+<span class="n">sensor</span><span class="o">.</span><span class="n">ew</span><span class="o">.</span><span class="n">oid</span><span class="mf">.1</span><span class="o">.</span><span class="n">parsed</span><span class="o">.</span><span class="n">demo</span><span class="o">-</span><span class="n">oid</span><span class="o">-</span><span class="n">parsers</span><span class="o">.</span><span class="n">b9961153</span><span class="o">-</span><span class="n">efa6</span><span class="o">-</span><span class="mi">520</span><span class="n">b</span><span class="o">-</span><span class="n">b21f</span><span class="o">-</span><span class="mi">905</span><span class="n">d34d775e3</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="#post-din-2-osserial"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/din/2/{osSerial}</span></code></span></a> for the alternative that uses the <a class="reference internal" href="Glossary.html#os-serial-number"><span class="std std-ref">OS Serial Number</span></a> of the <strong>RTD</strong> instead.</p>
+<p>See also: <a class="reference internal" href="Tech_Messaging.html#data-points-to-data-visualization"><span class="std std-ref">Messaging — Data Points to Data Visualization</span></a>, <a class="reference internal" href="Messages.html#m2cp-coap"><span class="std std-ref">DATA Flow Debugging — m2cp-coap</span></a>, <a class="reference internal" href="Messages.html#simulating-oid-data-flow"><span class="std std-ref">Simulating OID Data Flow</span></a></p>
+<hr class="docutils" />
+</section>
+<section id="din-2-osserial">
+<h3><span class="section-number">6.1.2. </span><code class="docutils literal notranslate"><span class="pre">/din/2/{osSerial}</span></code><a class="headerlink" href="#din-2-osserial" title="Permalink to this heading"></a></h3>
+<p><a id="post-din-2-osserial"></a></p>
+<p><strong>Purpose:</strong> A Real Time Device sends one or more data messages to the Edge Device, identified by its OS Serial Number.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>RTD → ED</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>POST</p></td>
+</tr>
+<tr class="row-even"><td><p>Path Params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">osSerial</span></code>: URL-safe base64 (no padding) of the RTD’s OS Serial Number (UUIDv5)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Request Body</p></td>
+<td><p>Binary: one or more framed protobuf messages (see below)</p></td>
+</tr>
+<tr class="row-even"><td><p>Response</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+<p>Behaviour is similar to <a class="reference internal" href="#post-din-1-sensorid"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/din/1</span></code></span></a> except that the device is identified by its <a class="reference internal" href="Glossary.html#os-serial-number"><span class="std std-ref">OS Serial Number</span></a> rather than its <a class="reference internal" href="Glossary.html#hardware-serial-number"><span class="std std-ref">hardware serial</span></a>.</p>
+<p>The <strong>advantage</strong> over <a class="reference internal" href="#post-din-1-sensorid"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/din/1</span></code></span></a> is that using the RTDs OS Serial Number allows to discover the messages of one specific RTD even if it is moving between different Edge Devices. With <code class="docutils literal notranslate"><span class="pre">din/1</span></code>, one has to search through different EDs messages, which is far more complex and time consuming.</p>
+<p>The OS Serial Number for an RTD is a UUIDv5 derived from hardware properties — see <a class="reference internal" href="Tech_Lifecycle_RTD.html#m2cp-coap-known-peers"><span class="std std-ref">Tech Lifecycle RTD — Known Peers</span></a> for the derivation details.</p>
+<p><strong>Resulting message topics</strong></p>
+<!-- TODO: Move this to a new section dedicated to more detailed message topics. Tech_Messaging.md is concerned with the general messaging system. Implementations don't have a place yet so it is here for now -->
+<p>Messages are published on the message-hub using the <a class="reference internal" href="Tech_Messaging.html#address-format"><span class="std std-ref">address format</span></a> <code class="docutils literal notranslate"><span class="pre">&lt;feature&gt;.&lt;app&gt;.&lt;device&gt;</span></code>.</p>
+<p>In comparison to <code class="docutils literal notranslate"><span class="pre">/din/1</span></code>, the RTDs OS Serial Number is used directly in the <code class="docutils literal notranslate"><span class="pre">&lt;device&gt;</span></code> segment instead of the EDs OS Serial Number. Thus the hardware serial (sensorId) in the topic can be omitted.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scenario</p></th>
+<th class="head"><p>Topic (feature part)</p></th>
+<th class="head"><p>App segment</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>OID unknown to <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">oid.&lt;oid&gt;.protobuf</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code></p></td>
+<td><p>Raw protobuf forwarded as-is</p></td>
+</tr>
+<tr class="row-odd"><td><p>OID unknown, custom parser present</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">oid.&lt;oid&gt;.parsed</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;parser-app&gt;</span></code></p></td>
+<td><p>Parser emits second message after consuming the protobuf message</p></td>
+</tr>
+<tr class="row-even"><td><p>OID known to <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">oid.&lt;oid&gt;.parsed</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code></p></td>
+<td><p>Parsed inline; no intermediate protobuf message</p></td>
+</tr>
+</tbody>
+</table>
+<p>The full address includes the OS serial as the <code class="docutils literal notranslate"><span class="pre">&lt;device&gt;</span></code> segment. Example (OID 1, OS serial = <code class="docutils literal notranslate"><span class="pre">ab-cd-ef</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">oid</span><span class="mf">.1</span><span class="o">.</span><span class="n">protobuf</span><span class="o">.</span><span class="n">m2cp</span><span class="o">-</span><span class="n">coap</span><span class="o">.</span><span class="n">ab</span><span class="o">-</span><span class="n">cd</span><span class="o">-</span><span class="n">ef</span>
+<span class="n">oid</span><span class="mf">.1</span><span class="o">.</span><span class="n">parsed</span><span class="o">.</span><span class="n">protobuf</span><span class="o">-</span><span class="n">parser</span><span class="o">.</span><span class="n">ab</span><span class="o">-</span><span class="n">cd</span><span class="o">-</span><span class="n">ef</span>
+</pre></div>
+</div>
+<p>See also: <a class="reference internal" href="Tech_Messaging.html#data-points-to-data-visualization"><span class="std std-ref">Messaging — Data Points to Data Visualization</span></a>, <a class="reference internal" href="Messages.html#m2cp-coap"><span class="std std-ref">DATA Flow Debugging — m2cp-coap</span></a>, <a class="reference internal" href="Messages.html#simulating-oid-data-flow"><span class="std std-ref">Simulating OID Data Flow</span></a></p>
+<hr class="docutils" />
+</section>
+<section id="whoami-2">
+<h3><span class="section-number">6.1.3. </span><code class="docutils literal notranslate"><span class="pre">/whoami/2</span></code><a class="headerlink" href="#whoami-2" title="Permalink to this heading"></a></h3>
+<p><a id="get-whoami-2"></a></p>
+<p><strong>Purpose:</strong>  Supersedes <a class="reference internal" href="#get-whoami-1"><span class="xref myst">whoami/1</span></a> on Real Time Devices. An Edge Device queries a Real Time Device for its current hardware and firmware details.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>ED → RTD</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>GET</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p><a class="reference internal" href="#rtd-details">RTD Details</a></p></td>
+</tr>
+</tbody>
+</table>
+<p>This endpoint is called during the Peers Discovery phase, both via IPv6 multicast (<code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">coap://[ff02::1]/whoami/2</span></code>) and by individual unicast requests to each known peer.
+Implementing this endpoint is recommended for better discovery, but is not required — Real Time Devices that do not implement a CoAP server can instead announce themselves using <a class="reference internal" href="#post-hello-2"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/hello/2</span></code></span></a>.</p>
+<p>See also: <a class="reference internal" href="Tech_Lifecycle_RTD.html#peers-discovery"><span class="std std-ref">Peers Discovery</span></a></p>
+<hr class="docutils" />
+</section>
+<section id="whoami-1">
+<h3><span class="section-number">6.1.4. </span><code class="docutils literal notranslate"><span class="pre">/whoami/1</span></code><a class="headerlink" href="#whoami-1" title="Permalink to this heading"></a></h3>
+<p><a id="get-whoami-1"></a>
+<a id="get-whoami-1-node-self-description"></a></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Direction</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GET</p></td>
+<td><p>Any client → Any node</p></td>
+<td><p>Node self-description; expected on all CoAP nodes</p></td>
+</tr>
+<tr class="row-odd"><td><p>POST</p></td>
+<td><p>Provisioning tool → Edge Device</p></td>
+<td><p>Serial number provisioning (write-once; Edge Device only)</p></td>
+</tr>
+</tbody>
+</table>
+<section id="get">
+<h4>GET<a class="headerlink" href="#get" title="Permalink to this heading"></a></h4>
+<p><strong>Purpose:</strong> Returns a self-description of the CoAP node. Every CoAP node with a server in the L.IoT system is expected to implement this endpoint.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>Any client → Any node</p></td>
+</tr>
+<tr class="row-odd"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Response</p></td>
+<td><p>JSON object with device identity fields</p></td>
+</tr>
+</tbody>
+</table>
+<p>The response format differs between node types:</p>
+<p><strong>Edge Device</strong> (served by <em>m2cp-coap</em>):</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sn</span></code></p></td>
+<td><p>Hardware serial number (uint32)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">edge_device_serial</span></code></p></td>
+<td><p>Linux device name / OS-level serial</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">board</span></code></p></td>
+<td><p>Board model name (from snap model assertion)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">app</span></code></p></td>
+<td><p>Snap name of <em>m2cp-coap</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">app_ver</span></code></p></td>
+<td><p>Snap version of <em>m2cp-coap</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">app_rev</span></code></p></td>
+<td><p>Snap revision number of <em>m2cp-coap</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;sn&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1234</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;edge_device_serial&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;device-abc&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;board&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mlpa_control&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;app&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;m2cp-coap&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;app_ver&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.18.3&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;app_rev&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Real Time Device</strong> ( superseded by <a class="reference internal" href="#get-whoami-2"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/whoami/2</span></code></span></a>):</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sn</span></code></p></td>
+<td><p>Hardware serial number</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">board</span></code></p></td>
+<td><p>Board model name</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">app_rev</span></code></p></td>
+<td><p>Firmware sequence number (integer)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;sn&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12345</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;board&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;foobar&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;app_rev&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2001000</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>See also: <a class="reference internal" href="Tech_Lifecycle_RTD.html#legacy-real-time-devices"><span class="std std-ref">Legacy Real Time Devices</span></a></p>
+</section>
+<section id="post">
+<h4>POST<a class="headerlink" href="#post" title="Permalink to this heading"></a></h4>
+<p><a id="post-whoami-1-serial-number-provisioning"></a></p>
+<p><strong>Purpose:</strong> Writes the <a class="reference internal" href="Glossary.html#hardware-serial-number"><span class="std std-ref">Hardware Serial Number</span></a> of an Edge Device. The operation can be performed only once — the device stores the assigned serial and rejects subsequent writes.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>Provisioning tool → Edge Device</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>POST</p></td>
+</tr>
+<tr class="row-even"><td><p>Host</p></td>
+<td><p>Edge Device only (not implemented by RTDs)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Request Body</p></td>
+<td><p>Hardware serial number: 16-bit unsigned integer, little-endian, base64-encoded without padding</p></td>
+</tr>
+<tr class="row-even"><td><p>Response</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+<p>The serial is a 16-bit unsigned integer encoded in little-endian byte order and base64 without padding.</p>
+<p>Example — encoding serial <code class="docutils literal notranslate"><span class="pre">8667</span></code> to <code class="docutils literal notranslate"><span class="pre">2yE</span></code>:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">struct</span><span class="o">,</span> <span class="nn">base64</span>
+<span class="n">hardware_serial</span> <span class="o">=</span> <span class="mi">8667</span>
+<span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;H&#39;</span><span class="p">,</span> <span class="n">hardware_serial</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
+<span class="c1"># &#39;2yE&#39;</span>
+</pre></div>
+</div>
+<p>Decoding back to integer:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">struct</span><span class="o">,</span> <span class="nn">base64</span>
+<span class="n">encoded_serial</span> <span class="o">=</span> <span class="s1">&#39;2yE&#39;</span>
+<span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;H&#39;</span><span class="p">,</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">encoded_serial</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">encoded_serial</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># 8667</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+<section id="uptime-1">
+<h3><span class="section-number">6.1.5. </span><code class="docutils literal notranslate"><span class="pre">/uptime/1</span></code><a class="headerlink" href="#uptime-1" title="Permalink to this heading"></a></h3>
+<p><a id="get-uptime-1"></a></p>
+<p><strong>Purpose:</strong> Returns the number of seconds the node has been running. Every CoAP node in the L.IoT system is expected to implement this endpoint.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>Any client → Any node</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>GET</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>Uptime in seconds as a decimal string-encoded integer</p></td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+</section>
+<section id="t-1">
+<h3><span class="section-number">6.1.6. </span><code class="docutils literal notranslate"><span class="pre">/t/1</span></code><a class="headerlink" href="#t-1" title="Permalink to this heading"></a></h3>
+<p><strong>Purpose:</strong> Returns the current system time of the node. This endpoint is Edge Device specific and is not expected to be implemented by Real Time Devices.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>Any client → Edge Device</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>GET</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>Current system time: 8-byte little-endian Unix timestamp (seconds since epoch)</p></td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+</section>
+<section id="realtime-1">
+<h3><span class="section-number">6.1.7. </span><code class="docutils literal notranslate"><span class="pre">/realtime/1</span></code><a class="headerlink" href="#realtime-1" title="Permalink to this heading"></a></h3>
+<p><a id="get-realtime-1"></a></p>
+<p><strong>Purpose:</strong> Returns the current UTC time of the Edge Device as a JSON-encoded ISO 8601 string.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>Any client → Edge Device</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>GET</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>JSON string: current UTC time in <code class="docutils literal notranslate"><span class="pre">YYYYMMDDTHHmmssZ</span></code> format</p></td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;20260407T143000Z&quot;</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="status-clients-1">
+<h3><span class="section-number">6.1.8. </span><code class="docutils literal notranslate"><span class="pre">/status/clients/1</span></code><a class="headerlink" href="#status-clients-1" title="Permalink to this heading"></a></h3>
+<p><a id="get-status-clients-1"></a></p>
+<p><strong>Purpose:</strong> Returns the list of known CoAP clients (RTDs) that the Edge Device has seen.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>Any client → Edge Device</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>GET</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>JSON array of known clients</p></td>
+</tr>
+</tbody>
+</table>
+<p>Each entry in the response array contains the client’s IP address and the timestamp it was last seen:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fe80::1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;LastSeen&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20260407T143000Z&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">LastSeen</span></code> is formatted as a compact ISO 8601 UTC string (<code class="docutils literal notranslate"><span class="pre">YYYYMMDDTHHmmssZ</span></code>), matching the format used by <a class="reference internal" href="#get-realtime-1"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/realtime/1</span></code></span></a>. An empty array is returned if no clients are known.</p>
+<hr class="docutils" />
+</section>
+<section id="status-online-1">
+<h3><span class="section-number">6.1.9. </span><code class="docutils literal notranslate"><span class="pre">/status/online/1</span></code><a class="headerlink" href="#status-online-1" title="Permalink to this heading"></a></h3>
+<p><a id="get-status-online-1"></a></p>
+<p><strong>Purpose:</strong> Reports the internet connectivity status of the Edge Device by running a set of active probes.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>Any client → Edge Device</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>GET</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>JSON object with one field per probe</p></td>
+</tr>
+</tbody>
+</table>
+<p>Each field in the response is either <code class="docutils literal notranslate"><span class="pre">&quot;ok&quot;</span></code> or an error string describing the failure:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Probe</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tcp</span></code></p></td>
+<td><p>TCP echo to <code class="docutils literal notranslate"><span class="pre">45.79.112.203:4242</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pingIp4</span></code></p></td>
+<td><p>ICMP ping to <code class="docutils literal notranslate"><span class="pre">8.8.8.8</span></code> (IPv4)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pingIp6</span></code></p></td>
+<td><p>ICMP ping to <code class="docutils literal notranslate"><span class="pre">2001:4860:4860::8888</span></code> (IPv6)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pingDomainIp4</span></code></p></td>
+<td><p>ICMP ping to <code class="docutils literal notranslate"><span class="pre">google.com</span></code> via IPv4 (tests DNS resolution)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pingDomainIp6</span></code></p></td>
+<td><p>ICMP ping to <code class="docutils literal notranslate"><span class="pre">google.com</span></code> via IPv6 (tests DNS resolution)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;tcp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;pingIp4&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;pingIp6&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;pingDomainIp4&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;pingDomainIp6&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;error ping command failed: exit status 1&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="status-ping-1">
+<h3><span class="section-number">6.1.10. </span><code class="docutils literal notranslate"><span class="pre">/status/ping/1</span></code><a class="headerlink" href="#status-ping-1" title="Permalink to this heading"></a></h3>
+<p><a id="get-status-ping-1"></a></p>
+<p><strong>Purpose:</strong> Pings an arbitrary address from the Edge Device, optionally via a specific network interface.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>Any client → Edge Device</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>GET</p></td>
+</tr>
+<tr class="row-even"><td><p>Query Params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">interface={string}</span></code>: network interface to use (optional); <code class="docutils literal notranslate"><span class="pre">address={string}</span></code>: target host or IP (required)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Response</p></td>
+<td><p>Plain text: <code class="docutils literal notranslate"><span class="pre">ok</span></code> or an error string</p></td>
+</tr>
+</tbody>
+</table>
+<p>The ping is issued with a 15-second timeout (<code class="docutils literal notranslate"><span class="pre">-W15</span></code>). If <code class="docutils literal notranslate"><span class="pre">interface</span></code> is provided, the ping is bound to that interface (<code class="docutils literal notranslate"><span class="pre">-I&lt;interface&gt;</span></code>).</p>
+<p>Example:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>coap-client<span class="w"> </span>-m<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;coap://[fe80::df7:2023:1:2%eth0]/status/ping/1?interface=eth0&amp;address=8.8.8.8&quot;</span>
+<span class="go">ok</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="status-refresh-1">
+<h3><span class="section-number">6.1.11. </span><code class="docutils literal notranslate"><span class="pre">/status/refresh/1</span></code><a class="headerlink" href="#status-refresh-1" title="Permalink to this heading"></a></h3>
+<p><a id="get-status-refresh-1"></a></p>
+<p><strong>Purpose:</strong> Returns the timestamp of the most recent successful snap refresh on the Edge Device.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>Any client → Edge Device</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>GET</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>Plain text: timestamp of the last successful snap refresh in <code class="docutils literal notranslate"><span class="pre">YYYYMMDDTHHmmssZ</span></code> format, or an error if none has been recorded</p></td>
+</tr>
+</tbody>
+</table>
+<p>The timestamp is sourced from <code class="docutils literal notranslate"><span class="pre">snap</span> <span class="pre">changes</span></code> and corresponds to the completion time of the latest <code class="docutils literal notranslate"><span class="pre">Done</span></code> entry for a <code class="docutils literal notranslate"><span class="pre">Refresh</span> <span class="pre">all</span> <span class="pre">snaps</span></code> operation.</p>
+<hr class="docutils" />
+</section>
+<section id="status-snaps-1">
+<h3><span class="section-number">6.1.12. </span><code class="docutils literal notranslate"><span class="pre">/status/snaps/1</span></code><a class="headerlink" href="#status-snaps-1" title="Permalink to this heading"></a></h3>
+<p><a id="get-status-snaps-1"></a></p>
+<p><strong>Purpose:</strong> Returns the list of installed snaps on the Edge Device.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>Any client → Edge Device</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>GET</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>JSON array of installed snaps</p></td>
+</tr>
+</tbody>
+</table>
+<p>Each entry is a 3-element JSON array of <code class="docutils literal notranslate"><span class="pre">[name,</span> <span class="pre">version,</span> <span class="pre">revision]</span></code>, sourced from <code class="docutils literal notranslate"><span class="pre">snap</span> <span class="pre">list</span></code>:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">  </span><span class="p">[</span><span class="s2">&quot;m2cp-coap&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;6.2.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;42&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="p">[</span><span class="s2">&quot;m2cp-gateway&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;3.1.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;17&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="hello-2">
+<h3><span class="section-number">6.1.13. </span><code class="docutils literal notranslate"><span class="pre">/hello/2</span></code><a class="headerlink" href="#hello-2" title="Permalink to this heading"></a></h3>
+<p><a id="post-hello-2"></a></p>
+<p><strong>Purpose:</strong> A Real Time Device announces itself to the Edge Device, or reports its current state after booting new firmware.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>RTD → ED</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>POST</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p><a class="reference internal" href="#rtd-details">RTD Details</a> (JSON or CBOR)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+<p>This endpoint is called by a Real Time Device to announce its existence or to report a state change.
+Is used to keep track of RTDs in the EDs surroundings.
+See also: <a class="reference internal" href="Tech_Lifecycle_RTD.html#peers-discovery"><span class="std std-ref">Firmware Updates (modernised)</span></a></p>
+<hr class="docutils" />
+</section>
+<section id="hello-1">
+<h3><span class="section-number">6.1.14. </span><code class="docutils literal notranslate"><span class="pre">/hello/1</span></code><a class="headerlink" href="#hello-1" title="Permalink to this heading"></a></h3>
+<p><a id="post-hello-1"></a></p>
+<p><strong>Purpose:</strong> Legacy endpoint for a Real Time Device to announce itself to the Edge Device.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>RTD → ED</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>POST</p></td>
+</tr>
+<tr class="row-even"><td><p>Query Params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fwt={int}</span></code>: Firmware Type (maps to Device Model via backend lookup); <code class="docutils literal notranslate"><span class="pre">hwr={int}</span></code>: Hardware Revision (ignored); <code class="docutils literal notranslate"><span class="pre">fwr={int}</span></code>: Sequence Number of the current installed Firmware (legacy name: Firmware Revision)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Request Body</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;id&quot;:</span> <span class="pre">&lt;HW</span> <span class="pre">Serial&gt;,</span> <span class="pre">&quot;uptime&quot;:</span> <span class="pre">&lt;Unix</span> <span class="pre">int</span> <span class="pre">Uptime&gt;}</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Response</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>This is the legacy counterpart of <a class="reference internal" href="#post-hello-2"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/hello/2</span></code></span></a>.</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>It is used by older Real Time Device firmware that does not support the modern data formats.</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+</section>
+<section id="suit-keys">
+<h3><span class="section-number">6.1.15. </span><code class="docutils literal notranslate"><span class="pre">suit/keys</span></code><a class="headerlink" href="#suit-keys" title="Permalink to this heading"></a></h3>
+<p><a id="get-suit-keys"></a></p>
+<p><strong>Purpose:</strong> <em>m2cp-coap</em> retrieves the public SUIT signing keys from a legacy Real Time Device. Modern devices expose their keys via the <code class="docutils literal notranslate"><span class="pre">keys</span></code> field in <a class="reference internal" href="#rtd-details">RTD Details</a> (returned by <a class="reference internal" href="#get-whoami-2"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/whoami/2</span></code></span></a>); this endpoint is the fallback for devices that only implement <a class="reference internal" href="#get-whoami-1"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/whoami/1</span></code></span></a>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>ED → RTD</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>GET</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>CBOR-encoded array of public keys (binary)</p></td>
+</tr>
+</tbody>
+</table>
+<p>The response is a CBOR array of byte strings, each element being a raw public key:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Keys = [+ bstr]   ; one entry per public key
+</pre></div>
+</div>
+<p>This endpoint is called during legacy peer discovery.</p>
+<p>See also: <a class="reference internal" href="Tech_Lifecycle_RTD.html#legacy-real-time-devices"><span class="std std-ref">Legacy Real Time Devices</span></a></p>
+<hr class="docutils" />
+</section>
+<section id="suit-mani">
+<h3><span class="section-number">6.1.16. </span><code class="docutils literal notranslate"><span class="pre">/suit/mani</span></code><a class="headerlink" href="#suit-mani" title="Permalink to this heading"></a></h3>
+<p><a id="post-suit-mani"></a></p>
+<p><strong>Purpose:</strong> A Real Time Device requests available firmware update manifests from the Edge Device.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>RTD → ED</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>POST</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p><a class="reference internal" href="#rtd-details">RTD Details</a> (JSON or CBOR)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>SUIT manifest (binary), or <code class="docutils literal notranslate"><span class="pre">4.04</span> <span class="pre">Not</span> <span class="pre">Found</span></code> if no update is available</p></td>
+</tr>
+<tr class="row-even"><td><p>CoAP Code</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2.05</span> <span class="pre">Content</span></code> on success</p></td>
+</tr>
+</tbody>
+</table>
+<p>The Real Time Device sends its current state as an <a class="reference internal" href="#rtd-details">RTD Details</a> object in the request body.
+<em>m2cp-coap</em> looks up whether an update action exists for this device and responds with the applicable SUIT manifest.
+If no update is pending, it responds with <code class="docutils literal notranslate"><span class="pre">4.04</span> <span class="pre">Not</span> <span class="pre">Found</span></code>.
+See also: <a class="reference internal" href="Tech_Lifecycle_RTD.html#serve-firmware-updates"><span class="std std-ref">Serve Firmware Updates</span></a></p>
+<p>Calling this endpoint also acts as an implicit self announcement as well (See <a class="reference internal" href="Tech_Lifecycle_RTD.html#peers-discovery"><span class="std std-ref">Peers Discovery</span></a>).</p>
+<hr class="docutils" />
+</section>
+<section id="suit-fw-app-revision-id-slot">
+<h3><span class="section-number">6.1.17. </span><code class="docutils literal notranslate"><span class="pre">/suit/fw/{app-revision-id}/{slot}</span></code><a class="headerlink" href="#suit-fw-app-revision-id-slot" title="Permalink to this heading"></a></h3>
+<p><a id="get-suit-fw-app-revision-id-slot"></a></p>
+<p><strong>Purpose:</strong> A Real Time Device downloads a firmware binary from the Edge Device.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>RTD → ED</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>GET</p></td>
+</tr>
+<tr class="row-even"><td><p>Path Params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">app-revision-id</span></code>: UUID of the App Revision; <code class="docutils literal notranslate"><span class="pre">slot</span></code>: firmware slot index (0 or 1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Response</p></td>
+<td><p>Firmware binary</p></td>
+</tr>
+</tbody>
+</table>
+<p>The exact URL for this endpoint is embedded in the SUIT manifest returned by <a class="reference internal" href="#post-suit-mani"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/suit/mani</span></code></span></a>.
+The Real Time Device uses the manifest to determine which firmware binary to request for each slot.</p>
+<p>See also: <a class="reference internal" href="Tech_Lifecycle_RTD.html#serve-firmware-updates"><span class="std std-ref">Serve Firmware Updates</span></a></p>
+<hr class="docutils" />
+</section>
+<section id="suit-result-sequence-number">
+<h3><span class="section-number">6.1.18. </span><code class="docutils literal notranslate"><span class="pre">/suit/result/{sequence-number}</span></code><a class="headerlink" href="#suit-result-sequence-number" title="Permalink to this heading"></a></h3>
+<p><a id="post-suit-result-sequence-number"></a></p>
+<p><strong>Purpose:</strong> A Real Time Device reports the result of a firmware update attempt to the Edge Device.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>RTD → ED</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>POST</p></td>
+</tr>
+<tr class="row-even"><td><p>Path Params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sequence-number</span></code>: sequence number of the update that was applied</p></td>
+</tr>
+<tr class="row-odd"><td><p>Query Params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">error={uint}</span></code>: error code; <code class="docutils literal notranslate"><span class="pre">0</span></code> indicates success</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+<p>This endpoint is optional for the Real Time Device.
+Reporting the update result allows <em>m2cp-coap</em> to confirm success and trigger the next update cycle sooner.</p>
+<p>See also: <a class="reference internal" href="Tech_Lifecycle_RTD.html#serve-firmware-updates"><span class="std std-ref">Serve Firmware Updates</span></a></p>
+<hr class="docutils" />
+</section>
+<section id="report-update-result-1">
+<h3><span class="section-number">6.1.19. </span><code class="docutils literal notranslate"><span class="pre">/report/update/result/1</span></code><a class="headerlink" href="#report-update-result-1" title="Permalink to this heading"></a></h3>
+<p><a id="post-report-update-result-1"></a></p>
+<p><strong>Purpose:</strong> Legacy alias for <a class="reference internal" href="#post-suit-result-sequence-number"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/suit/result/{sequence-number}</span></code></span></a> to report firmware update results.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>RTD → ED</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>POST</p></td>
+</tr>
+<tr class="row-even"><td><p>Query Params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">success={0,1}</span></code>: <code class="docutils literal notranslate"><span class="pre">1</span></code> for success, <code class="docutils literal notranslate"><span class="pre">0</span></code> for failure</p></td>
+</tr>
+<tr class="row-odd"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Response</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+<p>Used by older firmware versions that have not yet adopted <a class="reference internal" href="#post-suit-result-sequence-number"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/suit/result/{sequence-number}</span></code></span></a>.</p>
+<hr class="docutils" />
+</section>
+<section id="fw-1-m-hw-serial">
+<h3><span class="section-number">6.1.20. </span><code class="docutils literal notranslate"><span class="pre">/fw/1/m/{hw-serial}</span></code><a class="headerlink" href="#fw-1-m-hw-serial" title="Permalink to this heading"></a></h3>
+<p><a id="post-fw-1-m-hw-serial"></a></p>
+<p><strong>Purpose:</strong> Legacy endpoint used by Real Time Devices without a CoAP server to request a firmware manifest.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>RTD → ED</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>POST</p></td>
+</tr>
+<tr class="row-even"><td><p>Path Params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">hw-serial</span></code>: base64-encoded hardware serial integer</p></td>
+</tr>
+<tr class="row-odd"><td><p>Query Params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fwt={int}</span></code>: Firmware Type (maps to Device Model via backend lookup); <code class="docutils literal notranslate"><span class="pre">hwr={int}</span></code>: Hardware Revision (ignored); <code class="docutils literal notranslate"><span class="pre">fwr={int}</span></code>: currently installed Firmware Revision (sequence number)</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>Manifest</p></td>
+</tr>
+</tbody>
+</table>
+<p>This endpoint is used exclusively by legacy Real Time Devices not implementing <a class="reference internal" href="#post-suit-mani"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/suit/mani</span></code></span></a>.</p>
+<p>See also: <a class="reference internal" href="Tech_Lifecycle_RTD.html#legacy-real-time-devices"><span class="std std-ref">Legacy Real Time Devices</span></a></p>
+<hr class="docutils" />
+</section>
+<section id="cmd-1-sensorid">
+<h3><span class="section-number">6.1.21. </span><code class="docutils literal notranslate"><span class="pre">/cmd/1/{sensorId}</span></code><a class="headerlink" href="#cmd-1-sensorid" title="Permalink to this heading"></a></h3>
+<p><a id="post-cmd-1-sensorid"></a></p>
+<p><strong>Purpose:</strong> A Real Time Device reports the result of the previously executed command batch and requests the next one from the Edge Device.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>RTD → ED</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>POST</p></td>
+</tr>
+<tr class="row-even"><td><p>Path Params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sensorId</span></code>: base64-encoded hardware serial of the RTD</p></td>
+</tr>
+<tr class="row-odd"><td><p>Request Body</p></td>
+<td><p><a class="reference internal" href="#responsebatch">ResponseBatch</a> (CBOR)</p></td>
+</tr>
+<tr class="row-even"><td><p>Response</p></td>
+<td><p><a class="reference internal" href="#commandbatch">CommandBatch</a> (CBOR, <code class="docutils literal notranslate"><span class="pre">2.05</span> <span class="pre">Content</span></code>), or <code class="docutils literal notranslate"><span class="pre">2.03</span> <span class="pre">Valid</span></code> if no next batch is available, or <code class="docutils literal notranslate"><span class="pre">4.12</span> <span class="pre">Precondition</span> <span class="pre">Failed</span></code> if the exit code does not satisfy the next batch’s constraint</p></td>
+</tr>
+</tbody>
+</table>
+<p>The RTD sends the result of the last executed command batch as a CBOR-encoded <a class="reference internal" href="#responsebatch"><code class="docutils literal notranslate"><span class="pre">ResponseBatch</span></code></a>.</p>
+<p><em>m2cp-coap</em> processes the result and looks up the next command batch (sequence number = reported <code class="docutils literal notranslate"><span class="pre">seq</span></code> + 1) for the device. The next batch is returned only if:</p>
+<ul class="simple">
+<li><p>A batch with the next sequence number exists for the device, <strong>and</strong></p></li>
+<li><p>The batch’s <code class="docutils literal notranslate"><span class="pre">LastExitCodeConstraint</span></code> is satisfied by the exit code of the last command in the reported result (or the constraint is unconstrained, i.e. <code class="docutils literal notranslate"><span class="pre">-1</span></code>).</p></li>
+</ul>
+<p>If a <em>fast-forward</em> batch exists for the device at a higher sequence number, it takes precedence over the next entry.</p>
+<p>On success the response body contains the CBOR-encoded <a class="reference internal" href="#commandbatch"><code class="docutils literal notranslate"><span class="pre">CommandBatch</span></code></a>.</p>
+<hr class="docutils" />
+</section>
+<section id="update-1">
+<h3><span class="section-number">6.1.22. </span><code class="docutils literal notranslate"><span class="pre">/update/1</span></code><a class="headerlink" href="#update-1" title="Permalink to this heading"></a></h3>
+<p><a id="put-update-1"></a></p>
+<p><strong>Purpose:</strong> <em>m2cp-coap</em> announces the availability of a new firmware update to a Real Time Device.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>ED → RTD</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>PUT</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p>optional: SUIT manifest (binary)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+<p>After downloading new firmware from the App Store Service, <em>m2cp-coap</em> announces the available updates(<code class="docutils literal notranslate"><span class="pre">coap://[ff02::1]/update/1</span></code>) as individual unicast requests to all known peers.
+The SUIT manifest of the available update is included in the message body for non-legacy devices.</p>
+<p>See also: <a class="reference internal" href="Tech_Lifecycle_RTD.html#announce-updates"><span class="std std-ref">Announce Updates</span></a></p>
+<hr class="docutils" />
+</section>
+<section id="notify-poweroff-1">
+<h3><span class="section-number">6.1.23. </span><code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code><a class="headerlink" href="#notify-poweroff-1" title="Permalink to this heading"></a></h3>
+<p><a id="post-notify-poweroff-1"></a>
+<a id="power-management-endpoints"></a></p>
+<p><strong>Purpose:</strong> The PMU notifies <em>m2cp-coap</em> of the remaining uptime granted to the Linux system. This is one of three power management endpoints served by <em>m2cp-coap</em> on the Edge Device — see also <a class="reference internal" href="#post-shutdown-1"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/shutdown/1</span></code></span></a> and <a class="reference internal" href="#put-request_uptime-1"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/request_uptime/1</span></code></span></a>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>PMU → ED</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>POST</p></td>
+</tr>
+<tr class="row-even"><td><p>Query Params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">seconds={uint}</span></code>: remaining uptime in seconds</p></td>
+</tr>
+<tr class="row-odd"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Response</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+<p>The first call also registers the PMU’s address with <em>m2cp-coap</em>, activating power state tracking. The PMU is expected to send this notification periodically (typically every 10 seconds).</p>
+<p>See also: <a class="reference internal" href="Networking.html#power-management"><span class="std std-ref">Networking — Power Management</span></a></p>
+<hr class="docutils" />
+</section>
+<section id="shutdown-1">
+<h3><span class="section-number">6.1.24. </span><code class="docutils literal notranslate"><span class="pre">/shutdown/1</span></code><a class="headerlink" href="#shutdown-1" title="Permalink to this heading"></a></h3>
+<p><a id="post-shutdown-1"></a></p>
+<p><strong>Purpose:</strong> The PMU instructs <em>m2cp-coap</em> to shut down the Linux system immediately.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>PMU → ED</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>POST</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Response</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+<p>Unlike <a class="reference internal" href="#post-notify-poweroff-1"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code></span></a>, which manages the remaining uptime budget, this endpoint is an immediate shutdown command. <em>m2cp-coap</em> triggers the system shutdown as soon as the request is received.</p>
+<p>See also: <a class="reference internal" href="Networking.html#power-management"><span class="std std-ref">Networking — Power Management</span></a></p>
+<hr class="docutils" />
+</section>
+<section id="request-uptime-1">
+<h3><span class="section-number">6.1.25. </span><code class="docutils literal notranslate"><span class="pre">/request_uptime/1</span></code><a class="headerlink" href="#request-uptime-1" title="Permalink to this heading"></a></h3>
+<p><a id="put-request_uptime-1"></a></p>
+<p><strong>Purpose:</strong> An application requests additional uptime from <em>m2cp-coap</em>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direction</p></td>
+<td><p>App → ED</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method</p></td>
+<td><p>PUT</p></td>
+</tr>
+<tr class="row-even"><td><p>Query Params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">app={string}</span></code>: requesting application name; <code class="docutils literal notranslate"><span class="pre">seconds={uint}</span></code>: requested uptime in seconds (max 1000)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Request Body</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Response</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+<p>The SDK provides a convenience function for this — see <a class="reference internal" href="Development_Edge.html#requesting-application-runtime"><span class="std std-ref">Requesting App Runtime</span></a>.</p>
+<p>See also: <a class="reference internal" href="Networking.html#power-management"><span class="std std-ref">Networking — Power Management</span></a>, <a class="reference internal" href="Networking.html#getuptimerequests-rpc"><span class="std std-ref">Networking — getUptimeRequests RPC</span></a></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="formats">
+<h2><span class="section-number">6.2. </span>Formats<a class="headerlink" href="#formats" title="Permalink to this heading"></a></h2>
+<p>The following data formats are used in CoAP message bodies.</p>
+<section id="rtd-details">
+<h3><span class="section-number">6.2.1. </span>RTD Details<a class="headerlink" href="#rtd-details" title="Permalink to this heading"></a></h3>
+<p><a id="rtd-details"></a></p>
+<p>RTD Details describe a Real Time Device’s current hardware and firmware state. They are exchanged via:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#post-hello-2"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/hello/2</span></code></span></a>: RTD announces itself to the ED</p></li>
+<li><p><a class="reference internal" href="#post-suit-mani"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/suit/mani</span></code></span></a>: RTD requests a firmware manifest from the ED</p></li>
+<li><p><a class="reference internal" href="#get-whoami-2"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/whoami/2</span></code></span></a>: ED receives RTD details from the RTD</p></li>
+</ul>
+<p>Both JSON and CBOR encodings are supported.</p>
+<p><strong>JSON Format:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;hw_serial&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12345&quot;</span><span class="p">,</span><span class="w">      </span><span class="c1">// The Device Hardware Serial</span>
+<span class="w">  </span><span class="nt">&quot;hw_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PMIC 1.08&quot;</span><span class="p">,</span><span class="w">   </span><span class="c1">// The Device Hardware Model</span>
+<span class="w">  </span><span class="nt">&quot;hw_vendor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mlpa&quot;</span><span class="p">,</span><span class="w">       </span><span class="c1">// The Device Hardware Vendor</span>
+<span class="w">  </span><span class="nt">&quot;mcu_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;123abc&quot;</span><span class="p">,</span><span class="w">        </span><span class="c1">// Optional: The MCU ID</span>
+<span class="w">  </span><span class="nt">&quot;dev_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pmic&quot;</span><span class="p">,</span><span class="w">       </span><span class="c1">// The Device Model of the Real Time Device</span>
+<span class="w">  </span><span class="nt">&quot;app_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fw-pmic&quot;</span><span class="p">,</span><span class="w">     </span><span class="c1">// The name of the App running on the Real Time Device</span>
+<span class="w">  </span><span class="nt">&quot;app_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3.2.1&quot;</span><span class="p">,</span><span class="w">    </span><span class="c1">// The semver version of the App running on the Real Time Device</span>
+<span class="w">  </span><span class="nt">&quot;seq_no&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2001000</span><span class="p">,</span><span class="w">         </span><span class="c1">// The sequence number of the current firmware installation</span>
+<span class="w">  </span><span class="nt">&quot;uptime&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12345</span><span class="p">,</span><span class="w">           </span><span class="c1">// The uptime of the Real Time Device in seconds</span>
+<span class="w">  </span><span class="nt">&quot;keys&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;key1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;key2&quot;</span><span class="p">]</span><span class="w">   </span><span class="c1">// Array of base64 encoded public keys</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>CBOR Format:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>DeviceInfo = {
+  0: tstr,       ; hw_serial
+  1: tstr,       ; hw_model
+  2: tstr,       ; hw_vendor
+  3: tstr,       ; dev_model
+  4: tstr,       ; app_name
+  5: tstr,       ; app_version
+  6: uint,       ; seq_no
+  7: uint,       ; uptime
+  8: [+ bstr]    ; keys
+  9: ? tstr      ; mcu_id (optional)
+}
+</pre></div>
+</div>
+</section>
+<section id="commandbatch">
+<h3><span class="section-number">6.2.2. </span>CommandBatch<a class="headerlink" href="#commandbatch" title="Permalink to this heading"></a></h3>
+<p><a id="commandbatch"></a></p>
+<p>A <code class="docutils literal notranslate"><span class="pre">CommandBatch</span></code> is a CBOR-encoded ordered list of commands for a Real Time Device to execute. It is returned by <a class="reference internal" href="#post-cmd-1-sensorid"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/cmd/1/{sensorId}</span></code></span></a> on success.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>CommandBatch = {
+  &quot;seq&quot;: uint,      ; sequence number of this batch
+  &quot;cmd&quot;: [+ Cmd],   ; ordered list of commands to execute
+  &quot;cfg&quot;: any        ; optional: configuration object
+}
+
+Cmd = { tstr =&gt; any }   ; command name =&gt; argument(s)
+</pre></div>
+</div>
+</section>
+<section id="responsebatch">
+<h3><span class="section-number">6.2.3. </span>ResponseBatch<a class="headerlink" href="#responsebatch" title="Permalink to this heading"></a></h3>
+<p><a id="responsebatch"></a></p>
+<p>A <code class="docutils literal notranslate"><span class="pre">ResponseBatch</span></code> is a CBOR-encoded report of the execution results of a previously received <a class="reference internal" href="#commandbatch"><code class="docutils literal notranslate"><span class="pre">CommandBatch</span></code></a>. It is sent by a Real Time Device as the request body of <a class="reference internal" href="#post-cmd-1-sensorid"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">/cmd/1/{sensorId}</span></code></span></a>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ResponseBatch = {
+  &quot;seq&quot;: uint,           ; sequence number of the batch that was executed
+  &quot;rsp&quot;: [+ ResponseRsp] ; per-command results (omitted if empty)
+  &quot;error&quot;: int           ; CBOR parsing error code, if the batch could not be parsed (omitted if 0)
+}
+
+ResponseRsp = { tstr =&gt; [output, exitCode] }
+; output    = any    (stdout/stderr lines or similar)
+; exitCode  = uint
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Tech_Messaging.html" class="btn btn-neutral float-left" title="5. Messaging" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Glossary.html" class="btn btn-neutral float-right" title="1. Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, ML!PA.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

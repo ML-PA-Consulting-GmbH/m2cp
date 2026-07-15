@@ -47,6 +47,7 @@ to the cloud.
    Tech_Lifecycle_ED.md
    Tech_Lifecycle_RTD.md
    Tech_Messaging.md
+   Tech_CoAP.md
 
 .. toctree::
    :caption: Glossary

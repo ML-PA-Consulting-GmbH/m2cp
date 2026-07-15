@@ -39,7 +39,7 @@
             L-IoT Documentation
           </a>
               <div class="version">
-                Version 1.14.8
+                Version 1.15.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -318,6 +318,11 @@
 <li class="toctree-l3"><a class="reference internal" href="Messages.html#data-visualization">5.2.10. Data Visualization</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#simulating-oid-data-flow">5.3. Simulating OID Data Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#without-m2cp-coap">5.3.1. Without m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#monitoring-heartbeats">5.3.2. Monitoring Heartbeats</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="APIs_Backend.html">6. Backend APIs</a><ul>
@@ -396,6 +401,43 @@
 <li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-discovery">5.4.1. Node discovery</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-information">5.4.2. Node information</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tech_Messaging.html#node-rpc">5.4.3. Node RPC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_CoAP.html">6. CoAP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_CoAP.html#endpoints">6.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#din-1-sensorid">6.1.1. <code class="docutils literal notranslate"><span class="pre">/din/1/{sensorId}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#din-2-osserial">6.1.2. <code class="docutils literal notranslate"><span class="pre">/din/2/{osSerial}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#whoami-2">6.1.3. <code class="docutils literal notranslate"><span class="pre">/whoami/2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#whoami-1">6.1.4. <code class="docutils literal notranslate"><span class="pre">/whoami/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#uptime-1">6.1.5. <code class="docutils literal notranslate"><span class="pre">/uptime/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#t-1">6.1.6. <code class="docutils literal notranslate"><span class="pre">/t/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#realtime-1">6.1.7. <code class="docutils literal notranslate"><span class="pre">/realtime/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-clients-1">6.1.8. <code class="docutils literal notranslate"><span class="pre">/status/clients/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-online-1">6.1.9. <code class="docutils literal notranslate"><span class="pre">/status/online/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-ping-1">6.1.10. <code class="docutils literal notranslate"><span class="pre">/status/ping/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-refresh-1">6.1.11. <code class="docutils literal notranslate"><span class="pre">/status/refresh/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-snaps-1">6.1.12. <code class="docutils literal notranslate"><span class="pre">/status/snaps/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#hello-2">6.1.13. <code class="docutils literal notranslate"><span class="pre">/hello/2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#hello-1">6.1.14. <code class="docutils literal notranslate"><span class="pre">/hello/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-keys">6.1.15. <code class="docutils literal notranslate"><span class="pre">suit/keys</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-mani">6.1.16. <code class="docutils literal notranslate"><span class="pre">/suit/mani</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-fw-app-revision-id-slot">6.1.17. <code class="docutils literal notranslate"><span class="pre">/suit/fw/{app-revision-id}/{slot}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-result-sequence-number">6.1.18. <code class="docutils literal notranslate"><span class="pre">/suit/result/{sequence-number}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#report-update-result-1">6.1.19. <code class="docutils literal notranslate"><span class="pre">/report/update/result/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#fw-1-m-hw-serial">6.1.20. <code class="docutils literal notranslate"><span class="pre">/fw/1/m/{hw-serial}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#cmd-1-sensorid">6.1.21. <code class="docutils literal notranslate"><span class="pre">/cmd/1/{sensorId}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#update-1">6.1.22. <code class="docutils literal notranslate"><span class="pre">/update/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#notify-poweroff-1">6.1.23. <code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#shutdown-1">6.1.24. <code class="docutils literal notranslate"><span class="pre">/shutdown/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#request-uptime-1">6.1.25. <code class="docutils literal notranslate"><span class="pre">/request_uptime/1</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_CoAP.html#formats">6.2. Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#rtd-details">6.2.1. RTD Details</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#commandbatch">6.2.2. CommandBatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#responsebatch">6.2.3. ResponseBatch</a></li>
 </ul>
 </li>
 </ul>
@@ -564,45 +606,20 @@ following examples.</p>
 </section>
 <section id="common-coap-endpoints">
 <h2><span class="section-number">4.3. </span>Common CoAP endpoints<a class="headerlink" href="#common-coap-endpoints" title="Permalink to this heading"></a></h2>
-<p>Here’s a list of some of the most common and useful CoAP endpoints. For a full list with detailed specifications
-of each endpoint, please refer to the document “M2CP Protocol”.</p>
+<p>Here’s a list of some of the most common and useful CoAP endpoints. For full specifications of endpoints, see <a class="reference internal" href="Tech_CoAP.html#endpoints"><span class="std std-ref">Tech CoAP — Endpoints</span></a>.</p>
 <section id="whoami-1">
 <h3><span class="section-number">4.3.1. </span>/whoami/1<a class="headerlink" href="#whoami-1" title="Permalink to this heading"></a></h3>
-<p>Each coap client is supposed to implement this endpoint, which shall deliver a self-description of the node.</p>
+<p>Returns a self-description of the CoAP node. Every node in the M2CP system is expected to implement this endpoint — see <a class="reference internal" href="Tech_CoAP.html#get-whoami-1-node-self-description"><span class="std std-ref">CoAP spec</span></a> for the full response format.</p>
 <p>Example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>coap-client<span class="w"> </span>-m<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;coap://[fe80::df7:2023:1:1%eth1]/whoami/1&#39;</span>
 <span class="o">{</span><span class="s2">&quot;sn&quot;</span>:1234,<span class="s2">&quot;board&quot;</span>:<span class="s2">&quot;mlpa_control&quot;</span>,<span class="s2">&quot;app&quot;</span>:<span class="s2">&quot;mlpa_control_pmic&quot;</span>,<span class="s2">&quot;app_ver&quot;</span>:<span class="s2">&quot;0&quot;</span>,<span class="s2">&quot;app_rev&quot;</span>:0<span class="o">}</span>
 </pre></div>
 </div>
-<p>With PUT, the same endpoint can be used to write the <a class="reference internal" href="Glossary.html#hardware-serial-number"><span class="std std-ref">Hardware Serial
-Number</span></a> of a <a class="reference internal" href="Glossary.html#edge-device"><span class="std std-ref">Edge
-Device</span></a>. The PUT operation can be performed
-only once – the device will store the assigned serial and not allow
-any changes afterward.</p>
-<p>The serial is supposed to be sent in the body of a PUT call to
-<code class="docutils literal notranslate"><span class="pre">/whoami/1</span></code>. The serial, which is a 16-bit unsigned integer, must be
-encoded in little endian and base64 without padding.</p>
-<p>For example: The Hardware Serial Number <code class="docutils literal notranslate"><span class="pre">8667</span></code> is encoded as <code class="docutils literal notranslate"><span class="pre">2yE</span></code>, as
-you can calculate yourself with this Python snippet:</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">struct</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">base64</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">hardware_serial</span> <span class="o">=</span> <span class="mi">8667</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;H&#39;</span><span class="p">,</span> <span class="n">hardware_serial</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
-<span class="go">&#39;2yE&#39;</span>
-</pre></div>
-</div>
-<p>To translate from encoded value to integer, you may do:</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">struct</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">base64</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">encoded_serial</span> <span class="o">=</span> <span class="s1">&#39;2yE&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;H&#39;</span><span class="p">,</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">encoded_serial</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">encoded_serial</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)))[</span><span class="mi">0</span><span class="p">]</span>
-<span class="go">8667</span>
-</pre></div>
-</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">POST</span></code>, the same endpoint is used during provisioning to write the <a class="reference internal" href="Glossary.html#hardware-serial-number"><span class="std std-ref">Hardware Serial Number</span></a> of an Edge Device (write-once) — see <a class="reference internal" href="Tech_CoAP.html#post-whoami-1-serial-number-provisioning"><span class="std std-ref">CoAP spec</span></a> for encoding details.</p>
 </section>
 <section id="uptime-1">
 <h3><span class="section-number">4.3.2. </span>/uptime/1<a class="headerlink" href="#uptime-1" title="Permalink to this heading"></a></h3>
-<p>Returns the number of seconds the node is running as string encoded integer.</p>
+<p>Returns the number of seconds the node has been running as a string-encoded integer — see <a class="reference internal" href="Tech_CoAP.html#get-uptime-1"><span class="std std-ref">CoAP spec</span></a>.</p>
 </section>
 </section>
 <section id="power-management">
@@ -615,60 +632,33 @@ any peripheral MCU) will start it up. The PMU will notify about the
 granted uptime and it will cut the power, once the time is up.</p>
 <section id="m2cp-coaps-part-in-power-management">
 <h3><span class="section-number">4.4.1. </span>m2cp-coap’s part in power management<a class="headerlink" href="#m2cp-coaps-part-in-power-management" title="Permalink to this heading"></a></h3>
-<p>The software that is responsible for managing uptime and initiating
-the Linux system shutdown in time, before the PMU cuts the power, is
-<code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code>.</p>
-<p>By default, <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> will do nothing until a PMU introduces itself
-by sending a CoAP message to the <code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code> endpoint.</p>
-<p>Every received <code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code> call will update the known address
-of the PMU and the event of receiving the notification can be traced
-in the logs of <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> as:</p>
+<p>The software responsible for managing uptime and initiating the Linux system shutdown in time is <em>m2cp-coap</em>. It reacts to power notifications from the PMU via <a class="reference internal" href="Tech_CoAP.html#post-notify-poweroff-1"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/notify/poweroff/1</span></code></span></a> and allows applications to request uptime via <a class="reference internal" href="Tech_CoAP.html#put-request_uptime-1"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/request_uptime/1</span></code></span></a>. The PMU can also command an immediate shutdown via <a class="reference internal" href="Tech_CoAP.html#post-shutdown-1"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/shutdown/1</span></code></span></a>. See the <a class="reference internal" href="Tech_CoAP.html#power-management-endpoints"><span class="std std-ref">CoAP endpoint specs</span></a> for the full protocol definition.</p>
+<p><em>m2cp-coap</em> is dormant until a PMU introduces itself by sending the first <code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code> message, which also registers the PMU’s address. The received address is logged:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>m2cp<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>m2cp-coap
 <span class="go">...setting power-board address to [...]</span>
 </pre></div>
 </div>
-<p>Once introduced, the PMU is expected to periodically send
-<code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code> notification with the amount of granted uptime
-left in seconds. At zero seconds the power will be cut. Currently, the
-notification is sent every 10 seconds, but the period could vary.</p>
-<p>For illustration, the notification of 60 seconds of uptime left could
-be injected manually by:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>coap-client<span class="w"> </span>-m<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;coap://[fe80::df7:2023:1:2%eth0]/notify/poweroff/1?seconds=60&quot;</span>
-</pre></div>
-</div>
-<p>where <code class="docutils literal notranslate"><span class="pre">fe80::df7:2023:1:2</span></code> is the link-local address of the Linux
-system and <code class="docutils literal notranslate"><span class="pre">eth0</span></code> is the network interface that is used.</p>
-<p><code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> receives this amount of uptime and compares it to its list
-of uptime requirements. <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> maintains a minimum uptime for
-itself and also collects uptime requests from other apps or users. If
-the granted uptime is smaller than the maximum requested uptime plus
-the expected time for a safe shutdown, then <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> will request
-more uptime at the PMU. If the PMU does not grant the requested amount
-of uptime and the notified amount gets below the threshold of the
-shutdown duration, <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> will initiate a shutdown of the Linux
-system. Currently the shutdown time is 50 seconds, but no application
-must depend on it.</p>
-<p>The minimum amount of system uptime is currently 6 minutes. The value
-is persisted in <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code>’s <code class="docutils literal notranslate"><span class="pre">$SNAP_COMMON/power-manager.yaml</span></code> as
-<code class="docutils literal notranslate"><span class="pre">uptime-minimum</span></code>:</p>
+<p>The PMU sends <code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code> periodically (typically every 10 seconds) with the remaining uptime in seconds. On each notification <em>m2cp-coap</em> compares the incoming <code class="docutils literal notranslate"><span class="pre">seconds</span></code> value against the highest uptime currently requested by any application or by <em>m2cp-coap</em> itself, plus the expected shutdown duration. If the incoming budget is smaller than that sum, <em>m2cp-coap</em> requests more uptime from the PMU. If the PMU does not grant the requested amount and the budget drops below the shutdown duration threshold, <em>m2cp-coap</em> initiates a system shutdown. The current shutdown duration is 50 seconds — applications must not depend on this exact value.</p>
+<p>The minimum system uptime (default 360 s) is configurable and persisted in <code class="docutils literal notranslate"><span class="pre">$SNAP_COMMON/power-manager.yaml</span></code>:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cat<span class="w"> </span>/var/snap/m2cp-coap/common/power-manager.yaml
 <span class="go">uptime-minimum: 360</span>
 </pre></div>
 </div>
+<p>For illustration, injecting a notification of 60 seconds of uptime manually:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>coap-client<span class="w"> </span>-m<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;coap://[fe80::df7:2023:1:2%eth0]/notify/poweroff/1?seconds=60&quot;</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">fe80::df7:2023:1:2</span></code> is the link-local address of the Linux system (M2CP SoM) and <code class="docutils literal notranslate"><span class="pre">eth0</span></code> is the network interface used.</p>
 </section>
 <section id="apps-uptime-requests">
 <h3><span class="section-number">4.4.2. </span>App’s uptime requests<a class="headerlink" href="#apps-uptime-requests" title="Permalink to this heading"></a></h3>
-<p>App can request uptime at <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code> by using the
-<code class="docutils literal notranslate"><span class="pre">/request_uptime/1</span></code> endpoint. It has to be a PUT request with the
-arguments <code class="docutils literal notranslate"><span class="pre">app</span></code> and <code class="docutils literal notranslate"><span class="pre">seconds</span></code>. For example, to request 300 seconds of
-uptime for the App “example”, the request equals:</p>
+<p>Apps request uptime from <em>m2cp-coap</em> via <a class="reference internal" href="Tech_CoAP.html#put-request_uptime-1"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/request_uptime/1</span></code></span></a>, providing the <code class="docutils literal notranslate"><span class="pre">app</span></code> name and <code class="docutils literal notranslate"><span class="pre">seconds</span></code> as query parameters (max 1000 s). See the <a class="reference internal" href="Tech_CoAP.html#put-request_uptime-1"><span class="std std-ref">CoAP endpoint spec</span></a> for details.</p>
+<p><em>m2cp-coap</em> maintains a list of uptime requests per application. On each <code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code> notification it compares the remaining budget against the highest outstanding request plus the shutdown duration, and asks the PMU for more time if needed.</p>
+<p>For convenience, the SDK provides a function for this — see <a class="reference internal" href="Development_Edge.html#requesting-application-runtime"><span class="std std-ref">Requesting App Runtime</span></a>.</p>
+<p>Example:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>coap-client<span class="w"> </span>-m<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;coap://[fe80::df7:2023:1:2%eth0]/request_uptime/1?app=example&amp;seconds=300&quot;</span>
 </pre></div>
 </div>
-<p>The maximum amount that can be requested is limited to 1000 seconds by
-<code class="docutils literal notranslate"><span class="pre">m2cp-coap</span></code>. For conveinience, the SDK provides a function to request
-uptime as described in <a class="reference internal" href="Development_Edge.html#requesting-application-runtime"><span class="std std-ref">Requesting App
-Runtime</span></a>.</p>
 </section>
 <section id="getuptimerequests-rpc">
 <h3><span class="section-number">4.4.3. </span>getUptimeRequests RPC<a class="headerlink" href="#getuptimerequests-rpc" title="Permalink to this heading"></a></h3>

@@ -108,29 +108,113 @@ $ sudo m2cpctl logs -f m2cp-coap | grep /din/1
 
 From `m2cp-coap 6.1.0` onwards, the log level can be modified using the RPC "setLogLevel". This allows you to increase the log level to "debug" to see more detailed logs.
 
+To send a test packet to `m2cp-coap` directly (without physical hardware), use `dev-m2cpctl coap data`. The following examples use OID 1 (unknown to `m2cp-coap`, so the raw protobuf is forwarded) and OID 42 (known to `m2cp-coap`, so it is parsed inline and forwarded as a parsed message).
+
+#### /din/1 — OID not known by m2cp-coap
+
+```console
+$ dev-m2cpctl.m2cpctl coap data 1 --hw-serial 123
+Sending data to [fdea:dbee:f::1]:5683
+Endpoint: /din/1/ew
+Payload: ARwIhJGfywYQzsLxBRoKZGVtby1tb2RlbCUAUH1E
+Result Code: Valid (67)
+Result Body:
+```
+
+```console
+$ dev-m2cpctl.m2cpctl message listen --data
+...
+[16:47:00.000]--[DATA    ]--[sensor.ew.oid.1.protobuf.m2cp-coap.b9961153-efa6-520b-b21f-905d34d775e3]->[sensor.ew.oid.1.protobuf.m2cp-coap.b9961153-efa6-520b-b21f-905d34d775e3]-[5882b7eb-e1b2-4ef0-bedd-5ad919f4e355]
+
+[16:47:00.000]--[DATA    ]--[sensor.ew.oid.1.parsed.demo-oid-parsers.b9961153-efa6-520b-b21f-905d34d775e3]->[sensor.ew.oid.1.parsed.demo-oid-parsers.b9961153-efa6-520b-b21f-905d34d775e3]-[2d8b0350-3969-4f81-8af0-1e14718bbf4d]
+...
+```
+
+The raw protobuf message appears first on `sensor.ew.oid.1.protobuf.m2cp-coap.<ed-serial>`, followed by a second message on `sensor.ew.oid.1.parsed.demo-oid-parsers.<ed-serial>` once a custom parser picks it up.
+
+#### /din/1 — OID known by m2cp-coap
+
+```console
+$ dev-m2cpctl.m2cpctl coap data 42 --hw-serial 123
+Sending data to [fdea:dbee:f::1]:5683
+Endpoint: /din/1/ew
+Payload: KiEIABCAmsOdBhiQtsOdBiAeKM7C8QUwsf/lKTjoB0AISA8=
+Result Code: Valid (67)
+Result Body:
+```
+
+```console
+$ dev-m2cpctl.m2cpctl message listen --data
+...
+[16:51:00.000]--[DATA    ]--[sensor.ew.oid.42.parsed.m2cp-coap.b9961153-efa6-520b-b21f-905d34d775e3]->[sensor.ew.oid.42.parsed.m2cp-coap.b9961153-efa6-520b-b21f-905d34d775e3]-[749569b4-c634-4b27-8e8f-dc0302897efd]
+...
+```
+
+For a known OID, `m2cp-coap` parses the protobuf itself and emits a single parsed message directly. No intermediate `protobuf` topic is created.
+
+#### /din/2 — OID not known by m2cp-coap
+
+```console
+$ dev-m2cpctl.m2cpctl coap data 1 --os-serial ab-cd-ef
+Sending data to [fdea:dbee:f::1]:5683
+Endpoint: /din/2/YWItY2QtZWY
+Payload: ARwIo5KfywYQzsLxBRoKZGVtby1tb2RlbCUAUH1E
+Result Code: Valid (67)
+Result Body:
+```
+
+```console
+$ dev-m2cpctl.m2cpctl message listen --data
+...
+[16:49:39.000]--[DATA    ]--[oid.1.protobuf.m2cp-coap.ab-cd-ef]->[oid.1.protobuf.m2cp-coap.ab-cd-ef]-[7d7b5d5b-6281-4cb3-9b46-78d67253d5e5]
+
+[16:49:39.000]--[DATA    ]--[oid.1.parsed.protobuf-parser.ab-cd-ef]->[oid.1.parsed.protobuf-parser.ab-cd-ef]-[98f26794-8fba-4d66-b6b9-ec00880f2654]
+...
+```
+
+Note: `/din/2` topics omit the `sensor.` prefix that `/din/1` uses. The OS serial (`ab-cd-ef`) appears directly as the device identifier.
+
+#### /din/2 — OID known by m2cp-coap
+
+```console
+$ dev-m2cpctl.m2cpctl coap data 42 --os-serial ab-cd-ef
+Sending data to [fdea:dbee:f::1]:5683
+Endpoint: /din/2/YWItY2QtZWY
+Payload: KiEIABCAmsOdBhiQtsOdBiAeKM7C8QUwsf/lKTjoB0AISA8=
+Result Code: Valid (67)
+Result Body:
+```
+
+```console
+$ dev-m2cpctl.m2cpctl message listen --data
+...
+[16:51:49.000]--[DATA    ]--[oid.42.parsed.m2cp-coap.ab-cd-ef]->[oid.42.parsed.m2cp-coap.ab-cd-ef]-[e661df5d-c0a1-48e6-8ebb-3620746306eb]
+...
+```
+
 
 `m2cp-coap` will parse some generic [Protocol
 Buffers](https://protobuf.dev/) (Protobuf) payloads on its own. Every
 recognized Protobuf has a unique OID assigned. See the table below to
 compare Protobuf names and OIDs.
 
-| OID | Protobuf Name | Message Type |
-| --: | :------------ | :----------- |
-| 11 | GNSSData | DATA |
-| 18 | LogRecord | SIGNAL |
-| 19 | SatelliteBoardDataWrapper | DATA |
-| 20 | OrientationData | DATA |
-| 21 | EnvironmentData | DATA |
-| 22 | BatteryData | DATA |
-| 23 | AppStatus | DATA |
-| 24 | AccelData | DATA |
-| 25 | BLEProximityScanData | DATA |
-| 26 | AccGyroData | DATA |
-| 28 | SchedstatsData | DATA |
-| 29 | FuelGauge | DATA |
-| 42 | GNSSDataAverageCenter | DATA |
-| 43 | GNSSDataAverageOverall | DATA |
-| 49 | FuelGaugeV2 | DATA |
+| OID | Protobuf Name             | Message Type |
+|----:|:--------------------------|:-------------|
+|  11 | GNSSData                  | DATA         |
+|  18 | LogRecord                 | SIGNAL       |
+|  19 | SatelliteBoardDataWrapper | DATA         |
+|  20 | OrientationData           | DATA         |
+|  21 | EnvironmentData           | DATA         |
+|  22 | BatteryData               | DATA         |
+|  23 | AppStatus                 | DATA         |
+|  24 | AccelData                 | DATA         |
+|  25 | BLEProximityScanData      | DATA         |
+|  26 | AccGyroData               | DATA         |
+|  28 | SchedstatsData            | DATA         |
+|  29 | FuelGauge                 | DATA         |
+|  42 | GNSSDataAverageCenter     | DATA         |
+|  43 | GNSSDataAverageOverall    | DATA         |
+|  49 | FuelGaugeV2               | DATA         |
 
 Note, OID 18 is the only Protobuf that is parsed and forwarded as a
 SIGNAL, generally Protobufs are forwarded as DATA messages.
@@ -289,3 +373,115 @@ $ m2cp device logs --help
 ### Data Visualization
 
 Any data visualization, e.g. Grafana, is not implemented by default.
+
+## Simulating OID Data Flow
+
+When developing or debugging on an ED without physical RTD hardware, you can inject OID messages directly using `dev-m2cpctl`. This is useful for verifying that parsers, routing, and heartbeats are working correctly without needing a real sensor.
+
+### Without m2cp-coap
+
+You can bypass CoAP entirely and inject a message straight into the message-hub. This is the fastest way to check that a parser application responds correctly.
+
+#### din/1
+
+```console
+$ dev-m2cpctl.m2cpctl message data testapp 1 --hw-serial 123
+2026/01/14 16:44:42 Sent successfully (sent: 0, failed: 0)
+sent: 1
+failed: 0
+```
+
+```console
+$ dev-m2cpctl.m2cpctl message listen --data
+...
+[16:44:42.000]--[DATA    ]--[sensor.123.oid.1.protobuf.testapp.eaa3f553-e500-4c79-afb0-7c4ae3a05c7a]->[sensor.123.oid.1.protobuf.testapp.eaa3f553-e500-4c79-afb0-7c4ae3a05c7a]-[b3a3b8b1-e1b8-4949-8a14-ced72699844f]
+
+
+[16:44:42.000]--[DATA    ]--[sensor.123.oid.1.parsed.demo-oid-parsers.b9961153-efa6-520b-b21f-905d34d775e3]->[sensor.123.oid.1.parsed.demo-oid-parsers.b9961153-efa6-520b-b21f-905d34d775e3]-[81440eed-16cf-4d8d-8247-832771c3021c]
+...
+```
+
+#### din/2
+
+```console
+$ dev-m2cpctl.m2cpctl message data testapp 1 -s ab-cd-ef
+2026/01/14 16:44:58 Sent successfully (sent: 0, failed: 0)
+sent: 1
+failed: 0
+```
+
+```console
+$ dev-m2cpctl.m2cpctl message listen --data
+...
+[16:44:58.000]--[DATA    ]--[oid.1.protobuf.testapp.ab-cd-ef]->[oid.1.protobuf.testapp.ab-cd-ef]-[518452bb-f59c-42d0-ad1c-6f04d40fe1c0]
+
+
+[16:44:58.000]--[DATA    ]--[oid.1.parsed.protobuf-parser.ab-cd-ef]->[oid.1.parsed.protobuf-parser.ab-cd-ef]-[75965565-5c9d-4060-9723-8341363de0e2]
+...
+```
+
+### Monitoring Heartbeats
+
+Parser apps and `m2cp-coap` both emit periodic heartbeat signals. Checking these is a quick way to confirm that messages are flowing through correctly.
+
+#### demo-oid-parsers heartbeat
+
+Before any messages are sent the heartbeat shows zero counts:
+
+```json
+{
+  "uptime": 10,
+  "msg-received": 0,
+  "rows-parsed": 0,
+  "rows-forwarded": 0,
+  "reportedDeviceInfo": false,
+  "errors": 0
+}
+```
+
+After each OID 1 message `msg-received` and `rows-parsed` increment:
+
+```json
+{
+  "uptime": 30,
+  "msg-received": 1,
+  "rows-parsed": 1,
+  "rows-forwarded": 0,
+  "reportedDeviceInfo": false,
+  "errors": 0
+}
+```
+
+OID 42 messages are not parsed by `demo-oid-parsers`, so sending those produces no change in its heartbeat.
+
+#### m2cp-coap heartbeat
+
+Before any messages are sent:
+
+```json
+{
+  "uptime": {"running": 100, "remaining": 86400, "server": ""},
+  "data": {"received": 0, "parsed": 0, "forwarded": 0, "failed": 0},
+  "peers": []
+}
+```
+
+For each OID 1 message (unknown OID — forwarded as raw protobuf), `received` and `forwarded` increment while `parsed` stays 0:
+
+```json
+{
+  "uptime": {"running": 750, "remaining": 86400, "server": ""},
+  "data": {"received": 1, "parsed": 0, "forwarded": 1, "failed": 0},
+  "peers": []
+}
+```
+
+For each OID 42 message (known OID — parsed by `m2cp-coap`), both `received` and `parsed` increment:
+
+```json
+{
+  "uptime": {"running": 950, "remaining": 86400, "server": ""},
+  "data": {"received": 3, "parsed": 1, "forwarded": 2, "failed": 0},
+  "peers": []
+}
+```

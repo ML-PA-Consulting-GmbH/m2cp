@@ -17,10 +17,23 @@ clean() {
 
 prepare() {
     mkdir -p ./stage/ && cp ../build/win-amd64/m2cp.exe stage/
-    # TODO: better extract from the Debian package?
-    echo "Downloading docs:"
-    curl -X GET http://10.0.1.28:7000/m2cp/docs-html/latest/meta | jq
-    mkdir -p ./stage/docs && curl -X GET http://10.0.1.28:7000/m2cp/docs-html/latest | tar -xz -C ./stage/docs
+    mkdir -p ./stage/docs
+
+    # The HTML docs are vendored into the bundle at release time (see
+    # ../../release.sh) as ./docs.tar.gz, so the exported source tree builds a
+    # fully standalone Windows installer without reaching back to the internal
+    # docs server. When building directly from a checkout (no vendored tarball),
+    # fall back to fetching from that server.
+    if [[ -f docs.tar.gz ]]; then
+        echo "Using vendored docs tarball (docs.tar.gz)"
+        tar -xz -C ./stage/docs -f docs.tar.gz
+    else
+        DOCS_URL="${M2CP_DOCS_URL:-http://10.0.1.28:7000/m2cp/docs-html/latest}"
+        echo "Downloading docs from ${DOCS_URL}:"
+        curl -fsS -X GET "${DOCS_URL}/meta" | jq
+        curl -fsS -X GET "${DOCS_URL}" | tar -xz -C ./stage/docs
+    fi
+
     # Remove Windows Zone.Identifier files created when downloading from web
     find ./stage/docs -name "*Zone.Identifier" -delete
 }

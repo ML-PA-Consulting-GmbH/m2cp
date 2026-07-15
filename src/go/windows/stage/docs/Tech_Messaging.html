@@ -23,7 +23,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="1. Glossary" href="Glossary.html" />
+    <link rel="next" title="6. CoAP" href="Tech_CoAP.html" />
     <link rel="prev" title="4. Real Time Device Lifecycle" href="Tech_Lifecycle_RTD.html" /> 
 </head>
 
@@ -39,7 +39,7 @@
             L-IoT Documentation
           </a>
               <div class="version">
-                Version 1.14.8
+                Version 1.15.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -318,6 +318,11 @@
 <li class="toctree-l3"><a class="reference internal" href="Messages.html#data-visualization">5.2.10. Data Visualization</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="Messages.html#simulating-oid-data-flow">5.3. Simulating OID Data Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#without-m2cp-coap">5.3.1. Without m2cp-coap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Messages.html#monitoring-heartbeats">5.3.2. Monitoring Heartbeats</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="APIs_Backend.html">6. Backend APIs</a><ul>
@@ -396,6 +401,43 @@
 <li class="toctree-l3"><a class="reference internal" href="#node-discovery">5.4.1. Node discovery</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#node-information">5.4.2. Node information</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#node-rpc">5.4.3. Node RPC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tech_CoAP.html">6. CoAP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tech_CoAP.html#endpoints">6.1. Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#din-1-sensorid">6.1.1. <code class="docutils literal notranslate"><span class="pre">/din/1/{sensorId}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#din-2-osserial">6.1.2. <code class="docutils literal notranslate"><span class="pre">/din/2/{osSerial}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#whoami-2">6.1.3. <code class="docutils literal notranslate"><span class="pre">/whoami/2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#whoami-1">6.1.4. <code class="docutils literal notranslate"><span class="pre">/whoami/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#uptime-1">6.1.5. <code class="docutils literal notranslate"><span class="pre">/uptime/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#t-1">6.1.6. <code class="docutils literal notranslate"><span class="pre">/t/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#realtime-1">6.1.7. <code class="docutils literal notranslate"><span class="pre">/realtime/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-clients-1">6.1.8. <code class="docutils literal notranslate"><span class="pre">/status/clients/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-online-1">6.1.9. <code class="docutils literal notranslate"><span class="pre">/status/online/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-ping-1">6.1.10. <code class="docutils literal notranslate"><span class="pre">/status/ping/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-refresh-1">6.1.11. <code class="docutils literal notranslate"><span class="pre">/status/refresh/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#status-snaps-1">6.1.12. <code class="docutils literal notranslate"><span class="pre">/status/snaps/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#hello-2">6.1.13. <code class="docutils literal notranslate"><span class="pre">/hello/2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#hello-1">6.1.14. <code class="docutils literal notranslate"><span class="pre">/hello/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-keys">6.1.15. <code class="docutils literal notranslate"><span class="pre">suit/keys</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-mani">6.1.16. <code class="docutils literal notranslate"><span class="pre">/suit/mani</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-fw-app-revision-id-slot">6.1.17. <code class="docutils literal notranslate"><span class="pre">/suit/fw/{app-revision-id}/{slot}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#suit-result-sequence-number">6.1.18. <code class="docutils literal notranslate"><span class="pre">/suit/result/{sequence-number}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#report-update-result-1">6.1.19. <code class="docutils literal notranslate"><span class="pre">/report/update/result/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#fw-1-m-hw-serial">6.1.20. <code class="docutils literal notranslate"><span class="pre">/fw/1/m/{hw-serial}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#cmd-1-sensorid">6.1.21. <code class="docutils literal notranslate"><span class="pre">/cmd/1/{sensorId}</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#update-1">6.1.22. <code class="docutils literal notranslate"><span class="pre">/update/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#notify-poweroff-1">6.1.23. <code class="docutils literal notranslate"><span class="pre">/notify/poweroff/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#shutdown-1">6.1.24. <code class="docutils literal notranslate"><span class="pre">/shutdown/1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#request-uptime-1">6.1.25. <code class="docutils literal notranslate"><span class="pre">/request_uptime/1</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Tech_CoAP.html#formats">6.2. Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#rtd-details">6.2.1. RTD Details</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#commandbatch">6.2.2. CommandBatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tech_CoAP.html#responsebatch">6.2.3. ResponseBatch</a></li>
 </ul>
 </li>
 </ul>
@@ -806,7 +848,7 @@ as NETWORK scope.</p>
 <p>A further update of the SDK, which will replace AMQP with CoAP, is in planning – this future version will
 respect all four scopes.</p>
 <p><strong>What is a <em>TaskId</em>?</strong></p>
-<p>A single action can involve several Devices, services, databases, and APIs. E.g. a developer sends a GraphQL request to a backend service, this service does a DB request, then sends a RPC call to a Device, gets a result, and forwards that to the developer. Each participant generates logs – but it’s difficult to combine those, when debugging such a process. A <em>TaskId</em> allows connecting the dots and combing the traces from different logs into one detailed documentation of the execution of a task. To achieve that, a random <em>TaskId</em> has to be generated by the originator of an action and passed all the way through the chain of communication.</p>
+<p>A single action can involve several Devices, services, databases, and APIs. E.g. a developer sends a GraphQL request to a backend service, this service does a DB request, then sends an RPC call to a Device, gets a result, and forwards that to the developer. Each participant generates logs – but it’s difficult to combine those, when debugging such a process. A <em>TaskId</em> allows connecting the dots and combing the traces from different logs into one detailed documentation of the execution of a task. To achieve that, a random <em>TaskId</em> has to be generated by the originator of an action and passed all the way through the chain of communication.</p>
 </section>
 </section>
 <section id="body">
@@ -918,7 +960,8 @@ RPC calls contain an array of parameter objects, allowing for aggregated calls w
 <li><p><code class="docutils literal notranslate"><span class="pre">D</span></code> Row of data, same length as `Body.Columns’. All values encoded as strings.</p></li>
 </ul>
 <p>The precision of timestamps can be down to seconds (e.g. <code class="docutils literal notranslate"><span class="pre">1668431167</span></code>), milliseconds (e.g. <code class="docutils literal notranslate"><span class="pre">1668431167.123</span></code>) or microseconds (e.g. <code class="docutils literal notranslate"><span class="pre">1668431167.123456</span></code>) as needed.</p>
-<p>Optionality for values of type int, uint32, and uint64 is represented by setting the value to the string `“null”, since version 12.4.0 of the go SDK.</p>
+<p>Optionality for values of string, int, or float (non-array) types is represented by setting the value to <code class="docutils literal notranslate"><span class="pre">null</span></code>, since version 13.0.0 of the go SDK.<br />
+go SDK version 13.0.5 also added support for optional bool values.</p>
 </section>
 </section>
 <section id="assertion">
@@ -1100,7 +1143,7 @@ an app could offer separate endpoints for different sets of functionality.</p>
 <li><p>CorrelationId: the id of the COMMAND message (also when sending RESPONSE to a command)</p></li>
 <li><p>ReplyTo: in case of COMMAND message, this contains the routing key for the RESPONSE</p></li>
 </ul>
-<p>Sending a RPC call using the tool <code class="docutils literal notranslate"><span class="pre">rmq-send</span></code>:</p>
+<p>Sending an RPC call using the tool <code class="docutils literal notranslate"><span class="pre">rmq-send</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ rmq-send -h localhost -p 5672 -e &quot;&quot; -r &#39;command.rpc-endpoint.snapname.devicename&#39; -m &#39;{&quot;Header&quot;:{&quot;Type&quot;:&quot;COMMAND&quot;,&quot;Topic&quot;:&quot;command/rpc-endpoint.development-756767.9c12c037-c379-43c4-bad9-3dd992cd9ade&quot;,&quot;Timestamp&quot;:&quot;1687353782.30423&quot;,&quot;Id&quot;:&quot;c2005f58-8729-4164-9290-e7c1c3c2ab72&quot;,&quot;Origin&quot;:&quot;rpc-caller.development-763187.9c12c037-c379-43c4-bad9-3dd992cd9ade&quot;},&quot;Body&quot;:{&quot;Command&quot;:&quot;test&quot;,&quot;Parameters&quot;:[]}}&#39;
 </pre></div>
 </div>
@@ -1240,7 +1283,7 @@ waiting for a user trigger, this command will cause it to continue</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Tech_Lifecycle_RTD.html" class="btn btn-neutral float-left" title="4. Real Time Device Lifecycle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Glossary.html" class="btn btn-neutral float-right" title="1. Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Tech_CoAP.html" class="btn btn-neutral float-right" title="6. CoAP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -2,3 +2,4 @@ installer.iss
 build/*
 stage/*
 version
+docs.tar.gz

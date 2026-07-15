@@ -233,10 +233,11 @@ There are two ways to test CoAP clients against m2cp-coap:
 - You have a CoAP client on your host machine, and want to send CoAP messages to m2cp-coap
 - You have a CoAP client on an Ethernet-connected device, and want to send CoAP messages to m2cp-coap in the virtual device
 
-m2cp-coap offers a few endpoints by default. A portion of them are listed below:
-- Method: `GET` Path: `/whoami/1` Description: Returns the current time from the Linux system
-- Method: `GET` Path: `/t/1` Description: Returns information about the current device and coap server
-- Method: `POST` Path: `/hello/1` Description: Is called by sensors as a heartbeat, notifying the server that they are still alive
+m2cp-coap offers a few endpoints by default. Some commonly used ones:
+
+- [`GET /whoami/1`](Tech_CoAP.md#get-whoami-1-node-self-description): Returns a self-description of the device and CoAP server (serial, board, app name, version)
+- [`GET /t/1`](Tech_CoAP.md#get-t-1): Returns the current system time
+- [`POST /hello/1`](Tech_CoAP.md#post-hello-1): Called by sensors/RTDs as a heartbeat to announce themselves to _m2cp-coap_
 
 To view all incoming messages to m2cp-coap, [attach to the virtual device](#attach-to-a-virtual-device) and run the following command:
 ```console
