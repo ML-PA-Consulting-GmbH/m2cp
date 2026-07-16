@@ -73,6 +73,8 @@ func ParseDeviceModelRevisionType(str string) DeviceModelRevisionType {
 		return DeviceModelRevisionTypeRealTimeDevice
 	case "Real-time Device":
 		return DeviceModelRevisionTypeRealTimeDevice
+	case "Real-Time Device":
+		return DeviceModelRevisionTypeRealTimeDevice
 	default:
 		return DeviceModelRevisionTypeTypeUnknown
 	}

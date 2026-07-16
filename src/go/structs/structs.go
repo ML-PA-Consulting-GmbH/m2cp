@@ -120,6 +120,7 @@ const (
 
 var DeviceTypeAliases = map[string]DeviceType{
 	"Real-time Device": DeviceTypeRealTimeDevice,
+	"Real-Time Device": DeviceTypeRealTimeDevice,
 	"Real Time Device": DeviceTypeRealTimeDevice,
 	"Edge Device":      DeviceTypeEdgeDevice,
 }
