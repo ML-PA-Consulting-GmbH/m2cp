@@ -85,8 +85,9 @@ func runListCmd(cmd *cobra.Command, args []string) (err error) {
 		// sessions authenticated via the external identity provider (browser-based
 		// login): the legacy resolver returns a nil user, which crashes on unguarded
 		// field access. The "me" query works for both auth methods, so it is used here
-		// instead - for both the user's info and their permissions.
-		me, err := backend.GetMe(cmd.Context())
+		// instead - for both the user's info and their permissions. The one store
+		// without "me" falls back to the token's own role_values/scopes claims.
+		me, err := backend.GetMeWithFallback(cmd.Context())
 		if err != nil {
 			return err
 		}

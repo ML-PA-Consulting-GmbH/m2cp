@@ -299,9 +299,10 @@ func runLoginCmd(cmd *cobra.Command, args []string) error {
 	// The JWT no longer necessarily carries a tenant_id/permissions claims (e.g. tokens
 	// issued by the external authentication provider used for browser-based login), so
 	// they are resolved via the "me" query, which works regardless of auth method.
-	// Fetched once here (along with the tenant's alias/name) and persisted, so
-	// status/roles-list don't need to repeat any of these calls.
-	me, err := backend.GetMe(cmd.Context())
+	// The one store whose backend lacks "me" falls back to the token's own claims (see
+	// backend.GetMeWithFallback). Fetched once here (along with the tenant's alias/name)
+	// and persisted, so status/roles-list don't need to repeat any of these calls.
+	me, err := backend.GetMeWithFallback(cmd.Context())
 	if err != nil {
 		return fmt.Errorf("could not fetch current user information: %s", err)
 	}
