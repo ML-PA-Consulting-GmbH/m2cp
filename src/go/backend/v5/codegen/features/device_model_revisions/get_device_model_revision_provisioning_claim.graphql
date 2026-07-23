@@ -1,0 +1,6 @@
+query GetDeviceModelRevisionProvisioningClaim($id: UUID!) {
+  deviceModelRevision(id: $id) {
+    id
+    isDeviceProvisioningClaimRequired
+  }
+}

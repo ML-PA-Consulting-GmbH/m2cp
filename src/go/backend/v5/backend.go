@@ -75,6 +75,18 @@ func BackendInfo(ctx context.Context) (*structs.Backend, error) {
 	return &info, nil
 }
 
+// BackendStoreVersion returns the backend's full store version string (e.g.
+// "5.2.0"). It errors when the v5 store-info query is unavailable, which is the
+// case for legacy (pre-v5) backends - callers should treat that as "older than
+// any v5 version".
+func BackendStoreVersion(ctx context.Context) (string, error) {
+	res, err := backendVersion(ctx)
+	if err != nil {
+		return "", err
+	}
+	return res.GetStoreInfo().GetVersion(), nil
+}
+
 func BackendMajorVersion(ctx context.Context) (int, error) {
 	res, err := backendVersion(ctx)
 	if err == nil {

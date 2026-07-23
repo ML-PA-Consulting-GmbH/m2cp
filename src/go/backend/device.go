@@ -2,10 +2,16 @@ package backend
 
 import (
 	"context"
+	"fmt"
 	"m2cpcli/backend/legacy"
 	v5 "m2cpcli/backend/v5"
 	"m2cpcli/structs"
+	"m2cpcli/tools"
 )
+
+// provisioningClaimMinVersion is the earliest backend store version that
+// supports the device-provisioning-claim flag on a device model revision.
+const provisioningClaimMinVersion = "5.2.0"
 
 type (
 	DeviceInstallState                                                                                         = legacy.DeviceInstallState
@@ -97,8 +103,114 @@ func GetDeviceModelRevisionList(ctx context.Context, filter *DeviceModelRevision
 	return legacy.GetDeviceModelRevisionList(ctx, (*legacy.DeviceModelRevisionFilterInput)(filter), take, skip)
 }
 
-func UpdateDeviceModelRevision(ctx context.Context, id string, isTpmRequired *bool, isPreRegistrationRequired *bool) (*legacy.UpdateDeviceModelRevisionResponse, error) {
-	return legacy.UpdateDeviceModelRevision(ctx, id, isTpmRequired, isPreRegistrationRequired)
+// DeviceModelRevisionUpdateResult is the normalized result of updating a device
+// model revision, decoupling callers from the legacy/v5 generated response types.
+type DeviceModelRevisionUpdateResult struct {
+	Id                        string `json:"id"`
+	IsTpmRequired             bool   `json:"isTpmRequired"`
+	IsPreRegistrationRequired bool   `json:"isPreRegistrationRequired"`
+	// IsDeviceProvisioningClaimRequired is nil on backends older than
+	// provisioningClaimMinVersion, which do not expose the field.
+	IsDeviceProvisioningClaimRequired *bool `json:"isDeviceProvisioningClaimRequired,omitempty"`
+}
+
+// UpdateDeviceModelRevision updates the given model revision's flags. The
+// provisioning-claim flag is only available on backends >= provisioningClaimMinVersion;
+// requesting it against an older backend returns an error. When it is requested the
+// update is routed through a dedicated v5 mutation that carries the field; otherwise
+// the legacy path is used, matching prior behavior.
+func UpdateDeviceModelRevision(ctx context.Context, id string, isTpmRequired, isPreRegistrationRequired, isDeviceProvisioningClaimRequired *bool) (*DeviceModelRevisionUpdateResult, error) {
+	if isDeviceProvisioningClaimRequired != nil {
+		if !backendAtLeast(ctx, provisioningClaimMinVersion) {
+			return nil, fmt.Errorf("setting the provisioning claim requires backend version >= %s", provisioningClaimMinVersion)
+		}
+		res, err := v5.UpdateDeviceModelRevisionWithProvisioningClaim(ctx, id, isTpmRequired, isPreRegistrationRequired, isDeviceProvisioningClaimRequired)
+		if err != nil {
+			return nil, err
+		}
+		if len(res.UpdateDeviceModelRevisions) == 0 {
+			return nil, fmt.Errorf("update returned no device model revision")
+		}
+		rev := res.UpdateDeviceModelRevisions[0]
+		return &DeviceModelRevisionUpdateResult{
+			Id:                                rev.Id,
+			IsTpmRequired:                     rev.IsTpmRequired,
+			IsPreRegistrationRequired:         rev.IsPreRegistrationRequired,
+			IsDeviceProvisioningClaimRequired: tools.BoolPtr(rev.IsDeviceProvisioningClaimRequired),
+		}, nil
+	}
+
+	res, err := legacy.UpdateDeviceModelRevision(ctx, id, isTpmRequired, isPreRegistrationRequired)
+	if err != nil {
+		return nil, err
+	}
+	if len(res.UpdateDeviceModelRevisions) == 0 {
+		return nil, fmt.Errorf("update returned no device model revision")
+	}
+	rev := res.UpdateDeviceModelRevisions[0]
+	return &DeviceModelRevisionUpdateResult{
+		Id:                        rev.Id,
+		IsTpmRequired:             rev.IsTpmRequired,
+		IsPreRegistrationRequired: rev.IsPreRegistrationRequired,
+	}, nil
+}
+
+// GetDeviceModelRevisionProvisioningClaim reports whether a device provisioning
+// claim is required for the given model revision. The field only exists on
+// backends >= provisioningClaimMinVersion; on older backends it returns
+// (nil, nil) so callers can omit it from their output.
+func GetDeviceModelRevisionProvisioningClaim(ctx context.Context, id string) (*bool, error) {
+	if !backendAtLeast(ctx, provisioningClaimMinVersion) {
+		return nil, nil
+	}
+	res, err := v5.GetDeviceModelRevisionProvisioningClaim(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	if res.DeviceModelRevision == nil {
+		return nil, nil
+	}
+	return tools.BoolPtr(res.DeviceModelRevision.IsDeviceProvisioningClaimRequired), nil
+}
+
+// DeviceClaim is a resolved device provisioning claim, as returned when a
+// claiming token is redeemed to claim a device for the store.
+type DeviceClaim struct {
+	ClaimId    string
+	DeviceId   string
+	ExpiresAt  string
+	ConsumedAt string
+	CreatedAt  string
+}
+
+// ClaimDevice claims a device for the store by redeeming a claiming token
+// (creating a device provisioning claim). Claiming tokens are primarily a
+// devkit mechanism. Only available on backends >= provisioningClaimMinVersion.
+func ClaimDevice(ctx context.Context, token string) (*DeviceClaim, error) {
+	if !backendAtLeast(ctx, provisioningClaimMinVersion) {
+		return nil, fmt.Errorf("claiming a device requires backend version >= %s", provisioningClaimMinVersion)
+	}
+
+	res, err := v5.CreateDeviceProvisioningClaims(ctx, []*v5.DeviceProvisioningClaimCreateInput{{Token: token}})
+	if err != nil {
+		return nil, err
+	}
+	if res == nil || len(res.CreateDeviceProvisioningClaims) == 0 {
+		return nil, fmt.Errorf("store did not return a provisioning claim for the token")
+	}
+	claim := res.CreateDeviceProvisioningClaims[0]
+	out := &DeviceClaim{
+		ClaimId:   claim.Id,
+		ExpiresAt: claim.ExpiresAt,
+		CreatedAt: claim.CreatedAt,
+	}
+	if claim.DeviceId != nil {
+		out.DeviceId = *claim.DeviceId
+	}
+	if claim.ConsumedAt != nil {
+		out.ConsumedAt = *claim.ConsumedAt
+	}
+	return out, nil
 }
 
 func DeviceRpc(ctx context.Context, node, command string, params map[string]string) (*legacy.RpcResponse, error) {
@@ -124,8 +236,8 @@ func GetDeviceLogs(ctx context.Context, filters *EdgeDeviceLogQueryInput) (*lega
 	return legacy.GetDeviceLogs(ctx, (*legacy.EdgeDeviceLogQueryInput)(filters))
 }
 
-func ModifyDevice(ctx context.Context, deviceId string, deviceName *string, deviceDescription *string, deviceActivated *bool) (*legacy.ModifyDeviceResponse, error) {
-	return legacy.ModifyDevice(ctx, deviceId, deviceName, deviceDescription, deviceActivated)
+func ModifyDevice(ctx context.Context, deviceId string, deviceName *string, deviceDescription *string, deviceActivated *bool, deviceUpdateActivated *bool) (*legacy.ModifyDeviceResponse, error) {
+	return legacy.ModifyDevice(ctx, deviceId, deviceName, deviceDescription, deviceActivated, deviceUpdateActivated)
 }
 
 func GetDeviceModelByIdWithAssertion(ctx context.Context, id string) (*legacy.GetDeviceModelByIdWithAssertionResponse, error) {

@@ -267,6 +267,8 @@ func customDeviceInfoFormatter(output deviceInfoOutput) (string, error) {
 	out += fmt.Sprintf("\n  ├─ OS Serial:               %s", deviceInfo.DeviceSerial)
 	out += fmt.Sprintf("\n  ├─ Name:                    %s", tools.MaybeStringToString(deviceInfo.DeviceName, "n/a"))
 	out += fmt.Sprintf("\n  ├─ Description:             %s", tools.MaybeStringToString(deviceInfo.Description, "n/a"))
+	out += fmt.Sprintf("\n  ├─ Device Enabled:          %s", tools.BoolToString(deviceInfo.IsDeviceActivated, "yes", "no"))
+	out += fmt.Sprintf("\n  ├─ Updates Enabled:         %s", tools.BoolToString(deviceInfo.IsUpdateActivated, "yes", "no"))
 	out += fmt.Sprintf("\n  ├─ Last App Store Activity: %s", tools.MaybeTimeToString(deviceInfo.LastAppstoreActivity, "2006-01-02 15:04:05", "n/a"))
 	out += fmt.Sprintf("\n  ├─ Last Messaging Activity: %s", tools.MaybeTimeToString(deviceInfo.LastMessagingActivity, "2006-01-02 15:04:05", "n/a"))
 	out += fmt.Sprintf("\n  ├─ Last Messaging Hub:      %s", tools.MaybeStringToString(deviceInfo.LastHubEndpoint, "n/a"))

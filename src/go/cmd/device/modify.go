@@ -6,6 +6,7 @@ import (
 	"m2cpcli/format"
 	gql "m2cpcli/graphql"
 	"m2cpcli/tools"
+	"strconv"
 
 	"github.com/spf13/cobra"
 )
@@ -34,8 +35,26 @@ func init() {
 	// is called directly, e.g.:
 	modifyCmd.Flags().StringP("name", "n", "", "set new device name (must be unique for this tenant)")
 	modifyCmd.Flags().StringP("description", "d", "", "set new device description")
-	modifyCmd.Flags().String("device-activated", "", "Set the activation state of a device (yes|no). Deactivated devices are denied communication with the server.")
+	modifyCmd.Flags().String("device-activated", "", "Set whether the device is enabled (true|false). A disabled device is denied communication with the server.")
+	modifyCmd.Flags().String("updates-activated", "", "Set whether the device accepts updates (true|false). Disabling halts all updates from the deployment group until re-enabled, independent of --device-activated.")
 
+}
+
+// parseBoolFlag reads a tri-state true|false flag: returns nil if the flag was
+// not provided (leave the field unchanged), or a pointer to the boolean value.
+func parseBoolFlag(cmd *cobra.Command, name string) (*bool, error) {
+	if !cmd.Flags().Changed(name) {
+		return nil, nil
+	}
+	raw, err := cmd.Flags().GetString(name)
+	if err != nil {
+		return nil, err
+	}
+	value, err := strconv.ParseBool(raw)
+	if err != nil {
+		return nil, fmt.Errorf("invalid value %q for --%s: expected true or false", raw, name)
+	}
+	return tools.BoolPtr(value), nil
 }
 
 func runModifyCmd(cmd *cobra.Command, args []string) error {
@@ -46,7 +65,6 @@ func runModifyCmd(cmd *cobra.Command, args []string) error {
 
 	var nameToUpdate *string
 	var descriptionToUpdate *string
-	var active *bool
 	var setToNull []string
 
 	if cmd.Flags().Changed("name") {
@@ -73,28 +91,31 @@ func runModifyCmd(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	if cmd.Flags().Changed("lifecycle") {
-		activationValue, err := cmd.Flags().GetString("lifecycle")
-		if err != nil {
-			return err
-		}
-		if activationValue != "yes" && activationValue != "no" {
-			return fmt.Errorf("invalid lifecycle state")
-		}
-		activationBool := activationValue == "yes"
-		active = &activationBool
+	active, err := parseBoolFlag(cmd, "device-activated")
+	if err != nil {
+		return err
 	}
 
-	modifyResult, err := backend.ModifyDevice(cmd.Context(), deviceId, nameToUpdate, descriptionToUpdate, active)
+	updatesActive, err := parseBoolFlag(cmd, "updates-activated")
+	if err != nil {
+		return err
+	}
+
+	if nameToUpdate == nil && descriptionToUpdate == nil && active == nil && updatesActive == nil && len(setToNull) == 0 {
+		return fmt.Errorf("nothing to modify: provide at least one of --name, --description, --device-activated, --updates-activated")
+	}
+
+	modifyResult, err := backend.ModifyDevice(cmd.Context(), deviceId, nameToUpdate, descriptionToUpdate, active, updatesActive)
 	if err != nil {
 		return err
 	}
 
 	modified := modifyResult.UpdateDevices[0]
 	msg := DeviceModifyResult{
-		Message: fmt.Sprintf("Device '%s': active=%v, name='%s', description='%s'",
+		Message: fmt.Sprintf("Device '%s': deviceActivated=%v, updatesActivated=%v, name='%s', description='%s'",
 			modified.SerialNumber,
 			modified.IsDeviceActivated,
+			modified.IsUpdateActivated,
 			tools.MaybeStringToString(modified.DeviceName, "n/a"),
 			tools.MaybeStringToString(modified.Description, "n/a"),
 		),

@@ -5,6 +5,8 @@ query getDeviceInfoBasic($id: UUID!) {
         serialNumber
         deviceName
         description
+        isDeviceActivated
+        isUpdateActivated
         deviceStatus {
             lastAppstoreActivity
             lastMessagingActivity

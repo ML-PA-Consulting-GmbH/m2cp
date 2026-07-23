@@ -171,6 +171,8 @@ func GetDeviceInfoById(ctx context.Context, id string) (*structs.Device, error) 
 		DeviceSerial:       resBasic.Device.SerialNumber,
 		DeviceName:         resBasic.Device.DeviceName,
 		Description:        resBasic.Device.Description,
+		IsDeviceActivated:  resBasic.Device.IsDeviceActivated,
+		IsUpdateActivated:  resBasic.Device.IsUpdateActivated,
 		DeviceArchitecture: string(resBasic.Device.DeviceModelRevision.DeviceModel.Architecture),
 		DeviceModelRevision: &structs.DeviceModelRevision{
 			Id:           resBasic.Device.DeviceModelRevision.Id,

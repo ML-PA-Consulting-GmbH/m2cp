@@ -146,6 +146,8 @@ type Device struct {
 	DeviceArchitecture      string     `json:"deviceArchitecture"`
 	DeviceName              *string    `json:"deviceName"`
 	Description             *string    `json:"description"`
+	IsDeviceActivated       bool       `json:"isDeviceActivated"`
+	IsUpdateActivated       bool       `json:"isUpdateActivated"`
 	DeviceModelRevision     *DeviceModelRevision
 	DeploymentGroup         *DeploymentGroup
 	DeviceInstallStates     []DeploymentGroupAppRevision `json:"deviceInstallStates"`

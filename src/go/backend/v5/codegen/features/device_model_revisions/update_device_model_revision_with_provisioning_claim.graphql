@@ -1,0 +1,26 @@
+# A variant of UpdateDeviceModelRevision that also sets the device provisioning
+# claim. Kept separate so the plain UpdateDeviceModelRevision stays usable on
+# backends that predate the isDeviceProvisioningClaimRequired field (< 5.2.0);
+# this operation is only issued once the backend is known to support it.
+mutation UpdateDeviceModelRevisionWithProvisioningClaim(
+    $id: UUID!
+    $isTpmRequired: Boolean
+    $isPreRegistrationRequired: Boolean
+    $isDeviceProvisioningClaimRequired: Boolean
+) {
+    updateDeviceModelRevisions(
+        deviceModelRevisions: [
+            {
+                id: $id
+                isTpmRequired: $isTpmRequired
+                isPreRegistrationRequired: $isPreRegistrationRequired
+                isDeviceProvisioningClaimRequired: $isDeviceProvisioningClaimRequired
+            }
+        ]
+    ) {
+        id
+        isTpmRequired
+        isPreRegistrationRequired
+        isDeviceProvisioningClaimRequired
+    }
+}

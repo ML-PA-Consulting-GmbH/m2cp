@@ -757,10 +757,10 @@ var AllArchitecture = []Architecture{
 }
 
 type ArchitectureOperationFilterInput struct {
-	Eq  *Architecture  `json:"eq"`
-	Neq *Architecture  `json:"neq"`
-	In  []Architecture `json:"in"`
-	Nin []Architecture `json:"nin"`
+	Eq  *Architecture  `json:"eq,omitempty"`
+	Neq *Architecture  `json:"neq,omitempty"`
+	In  []Architecture `json:"in,omitempty"`
+	Nin []Architecture `json:"nin,omitempty"`
 }
 
 // GetEq returns ArchitectureOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -2910,18 +2910,18 @@ func (v *ComparableGuidOperationFilterInput) GetLte() *string { return v.Lte }
 func (v *ComparableGuidOperationFilterInput) GetNlte() *string { return v.Nlte }
 
 type ComparableInt32OperationFilterInput struct {
-	Eq   *int  `json:"eq"`
-	Neq  *int  `json:"neq"`
-	In   []int `json:"in"`
-	Nin  []int `json:"nin"`
-	Gt   *int  `json:"gt"`
-	Ngt  *int  `json:"ngt"`
-	Gte  *int  `json:"gte"`
-	Ngte *int  `json:"ngte"`
-	Lt   *int  `json:"lt"`
-	Nlt  *int  `json:"nlt"`
-	Lte  *int  `json:"lte"`
-	Nlte *int  `json:"nlte"`
+	Eq   *int  `json:"eq,omitempty"`
+	Neq  *int  `json:"neq,omitempty"`
+	In   []int `json:"in,omitempty"`
+	Nin  []int `json:"nin,omitempty"`
+	Gt   *int  `json:"gt,omitempty"`
+	Ngt  *int  `json:"ngt,omitempty"`
+	Gte  *int  `json:"gte,omitempty"`
+	Ngte *int  `json:"ngte,omitempty"`
+	Lt   *int  `json:"lt,omitempty"`
+	Nlt  *int  `json:"nlt,omitempty"`
+	Lte  *int  `json:"lte,omitempty"`
+	Nlte *int  `json:"nlte,omitempty"`
 }
 
 // GetEq returns ComparableInt32OperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -2961,18 +2961,18 @@ func (v *ComparableInt32OperationFilterInput) GetLte() *int { return v.Lte }
 func (v *ComparableInt32OperationFilterInput) GetNlte() *int { return v.Nlte }
 
 type ComparableInt64OperationFilterInput struct {
-	Eq   *int64  `json:"eq"`
-	Neq  *int64  `json:"neq"`
-	In   []int64 `json:"in"`
-	Nin  []int64 `json:"nin"`
-	Gt   *int64  `json:"gt"`
-	Ngt  *int64  `json:"ngt"`
-	Gte  *int64  `json:"gte"`
-	Ngte *int64  `json:"ngte"`
-	Lt   *int64  `json:"lt"`
-	Nlt  *int64  `json:"nlt"`
-	Lte  *int64  `json:"lte"`
-	Nlte *int64  `json:"nlte"`
+	Eq   *int64  `json:"eq,omitempty"`
+	Neq  *int64  `json:"neq,omitempty"`
+	In   []int64 `json:"in,omitempty"`
+	Nin  []int64 `json:"nin,omitempty"`
+	Gt   *int64  `json:"gt,omitempty"`
+	Ngt  *int64  `json:"ngt,omitempty"`
+	Gte  *int64  `json:"gte,omitempty"`
+	Ngte *int64  `json:"ngte,omitempty"`
+	Lt   *int64  `json:"lt,omitempty"`
+	Nlt  *int64  `json:"nlt,omitempty"`
+	Lte  *int64  `json:"lte,omitempty"`
+	Nlte *int64  `json:"nlte,omitempty"`
 }
 
 // GetEq returns ComparableInt64OperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -9446,7 +9446,7 @@ type ListFilterInputTypeOfAppFirmwareFilterInput struct {
 	All  *AppFirmwareFilterInput `json:"all,omitempty"`
 	None *AppFirmwareFilterInput `json:"none,omitempty"`
 	Some *AppFirmwareFilterInput `json:"some,omitempty"`
-	Any  *bool                   `json:"any"`
+	Any  *bool                   `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfAppFirmwareFilterInput.All, and is useful for accessing the field via an interface.
@@ -9469,7 +9469,7 @@ type ListFilterInputTypeOfAppRevisionDeltaFilterInput struct {
 	All  *AppRevisionDeltaFilterInput `json:"all,omitempty"`
 	None *AppRevisionDeltaFilterInput `json:"none,omitempty"`
 	Some *AppRevisionDeltaFilterInput `json:"some,omitempty"`
-	Any  *bool                        `json:"any"`
+	Any  *bool                        `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfAppRevisionDeltaFilterInput.All, and is useful for accessing the field via an interface.
@@ -9494,7 +9494,7 @@ type ListFilterInputTypeOfAppRevisionFilterInput struct {
 	All  *AppRevisionFilterInput `json:"all,omitempty"`
 	None *AppRevisionFilterInput `json:"none,omitempty"`
 	Some *AppRevisionFilterInput `json:"some,omitempty"`
-	Any  *bool                   `json:"any"`
+	Any  *bool                   `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfAppRevisionFilterInput.All, and is useful for accessing the field via an interface.
@@ -9517,7 +9517,7 @@ type ListFilterInputTypeOfAppSnapFilterInput struct {
 	All  *AppSnapFilterInput `json:"all,omitempty"`
 	None *AppSnapFilterInput `json:"none,omitempty"`
 	Some *AppSnapFilterInput `json:"some,omitempty"`
-	Any  *bool               `json:"any"`
+	Any  *bool               `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfAppSnapFilterInput.All, and is useful for accessing the field via an interface.
@@ -9536,7 +9536,7 @@ type ListFilterInputTypeOfAssertionFilterInput struct {
 	All  *AssertionFilterInput `json:"all,omitempty"`
 	None *AssertionFilterInput `json:"none,omitempty"`
 	Some *AssertionFilterInput `json:"some,omitempty"`
-	Any  *bool                 `json:"any"`
+	Any  *bool                 `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfAssertionFilterInput.All, and is useful for accessing the field via an interface.
@@ -9847,7 +9847,7 @@ type ListFilterInputTypeOfDeploymentGroupAdministratorFilterInput struct {
 	All  *DeploymentGroupAdministratorFilterInput `json:"all,omitempty"`
 	None *DeploymentGroupAdministratorFilterInput `json:"none,omitempty"`
 	Some *DeploymentGroupAdministratorFilterInput `json:"some,omitempty"`
-	Any  *bool                                    `json:"any"`
+	Any  *bool                                    `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeploymentGroupAdministratorFilterInput.All, and is useful for accessing the field via an interface.
@@ -9872,7 +9872,7 @@ type ListFilterInputTypeOfDeploymentGroupBridgeAppRevisionFilterInput struct {
 	All  *DeploymentGroupBridgeAppRevisionFilterInput `json:"all,omitempty"`
 	None *DeploymentGroupBridgeAppRevisionFilterInput `json:"none,omitempty"`
 	Some *DeploymentGroupBridgeAppRevisionFilterInput `json:"some,omitempty"`
-	Any  *bool                                        `json:"any"`
+	Any  *bool                                        `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeploymentGroupBridgeAppRevisionFilterInput.All, and is useful for accessing the field via an interface.
@@ -9899,7 +9899,7 @@ type ListFilterInputTypeOfDeploymentGroupBridgeDeploymentGroupTagFilterInput str
 	All  *DeploymentGroupBridgeDeploymentGroupTagFilterInput `json:"all,omitempty"`
 	None *DeploymentGroupBridgeDeploymentGroupTagFilterInput `json:"none,omitempty"`
 	Some *DeploymentGroupBridgeDeploymentGroupTagFilterInput `json:"some,omitempty"`
-	Any  *bool                                               `json:"any"`
+	Any  *bool                                               `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeploymentGroupBridgeDeploymentGroupTagFilterInput.All, and is useful for accessing the field via an interface.
@@ -9926,7 +9926,7 @@ type ListFilterInputTypeOfDeploymentGroupFilterInput struct {
 	All  *DeploymentGroupFilterInput `json:"all,omitempty"`
 	None *DeploymentGroupFilterInput `json:"none,omitempty"`
 	Some *DeploymentGroupFilterInput `json:"some,omitempty"`
-	Any  *bool                       `json:"any"`
+	Any  *bool                       `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeploymentGroupFilterInput.All, and is useful for accessing the field via an interface.
@@ -9951,7 +9951,7 @@ type ListFilterInputTypeOfDeviceDailyMessagingActivityFilterInput struct {
 	All  *DeviceDailyMessagingActivityFilterInput `json:"all,omitempty"`
 	None *DeviceDailyMessagingActivityFilterInput `json:"none,omitempty"`
 	Some *DeviceDailyMessagingActivityFilterInput `json:"some,omitempty"`
-	Any  *bool                                    `json:"any"`
+	Any  *bool                                    `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceDailyMessagingActivityFilterInput.All, and is useful for accessing the field via an interface.
@@ -9976,7 +9976,7 @@ type ListFilterInputTypeOfDeviceFilterInput struct {
 	All  *DeviceFilterInput `json:"all,omitempty"`
 	None *DeviceFilterInput `json:"none,omitempty"`
 	Some *DeviceFilterInput `json:"some,omitempty"`
-	Any  *bool              `json:"any"`
+	Any  *bool              `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceFilterInput.All, and is useful for accessing the field via an interface.
@@ -9995,7 +9995,7 @@ type ListFilterInputTypeOfDeviceInstallStateFilterInput struct {
 	All  *DeviceInstallStateFilterInput `json:"all,omitempty"`
 	None *DeviceInstallStateFilterInput `json:"none,omitempty"`
 	Some *DeviceInstallStateFilterInput `json:"some,omitempty"`
-	Any  *bool                          `json:"any"`
+	Any  *bool                          `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceInstallStateFilterInput.All, and is useful for accessing the field via an interface.
@@ -10020,7 +10020,7 @@ type ListFilterInputTypeOfDeviceModelFilterInput struct {
 	All  *DeviceModelFilterInput `json:"all,omitempty"`
 	None *DeviceModelFilterInput `json:"none,omitempty"`
 	Some *DeviceModelFilterInput `json:"some,omitempty"`
-	Any  *bool                   `json:"any"`
+	Any  *bool                   `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceModelFilterInput.All, and is useful for accessing the field via an interface.
@@ -10043,7 +10043,7 @@ type ListFilterInputTypeOfDeviceModelRevisionBridgeAppFilterInput struct {
 	All  *DeviceModelRevisionBridgeAppFilterInput `json:"all,omitempty"`
 	None *DeviceModelRevisionBridgeAppFilterInput `json:"none,omitempty"`
 	Some *DeviceModelRevisionBridgeAppFilterInput `json:"some,omitempty"`
-	Any  *bool                                    `json:"any"`
+	Any  *bool                                    `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceModelRevisionBridgeAppFilterInput.All, and is useful for accessing the field via an interface.
@@ -10068,7 +10068,7 @@ type ListFilterInputTypeOfDeviceModelRevisionFilterInput struct {
 	All  *DeviceModelRevisionFilterInput `json:"all,omitempty"`
 	None *DeviceModelRevisionFilterInput `json:"none,omitempty"`
 	Some *DeviceModelRevisionFilterInput `json:"some,omitempty"`
-	Any  *bool                           `json:"any"`
+	Any  *bool                           `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceModelRevisionFilterInput.All, and is useful for accessing the field via an interface.
@@ -10093,7 +10093,7 @@ type ListFilterInputTypeOfDeviceSnapFilterInput struct {
 	All  *DeviceSnapFilterInput `json:"all,omitempty"`
 	None *DeviceSnapFilterInput `json:"none,omitempty"`
 	Some *DeviceSnapFilterInput `json:"some,omitempty"`
-	Any  *bool                  `json:"any"`
+	Any  *bool                  `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfDeviceSnapFilterInput.All, and is useful for accessing the field via an interface.
@@ -10162,7 +10162,7 @@ type ListFilterInputTypeOfEdgeDeviceFilterInput struct {
 	All  *EdgeDeviceFilterInput `json:"all,omitempty"`
 	None *EdgeDeviceFilterInput `json:"none,omitempty"`
 	Some *EdgeDeviceFilterInput `json:"some,omitempty"`
-	Any  *bool                  `json:"any"`
+	Any  *bool                  `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfEdgeDeviceFilterInput.All, and is useful for accessing the field via an interface.
@@ -10181,7 +10181,7 @@ type ListFilterInputTypeOfEdgeDeviceInstallStateFilterInput struct {
 	All  *EdgeDeviceInstallStateFilterInput `json:"all,omitempty"`
 	None *EdgeDeviceInstallStateFilterInput `json:"none,omitempty"`
 	Some *EdgeDeviceInstallStateFilterInput `json:"some,omitempty"`
-	Any  *bool                              `json:"any"`
+	Any  *bool                              `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfEdgeDeviceInstallStateFilterInput.All, and is useful for accessing the field via an interface.
@@ -10206,7 +10206,7 @@ type ListFilterInputTypeOfEdgeDeviceModelBridgeSnapDeclarationFilterInput struct
 	All  *EdgeDeviceModelBridgeSnapDeclarationFilterInput `json:"all,omitempty"`
 	None *EdgeDeviceModelBridgeSnapDeclarationFilterInput `json:"none,omitempty"`
 	Some *EdgeDeviceModelBridgeSnapDeclarationFilterInput `json:"some,omitempty"`
-	Any  *bool                                            `json:"any"`
+	Any  *bool                                            `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfEdgeDeviceModelBridgeSnapDeclarationFilterInput.All, and is useful for accessing the field via an interface.
@@ -10283,7 +10283,7 @@ type ListFilterInputTypeOfFleetAdministratorFilterInput struct {
 	All  *FleetAdministratorFilterInput `json:"all,omitempty"`
 	None *FleetAdministratorFilterInput `json:"none,omitempty"`
 	Some *FleetAdministratorFilterInput `json:"some,omitempty"`
-	Any  *bool                          `json:"any"`
+	Any  *bool                          `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfFleetAdministratorFilterInput.All, and is useful for accessing the field via an interface.
@@ -10308,7 +10308,7 @@ type ListFilterInputTypeOfFleetBridgeSnapRevisionFilterInput struct {
 	All  *FleetBridgeSnapRevisionFilterInput `json:"all,omitempty"`
 	None *FleetBridgeSnapRevisionFilterInput `json:"none,omitempty"`
 	Some *FleetBridgeSnapRevisionFilterInput `json:"some,omitempty"`
-	Any  *bool                               `json:"any"`
+	Any  *bool                               `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfFleetBridgeSnapRevisionFilterInput.All, and is useful for accessing the field via an interface.
@@ -10333,7 +10333,7 @@ type ListFilterInputTypeOfFleetFilterInput struct {
 	All  *FleetFilterInput `json:"all,omitempty"`
 	None *FleetFilterInput `json:"none,omitempty"`
 	Some *FleetFilterInput `json:"some,omitempty"`
-	Any  *bool             `json:"any"`
+	Any  *bool             `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfFleetFilterInput.All, and is useful for accessing the field via an interface.
@@ -10352,7 +10352,7 @@ type ListFilterInputTypeOfSnapDeclarationFilterInput struct {
 	All  *SnapDeclarationFilterInput `json:"all,omitempty"`
 	None *SnapDeclarationFilterInput `json:"none,omitempty"`
 	Some *SnapDeclarationFilterInput `json:"some,omitempty"`
-	Any  *bool                       `json:"any"`
+	Any  *bool                       `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfSnapDeclarationFilterInput.All, and is useful for accessing the field via an interface.
@@ -10377,7 +10377,7 @@ type ListFilterInputTypeOfSnapDeltaFilterInput struct {
 	All  *SnapDeltaFilterInput `json:"all,omitempty"`
 	None *SnapDeltaFilterInput `json:"none,omitempty"`
 	Some *SnapDeltaFilterInput `json:"some,omitempty"`
-	Any  *bool                 `json:"any"`
+	Any  *bool                 `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfSnapDeltaFilterInput.All, and is useful for accessing the field via an interface.
@@ -10396,7 +10396,7 @@ type ListFilterInputTypeOfSnapRevisionFilterInput struct {
 	All  *SnapRevisionFilterInput `json:"all,omitempty"`
 	None *SnapRevisionFilterInput `json:"none,omitempty"`
 	Some *SnapRevisionFilterInput `json:"some,omitempty"`
-	Any  *bool                    `json:"any"`
+	Any  *bool                    `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfSnapRevisionFilterInput.All, and is useful for accessing the field via an interface.
@@ -10421,7 +10421,7 @@ type ListFilterInputTypeOfStoreSettingFilterInput struct {
 	All  *StoreSettingFilterInput `json:"all,omitempty"`
 	None *StoreSettingFilterInput `json:"none,omitempty"`
 	Some *StoreSettingFilterInput `json:"some,omitempty"`
-	Any  *bool                    `json:"any"`
+	Any  *bool                    `json:"any,omitempty"`
 }
 
 // GetAll returns ListFilterInputTypeOfStoreSettingFilterInput.All, and is useful for accessing the field via an interface.
@@ -10488,6 +10488,7 @@ type ModifyDeviceUpdateDevicesDevice struct {
 	SerialNumber      string  `json:"serialNumber"`
 	Description       *string `json:"description"`
 	IsDeviceActivated bool    `json:"isDeviceActivated"`
+	IsUpdateActivated bool    `json:"isUpdateActivated"`
 }
 
 // GetId returns ModifyDeviceUpdateDevicesDevice.Id, and is useful for accessing the field via an interface.
@@ -10504,6 +10505,9 @@ func (v *ModifyDeviceUpdateDevicesDevice) GetDescription() *string { return v.De
 
 // GetIsDeviceActivated returns ModifyDeviceUpdateDevicesDevice.IsDeviceActivated, and is useful for accessing the field via an interface.
 func (v *ModifyDeviceUpdateDevicesDevice) GetIsDeviceActivated() bool { return v.IsDeviceActivated }
+
+// GetIsUpdateActivated returns ModifyDeviceUpdateDevicesDevice.IsUpdateActivated, and is useful for accessing the field via an interface.
+func (v *ModifyDeviceUpdateDevicesDevice) GetIsUpdateActivated() bool { return v.IsUpdateActivated }
 
 // SetDeviceDeploymentGroupResponse is returned by SetDeviceDeploymentGroup on success.
 type SetDeviceDeploymentGroupResponse struct {
@@ -11460,10 +11464,10 @@ var AllUplinkMode = []UplinkMode{
 }
 
 type UplinkModeOperationFilterInput struct {
-	Eq  *UplinkMode  `json:"eq"`
-	Neq *UplinkMode  `json:"neq"`
-	In  []UplinkMode `json:"in"`
-	Nin []UplinkMode `json:"nin"`
+	Eq  *UplinkMode  `json:"eq,omitempty"`
+	Neq *UplinkMode  `json:"neq,omitempty"`
+	In  []UplinkMode `json:"in,omitempty"`
+	Nin []UplinkMode `json:"nin,omitempty"`
 }
 
 // GetEq returns UplinkModeOperationFilterInput.Eq, and is useful for accessing the field via an interface.
@@ -11980,10 +11984,11 @@ func (v *__InitiateAppRevisionUploadInput) GetInput() *AppRevisionInitiateUpload
 
 // __ModifyDeviceInput is used internally by genqlient
 type __ModifyDeviceInput struct {
-	DeviceId          string  `json:"deviceId"`
-	DeviceName        *string `json:"deviceName"`
-	DeviceDescription *string `json:"deviceDescription"`
-	DeviceActivated   *bool   `json:"deviceActivated"`
+	DeviceId              string  `json:"deviceId"`
+	DeviceName            *string `json:"deviceName"`
+	DeviceDescription     *string `json:"deviceDescription"`
+	DeviceActivated       *bool   `json:"deviceActivated"`
+	DeviceUpdateActivated *bool   `json:"deviceUpdateActivated"`
 }
 
 // GetDeviceId returns __ModifyDeviceInput.DeviceId, and is useful for accessing the field via an interface.
@@ -11997,6 +12002,9 @@ func (v *__ModifyDeviceInput) GetDeviceDescription() *string { return v.DeviceDe
 
 // GetDeviceActivated returns __ModifyDeviceInput.DeviceActivated, and is useful for accessing the field via an interface.
 func (v *__ModifyDeviceInput) GetDeviceActivated() *bool { return v.DeviceActivated }
+
+// GetDeviceUpdateActivated returns __ModifyDeviceInput.DeviceUpdateActivated, and is useful for accessing the field via an interface.
+func (v *__ModifyDeviceInput) GetDeviceUpdateActivated() *bool { return v.DeviceUpdateActivated }
 
 // __SetDeviceDeploymentGroupInput is used internally by genqlient
 type __SetDeviceDeploymentGroupInput struct {
@@ -14429,6 +14437,8 @@ type getDeviceInfoBasicDevice struct {
 	SerialNumber        string                                                     `json:"serialNumber"`
 	DeviceName          *string                                                    `json:"deviceName"`
 	Description         *string                                                    `json:"description"`
+	IsDeviceActivated   bool                                                       `json:"isDeviceActivated"`
+	IsUpdateActivated   bool                                                       `json:"isUpdateActivated"`
 	DeviceStatus        *getDeviceInfoBasicDeviceDeviceStatus                      `json:"deviceStatus"`
 	DeviceModelRevision *getDeviceInfoBasicDeviceDeviceModelRevision               `json:"deviceModelRevision"`
 	PendingActions      *getDeviceInfoBasicDevicePendingActionsDevicePendingAction `json:"pendingActions"`
@@ -14450,6 +14460,12 @@ func (v *getDeviceInfoBasicDevice) GetDeviceName() *string { return v.DeviceName
 
 // GetDescription returns getDeviceInfoBasicDevice.Description, and is useful for accessing the field via an interface.
 func (v *getDeviceInfoBasicDevice) GetDescription() *string { return v.Description }
+
+// GetIsDeviceActivated returns getDeviceInfoBasicDevice.IsDeviceActivated, and is useful for accessing the field via an interface.
+func (v *getDeviceInfoBasicDevice) GetIsDeviceActivated() bool { return v.IsDeviceActivated }
+
+// GetIsUpdateActivated returns getDeviceInfoBasicDevice.IsUpdateActivated, and is useful for accessing the field via an interface.
+func (v *getDeviceInfoBasicDevice) GetIsUpdateActivated() bool { return v.IsUpdateActivated }
 
 // GetDeviceStatus returns getDeviceInfoBasicDevice.DeviceStatus, and is useful for accessing the field via an interface.
 func (v *getDeviceInfoBasicDevice) GetDeviceStatus() *getDeviceInfoBasicDeviceDeviceStatus {
@@ -18885,13 +18901,14 @@ func InitiateAppRevisionUpload(
 
 // The mutation executed by ModifyDevice.
 const ModifyDevice_Operation = `
-mutation ModifyDevice ($deviceId: UUID!, $deviceName: String, $deviceDescription: String, $deviceActivated: Boolean) {
-	updateDevices(devices: [{id:$deviceId,deviceName:$deviceName,description:$deviceDescription,isDeviceActivated:$deviceActivated}]) {
+mutation ModifyDevice ($deviceId: UUID!, $deviceName: String, $deviceDescription: String, $deviceActivated: Boolean, $deviceUpdateActivated: Boolean) {
+	updateDevices(devices: [{id:$deviceId,deviceName:$deviceName,description:$deviceDescription,isDeviceActivated:$deviceActivated,isUpdateActivated:$deviceUpdateActivated}]) {
 		id
 		deviceName
 		serialNumber
 		description
 		isDeviceActivated
+		isUpdateActivated
 	}
 }
 `
@@ -18902,15 +18919,17 @@ func ModifyDevice(
 	deviceName *string,
 	deviceDescription *string,
 	deviceActivated *bool,
+	deviceUpdateActivated *bool,
 ) (data_ *ModifyDeviceResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "ModifyDevice",
 		Query:  ModifyDevice_Operation,
 		Variables: &__ModifyDeviceInput{
-			DeviceId:          deviceId,
-			DeviceName:        deviceName,
-			DeviceDescription: deviceDescription,
-			DeviceActivated:   deviceActivated,
+			DeviceId:              deviceId,
+			DeviceName:            deviceName,
+			DeviceDescription:     deviceDescription,
+			DeviceActivated:       deviceActivated,
+			DeviceUpdateActivated: deviceUpdateActivated,
 		},
 	}
 	var client_ graphql.Client
@@ -20421,6 +20440,8 @@ query getDeviceInfoBasic ($id: UUID!) {
 		serialNumber
 		deviceName
 		description
+		isDeviceActivated
+		isUpdateActivated
 		deviceStatus {
 			lastAppstoreActivity
 			lastMessagingActivity

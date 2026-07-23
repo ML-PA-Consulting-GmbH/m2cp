@@ -19,9 +19,9 @@ var pushCmd = &cobra.Command{
 }
 
 type pushOutput struct {
-	version      string
-	revision     int
-	ratingResult string
+	Version      string `json:"version"`
+	Revision     int    `json:"revision"`
+	RatingResult string `json:"ratingResult,omitempty"`
 }
 
 func init() {
@@ -76,16 +76,16 @@ func runPushCmd(cmd *cobra.Command, args []string) error {
 	}
 
 	output := pushOutput{
-		version:  completeResponse.CompleteAppRevisionUpload.Version,
-		revision: completeResponse.CompleteAppRevisionUpload.Revision,
+		Version:  completeResponse.CompleteAppRevisionUpload.Version,
+		Revision: completeResponse.CompleteAppRevisionUpload.Revision,
 	}
 
 	if ratingErr == nil && descriptionErr == nil {
 		err := backend.SetAppRevisionRating(cmd.Context(), completeResponse.CompleteAppRevisionUpload.Id, rating, description)
 		if err != nil {
-			output.ratingResult = fmt.Sprintf("rating to '%s' failed: %s", rating, err.Error())
+			output.RatingResult = fmt.Sprintf("rating to '%s' failed: %s", rating, err.Error())
 		} else {
-			output.ratingResult = fmt.Sprintf("rating to '%s' succeeded", rating)
+			output.RatingResult = fmt.Sprintf("rating to '%s' succeeded", rating)
 		}
 	}
 
@@ -93,5 +93,5 @@ func runPushCmd(cmd *cobra.Command, args []string) error {
 }
 
 func customAppPushFormatter(output pushOutput) (string, error) {
-	return fmt.Sprintf("App pushed successfully. Version: %s, Revision: %d", output.version, output.revision), nil
+	return fmt.Sprintf("App pushed successfully. Version: %s, Revision: %d", output.Version, output.Revision), nil
 }

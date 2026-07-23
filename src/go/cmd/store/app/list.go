@@ -25,17 +25,17 @@ var listCmd = &cobra.Command{
 }
 
 type listOutput struct {
-	items []listOutputItem
+	Items []listOutputItem `json:"items"`
 }
 
 type listOutputItem struct {
-	id           string
-	architecture string
-	appTypeName  string
-	appName      string
-	tenantAlias  string
-	description  string
-	shared       string
+	Id           string `json:"id"`
+	Architecture string `json:"architecture"`
+	AppTypeName  string `json:"appType"`
+	AppName      string `json:"appName"`
+	TenantAlias  string `json:"tenant"`
+	Description  string `json:"description"`
+	Shared       string `json:"shared"`
 }
 
 func init() {
@@ -132,12 +132,12 @@ func runListCmd(cmd *cobra.Command, args []string) error {
 		if result.Apps != nil && result.Apps.Items != nil && len(result.Apps.Items) > 0 {
 			for _, item := range result.Apps.Items {
 				items = append(items, listOutputItem{
-					id:           item.Id,
-					architecture: strings.ToLower(string(item.Architecture)),
-					appTypeName:  getAppTypeName(item.DeviceTypeId),
-					appName:      item.AppName,
-					tenantAlias:  item.Tenant.Alias,
-					description:  item.Description,
+					Id:           item.Id,
+					Architecture: strings.ToLower(string(item.Architecture)),
+					AppTypeName:  getAppTypeName(item.DeviceTypeId),
+					AppName:      item.AppName,
+					TenantAlias:  item.Tenant.Alias,
+					Description:  item.Description,
 				})
 			}
 		} else {
@@ -150,7 +150,7 @@ func runListCmd(cmd *cobra.Command, args []string) error {
 
 	appIds := make([]string, len(items))
 	for i, item := range items {
-		appIds[i] = item.id
+		appIds[i] = item.Id
 	}
 
 	sharedStatus, sharedSupported, err := backend.GetAppsGlobalShareStatus(cmd.Context(), appIds)
@@ -160,22 +160,22 @@ func runListCmd(cmd *cobra.Command, args []string) error {
 	for i := range items {
 		switch {
 		case !sharedSupported:
-			items[i].shared = "n/a"
-		case sharedStatus[items[i].id]:
-			items[i].shared = "true"
+			items[i].Shared = "n/a"
+		case sharedStatus[items[i].Id]:
+			items[i].Shared = "true"
 		default:
-			items[i].shared = "false"
+			items[i].Shared = "false"
 		}
 	}
 
 	output := listOutput{
-		items: items,
+		Items: items,
 	}
 	return format.PrintFormattedOutput(cmd, output, customAppListFormatter)
 }
 
 func customAppListFormatter(result listOutput) (string, error) {
-	items := result.items
+	items := result.Items
 
 	table := format.NewTable(map[string]string{
 		"id":           "Id",
@@ -189,13 +189,13 @@ func customAppListFormatter(result listOutput) (string, error) {
 
 	for _, item := range items {
 		table.AddRow(map[string]string{
-			"id":           item.id,
-			"architecture": item.architecture,
-			"appTypeName":  item.appTypeName,
-			"appName":      item.appName,
-			"tenantAlias":  item.tenantAlias,
-			"description":  strings.TrimSpace(tools.ShortenRight(item.description, 40)),
-			"shared":       item.shared,
+			"id":           item.Id,
+			"architecture": item.Architecture,
+			"appTypeName":  item.AppTypeName,
+			"appName":      item.AppName,
+			"tenantAlias":  item.TenantAlias,
+			"description":  strings.TrimSpace(tools.ShortenRight(item.Description, 40)),
+			"shared":       item.Shared,
 		})
 	}
 

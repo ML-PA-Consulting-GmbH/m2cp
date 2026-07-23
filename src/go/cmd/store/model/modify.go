@@ -22,10 +22,11 @@ func init() {
 	ModelCmd.AddCommand(modifyCmd)
 	modifyCmd.Flags().String("tpm", "false", "if the model requires a Trusted Platform Module (TPM) (true or false)")
 	modifyCmd.Flags().String("pre-reg", "false", "if the model requires hardware pre-registration (true or false)")
+	modifyCmd.Flags().String("provisioning-claim", "false", "if the model requires a device provisioning claim (true or false); requires backend >= 5.2.0")
 }
 
 type ModelModifyResult struct {
-	Response *backend.UpdateDeviceModelRevisionResponse
+	Response *backend.DeviceModelRevisionUpdateResult
 }
 
 func runModifyCmd(cmd *cobra.Command, args []string) error {
@@ -34,6 +35,7 @@ func runModifyCmd(cmd *cobra.Command, args []string) error {
 
 	var isTpmRequired *bool
 	var isPreRegistrationRequired *bool
+	var isDeviceProvisioningClaimRequired *bool
 
 	if cmd.Flags().Changed("tpm") {
 		var tpm string
@@ -65,7 +67,22 @@ func runModifyCmd(cmd *cobra.Command, args []string) error {
 		isPreRegistrationRequired = &value
 	}
 
-	result, err := backend.UpdateDeviceModelRevision(cmd.Context(), deviceModelRevisionId, isTpmRequired, isPreRegistrationRequired)
+	if cmd.Flags().Changed("provisioning-claim") {
+		var provisioningClaim string
+		provisioningClaim, err = cmd.Flags().GetString("provisioning-claim")
+		if err != nil {
+			return err
+		}
+
+		value, err := strconv.ParseBool(provisioningClaim)
+		if err != nil {
+			return err
+		}
+
+		isDeviceProvisioningClaimRequired = &value
+	}
+
+	result, err := backend.UpdateDeviceModelRevision(cmd.Context(), deviceModelRevisionId, isTpmRequired, isPreRegistrationRequired, isDeviceProvisioningClaimRequired)
 	if err != nil {
 		return err
 	}

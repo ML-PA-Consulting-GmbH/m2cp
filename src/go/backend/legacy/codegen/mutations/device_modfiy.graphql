@@ -2,14 +2,16 @@ mutation ModifyDevice(
   $deviceId: UUID!,
   $deviceName: String,
   $deviceDescription: String,
-  $deviceActivated: Boolean
+  $deviceActivated: Boolean,
+  $deviceUpdateActivated: Boolean
 ) {
   updateDevices(
     devices: [{
       id: $deviceId,
       deviceName: $deviceName,
       description: $deviceDescription,
-      isDeviceActivated: $deviceActivated
+      isDeviceActivated: $deviceActivated,
+      isUpdateActivated: $deviceUpdateActivated
     }]
   ) {
     id
@@ -17,5 +19,6 @@ mutation ModifyDevice(
     serialNumber
     description
     isDeviceActivated
+    isUpdateActivated
   }
 }

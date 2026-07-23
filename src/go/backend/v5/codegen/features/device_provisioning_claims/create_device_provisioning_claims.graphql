@@ -1,0 +1,10 @@
+mutation CreateDeviceProvisioningClaims($claims: [DeviceProvisioningClaimCreateInput!]!) {
+    createDeviceProvisioningClaims(deviceProvisioningClaims: $claims) {
+        id
+        deviceId
+        token
+        expiresAt
+        consumedAt
+        createdAt
+    }
+}

@@ -37,6 +37,9 @@ type SnapRevisionRow struct {
 type InfoResult struct {
 	DeviceModelRevision *backend.GetDeviceModelRevisionInfoByIdResponse `json:"device_model_revision,omitempty"`
 	IsGloballyShared    *bool                                           `json:"is_globally_shared,omitempty"`
+	// IsDeviceProvisioningClaimRequired is nil on backends older than 5.2.0,
+	// which do not expose the field.
+	IsDeviceProvisioningClaimRequired *bool `json:"is_device_provisioning_claim_required,omitempty"`
 }
 
 func extractSnapDeclarations(bridge []gql.EdgeDeviceModelBridgeSnapDeclaration) []gql.SnapDeclaration {
@@ -71,9 +74,15 @@ func runInfoCmd(cmd *cobra.Command, args []string) error {
 		}
 	}
 
+	provisioningClaimRequired, err := backend.GetDeviceModelRevisionProvisioningClaim(cmd.Context(), string(modelId))
+	if err != nil {
+		return err
+	}
+
 	modelInfoResult := InfoResult{
-		DeviceModelRevision: deviceModelRevision,
-		IsGloballyShared:    isGloballyShared,
+		DeviceModelRevision:               deviceModelRevision,
+		IsGloballyShared:                  isGloballyShared,
+		IsDeviceProvisioningClaimRequired: provisioningClaimRequired,
 	}
 
 	return format.PrintFormattedOutput(cmd, modelInfoResult, customModelInfoFormatter)
@@ -88,6 +97,9 @@ func customModelInfoFormatter(res InfoResult) (string, error) {
 	info.Add("Architecture", strings.ToLower(string(res.DeviceModelRevision.DeviceModelRevision.DeviceModel.Architecture)))
 	info.Add("TPM required", strconv.FormatBool(res.DeviceModelRevision.DeviceModelRevision.IsTpmRequired))
 	info.Add("Pre-Registration required", strconv.FormatBool(res.DeviceModelRevision.DeviceModelRevision.IsPreRegistrationRequired))
+	if res.IsDeviceProvisioningClaimRequired != nil {
+		info.Add("Provisioning Claim required", strconv.FormatBool(*res.IsDeviceProvisioningClaimRequired))
+	}
 	info.Add("Upload Message", res.DeviceModelRevision.DeviceModelRevision.UploadMessage)
 	if res.IsGloballyShared != nil {
 		info.Add("Globally Shared", strconv.FormatBool(*res.IsGloballyShared))
