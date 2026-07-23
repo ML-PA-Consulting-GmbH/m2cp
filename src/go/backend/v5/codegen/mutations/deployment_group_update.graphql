@@ -1,0 +1,23 @@
+# @genqlient(omitempty: true)
+mutation UpdateDeploymentGroup(
+    $id: UUID!
+    $name: String
+    $description: String
+    $autoUpdateModeId: UUID
+    $isDeltaUpdateOnly: Boolean
+) {
+    updateDeploymentGroups(
+        deploymentGroups: [
+            {
+                id: $id
+                name: $name
+                description: $description
+                autoUpdateModeId: $autoUpdateModeId
+                isDeltaUpdateOnly: $isDeltaUpdateOnly
+            }
+        ]
+    ) {
+        id
+        isDeltaUpdateOnly
+    }
+}

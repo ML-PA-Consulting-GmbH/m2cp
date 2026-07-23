@@ -3,6 +3,7 @@ package backend
 import (
 	"context"
 	"m2cpcli/backend/legacy"
+	"m2cpcli/backend/v5"
 	"m2cpcli/structs"
 )
 
@@ -29,7 +30,7 @@ func GetAutoUpdateModeNameById(autoUpdateModeId string) string {
 }
 
 func GetDeploymentGroupByNameOrId(ctx context.Context, arg string) (*structs.DeploymentGroup, error) {
-	return legacy.GetDeploymentGroupByNameOrId(ctx, arg)
+	return v5.GetDeploymentGroupByNameOrId(ctx, arg)
 }
 
 func GetDeploymentGroupAppRevision(ctx context.Context, dgroupId, appId string) (*structs.DeploymentGroupAppRevision, error) {
@@ -86,6 +87,6 @@ func GetFleetIdByName(ctx context.Context, name string) (*legacy.GetFleetIdByNam
 	return legacy.GetFleetIdByName(ctx, name)
 }
 
-func UpdateFleet(ctx context.Context, id string, name *string, description *string, autoUpdateModeId *string) (*legacy.UpdateFleetResponse, error) {
-	return legacy.UpdateFleet(ctx, id, name, description, autoUpdateModeId)
+func UpdateDeploymentGroup(ctx context.Context, id string, name *string, description *string, autoUpdateModeId *string, isDeltaUpdateOnly *bool) (*v5.UpdateDeploymentGroupResponse, error) {
+	return v5.UpdateDeploymentGroup(ctx, id, name, description, autoUpdateModeId, isDeltaUpdateOnly)
 }

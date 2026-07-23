@@ -3,6 +3,7 @@ query getDeploymentGroupById($id: UUID) {
    items {
      id
      name
+     isDeltaUpdateOnly
      deviceModelRevision {
        id
        deviceModel {

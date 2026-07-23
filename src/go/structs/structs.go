@@ -221,6 +221,7 @@ type DeploymentGroup struct {
 	ModelRevision       *DeviceModelRevision
 	PendingActionsTotal int
 	AutoUpdate          string
+	IsDeltaUpdateOnly   bool
 }
 
 type DevicePendingAction struct {

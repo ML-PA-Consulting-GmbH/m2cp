@@ -13052,26 +13052,32 @@ func (v *UpdateFleetBridgeSnapRevisionUpdateFleetBridgeSnapRevisionsFleetBridgeS
 	return v.Id
 }
 
-// UpdateFleetResponse is returned by UpdateFleet on success.
-type UpdateFleetResponse struct {
-	UpdateFleets []*UpdateFleetUpdateFleetsFleet `json:"updateFleets"`
+// UpdateDeploymentGroupResponse is returned by UpdateDeploymentGroup on success.
+type UpdateDeploymentGroupResponse struct {
+	UpdateDeploymentGroups []*UpdateDeploymentGroupUpdateDeploymentGroupsDeploymentGroup `json:"updateDeploymentGroups"`
 }
 
-// GetUpdateFleets returns UpdateFleetResponse.UpdateFleets, and is useful for accessing the field via an interface.
-func (v *UpdateFleetResponse) GetUpdateFleets() []*UpdateFleetUpdateFleetsFleet {
-	return v.UpdateFleets
+// GetUpdateDeploymentGroups returns UpdateDeploymentGroupResponse.UpdateDeploymentGroups, and is useful for accessing the field via an interface.
+func (v *UpdateDeploymentGroupResponse) GetUpdateDeploymentGroups() []*UpdateDeploymentGroupUpdateDeploymentGroupsDeploymentGroup {
+	return v.UpdateDeploymentGroups
 }
 
-// UpdateFleetUpdateFleetsFleet includes the requested fields of the GraphQL type Fleet.
+// UpdateDeploymentGroupUpdateDeploymentGroupsDeploymentGroup includes the requested fields of the GraphQL type DeploymentGroup.
 // The GraphQL type's documentation follows.
 //
 // I am a generated type!
-type UpdateFleetUpdateFleetsFleet struct {
-	Id string `json:"id"`
+type UpdateDeploymentGroupUpdateDeploymentGroupsDeploymentGroup struct {
+	Id                string `json:"id"`
+	IsDeltaUpdateOnly bool   `json:"isDeltaUpdateOnly"`
 }
 
-// GetId returns UpdateFleetUpdateFleetsFleet.Id, and is useful for accessing the field via an interface.
-func (v *UpdateFleetUpdateFleetsFleet) GetId() string { return v.Id }
+// GetId returns UpdateDeploymentGroupUpdateDeploymentGroupsDeploymentGroup.Id, and is useful for accessing the field via an interface.
+func (v *UpdateDeploymentGroupUpdateDeploymentGroupsDeploymentGroup) GetId() string { return v.Id }
+
+// GetIsDeltaUpdateOnly returns UpdateDeploymentGroupUpdateDeploymentGroupsDeploymentGroup.IsDeltaUpdateOnly, and is useful for accessing the field via an interface.
+func (v *UpdateDeploymentGroupUpdateDeploymentGroupsDeploymentGroup) GetIsDeltaUpdateOnly() bool {
+	return v.IsDeltaUpdateOnly
+}
 
 // UpdateSnapRevisionStatusResponse is returned by UpdateSnapRevisionStatus on success.
 type UpdateSnapRevisionStatusResponse struct {
@@ -14311,25 +14317,29 @@ func (v *__UpdateFleetBridgeSnapRevisionInput) GetId() string { return v.Id }
 // GetSnapRevisionId returns __UpdateFleetBridgeSnapRevisionInput.SnapRevisionId, and is useful for accessing the field via an interface.
 func (v *__UpdateFleetBridgeSnapRevisionInput) GetSnapRevisionId() string { return v.SnapRevisionId }
 
-// __UpdateFleetInput is used internally by genqlient
-type __UpdateFleetInput struct {
-	Id                    string  `json:"id,omitempty"`
-	FleetName             *string `json:"fleetName,omitempty"`
-	Description           *string `json:"description,omitempty"`
-	FleetAutoUpdateModeId *string `json:"fleetAutoUpdateModeId,omitempty"`
+// __UpdateDeploymentGroupInput is used internally by genqlient
+type __UpdateDeploymentGroupInput struct {
+	Id                string  `json:"id,omitempty"`
+	Name              *string `json:"name,omitempty"`
+	Description       *string `json:"description,omitempty"`
+	AutoUpdateModeId  *string `json:"autoUpdateModeId,omitempty"`
+	IsDeltaUpdateOnly *bool   `json:"isDeltaUpdateOnly,omitempty"`
 }
 
-// GetId returns __UpdateFleetInput.Id, and is useful for accessing the field via an interface.
-func (v *__UpdateFleetInput) GetId() string { return v.Id }
+// GetId returns __UpdateDeploymentGroupInput.Id, and is useful for accessing the field via an interface.
+func (v *__UpdateDeploymentGroupInput) GetId() string { return v.Id }
 
-// GetFleetName returns __UpdateFleetInput.FleetName, and is useful for accessing the field via an interface.
-func (v *__UpdateFleetInput) GetFleetName() *string { return v.FleetName }
+// GetName returns __UpdateDeploymentGroupInput.Name, and is useful for accessing the field via an interface.
+func (v *__UpdateDeploymentGroupInput) GetName() *string { return v.Name }
 
-// GetDescription returns __UpdateFleetInput.Description, and is useful for accessing the field via an interface.
-func (v *__UpdateFleetInput) GetDescription() *string { return v.Description }
+// GetDescription returns __UpdateDeploymentGroupInput.Description, and is useful for accessing the field via an interface.
+func (v *__UpdateDeploymentGroupInput) GetDescription() *string { return v.Description }
 
-// GetFleetAutoUpdateModeId returns __UpdateFleetInput.FleetAutoUpdateModeId, and is useful for accessing the field via an interface.
-func (v *__UpdateFleetInput) GetFleetAutoUpdateModeId() *string { return v.FleetAutoUpdateModeId }
+// GetAutoUpdateModeId returns __UpdateDeploymentGroupInput.AutoUpdateModeId, and is useful for accessing the field via an interface.
+func (v *__UpdateDeploymentGroupInput) GetAutoUpdateModeId() *string { return v.AutoUpdateModeId }
+
+// GetIsDeltaUpdateOnly returns __UpdateDeploymentGroupInput.IsDeltaUpdateOnly, and is useful for accessing the field via an interface.
+func (v *__UpdateDeploymentGroupInput) GetIsDeltaUpdateOnly() *bool { return v.IsDeltaUpdateOnly }
 
 // __UpdateSnapRevisionStatusInput is used internally by genqlient
 type __UpdateSnapRevisionStatusInput struct {
@@ -16006,6 +16016,7 @@ func (v *getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegment)
 type getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroup struct {
 	Id                                string                                                                                                                                                         `json:"id"`
 	Name                              string                                                                                                                                                         `json:"name"`
+	IsDeltaUpdateOnly                 bool                                                                                                                                                           `json:"isDeltaUpdateOnly"`
 	DeviceModelRevision               *getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroupDeviceModelRevision                                                 `json:"deviceModelRevision"`
 	AutoUpdateMode                    *getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroupAutoUpdateMode                                                      `json:"autoUpdateMode"`
 	DeploymentGroupAdministrators     []*getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroupDeploymentGroupAdministratorsDeploymentGroupAdministrator         `json:"deploymentGroupAdministrators"`
@@ -16023,6 +16034,11 @@ func (v *getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentI
 // GetName returns getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroup.Name, and is useful for accessing the field via an interface.
 func (v *getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroup) GetName() string {
 	return v.Name
+}
+
+// GetIsDeltaUpdateOnly returns getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroup.IsDeltaUpdateOnly, and is useful for accessing the field via an interface.
+func (v *getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroup) GetIsDeltaUpdateOnly() bool {
+	return v.IsDeltaUpdateOnly
 }
 
 // GetDeviceModelRevision returns getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroup.DeviceModelRevision, and is useful for accessing the field via an interface.
@@ -21968,30 +21984,33 @@ func UpdateDeviceModelRevision(
 	return data_, err_
 }
 
-// The mutation executed by UpdateFleet.
-const UpdateFleet_Operation = `
-mutation UpdateFleet ($id: UUID!, $fleetName: String, $description: String, $fleetAutoUpdateModeId: UUID) {
-	updateFleets(fleets: [{id:$id,fleetName:$fleetName,description:$description,fleetAutoUpdateModeId:$fleetAutoUpdateModeId}]) {
+// The mutation executed by UpdateDeploymentGroup.
+const UpdateDeploymentGroup_Operation = `
+mutation UpdateDeploymentGroup ($id: UUID!, $name: String, $description: String, $autoUpdateModeId: UUID, $isDeltaUpdateOnly: Boolean) {
+	updateDeploymentGroups(deploymentGroups: [{id:$id,name:$name,description:$description,autoUpdateModeId:$autoUpdateModeId,isDeltaUpdateOnly:$isDeltaUpdateOnly}]) {
 		id
+		isDeltaUpdateOnly
 	}
 }
 `
 
-func UpdateFleet(
+func UpdateDeploymentGroup(
 	ctx_ context.Context,
 	id string,
-	fleetName *string,
+	name *string,
 	description *string,
-	fleetAutoUpdateModeId *string,
-) (data_ *UpdateFleetResponse, err_ error) {
+	autoUpdateModeId *string,
+	isDeltaUpdateOnly *bool,
+) (data_ *UpdateDeploymentGroupResponse, err_ error) {
 	req_ := &graphql.Request{
-		OpName: "UpdateFleet",
-		Query:  UpdateFleet_Operation,
-		Variables: &__UpdateFleetInput{
-			Id:                    id,
-			FleetName:             fleetName,
-			Description:           description,
-			FleetAutoUpdateModeId: fleetAutoUpdateModeId,
+		OpName: "UpdateDeploymentGroup",
+		Query:  UpdateDeploymentGroup_Operation,
+		Variables: &__UpdateDeploymentGroupInput{
+			Id:                id,
+			Name:              name,
+			Description:       description,
+			AutoUpdateModeId:  autoUpdateModeId,
+			IsDeltaUpdateOnly: isDeltaUpdateOnly,
 		},
 	}
 	var client_ graphql.Client
@@ -22001,7 +22020,7 @@ func UpdateFleet(
 		return nil, err_
 	}
 
-	data_ = &UpdateFleetResponse{}
+	data_ = &UpdateDeploymentGroupResponse{}
 	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
@@ -22877,6 +22896,7 @@ query getDeploymentGroupById ($id: UUID) {
 		items {
 			id
 			name
+			isDeltaUpdateOnly
 			deviceModelRevision {
 				id
 				deviceModel {

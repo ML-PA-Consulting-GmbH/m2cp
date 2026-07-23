@@ -41,6 +41,7 @@ func customDGroupInfoFormatter(dgroup *structs.DeploymentGroup) (string, error) 
 	dgroupTree.AddLeaf("Id: " + dgroup.Id)
 	dgroupTree.AddLeaf("Name: " + dgroup.Name)
 	dgroupTree.AddLeaf("Auto Update: " + dgroup.AutoUpdate)
+	dgroupTree.AddLeaf("Delta Updates Only: " + tools.BoolToString(dgroup.IsDeltaUpdateOnly, "yes", "no"))
 	dgroupTree.AddLeaf("Description: " + tools.MaybeStringToString(dgroup.Description, "n/a"))
 
 	modelNode := dgroupTree.NewChild("Model")
