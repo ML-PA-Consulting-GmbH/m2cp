@@ -47,12 +47,16 @@ build() {
     docker run --rm -i -v $PWD:/work amake/innosetup ./${INSTALLER_CUSTOMIZED}
     rm ${INSTALLER_CUSTOMIZED}
 
-    # the output file is owned by some other user do to usage of docker - we change the ownership by copying ind overwriting it
-    cp build/m2cp-setup.exe /tmp/m2cp-setup.exe
-    ls -la build
-    chmod 755 build
-    ls -la build
-    mv /tmp/m2cp-setup.exe build/
+    # The installer is written by the docker container as root, so re-create it
+    # as the invoking user. Everything happens inside build/ (never /tmp, which
+    # is shared between users) and every destructive step is forced, so the
+    # build never stops on an interactive "overwrite?" prompt.
+    local tmp_exe
+    tmp_exe=$(mktemp -p build m2cp-setup.exe.XXXXXX)
+    cp -f build/m2cp-setup.exe "${tmp_exe}"
+    rm -f build/m2cp-setup.exe
+    mv -f "${tmp_exe}" build/m2cp-setup.exe
+    chmod 755 build/m2cp-setup.exe
 }
 
 clean

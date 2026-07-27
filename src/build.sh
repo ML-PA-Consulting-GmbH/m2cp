@@ -20,11 +20,11 @@ done
 # Consolidate per-arch outputs under ./bin/ so the librelease wrapper's
 # `mv src/bin/* bin/` and build_release's bin/ collection pick them up.
 mkdir -p bin
-[[ -d go/bin ]] && cp -a go/bin/. bin/
+[[ -d go/bin ]] && cp -af go/bin/. bin/
 for d in go/build/linux-*/; do
   [[ -f "${d}m2cp" ]] || continue
   arch="${d%/}"; arch="${arch##*/linux-}"
   mkdir -p "bin/$arch"
-  cp -a "${d}m2cp" "bin/$arch/m2cp"
+  cp -af "${d}m2cp" "bin/$arch/m2cp"
 done
-[[ -d go/build/win-amd64 ]] && { mkdir -p bin/win-amd64 && cp -a go/build/win-amd64/. bin/win-amd64/; }
+[[ -d go/build/win-amd64 ]] && { mkdir -p bin/win-amd64 && cp -af go/build/win-amd64/. bin/win-amd64/; }

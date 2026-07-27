@@ -66,7 +66,7 @@ build() {
       -ldflags="$ldflags" \
       -o build/win-amd64/${BUILD_ARTIFACT}.exe
     windows/build.sh
-    cp windows/build/m2cp-setup.exe build/win-amd64/
+    cp -f windows/build/m2cp-setup.exe build/win-amd64/
     echo "Created windows installer in build/win-amd64/m2cp-setup.exe"
   else
     # Note, this requires <module path (as in go.mod)>/<package name>.<VariableName>
