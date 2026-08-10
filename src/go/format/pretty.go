@@ -61,13 +61,12 @@ func PrintFormattedOutput[T any](cmd *cobra.Command, originalTree T, formatter f
 	}
 
 	if IsJsonMode() {
-		str, err = AsJsonString(tree)
+		str, err = AsJsonString(newTree)
 		if err != nil {
 			return err
 		}
 	} else {
 		if formatter != nil {
-			// Note: if there is a custom formatter, we print the Task-ID to stderr.
 			str, err = formatter(originalTree)
 			if err != nil {
 				return fmt.Errorf("failed to format the printing")
