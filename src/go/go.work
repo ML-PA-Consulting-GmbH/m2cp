@@ -1,0 +1,6 @@
+go 1.26
+
+// Overwrite the go.work from the grandparent directory to make Goland work
+// still to be used with GOWORK=off to leave dependency management to go.mod/go.sum
+use (
+)
