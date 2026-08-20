@@ -2,7 +2,6 @@ package protobuf
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"m2cp"
 	"m2cp/contextplus"
 	"m2cp/messages"
@@ -13,6 +12,8 @@ import (
 	"strings"
 	"testing"
 	"unicode/utf8"
+
+	"github.com/stretchr/testify/assert"
 )
 
 type OidTest struct {
@@ -91,7 +92,7 @@ func newMockM2cpCoapApp(ctp m2cp.ContextPlus) (app *mockM2cpCoapApp, err error) 
 	app = &mockM2cpCoapApp{
 		ctp:      ctp,
 		oid:      41,
-		sensorId: tools.EncodeSensorId(425),
+		sensorId: tools.EncodeSensorIdTrimmed(425),
 	}
 
 	app.con, err = networks.NewNetworkConnectionWithOptions(ctp, m2cp.NetworkConnectionOptions{

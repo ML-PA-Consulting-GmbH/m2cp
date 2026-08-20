@@ -78,14 +78,11 @@ var timeLayouts = []string{
 }
 
 func TimesSimilar(a, b time.Time, tolerance time.Duration) bool {
-	delta := a.UnixNano() - b.UnixNano()
-	if delta < 0 {
-		delta = -delta
-	}
-	return time.Duration(delta) <= tolerance
+	return a.Sub(b).Abs() <= tolerance
 }
 
 // TimeSystemRunning returns the duration the system has been running - this is a good alternative to system time, as it's not affected by clock time changes.
+// But relatively time-consuming to call.
 func TimeSystemRunning() time.Duration {
 	return timeSystemRunningOS()
 }

@@ -4,10 +4,11 @@ import (
 	"archive/tar"
 	"bytes"
 	"fmt"
-	"gopkg.in/square/go-jose.v2/json"
-	"gopkg.in/yaml.v3"
 	"io"
 	"os"
+
+	"github.com/go-jose/go-jose/v4/json"
+	"gopkg.in/yaml.v3"
 )
 
 type FirmwareMetadata struct {

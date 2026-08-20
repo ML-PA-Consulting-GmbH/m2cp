@@ -201,16 +201,16 @@ func (o *FirmwareDb) loadRevision(revisionPath string, fwt, hwr, fwr int, sensor
 	var revisionRaw []byte
 	revisionRaw, err = os.ReadFile(metaPath)
 	if err != nil {
-		return nil, fmt.Errorf("failed opening meta.json at %s: %s", revisionPath, err.Error())
+		return nil, fmt.Errorf("failed opening meta.json at %s: %w", revisionPath, err)
 	}
 	revision = &Revision{}
 	if err = json.Unmarshal(revisionRaw, &revision); err != nil {
-		return nil, fmt.Errorf("failed parsing meta.json at %s: %s", revisionPath, err.Error()) //
+		return nil, fmt.Errorf("failed parsing meta.json at %s: %w", revisionPath, err) //
 	}
 	revision.path = revisionPath
 	revision.Hashes.Meta, err = revision.sha256(metaPath)
 	if err != nil {
-		return nil, fmt.Errorf("failed calculating hash for meta.json at %s: %s", revisionPath, err.Error())
+		return nil, fmt.Errorf("failed calculating hash for meta.json at %s: %w", revisionPath, err)
 	}
 
 	o.ctp.LogDebug("Checking %s", revision.path)

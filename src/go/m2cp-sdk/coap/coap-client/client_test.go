@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"m2cp"
+	"m2cp/coap"
 	"m2cp/contextplus"
 	"m2cp/tests"
 	"net"
@@ -92,7 +93,7 @@ func (t *TestSuite) TestParseHostPort() {
 
 	for _, tt := range tests {
 		t.T().Run(tt.name, func(t *testing.T) {
-			addrPort, err := parseHostPort(tt.input)
+			addrPort, err := coap.ParseHostPort(tt.input)
 			if tt.wantErr {
 				assert.Error(t, err)
 				return

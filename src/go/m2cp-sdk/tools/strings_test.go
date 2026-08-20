@@ -1,49 +1,75 @@
 package tools
 
 import (
-	"fmt"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-func TestEncodeSensorId(t *testing.T) {
-	const sensorId = uint32(8667)
-	encoded := EncodeSensorId(sensorId)
-	if encoded != "2yE" {
-		t.Errorf("Encoded sensor id is not correct: %s", encoded)
+func TestEncodeAndDecodeHardwareSerial(t *testing.T) {
+	var hardwareSerials = map[uint32]string{
+		uint32(1):         "AQAAAA",
+		uint32(1000):      "6AMAAA",
+		uint32(100000):    "oIYBAA",
+		uint32(1000000):   "QEIPAA",
+		uint32(10000000):  "gJaYAA",
+		uint32(100000000): "AOH1BQ",
+		uint32(10001):     "EScAAA",
+		uint32(10235):     "-ycAAA",
+		uint32(10236):     "_CcAAA",
+		uint32(8667):      "2yEAAA",
+		uint32(9876):      "lCYAAA",
 	}
-	decoded, err := DecodeSensorId(encoded)
-	assert.NoError(t, err)
-	assert.Equal(t, sensorId, decoded)
+	for hardwareSerial, expectedEncoding := range hardwareSerials {
+		actualEncoding := EncodeHardwareSerial(hardwareSerial)
+		assert.Equalf(t, expectedEncoding, actualEncoding, "EncodeHardwareSerial(%d) failed: %s != %s",
+			hardwareSerial, actualEncoding, expectedEncoding)
+
+		decoded, err := DecodeHardwareSerial(actualEncoding)
+		assert.NoError(t, err)
+		assert.Equal(t, hardwareSerial, decoded)
+	}
 }
 
-func TestGenerateEncodedSensorIdsForJakob(t *testing.T) {
-	ids := []uint32{1, 1000, 8667, 9876, 10001, 100000, 1000000, 10000000, 100000000}
-	//ids := []uint32{100000, 1000000, 10000000, 100000000}
-	for _, id := range ids {
-		encoded := EncodeSensorId(id)
-		fmt.Printf("%d %s\n", id, encoded)
-		decoded, err := DecodeSensorId(encoded)
+func TestEncodeSensorIdTrimmed(t *testing.T) {
+	var hardwareSerials = map[uint32]string{
+		uint32(1):         "AQ",
+		uint32(1000):      "6AM",
+		uint32(100000):    "oIYB",
+		uint32(1000000):   "QEIP",
+		uint32(10000000):  "gJaY",
+		uint32(100000000): "AOH1BQ",
+		uint32(10001):     "ESc",
+		uint32(10235):     "-yc",
+		uint32(10236):     "_Cc",
+		uint32(8667):      "2yE",
+		uint32(9876):      "lCY",
+	}
+	for hardwareSerial, expectedEncoding := range hardwareSerials {
+		actualEncoding := EncodeSensorIdTrimmed(hardwareSerial)
+		assert.Equalf(t, expectedEncoding, actualEncoding, "EncodeSensorIdTrimmed(%d) failed: %s != %s",
+			hardwareSerial, actualEncoding, expectedEncoding)
+
+		decoded, err := DecodeHardwareSerial(actualEncoding)
 		assert.NoError(t, err)
-		assert.Equal(t, id, decoded)
+		assert.Equal(t, hardwareSerial, decoded)
 	}
 }
 
-// TestDecodeSensorId tests decoding of sensor IDs from their encoded string representations.
-// Contains padded and unpadded base64 strings.
-func TestDecodeSensorId(t *testing.T) {
-	tests := []string{
-		"AQ",
-		"AQA",
-		"-Sw",
-		"-SwAAA",
-		"+Sw",
-		"+SwAAA",
+func TestDecodeHardwareSerial(t *testing.T) {
+	var encodedHardwareSerials = map[string]uint32{
+		"AQ":     uint32(1),
+		"AQA":    uint32(1),
+		"-Sw":    uint32(11513),
+		"-SwAAA": uint32(11513),
+		"+Sw":    uint32(11513),
+		"+SwAAA": uint32(11513),
 	}
 
-	for _, test := range tests {
-		decoded, err := DecodeSensorId(test)
+	for encodedValue, expectedDecoded := range encodedHardwareSerials {
+		actualDecoded, err := DecodeHardwareSerial(encodedValue)
 		assert.NoError(t, err)
-		t.Logf("Decoded sensor id: %d", decoded)
+		assert.Equal(t, expectedDecoded, actualDecoded)
+		// t.Logf("Decoded sensor id: %d", actualDecoded)
 	}
 }

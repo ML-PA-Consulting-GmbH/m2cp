@@ -102,7 +102,11 @@ func makeHandler(ctpParent m2cp.ContextPlus, address string, verbosity int, endp
 		}
 
 		// execute the actual handler
-		if err = endpoint.Handler(&r); err != nil {
+		err = endpoint.Handler(&r)
+
+		// support legacy error handling: if the handler returns an error and no response code or response bytes have been set,
+		// try to parse the error message for a response code and message
+		if err != nil && (r.responseCode == 0 || len(r.responseBytes) == 0) {
 			// if the error message is in the format "code - message", we use the code as the response code
 			// otherwise we generate a 500 Internal Server Error
 			errParts := strings.SplitN(err.Error(), " - ", 2)
@@ -118,7 +122,14 @@ func makeHandler(ctpParent m2cp.ContextPlus, address string, verbosity int, endp
 			}
 		}
 		// write response
-		r.responseType = endpoint.ContentType
+		if r.responseCode == 0 {
+			r.SetResponseError(codes.InternalServerError, "Internal Server Error - no response code was set by endpoint")
+			ctp.LogWarn("endpoint did not set response code, responding with 500 Internal Server Error")
+			return
+		}
+		if r.responseType == 0 {
+			r.responseType = endpoint.ContentType
+		}
 		r.WriteResponse(w, req)
 	}
 }

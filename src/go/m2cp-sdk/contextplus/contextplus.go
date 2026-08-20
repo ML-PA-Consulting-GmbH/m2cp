@@ -10,7 +10,6 @@ import (
 	"os"
 	"os/signal"
 	"runtime"
-	"strconv"
 	"strings"
 	"sync"
 	"syscall"
@@ -35,6 +34,10 @@ type Context struct {
 	logger                  zerolog.Logger
 	name                    string
 	parent                  *Context
+	// callerSkip is the number of stack frames to skip when reporting the file and line number of the log message.
+	// Default is 1, which means the log message will report the file and line number of the caller of the logging function.
+	// If the logging function is wrapped in another function it might be configured differently, that is to be left for the future.
+	callerSkip int
 }
 
 func NewContextPlus() m2cp.ContextPlus {
@@ -53,11 +56,13 @@ func FromContext(from context.Context) m2cp.ContextPlus {
 		countBranch(-1)
 	}()
 
+	skip := zerolog.CallerSkipFrameCount + 1
 	c := Context{
 		Context:                 ctx,
 		cancel:                  cancel,
 		cancelInterruptListener: cancelInt,
-		logger:                  LoggerConsole(),
+		logger:                  LoggerConsole().With().CallerWithSkipFrameCount(skip).Logger(),
+		callerSkip:              skip,
 	}
 	return &c
 }
@@ -167,6 +172,7 @@ func (c *Context) Branch() m2cp.ContextPlus {
 		logger:                  c.logger,
 		name:                    c.name,
 		parent:                  c,
+		callerSkip:              c.callerSkip,
 	}
 }
 
@@ -195,6 +201,7 @@ func (c *Context) BranchWithTimeout(duration time.Duration) m2cp.ContextPlus {
 		logger:                  c.logger,
 		name:                    c.name,
 		parent:                  c,
+		callerSkip:              c.callerSkip,
 	}
 }
 
@@ -279,9 +286,9 @@ func LoggerConsole() zerolog.Logger {
 	if isDeveloperMachine() {
 		zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
-		l = zerolog.New(getCustomWriter(os.Stdout)).With().Timestamp().Caller().Logger()
+		l = zerolog.New(getCustomWriter(os.Stdout)).With().Timestamp().Logger()
 	} else {
-		l = zerolog.New(os.Stdout).With().Timestamp().Caller().Logger()
+		l = zerolog.New(os.Stdout).With().Timestamp().Logger()
 	}
 	logger = &l
 	return *logger
@@ -337,33 +344,12 @@ func (cw *CustomWriter) formatLogEntry(logEntry map[string]interface{}) string {
 		buf.WriteString(fmt.Sprintf(" %s", message))
 	}
 
-	if caller := getCaller(); caller != "" {
+	if caller, ok := logEntry["caller"]; ok {
 		buf.WriteString(fmt.Sprintf(" (%v)", caller))
 	}
 
 	buf.WriteString("\n")
 	return buf.String()
-}
-
-func getCaller() string {
-	pc := make([]uintptr, 10)
-	n := runtime.Callers(8, pc)
-	frames := runtime.CallersFrames(pc[:n])
-
-	for {
-		frame, more := frames.Next()
-		if !more {
-			break
-		}
-		if strings.Contains(frame.Function, "/contextplus.") {
-			continue
-		}
-		if strings.Contains(frame.Function, "/zerolog.") {
-			continue
-		}
-		return frame.File + ":" + strconv.Itoa(frame.Line)
-	}
-	return ""
 }
 
 func SetDebugMode(debug bool) {

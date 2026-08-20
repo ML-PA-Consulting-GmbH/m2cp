@@ -11,13 +11,13 @@ import (
 
 type dataRow struct {
 	T           string
-	D           []string
+	D           []*string
 	format      *dataFormat
 	timeCreated int64
 	bytes       int
 }
 
-func NewDataRow(format *dataFormat, timestamp time.Time, items []string) m2cp.DataRow {
+func NewDataRow(format *dataFormat, timestamp time.Time, items []*string) m2cp.DataRow {
 	timeCreated := time.Now().UnixNano() / int64(time.Millisecond)
 	timeString := tools.TimeToDec(timestamp)
 	bytes := 15 + len(timeString) + stringArrayBytes(items) + 7*len(items)
@@ -39,9 +39,9 @@ func (dr *dataRow) GetTimeString() string {
 	return dr.T
 }
 
-func (dr *dataRow) GetFieldsRaw() map[string]string {
+func (dr *dataRow) GetFieldsRaw() map[string]*string {
 	fields := dr.format.GetFields()
-	fieldsRaw := make(map[string]string)
+	fieldsRaw := make(map[string]*string)
 	for _, field := range fields {
 		fieldsRaw[field.GetName()] = dr.D[field.GetPos()]
 	}
@@ -69,16 +69,7 @@ func (dr *dataRow) GetFieldInt(field string) *int {
 }
 
 func (dr *dataRow) GetFieldIntArray(field string) []int {
-	v := dr.GetFieldString(field)
-	if v == nil {
-		return nil
-	}
-	strs := strings.Split(*v, ",")
-	ints := make([]int, len(strs))
-	for i, s := range strs {
-		ints[i], _ = strconv.Atoi(s)
-	}
-	return ints
+	return parseArray(dr.GetFieldString(field), strconv.Atoi)
 }
 
 func (dr *dataRow) GetFieldLong(field string) *int64 {
@@ -104,17 +95,10 @@ func (dr *dataRow) GetFieldUint32(field string) *uint32 {
 }
 
 func (dr *dataRow) GetFieldUint32Array(field string) []uint32 {
-	v := dr.GetFieldString(field)
-	if v == nil {
-		return nil
-	}
-	strs := strings.Split(*v, ",")
-	uint32s := make([]uint32, len(strs))
-	for i, s := range strs {
-		u32, _ := strconv.ParseUint(s, 10, 32)
-		uint32s[i] = uint32(u32)
-	}
-	return uint32s
+	return parseArray(dr.GetFieldString(field), func(s string) (uint32, error) {
+		u, err := strconv.ParseUint(s, 10, 32)
+		return uint32(u), err
+	})
 }
 
 func (dr *dataRow) GetFieldUint64(field string) *uint64 {
@@ -130,16 +114,9 @@ func (dr *dataRow) GetFieldUint64(field string) *uint64 {
 }
 
 func (dr *dataRow) GetFieldUint64Array(field string) []uint64 {
-	v := dr.GetFieldString(field)
-	if v == nil {
-		return nil
-	}
-	strs := strings.Split(*v, ",")
-	uint64s := make([]uint64, len(strs))
-	for i, s := range strs {
-		uint64s[i], _ = strconv.ParseUint(s, 10, 64)
-	}
-	return uint64s
+	return parseArray(dr.GetFieldString(field), func(s string) (uint64, error) {
+		return strconv.ParseUint(s, 10, 64)
+	})
 }
 
 func (dr *dataRow) GetFieldDouble(field string) *float64 {
@@ -152,16 +129,9 @@ func (dr *dataRow) GetFieldDouble(field string) *float64 {
 }
 
 func (dr *dataRow) GetFieldDoubleArray(field string) []float64 {
-	v := dr.GetFieldString(field)
-	if v == nil {
-		return nil
-	}
-	strs := strings.Split(*v, ",")
-	floats := make([]float64, len(strs))
-	for i, s := range strs {
-		floats[i], _ = strconv.ParseFloat(s, 64)
-	}
-	return floats
+	return parseArray(dr.GetFieldString(field), func(s string) (float64, error) {
+		return strconv.ParseFloat(s, 64)
+	})
 }
 
 func (dr *dataRow) GetFieldBool(field string) *bool {
@@ -177,10 +147,10 @@ func (dr *dataRow) GetFieldString(field string) *string {
 	i := dr.format.GetFieldPos(field)
 	if i >= 0 && i < len(dr.D) {
 		res := dr.D[i]
-		return &res
-	} else {
-		return nil
+		return res
 	}
+
+	return nil
 }
 
 func (dr *dataRow) GetFieldBinary(field string) []byte {
@@ -220,10 +190,29 @@ func (dr *dataRow) getDataRow() *dataRow {
 	return dr
 }
 
-func stringArrayBytes(arr []string) int {
+func parseArray[t any](v *string, parseFunc func(s string) (t, error)) []t {
+	if v == nil {
+		return nil
+	}
+	if *v == "" {
+		return make([]t, 0)
+	}
+	strs := strings.Split(*v, ",")
+	array := make([]t, len(strs))
+	for i, s := range strs {
+		array[i], _ = parseFunc(s)
+	}
+	return array
+}
+
+func stringArrayBytes(arr []*string) int {
 	bytes := 0
 	for _, s := range arr {
-		bytes += len(s)
+		if s == nil {
+			bytes += 4 // `null` in JSON
+		} else {
+			bytes += len(*s)
+		}
 	}
 	return bytes
 }

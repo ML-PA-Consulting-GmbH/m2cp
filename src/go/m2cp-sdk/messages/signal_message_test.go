@@ -3,8 +3,9 @@ package messages
 import (
 	"encoding/base64"
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"m2cp"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func (t *TestSuite) TestSignalMessageToJson() {
@@ -31,7 +32,7 @@ func (t *TestSuite) TestSignalMessageToJson() {
 
 // TestSignalMessageLegacyScope tests, if legacy messages without scope have the default UNDEFINED scope
 func (t *TestSuite) TestSignalMessageLegacyScope() {
-	legacyMessage := `{"Header":{"Type":"SIGNAL","Topic":"signal/testnode/","Timestamp":"12345","Id":"42","TaskId":"a9dc5d85-4d23-4038-91bd-6bf27d01fee6","Origin":"testnode.11111111-1111-1111-1111-111111111111"},"Body":{"Type":"WARNING","Name":"foo","Content":"bar"}}`
+	legacyMessage := `{"Header":{"Type":"SIGNAL","Topic":"signal/testnode/","Timestamp":"12345","Id":"42","TaskId":"a9dc5d85-4d23-4038-91bd-6bf27d01fee6","Origin":"testnode.appx.11111111-1111-1111-1111-111111111111"},"Body":{"Type":"WARNING","Name":"foo","Content":"bar"}}`
 	parsed, err := SignalFromJson([]byte(legacyMessage))
 	t.NoError(err)
 	t.Equal(m2cp.MessageScopeUndefined, parsed.GetHeader().GetScope())

@@ -27,14 +27,37 @@ type SubscriptionOptions struct {
 	Context ContextPlus
 	// Set a persistence ID to enable subscription persistence. WARNING: id must be used exclusively by a single instance to avoid name collisions and blocking!
 	PersistenceId *string
+	// Whether messages shall be acked by or after the message callback.
+	// Default: false, defaulting to noAck behavior of [import/github.com/rabbitmq/amqp091-go/Channel.Consume]
+	// where messages are automatically acked when sent from the message-hub.
+	ManualAck bool
 }
 
 type NetworkConnection interface {
 	NewNode(name string) (Node, error)
+
+	// SubscribeSignals subscribes to signal messages on the given topics.
+	// Acknowledgment is handled automatically. See [NetworkConnection.SubscribeSignalsAckWithOptions] when manual ack control is needed.
 	SubscribeSignals(topics []string, handler SignalHandler) error
+	// SubscribeSignalsWithOptions is like [NetworkConnection.SubscribeSignals] but accepts additional [SubscriptionOptions].
 	SubscribeSignalsWithOptions(topics []string, handler SignalHandler, options SubscriptionOptions) error
+	// SubscribeSignalsAckWithOptions is like [NetworkConnection.SubscribeSignalsWithOptions] but with manual acknowledgment control.
+	// The handler receives each message together with an [Acknowledger] to explicitly Ack, Nack, or Reject it.
+	// Set [SubscriptionOptions.ManualAck] = true to take ownership of acknowledgment; otherwise ack is still automatic and the Acknowledger should not be used.
+	// Returns a Subscriber for potential manual unsubscription and queue removal, or an error
+	SubscribeSignalsAckWithOptions(topics []string, handler SignalAckHandler, options SubscriptionOptions) (Subscriber, error)
+
+	// SubscribeData subscribes to data messages on the given topics.
+	// Acknowledgment is handled automatically. See [NetworkConnection.SubscribeDataAckWithOptions] when manual ack control is needed.
 	SubscribeData(topics []string, handler DataHandler) error
+	// SubscribeDataWithOptions is like [NetworkConnection.SubscribeData] but accepts additional [SubscriptionOptions].
 	SubscribeDataWithOptions(topics []string, handler DataHandler, options SubscriptionOptions) error
+	// SubscribeDataAckWithOptions is like [NetworkConnection.SubscribeDataWithOptions] but with manual acknowledgment control.
+	// The handler receives each message together with an [Acknowledger] to explicitly Ack, Nack, or Reject it.
+	// Set [SubscriptionOptions.ManualAck] = true to take ownership of acknowledgment; otherwise ack is still automatic and the Acknowledger should not be used.
+	// Returns a Subscriber for potential manual unsubscription and queue removal, or an error
+	SubscribeDataAckWithOptions(topics []string, handler DataAckHandler, options SubscriptionOptions) (Subscriber, error)
+
 	SendMessage(message Message) error
 	GetDomain() Domain
 	GetContext() ContextPlus
@@ -98,18 +121,18 @@ type Node interface {
 	GetFailedToSendCount() int
 
 	// EmitSignal emits a signal from a node. For "logLevel" use:
-	// m2cp.SignalLevelDebug
-	// m2cp.SignalLevelInfo
-	// m2cp.SignalLevelWarning
-	// m2cp.SignalLevelError
+	//  - m2cp.SignalLevelDebug
+	//  - m2cp.SignalLevelInfo
+	//  - m2cp.SignalLevelWarning
+	//  - m2cp.SignalLevelError
 	EmitSignal(name string, value string, logLevel string) error
 
 	// EmitSignalBroadcast sends a signal to all nodes in the network on the broadcast channel. The broadcast channel is reserved for
 	// messages of system-wide importance, not application specific messages.
-	// m2cp.SignalLevelDebug
-	// m2cp.SignalLevelInfo
-	// m2cp.SignalLevelWarning
-	// m2cp.SignalLevelError
+	//  - m2cp.SignalLevelDebug
+	//  - m2cp.SignalLevelInfo
+	//  - m2cp.SignalLevelWarning
+	//  - m2cp.SignalLevelError
 	EmitSignalBroadcast(name string, value string, logLevel string) error
 
 	RemoteProcedureCall(to Address, command string, parameters map[string]string) (<-chan RpcResultReadonly, error)
@@ -131,9 +154,35 @@ type Node interface {
 	//GetSendQueueLength() int
 }
 
+// Acknowledger provides methods to acknowledge, reject, or requeue a message received from the message-hub.
+// It is passed to message callbacks to allow manual acknowledgment control when [SubscriptionOptions.ManualAck] is enabled.
+// When ManualAck is false, acknowledgment is handled automatically and the Acknowledger should not be used.
+type Acknowledger interface {
+	// Ack acknowledges the message, signaling successful processing.
+	Ack() error
+	// Nack negatively acknowledges the message and requeues it for redelivery.
+	Nack() error
+	// Reject rejects the message and removes it from the queue without redelivery.
+	Reject() error
+}
+
+// SignalHandler is the callback type for signal message subscriptions without manual acknowledgment.
+// Acknowledgment is handled automatically. Use [SignalAckHandler] when explicit ack control is needed.
 type SignalHandler func(message SignalMessage)
 
+// SignalAckHandler is the callback type for signal message subscriptions with manual acknowledgment control.
+// The [Acknowledger] must be used to Ack, Nack, or Reject each message iff [SubscriptionOptions.ManualAck] is true.
+// Use with [NetworkConnection.SubscribeSignalsAckWithOptions].
+type SignalAckHandler func(message SignalMessage, ack Acknowledger)
+
+// DataHandler is the callback type for data message subscriptions without manual acknowledgment.
+// Acknowledgment is handled automatically. Use [DataAckHandler] when explicit ack control is needed.
 type DataHandler func(message DataMessage)
+
+// DataAckHandler is the callback type for data message subscriptions with manual acknowledgment control.
+// The [Acknowledger] must be used to Ack, Nack, or Reject each message iff [SubscriptionOptions.ManualAck] is true.
+// Use with [NetworkConnection.SubscribeDataAckWithOptions].
+type DataAckHandler func(message DataMessage, ack Acknowledger)
 
 type Sender interface {
 	Send(m Message) error
@@ -141,5 +190,9 @@ type Sender interface {
 }
 
 type Subscriber interface {
-	Stop()
+	Stop() // Stop the subscription and release resources. After Stop, the handler will not be called anymore.
+	// Remove the queue. This is usually not needed. It is an escape hatch to purposefully destroy a persistent queue.
+	// Stop should be called first.
+	// Returns true on success, false if the queue was not removed.
+	Remove() bool
 }

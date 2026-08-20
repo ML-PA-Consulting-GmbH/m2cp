@@ -52,7 +52,7 @@ type dataFormat struct {
 }
 
 func (df *dataFormat) NewRow(items map[string]interface{}) (m2cp.DataRow, error) {
-	itemsList := make([]string, len(df.fields))
+	itemsList := make([]*string, len(df.fields))
 	for i := 0; i < len(df.fields); i++ {
 		field := df.fields[i]
 		fieldName := field.GetName()
@@ -63,17 +63,10 @@ func (df *dataFormat) NewRow(items map[string]interface{}) (m2cp.DataRow, error)
 			if fieldValueEncoded == nil && detectedType == nil {
 				return nil, errors.New(fmt.Sprintf("field %s has invalid type %v - failed encoding '%v' to string", fieldName, detectedType, fieldValue))
 			}
-			if fieldValueEncoded == nil {
-				// allow optional values; if value is nil, we treat it as null and set the field value to empty string (so that it can be deserialized back to null on the receiving end)
-				// all getters will return nil for this value, regardless of the field type,
-				// so it can be used for any field type except string, for which it will be treated as the literal string "null"
-				itemsList[i] = "null"
-				continue
-			}
 			if *detectedType != field.GetType() {
 				return nil, errors.New(fmt.Sprintf("field %s has invalid type - expected %s, got %s", fieldName, field.GetType(), *detectedType))
 			}
-			itemsList[i] = *fieldValueEncoded
+			itemsList[i] = fieldValueEncoded
 		}
 	}
 	return NewDataRow(df, time.Now(), itemsList), nil
@@ -81,7 +74,7 @@ func (df *dataFormat) NewRow(items map[string]interface{}) (m2cp.DataRow, error)
 
 // NewRowFromPreStringifiedFieldValues WARNING: power user feature, used by python SDK wrapper ... skips the type checking for the values
 func (df *dataFormat) NewRowFromPreStringifiedFieldValues(items map[string]string) (m2cp.DataRow, error) {
-	itemsList := make([]string, len(df.fields))
+	itemsList := make([]*string, len(df.fields))
 	for i := 0; i < len(df.fields); i++ {
 		field := df.fields[i]
 		fieldName := field.GetName()
@@ -89,7 +82,7 @@ func (df *dataFormat) NewRowFromPreStringifiedFieldValues(items map[string]strin
 			return nil, errors.New(fmt.Sprintf("field %s not found in items", fieldName))
 		} else {
 
-			itemsList[i] = fieldValue
+			itemsList[i] = &fieldValue
 
 		}
 	}
@@ -283,9 +276,21 @@ func stringify(value interface{}) (*string, *string) {
 	case string:
 		s = v
 		t = DataTypeString
+	case *string:
+		t = DataTypeString
+		if v == nil {
+			return nil, &t
+		}
+		s = *v
 	case bool:
 		s = strconv.FormatBool(v)
 		t = DataTypeBool
+	case *bool:
+		t = DataTypeBool
+		if v == nil {
+			return nil, &t
+		}
+		return stringify(*v)
 	case int:
 		s = strconv.Itoa(v)
 		t = DataTypeInt
@@ -406,9 +411,21 @@ func stringify(value interface{}) (*string, *string) {
 	case float32:
 		s = strconv.FormatFloat(float64(v), 'g', -1, 64)
 		t = DataTypeDouble
+	case *float32:
+		t = DataTypeDouble
+		if v == nil {
+			return nil, &t
+		}
+		return stringify(*v)
 	case float64:
 		s = strconv.FormatFloat(v, 'g', -1, 64)
 		t = DataTypeDouble
+	case *float64:
+		t = DataTypeDouble
+		if v == nil {
+			return nil, &t
+		}
+		return stringify(*v)
 	case []float32:
 		s = strings.Trim(strings.Join(strings.Fields(fmt.Sprint(v)), ","), "[]")
 		t = DataTypeDoubleList

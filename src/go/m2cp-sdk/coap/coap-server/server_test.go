@@ -3,7 +3,7 @@ package coap_server
 import (
 	"fmt"
 	"m2cp"
-	"m2cp/coap/coap-client"
+	coap_client "m2cp/coap/coap-client"
 	"m2cp/messages"
 	"m2cp/networks"
 	"m2cp/rpc"
@@ -166,10 +166,10 @@ func (t *TestSuite) TestMultiIp() {
 	defer freeResource()
 
 	//addresses := []string{"fd12:3456:789a:1::1", "fd12:3456:789a:1::2", "[::1]:" + port}
-	//addresses := []string{"fd12:3456:789a:1::1", "fd12:3456:789a:1::2"}
-	addresses := []string{"[::]:" + port}
+	addresses := []string{"[fd12:3456:789a:1::1]", "[fd12:3456:789a:1::2]"}
+	//addresses := []string{"[::]:" + port}
 
-	err := NewServer(t.ctp, addresses, []m2cp.CoapEndpoint{
+	err := NewServer(t.ctp, []string{"[::]:" + port}, []m2cp.CoapEndpoint{
 		EndpointHello(),
 	}, m2cp.CoapServerOptions{})
 	t.NoError(err)
@@ -179,7 +179,7 @@ func (t *TestSuite) TestMultiIp() {
 
 	//Now we need to send a CoAP request to the server
 	for _, address := range addresses {
-		coapClient, err := coap_client.NewClient(t.ctp, address)
+		coapClient, err := coap_client.NewClientWithOptions(t.ctp, address+":"+port, m2cp.CoapClientOptions{SourceAddr: "[::1]:0"})
 		t.NoError(err)
 		res, err := coapClient.Get("/hello", "", nil)
 		t.NoError(err, "Error sending CoAP request - please make sure you have added the IP fd12:3456:789a:1::1 to your network interface ($ sudo ip -6 addr add fd12:3456:789a:1::1/128 dev lo)")
@@ -189,7 +189,6 @@ func (t *TestSuite) TestMultiIp() {
 		}
 	}
 
-	//t.ctp.Sleep(1 * time.Hour)
 }
 
 func (t *TestSuite) TestNoResponseOption() {

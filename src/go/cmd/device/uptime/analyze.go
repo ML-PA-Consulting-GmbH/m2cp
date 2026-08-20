@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/go-jose/go-jose/v4/json"
 	"github.com/spf13/cobra"
-	"gopkg.in/square/go-jose.v2/json"
 )
 
 var analyzeCmd = &cobra.Command{

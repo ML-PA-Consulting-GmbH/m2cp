@@ -80,6 +80,46 @@ func (t *TestSuite) TestNewDataRow() {
 	t.NotNil(dr)
 }
 
+func (t *TestSuite) TestNewDataRow_withIntArray() {
+	fields := []m2cp.DataField{
+		NewDataFieldIntList("testInt"),
+	}
+
+	df, _ := NewDataFormat("testFormat", fields...)
+
+	testCases := []struct {
+		name                           string
+		items                          map[string]interface{}
+		expectedInternalRepresentation *string
+	}{
+		{"[1,2,3]", map[string]interface{}{
+			"testInt": []int{1, 2, 3},
+		}, Ptr("1,2,3")},
+		{"[]", map[string]interface{}{
+			"testInt": []int{},
+		}, Ptr("")},
+		{"nil", map[string]interface{}{
+			"testInt": ([]int)(nil),
+		}, nil},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func() {
+			if strings.Contains(tc.name, "nil") {
+				t.T().Skip("nil arrays currently no implemented")
+			}
+			dr, err := df.NewRow(tc.items)
+			t.Require().NoError(err)
+			t.Require().NotNil(dr)
+			t.NotEmpty(dr.(*dataRow).D)
+			t.Equal(tc.expectedInternalRepresentation, dr.(*dataRow).D[0])
+			t.Equal(tc.expectedInternalRepresentation, dr.GetFieldString("testInt"))
+			t.Equal(tc.items["testInt"].([]int), dr.GetFieldIntArray("testInt"))
+		})
+	}
+
+}
+
 func (t *TestSuite) TestValidDataType() {
 	validType := DataTypeBool
 	t.True(isValidDataType(validType))
@@ -116,8 +156,8 @@ func (t *TestSuite) TestStringify_NilValues() {
 		value            interface{}
 		expectedDataType string
 	}{
-		//{value: (*string)(nil), expectedDataType: DataTypeString},
-		//{value: (*bool)(nil), expectedDataType: DataTypeBool},
+		{name: "string", value: (*string)(nil), expectedDataType: DataTypeString},
+		{name: "bool", value: (*bool)(nil), expectedDataType: DataTypeBool},
 		{name: "int", value: (*int)(nil), expectedDataType: DataTypeInt},
 		{name: "int8", value: (*int8)(nil), expectedDataType: DataTypeInt},
 		{name: "int16", value: (*int16)(nil), expectedDataType: DataTypeInt},
@@ -128,15 +168,20 @@ func (t *TestSuite) TestStringify_NilValues() {
 		{name: "uint16", value: (*uint16)(nil), expectedDataType: DataTypeInt},
 		{name: "uint32", value: (*uint32)(nil), expectedDataType: DataTypeUint32},
 		{name: "uint64", value: (*uint64)(nil), expectedDataType: DataTypeUint64},
-		//{value: (*float64)(nil), expectedDataType: DataTypeDouble},
-		//{value: (*time.Time)(nil), expectedDataType: DataTypeDatetime},
+		{name: "float32", value: (*float32)(nil), expectedDataType: DataTypeDouble},
+		{name: "float64", value: (*float64)(nil), expectedDataType: DataTypeDouble},
+		{name: "time.Time", value: (*time.Time)(nil), expectedDataType: DataTypeDatetime},
+		// todo arrays, binary?
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func() {
+			if tc.name == "time.Time" {
+				t.T().Skip("nil values for time.Time currently not implemented")
+			}
 			str, dataType := stringify(tc.value)
 			t.Nil(str)
-			t.NotNil(dataType)
+			t.Require().NotNil(dataType, "Data type should not be nil")
 			t.Equal(tc.expectedDataType, *dataType)
 		})
 	}

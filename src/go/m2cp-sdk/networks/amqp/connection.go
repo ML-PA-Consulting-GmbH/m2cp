@@ -33,7 +33,7 @@ func newAmqpConnection(ctx m2cp.ContextPlus) (*amqpClient, error) {
 
 	if m2cpVirtualDevice, exists := os.LookupEnv("M2CP_VIRTUAL_DEVICE"); exists && m2cpVirtualDevice != "" {
 		if virtualDeviceBasePort, err := strconv.Atoi(m2cpVirtualDevice); err != nil {
-			return nil, fmt.Errorf("failed parsing M2CP_VIRTUAL_DEVICE: %s", err.Error())
+			return nil, fmt.Errorf("failed parsing M2CP_VIRTUAL_DEVICE: %w", err)
 		} else {
 			amqpPort = virtualDeviceBasePort + 1
 			ctx.LogDebug("M2CP_VIRTUAL_DEVICE is set, using port %d for AMQP", amqpPort)
@@ -118,7 +118,7 @@ func (c *amqpClient) declareExchanges() error {
 	var ch *amqp.Channel
 	conn, err := c.Dial(c.ctp)
 	if err != nil {
-		return fmt.Errorf("failed to connect to AMQP: %s", err.Error())
+		return fmt.Errorf("failed to connect to AMQP: %w", err)
 	}
 	defer func() {
 		if ch != nil && !ch.IsClosed() {
@@ -136,7 +136,7 @@ func (c *amqpClient) declareExchanges() error {
 	prepareChannel := func() error {
 		if ch == nil || ch.IsClosed() {
 			if ch, err = conn.Channel(); err != nil {
-				return fmt.Errorf("failed to open a channel: %s", err.Error())
+				return fmt.Errorf("failed to open a channel: %w", err)
 			}
 		}
 		return nil

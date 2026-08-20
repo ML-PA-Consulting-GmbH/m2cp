@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"m2cp"
 	"m2cp/tools"
+	"strings"
 	"time"
 )
 
@@ -185,10 +186,10 @@ func (t *TestSuite) TestDataMessage_15725_ParseOID32_withOptionalFields() {
 			`"1769934987","fw_type","fw_version","4","5","6"`},
 		{"Optional fields nil",
 			1600000000, "typeB", "versionB", nil, nil, nil,
-			`"1600000000","typeB","versionB","null","null","null"`},
+			`"1600000000","typeB","versionB",null,null,null`},
 		{"Some optional fields nil",
 			1769934993, "fw_type", "fw_version", nil, nil, Ptr(uint32(6)),
-			`"1769934993","fw_type","fw_version","null","null","6"`},
+			`"1769934993","fw_type","fw_version",null,null,"6"`},
 		{"Default 0 values for optional uint32 fields",
 			1600000000, "typeD", "versionD", Ptr(uint32(0)), Ptr(uint32(0)), Ptr(uint32(0)),
 			`"1600000000","typeD","versionD","0","0","0"`},
@@ -281,9 +282,14 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 		expectedDataJson string
 		validate         func(t *TestSuite, row m2cp.DataRow)
 	}{
-		{"bool", NewDataFieldBool, DataTypeBool, true, `"true"`,
+		{"bool true", NewDataFieldBool, DataTypeBool, true, `"true"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(true, *row.GetFieldBool("field1"))
+			},
+		},
+		{"bool false", NewDataFieldBool, DataTypeBool, false, `"false"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal(false, *row.GetFieldBool("field1"))
 			},
 		},
 		{"int", NewDataFieldInt, DataTypeInt, 42, `"42"`,
@@ -294,7 +300,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*int nil", NewDataFieldInt, DataTypeInt, (*int)(nil), `"null"`,
+		{"*int nil", NewDataFieldInt, DataTypeInt, (*int)(nil), `null`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Nil(row.GetFieldInt("field1"))
 			}},
@@ -306,7 +312,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*int8 nil", NewDataFieldInt, DataTypeInt, (*int8)(nil), `"null"`,
+		{"*int8 nil", NewDataFieldInt, DataTypeInt, (*int8)(nil), `null`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Nil(row.GetFieldInt("field1"))
 			}},
@@ -318,7 +324,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*int16 nil", NewDataFieldInt, DataTypeInt, (*int16)(nil), `"null"`,
+		{"*int16 nil", NewDataFieldInt, DataTypeInt, (*int16)(nil), `null`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Nil(row.GetFieldInt("field1"))
 			}},
@@ -330,7 +336,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*int32 nil", NewDataFieldInt, DataTypeInt, (*int32)(nil), `"null"`,
+		{"*int32 nil", NewDataFieldInt, DataTypeInt, (*int32)(nil), `null`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Nil(row.GetFieldInt("field1"))
 			}},
@@ -342,7 +348,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*int64 nil", NewDataFieldInt, DataTypeInt, (*int64)(nil), `"null"`,
+		{"*int64 nil", NewDataFieldInt, DataTypeInt, (*int64)(nil), `null`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Nil(row.GetFieldInt("field1"))
 			}},
@@ -354,7 +360,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*uint nil", NewDataFieldInt, DataTypeInt, (*uint)(nil), `"null"`,
+		{"*uint nil", NewDataFieldInt, DataTypeInt, (*uint)(nil), `null`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Nil(row.GetFieldInt("field1"))
 			}},
@@ -366,7 +372,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*uint8 nil", NewDataFieldInt, DataTypeInt, (*uint8)(nil), `"null"`,
+		{"*uint8 nil", NewDataFieldInt, DataTypeInt, (*uint8)(nil), `null`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Nil(row.GetFieldInt("field1"))
 			}},
@@ -378,7 +384,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*uint16 nil", NewDataFieldInt, DataTypeInt, (*uint16)(nil), `"null"`,
+		{"*uint16 nil", NewDataFieldInt, DataTypeInt, (*uint16)(nil), `null`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Nil(row.GetFieldInt("field1"))
 			}},
@@ -390,7 +396,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal((uint32)(42), *row.GetFieldUint32("field1"))
 			}},
-		{"*uint32 nil", NewDataFieldUint32, DataTypeUint32, (*uint32)(nil), `"null"`,
+		{"*uint32 nil", NewDataFieldUint32, DataTypeUint32, (*uint32)(nil), `null`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Nil(row.GetFieldUint32("field1"))
 			}},
@@ -402,24 +408,157 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal((uint64)(42), *row.GetFieldUint64("field1"))
 			}},
-		{"*uint64 nil", NewDataFieldUint64, DataTypeUint64, (*uint64)(nil), `"null"`,
+		{"*uint64 nil", NewDataFieldUint64, DataTypeUint64, (*uint64)(nil), `null`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Nil(row.GetFieldUint64("field1"))
 			}},
-
-		//{"int array", NewDataFieldIntList, DataTypeIntList, []int{1, 2, 3}, `"1,2,3"`},
-		//{"uint64 array", NewDataFieldUint64List, DataTypeUint64List, []uint64{1, 2, 3}, `"1,2,3"`},
-		//{"float32", NewDataFieldDouble, DataTypeDouble, 1.5, `"1.5"`},
-		//{"float32 array", NewDataFieldDoubleList, DataTypeDoubleList, []float32{1.1, 1.2, 1.3}, `"1.1,1.2,1.3"`},
-		//{"float64", NewDataFieldDouble, DataTypeDouble, float64(1.5), `"1.5"`},
-		//{"float64 array", NewDataFieldDoubleList, DataTypeDoubleList, []float64{1.1, 1.2, 1.3}, `"1.1,1.2,1.3"`},
-		//{"string", NewDataFieldString, DataTypeString, "foo", `"foo"`},
-		//{"binary", NewDataFieldBinary, DataTypeBinary, []byte{0, 1, 2, 3, 4}, `"AAECAwQ="`},
-		//{"datetime", NewDataFieldDatetime, DataTypeDatetime, time.Unix(1600000000, 1), `"2020-09-13T12:26:40.000000001Z"`},
+		{"int array", NewDataFieldIntList, DataTypeIntList, []int{1, 2, 3}, `"1,2,3"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal([]int{1, 2, 3}, row.GetFieldIntArray("field1"))
+			}},
+		{"int array empty", NewDataFieldIntList, DataTypeIntList, []int{}, `""`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Empty(row.GetFieldIntArray("field1"))
+				t.NotNil(row.GetFieldIntArray("field1"))
+			}},
+		{"int array nil", NewDataFieldIntList, DataTypeIntList, ([]int)(nil), `null`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.T().Skip("nil arrays currently not implemented")
+				t.Nil(row.GetFieldIntArray("field1"))
+			}},
+		{"uint32 array", NewDataFieldUint32List, DataTypeUint32List, []uint32{1, 2, 3}, `"1,2,3"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal([]uint32{1, 2, 3}, row.GetFieldUint32Array("field1"))
+			}},
+		{"uint32 array empty", NewDataFieldUint32List, DataTypeUint32List, []uint32{}, `""`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Empty(row.GetFieldUint32Array("field1"))
+				t.NotNil(row.GetFieldUint32Array("field1"))
+			}},
+		{"uint32 array nil", NewDataFieldUint32List, DataTypeUint32List, ([]uint32)(nil), `null`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.T().Skip("nil arrays currently not implemented")
+				t.Nil(row.GetFieldUint32Array("field1"))
+			}},
+		{"uint64 array", NewDataFieldUint64List, DataTypeUint64List, []uint64{1, 2, 3}, `"1,2,3"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal([]uint64{1, 2, 3}, row.GetFieldUint64Array("field1"))
+			}},
+		{"uint64 array empty", NewDataFieldUint64List, DataTypeUint64List, []uint64{}, `""`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Empty(row.GetFieldUint64Array("field1"))
+				t.NotNil(row.GetFieldUint64Array("field1"))
+			}},
+		{"uint64 array nil", NewDataFieldUint64List, DataTypeUint64List, ([]uint64)(nil), `null`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.T().Skip("nil arrays currently not implemented")
+				t.Nil(row.GetFieldUint64Array("field1"))
+			}},
+		{"float32", NewDataFieldDouble, DataTypeDouble, float32(1.5), `"1.5"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal(1.5, *row.GetFieldDouble("field1"))
+			}},
+		{"*float32", NewDataFieldDouble, DataTypeDouble, Ptr(float32(1.5)), `"1.5"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal(1.5, *row.GetFieldDouble("field1"))
+			}},
+		{"*float32 nil", NewDataFieldDouble, DataTypeDouble, (*float32)(nil), `null`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Nil(row.GetFieldDouble("field1"))
+			}},
+		{"float32 array", NewDataFieldDoubleList, DataTypeDoubleList, []float32{1.1, 1.2, 1.3}, `"1.1,1.2,1.3"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal([]float64{1.1, 1.2, 1.3}, row.GetFieldDoubleArray("field1"))
+			}},
+		{"float32 array empty", NewDataFieldDoubleList, DataTypeDoubleList, []float32{}, `""`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Empty(row.GetFieldDoubleArray("field1"))
+				t.NotNil(row.GetFieldDoubleArray("field1"))
+			}},
+		{"float32 array nil", NewDataFieldDoubleList, DataTypeDoubleList, ([]float32)(nil), `null`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.T().Skip("nil arrays currently not implemented")
+				t.Nil(row.GetFieldDoubleArray("field1"))
+			}},
+		{"float64", NewDataFieldDouble, DataTypeDouble, float64(1.5), `"1.5"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal(1.5, *row.GetFieldDouble("field1"))
+			}},
+		{"*float64", NewDataFieldDouble, DataTypeDouble, Ptr(float64(1.5)), `"1.5"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal(1.5, *row.GetFieldDouble("field1"))
+			}},
+		{"*float64 nil", NewDataFieldDouble, DataTypeDouble, (*float64)(nil), `null`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Nil(row.GetFieldDouble("field1"))
+			}},
+		{"float64 array", NewDataFieldDoubleList, DataTypeDoubleList, []float64{1.1, 1.2, 1.3}, `"1.1,1.2,1.3"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal([]float64{1.1, 1.2, 1.3}, row.GetFieldDoubleArray("field1"))
+			}},
+		{"float64 array empty", NewDataFieldDoubleList, DataTypeDoubleList, []float64{}, `""`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Empty(row.GetFieldDoubleArray("field1"))
+				t.NotNil(row.GetFieldDoubleArray("field1"))
+			}},
+		{"float64 array nil", NewDataFieldDoubleList, DataTypeDoubleList, ([]float64)(nil), `null`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.T().Skip("nil arrays currently not implemented")
+				t.Nil(row.GetFieldDoubleArray("field1"))
+			}},
+		{"string", NewDataFieldString, DataTypeString, "foo", `"foo"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal("foo", *row.GetFieldString("field1"))
+			}},
+		{"*string", NewDataFieldString, DataTypeString, Ptr("foo"), `"foo"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal("foo", *row.GetFieldString("field1"))
+			}},
+		{"*string nil", NewDataFieldString, DataTypeString, (*string)(nil), `null`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Nil(row.GetFieldString("field1"))
+			}},
+		{"binary", NewDataFieldBinary, DataTypeBinary, []byte{0, 1, 2, 3, 4}, `"AAECAwQ="`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal([]byte{0, 1, 2, 3, 4}, row.GetFieldBinary("field1"))
+			}},
+		{"binary empty", NewDataFieldBinary, DataTypeBinary, []byte{}, `""`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Empty(row.GetFieldBinary("field1"))
+				t.NotNil(row.GetFieldBinary("field1"))
+			}},
+		{"binary nil", NewDataFieldBinary, DataTypeBinary, ([]byte)(nil), `null`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Nil(row.GetFieldBinary("field1"))
+			}},
+		{"datetime utc", NewDataFieldDatetime, DataTypeDatetime, time.Unix(1600000000, 1).UTC(), `"2020-09-13T12:26:40.000000001Z"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal(time.Unix(1600000000, 1).UTC(), *row.GetFieldDatetime("field1"))
+			}},
+		{"datetime with local timezone", NewDataFieldDatetime, DataTypeDatetime, time.Unix(1600000000, 1), `"2020-09-13T12:26:40.000000001Z"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal(time.Unix(1600000000, 1), *row.GetFieldDatetime("field1"))
+			}},
+		// time variables and struct fields should be of type [time.Time], not *time.Time; there seems to be no use for nilable datetime -- at this time
+		{"datetime zero", NewDataFieldDatetime, DataTypeDatetime, time.Time{}, `"0001-01-01T00:00:00Z"`,
+			func(t *TestSuite, row m2cp.DataRow) {
+				t.Equal(time.Time{}, *row.GetFieldDatetime("field1"))
+				t.True(row.GetFieldDatetime("field1").IsZero())
+			}},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func() {
+			if strings.Contains(tc.name, "array nil") {
+				t.T().Skip("nil arrays currently not implemented")
+			}
+			if "binary nil" == tc.name {
+				t.T().Skip("nil binary currently not implemented")
+			}
+			if "datetime with local timezone" == tc.name {
+				t.T().Skip("parsing datetimes with local timezone currently not supported, all datetimes are converted to be in UTC")
+			}
+
 			format, err := NewDataFormat("testFormat", tc.dataField("field1"))
 			t.NoError(err)
 

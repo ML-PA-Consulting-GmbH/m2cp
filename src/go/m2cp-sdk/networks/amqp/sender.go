@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"m2cp"
 	"m2cp/networks/stats"
-	"m2cp/tools"
+	"runtime/trace"
 	"strings"
 	"sync"
 	"time"
@@ -18,8 +18,8 @@ var (
 
 const (
 	maxAllowedQueueSize = 1000
-	maxSendAckAmount    = 20
-	maxSendAckAge       = time.Second * 1
+	maxSendAckAmount    = 1000
+	maxSendAckAge       = time.Second * 10
 )
 
 type sender struct {
@@ -35,6 +35,7 @@ type sender struct {
 	waitGroupShutdown    *sync.WaitGroup
 	closed               bool
 	maxQueueSize         int
+	sizeWarningTicker    *time.Ticker
 	messageSerializer    m2cp.MessageSerializer
 	stats                *stats.NetworkStats
 }
@@ -61,13 +62,14 @@ func NewSender(
 	s := &sender{
 		amqpClient:        nil,
 		ctp:               ctp,
-		sendQueue:         newSendJobQueue(&stats.Sender.QueueSend),
-		sendAcks:          newSendJobQueue(&stats.Sender.QueueAck),
+		sendQueue:         newSendJobQueue(ctp, &stats.Sender.QueueSend, "send"),
+		sendAcks:          newSendJobQueue(ctp, &stats.Sender.QueueAck, "ack"),
 		shuttingDown:      false,
 		mutex:             sync.Mutex{},
 		waitGroupInit:     waitGroupInit,
 		waitGroupShutdown: waitGroupShutdown,
 		maxQueueSize:      sendQueueSize,
+		sizeWarningTicker: time.NewTicker(30 * time.Second),
 		messageSerializer: messageSerializer,
 		stats:             stats,
 	}
@@ -94,8 +96,17 @@ func (s *sender) Send(m m2cp.Message) error {
 	// we need enough slots in the queue
 	// fmt.Printf("send queue: %d/%d, ack queue: %d/%d\n", s.sendQueue.Len(), s.maxQueueSize, s.sendAcks.Len(), maxSendAckAmount)
 
+	if (s.sendQueue.Len() + len(sendJobs)) > (s.maxQueueSize / 2) {
+		select {
+		case <-s.sizeWarningTicker.C: // do not spam this too often
+			s.ctp.LogWarn("send queue more than 50 percent full: %d/%d, ack queue: %d/%d\nstats: %+v", s.sendQueue.Len(), s.maxQueueSize, s.sendAcks.Len(), maxSendAckAmount, s.stats.GetSenderStats())
+		default:
+		}
+	}
+
 	if (s.sendQueue.Len() + len(sendJobs)) > s.maxQueueSize {
-		return fmt.Errorf("queue full")
+		s.ctp.LogError("send queue full: %d/%d, ack queue: %d/%d\nstats: %+v", s.sendQueue.Len(), s.maxQueueSize, s.sendAcks.Len(), maxSendAckAmount, s.stats.GetSenderStats())
+		return fmt.Errorf("client sender queue full. Sending is too slow to keep up with the amount of messages being sent")
 	}
 	for _, sj := range sendJobs {
 		s.queueSendJob(sj)
@@ -157,7 +168,10 @@ func (s *sender) workerThread() {
 	}
 
 	// main loop
+	loopCounter := 0
+	workLoopTimeout := 1 * time.Second
 	for {
+		loopCounter++
 		err = s.work()
 		if err != nil {
 			s.ctp.LogError(err.Error())
@@ -166,7 +180,19 @@ func (s *sender) workerThread() {
 			s.stats.Sender.Connected = false
 			return
 		}
-		s.ctp.Sleep(1 * time.Second)
+		s.ctp.LogInfo("worker %d stopped - Sleep %s and retry -- %d unacked messages will be re-queued for sending", loopCounter, workLoopTimeout.String(), s.sendAcks.Len())
+		// before opening a new connection, move all non-acked jobs into sendQueue
+		for {
+			job := s.sendAcks.DequeueEnd()
+			if job == nil {
+				break
+			}
+			if job.deferredConfirm.Acked() {
+				continue
+			}
+			s.sendQueue.EnqueueFront(job)
+		}
+		s.ctp.Sleep(workLoopTimeout)
 	}
 }
 
@@ -189,16 +215,16 @@ func (s *sender) work() (err error) {
 
 	amqpConnection, err := s.amqpClient.getAmqpConnection()
 	if err != nil {
-		return fmt.Errorf("failed to connect to AMQP: %s", err.Error())
+		return fmt.Errorf("failed to connect to AMQP: %w", err)
 	}
 
 	amqpChannel, err := amqpConnection.Channel()
 	if err != nil {
-		return fmt.Errorf("failed to open a channel: %s", err.Error())
+		return fmt.Errorf("failed to open a channel: %w", err)
 	}
 
 	// Put the channel in confirm mode
-	err = amqpChannel.Confirm(false)
+	err = amqpChannel.Confirm(false) // noWait = false (not async): wait for a response
 	if err != nil {
 		return fmt.Errorf("failed to put channel in confirm mode: %v", err)
 	}
@@ -206,6 +232,7 @@ func (s *sender) work() (err error) {
 	// Listen to success/failure events
 	failedChan := amqpChannel.NotifyReturn(make(chan amqp.Return))
 	confirmChan := amqpChannel.NotifyPublish(make(chan amqp.Confirmation))
+	closeChan := amqpChannel.NotifyClose(make(chan *amqp.Error))
 
 	s.stats.Sender.Connected = true
 
@@ -248,55 +275,70 @@ func (s *sender) work() (err error) {
 	s.doneInit()
 
 	for {
+		loopRegion := trace.StartRegion(s.ctp, "sender-work")
 
 		select {
+		case err := <-closeChan:
+			if err != nil {
+				s.ctp.LogError("amqp channel closed: %v", err)
+			} else if !closingInitiated {
+				s.ctp.LogInfo("amqp channel closed via notification - closing connection")
+				// todo we could also open a new channel?
+			}
+			closeConnection()
 		case confirm, ok := <-confirmChan:
-			if ok {
-				if err = s.sendAcks.RemoveJobWithDeliveryTag(confirm.DeliveryTag); err != nil {
-					s.ctp.LogWarn("no send job with delivery tag %d: %s", confirm.DeliveryTag, err.Error())
-				} else {
-					s.stats.Sender.Acks.Inc()
-				}
-			} else {
-				// this happens, if the channel is closed
-				confirmChan = nil
-			}
-		case failed, ok := <-failedChan:
-			if ok {
-				registerError(fmt.Errorf("failed to publish a message: %s (ReplyCode %d)", failed.ReplyText, failed.ReplyCode))
-			} else {
-				// this happens, if the channel is closed
-				failedChan = nil
-			}
-			// we used to close the connection here - but that's bad, we first want to send all messages - we now only close the connection once all messages are sent!
-			/*		case <-s.ctp.Done():
-					// context will send infinite cancellation events - so this case will be called repeatedly.
-					if !closingInitiated {
-						s.ctp.LogDebug("context cancelled, closing connection")
-						closeConnection()
+			trace.WithRegion(s.ctp, "sender-work.confirm", func() {
+				if ok {
+					if err = s.sendAcks.RemoveJobWithDeliveryTag(confirm.DeliveryTag); err != nil {
+						s.ctp.LogWarn("no send job with delivery tag %d: %s", confirm.DeliveryTag, err.Error())
+					} else {
+						s.stats.Sender.Acks.Inc()
 					}
-			*/
+				} else {
+					// this happens, if the channel is closed
+					confirmChan = nil
+				}
+			})
+		case failed, ok := <-failedChan:
+			trace.WithRegion(s.ctp, "sender-work.failed", func() {
+				if ok {
+					registerError(fmt.Errorf("failed to publish a message: %s (ReplyCode %d)", failed.ReplyText, failed.ReplyCode))
+				} else {
+					// this happens, if the channel is closed
+					failedChan = nil
+				}
+				// we used to close the connection here - but that's bad, we first want to send all messages - we now only close the connection once all messages are sent!
+				/*		case <-s.ctp.Done():
+						// context will send infinite cancellation events - so this case will be called repeatedly.
+						if !closingInitiated {
+							s.ctp.LogDebug("context canceled, closing connection")
+							closeConnection()
+						}
+				*/
+			})
 		default:
+			traceDefault := trace.StartRegion(s.ctp, "sender-work.default")
 			// if acks take too long, then something is wrong
 			if job = s.sendAcks.Peek(); job != nil {
-				if tools.TimeSystemRunning()-job.DeliveryAttempt > maxSendAckAge {
-					s.ctp.LogError("message not acked for %d seconds, considering %d unacked messages as lost, resetting amqp channel", int(maxSendAckAge.Seconds()), s.sendAcks.Len())
-					// we don't know if the messages were sent or not, so we have to requeue them
-					for {
-						job = s.sendAcks.DequeueEnd()
-						if job == nil {
-							break
-						}
-						s.sendQueue.EnqueueFront(job)
-					}
-					// let's close the channel and crash the sender - a new one will be started
-					_ = amqpChannel.Close()
+				if job.deferredConfirm.Acked() {
+					s.ctp.LogDebug("message %d was already acked, continue to confirm", job.deferredConfirm.DeliveryTag)
+					traceDefault.End()
+					loopRegion.End()
+					continue
+				}
+
+				if !closingInitiated && time.Since(job.DeliveryAttempt) > maxSendAckAge {
+					s.ctp.LogError("message not acked for %d seconds, considering %d unacked messages as lost, resetting amqp connection", int(maxSendAckAge.Seconds()), s.sendAcks.Len())
+					closeConnection()
 				}
 			}
 
 			// don't send too many messages at once - wait for acks before sending more
 			if s.sendAcks.Len() > maxSendAckAmount {
+				s.ctp.LogWarn("too many unacked messages: %d, waiting 10ms before sending more -- queue size: %d", s.sendAcks.Len(), s.sendQueue.Len())
 				s.ctp.Sleep(10 * time.Millisecond)
+				traceDefault.End()
+				loopRegion.End()
 				continue
 			}
 
@@ -308,12 +350,22 @@ func (s *sender) work() (err error) {
 					s.ctp.LogDebug("context cancelled, closing connection")
 					closeConnection()
 				}
+				// mute trace level log spamming; keeping it commented -- helpful for debugging during development
+				//s.ctp.LogDebug("send queue empty, sleeping for %d ms -- ack queue len %d", sleepMultiplier*10, s.sendAcks.Len())
 				s.ctp.Sleep(time.Duration(sleepMultiplier) * 10 * time.Millisecond)
 				sleepMultiplier = min(sleepMultiplier+1, sleepMultiplierMax)
 
 			} else {
-				// we have a message to send
+				// stop sending if connection is being closed
+				if closingInitiated {
+					s.ctp.Sleep(10 * time.Millisecond)
+					traceDefault.End()
+					loopRegion.End()
+					continue
+				}
 
+				// we have a message to send
+				traceSend := trace.StartRegion(s.ctp, "sender-work.default.send")
 				sleepMultiplier = 1
 
 				//s.ctp.LogDebug("send: %s@%s", job.RoutingKey, job.Exchange)
@@ -334,21 +386,30 @@ func (s *sender) work() (err error) {
 						publishing.ReplyTo = fmt.Sprintf("response.%s.%s", tokens[len(tokens)-2], tokens[len(tokens)-1])
 					}
 				}
-				var deliveryTag *amqp.DeferredConfirmation
-				if deliveryTag, err = amqpChannel.PublishWithDeferredConfirm(job.Exchange, job.RoutingKey, false, false, publishing); err != nil {
-					registerError(err)
+				var deferredConfirm *amqp.DeferredConfirmation
+				amqpTrace := trace.StartRegion(s.ctp, "sender-work.default.send.amqp")
+				if deferredConfirm, err = amqpChannel.PublishWithDeferredConfirm(job.Exchange, job.RoutingKey, false, false, publishing); err != nil {
+					amqpTrace.End()
+					registerError(fmt.Errorf("failed to publish message: %w", err))
 					s.ctp.Sleep(100 * time.Millisecond)
 				} else {
+					amqpTrace.End()
+					traceStats := trace.StartRegion(s.ctp, "sender-work.default.send.sent-stats")
 					s.stats.Sender.Transmitted.Inc()
-					job.DeliveryTag = deliveryTag.DeliveryTag
-					job.DeliveryAttempt = tools.TimeSystemRunning()
+					job.deferredConfirm = deferredConfirm
+					job.DeliveryAttempt = time.Now()
 					if DebugSender {
 						s.ctp.LogDebug("sent origin=%s topic=%s", job.Origin, job.Topic)
 					}
+					traceStats.End()
+					queueTrace := trace.StartRegion(s.ctp, "sender-work.default.send.dequeue")
 					_ = s.sendQueue.Dequeue()
 					s.sendAcks.Enqueue(job)
+					queueTrace.End()
 				}
+				traceSend.End()
 			}
+			traceDefault.End()
 		}
 
 		// The closing procedure leads to confirmChan and failedChan being set to nil, which will cause the loop to break
@@ -357,13 +418,8 @@ func (s *sender) work() (err error) {
 			s.ctp.LogDebug("connection closed, returning")
 			return nil
 		}
+
+		loopRegion.End()
 	}
 
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }

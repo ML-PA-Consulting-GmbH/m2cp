@@ -2,13 +2,14 @@ package amqp
 
 import (
 	"fmt"
-	"go.uber.org/goleak"
 	"m2cp"
 	"m2cp/contextplus"
 	"m2cp/tools"
 	"math/rand"
 	"sync"
 	"time"
+
+	"go.uber.org/goleak"
 )
 
 // TestNewSignalSubscriber tests the creation and destruction of a signal subscriber - no leaks expected
@@ -17,9 +18,9 @@ func (t *TestSuite) TestNewSignalSubscriber() {
 
 	ctp := contextplus.NewContextPlus()
 	topics := []string{"#"}
-	callbackSignal := func(_ m2cp.SignalMessage) {}
+	callbackSignal := func(_ m2cp.SignalMessage, _ m2cp.Acknowledger) {}
 
-	subs, err := NewSubscriberSignals(m2cp.SubscriptionOptions{Context: ctp}, topics, callbackSignal, &waitGroupInit, &waitGroupShutdown)
+	subs, err := NewSubscriberSignalsAck(m2cp.SubscriptionOptions{Context: ctp}, topics, callbackSignal, &waitGroupInit, &waitGroupShutdown)
 	t.NoError(err)
 	t.NotNil(subs)
 
@@ -34,8 +35,8 @@ func (t *TestSuite) TestNewDataSubscriber() {
 	ctp := contextplus.NewContextPlus()
 
 	topics := []string{"#"}
-	callbackData := func(_ m2cp.DataMessage) {}
-	subs, err := NewSubscriberData(m2cp.SubscriptionOptions{Context: ctp}, topics, callbackData, &waitGroupInit, &waitGroupShutdown)
+	callbackData := func(_ m2cp.DataMessage, _ m2cp.Acknowledger) {}
+	subs, err := NewSubscriberDataAck(m2cp.SubscriptionOptions{Context: ctp}, topics, callbackData, &waitGroupInit, &waitGroupShutdown)
 	t.NoError(err)
 	t.NotNil(subs)
 
@@ -49,8 +50,8 @@ func (t *TestSuite) TestNewDataSubscriberPersistent() {
 	ctp := contextplus.NewContextPlus()
 
 	topics := []string{"#"}
-	callbackData := func(_ m2cp.DataMessage) {}
-	subs, err := NewSubscriberData(m2cp.SubscriptionOptions{Context: ctp, PersistenceId: tools.StrPtr("test-persistent-data")}, topics, callbackData, &waitGroupInit, &waitGroupShutdown)
+	callbackData := func(_ m2cp.DataMessage, _ m2cp.Acknowledger) {}
+	subs, err := NewSubscriberDataAck(m2cp.SubscriptionOptions{Context: ctp, PersistenceId: tools.StrPtr("test-persistent-data")}, topics, callbackData, &waitGroupInit, &waitGroupShutdown)
 	t.NoError(err)
 	t.NotNil(subs)
 

@@ -1,14 +1,14 @@
 package messages
 
 import (
-	"errors"
 	"fmt"
-	"github.com/google/uuid"
 	"m2cp"
 	"m2cp/device"
 	"regexp"
 	"strings"
 	"unicode"
+
+	"github.com/google/uuid"
 )
 
 type m2CPAddress struct {
@@ -27,16 +27,16 @@ func NewAddress(ctp m2cp.ContextPlus, address string) (m2cp.Address, error) {
 
 func NewAddressWithSubtopic(ctp m2cp.ContextPlus, address, subtopic string) (m2cp.Address, error) {
 	if address[len(address)-1] == '.' {
-		return nil, errors.New("address cannot end with a dot: " + address)
+		return nil, fmt.Errorf("address cannot end with a dot: %s", address)
 	}
 	if address[0] == '.' {
-		return nil, errors.New("address cannot start with a dot: " + address)
+		return nil, fmt.Errorf("address cannot start with a dot: %s", address)
 	}
 
 	tokens := splitAddress(address)
 
 	if len(tokens) < 2 {
-		return nil, errors.New("invalid address format: " + address)
+		return nil, fmt.Errorf("invalid address format: %s", address)
 	}
 
 	for i, token := range tokens {
@@ -44,7 +44,7 @@ func NewAddressWithSubtopic(ctp m2cp.ContextPlus, address, subtopic string) (m2c
 			break
 		}
 		if err := validateName(token); err != nil {
-			return nil, fmt.Errorf("invalid address format for '%s'. token '%s' is not valid: %s", address, token, err)
+			return nil, fmt.Errorf("invalid address format for '%s'. token '%s' is not valid: %w", address, token, err)
 		}
 	}
 
@@ -66,14 +66,14 @@ func NewAddressWithSubtopic(ctp m2cp.ContextPlus, address, subtopic string) (m2c
 	} else if isValidDeviceName(m2cpAddress.DeviceName) {
 		m2cpAddress.CoapDelivery = false
 	} else {
-		return nil, errors.New("can't construct m2cp-address with invalid device name: " + m2cpAddress.DeviceName)
+		return nil, fmt.Errorf("can't construct m2cp-address with invalid device name: %s", m2cpAddress.DeviceName)
 	}
 
 	if m2cpAddress.DeviceName == "local" {
 		var err error
 		m2cpAddress.DeviceName, err = device.GetName(ctp)
 		if err != nil {
-			return nil, errors.New("can't create .local address if device name is not available: " + err.Error())
+			return nil, fmt.Errorf("can't create .local address if device name is not available: %w", err)
 		}
 	}
 
@@ -129,6 +129,16 @@ func splitAddress(address string) []string {
 }
 
 var reCoapAddressIp6 = regexp.MustCompile(`^\[([a-fA-F0-9:]+(?:%[a-zA-Z0-9]+)?)\](?::(\d+))?$`)
+
+// reCoapAddressIp4 is a regex matching IPv4 addresses in the format [x.x.x.x]:port, where x is a number between 0 and 255 and port is an optional port number.
+//
+// Valid examples:
+//   - [192.168.1.1]
+//   - [10.0.0.1]
+//   - [192.168.1.1]:8080
+//   - [10.0.0.1]:5683
+//
+// Shortened IPs like [10.1] are not valid with this regex.
 var reCoapAddressIp4 = regexp.MustCompile(`^\[([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\](?::(\d+))?$`)
 
 func isCoapAddressIp6(address string) bool {

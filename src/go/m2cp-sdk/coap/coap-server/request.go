@@ -160,6 +160,12 @@ func (r *coapRequest) SetResponseCode(c codes.Code) {
 	r.responseCode = c
 }
 
+func (r *coapRequest) SetResponseError(c codes.Code, m string) {
+	r.responseCode = c
+	r.SetResponseBytes([]byte(m))
+	r.responseType = message.TextPlain
+}
+
 func (r *coapRequest) GetBody() []byte {
 	return r.body
 }

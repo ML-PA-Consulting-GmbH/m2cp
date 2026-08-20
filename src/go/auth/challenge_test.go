@@ -3,9 +3,11 @@ package auth
 import (
 	"context"
 	"encoding/hex"
+	"net/http"
+	"testing"
+
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/goleak"
-	"testing"
 )
 
 type ChallengeTestSuite struct {
@@ -85,6 +87,13 @@ func (s *ChallengeTestSuite) TearDownTest() {
 	s.ctxCancel()
 	<-s.ctx.Done()
 
+	// The GraphQL client wraps http.DefaultTransport (see NewGraphqlClient), which keeps
+	// idle keep-alive connections pooled for up to IdleConnTimeout (90s). Non-200 error
+	// responses get their body drained to EOF by genqlient, so those connections are
+	// returned to the pool and their persistConn read/write goroutines stay parked long
+	// enough for goleak to flag them. Close idle connections so the check sees a clean state.
+	http.DefaultTransport.(*http.Transport).CloseIdleConnections()
+
 	goleak.VerifyNone(s.T())
 }
 
@@ -116,9 +125,8 @@ func (s *ChallengeTestSuite) TestGetChallengeForInvalidUser() {
 	userEmail := "wronguser@ml-pa.com" // invalid user
 
 	challenge, err := GetChallenge(s.ctx, s.url, userEmail, s.publicKey)
-	s.Error(err)
 	s.Nil(challenge)
-	s.Equal("input: The requested 'User' could not be found.\n", err.Error())
+	s.ErrorContains(err, "The requested 'User' could not be found.")
 }
 
 func (s *ChallengeTestSuite) TestGetChallengeWithBadPublicKey() {
@@ -127,18 +135,16 @@ func (s *ChallengeTestSuite) TestGetChallengeWithBadPublicKey() {
 	sshPublicKey := []byte("ssh-rsa BAD= user@host")
 
 	challenge, err := GetChallenge(s.ctx, s.url, s.userEmail, sshPublicKey)
-	s.Error(err)
 	s.Nil(challenge)
-	s.Equal("input: The provided SSH public key does not match. Please verify your key and try again.\n", err.Error())
+	s.ErrorContains(err, "The provided SSH public key does not match. Please verify your key and try again.")
 }
 
 func (s *ChallengeTestSuite) TestGetChallengeForEmptyEmail() {
 	var err error
 
 	challenge, err := GetChallenge(s.ctx, s.url, "", s.publicKey)
-	s.Error(err)
 	s.Nil(challenge)
-	s.Equal("input: User email is missing. Please provide a valid email address.\n", err.Error())
+	s.ErrorContains(err, "User email is missing. Please provide a valid email address.")
 }
 
 func (s *ChallengeTestSuite) TestGetChallengeForInvalidEmail() {
@@ -148,9 +154,8 @@ func (s *ChallengeTestSuite) TestGetChallengeForInvalidEmail() {
 	sshPublicKey := "ssh-rsa BAD= user@host"
 
 	challenge, err := GetChallenge(s.ctx, s.url, invalidUserEmail, []byte(sshPublicKey))
-	s.Error(err)
 	s.Nil(challenge)
-	s.Equal("input: The requested 'User' could not be found.\n", err.Error())
+	s.ErrorContains(err, "The requested 'User' could not be found.")
 }
 
 func (s *ChallengeTestSuite) TestGetChallengeWithoutPublicKey() {
@@ -159,9 +164,8 @@ func (s *ChallengeTestSuite) TestGetChallengeWithoutPublicKey() {
 	invalidUserEmail := "testuser@ml-pa.com"
 
 	challenge, err := GetChallenge(s.ctx, s.url, invalidUserEmail, nil)
-	s.Error(err)
 	s.Nil(challenge)
-	s.Equal("input: SSH public key is missing. Please provide a valid SSH public key.\n", err.Error())
+	s.ErrorContains(err, "SSH public key is missing. Please provide a valid SSH public key.")
 }
 
 func (s *ChallengeTestSuite) TestSignChallengeForRSAWithPassword() {
@@ -381,9 +385,8 @@ thisisjustabadfake==
 	s.NoError(err)
 
 	signature, err := SignChallenge(nonceBytes, []byte(privKeyPem), nil)
-	s.Error(err)
 	s.Nil(signature)
-	s.Equal("could not parse private key: ssh: invalid openssh private key format", err.Error())
+	s.ErrorContains(err, "could not parse private key: ssh: invalid openssh private key format")
 }
 
 func (s *ChallengeTestSuite) TestGetJSONWebTokenWithSuccess() {
@@ -445,18 +448,16 @@ func (s *ChallengeTestSuite) TestGetJSONWebTokenForMissingChallenge() {
 	var err error
 	signature := []byte("test")
 	jwt, err := GetJSONWebToken(s.ctx, s.url, nil, signature)
-	s.Error(err)
-	s.Equal("", jwt)
-	s.Equal("input: Challenge is missing. Please provide a valid challenge.\n", err.Error())
+	s.Empty(jwt)
+	s.ErrorContains(err, "Challenge is missing. Please provide a valid challenge.")
 }
 
 func (s *ChallengeTestSuite) TestGetJSONWebTokenForInvalidChallenge() {
 	var err error
 	challenge := []byte("invalid")
 	jwt, err := GetJSONWebToken(s.ctx, s.url, challenge, nil)
-	s.Error(err)
-	s.Equal("", jwt)
-	s.Equal("input: Signed challenge is missing. Please provide a valid response.\n", err.Error())
+	s.Empty(jwt)
+	s.ErrorContains(err, "Signed challenge is missing. Please provide a valid response.")
 }
 
 func (s *ChallengeTestSuite) TestGetJSONWebTokenForMissingSignedChallenge() {
@@ -466,7 +467,6 @@ func (s *ChallengeTestSuite) TestGetJSONWebTokenForMissingSignedChallenge() {
 	s.NoError(err)
 
 	jwt, err := GetJSONWebToken(s.ctx, s.url, challenge, nil)
-	s.Error(err)
-	s.Equal("", jwt)
-	s.Equal("input: Signed challenge is missing. Please provide a valid response.\n", err.Error())
+	s.Empty(jwt)
+	s.ErrorContains(err, "Signed challenge is missing. Please provide a valid response.")
 }

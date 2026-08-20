@@ -17,8 +17,11 @@ type NetworkConnectionInternal interface {
 }
 
 var (
-	domainLocks map[string]*sync.Mutex = make(map[string]*sync.Mutex)
+	domainLocks = make(map[string]*sync.Mutex)
 )
+
+// Ensure networkConnectionAmqp complies with the exposed m2cp.NetworkConnection interface
+var _ = m2cp.NetworkConnection(&networkConnectionAmqp{})
 
 type networkConnectionAmqp struct {
 	cfg                    *NetworkContext
@@ -196,12 +199,22 @@ func (nc *networkConnectionAmqp) SubscribeData(topics []string, handler m2cp.Dat
 }
 
 func (nc *networkConnectionAmqp) SubscribeDataWithOptions(topics []string, handler m2cp.DataHandler, options m2cp.SubscriptionOptions) error {
+	_, err := nc.SubscribeDataAckWithOptions(topics, func(msg m2cp.DataMessage, ack m2cp.Acknowledger) {
+		handler(msg)
+		if options.ManualAck {
+			// should not be called if [amqp.Channel.Consume] was called with autoAck true
+			_ = ack.Ack()
+		}
+	}, options)
+	return err
+}
+
+func (nc *networkConnectionAmqp) SubscribeDataAckWithOptions(topics []string, handler m2cp.DataAckHandler, options m2cp.SubscriptionOptions) (m2cp.Subscriber, error) {
 	topicsPrefixed := make([]string, len(topics))
 	for i, topic := range topics {
 		topicsPrefixed[i] = fmt.Sprintf("data/%s", topic)
 	}
-	_, err := amqp.NewSubscriberData(nc.normalizeSubscriptionOptions(options), topicsPrefixed, handler, &nc.waitGroupInit, &nc.waitGroupShutdown)
-	return err
+	return amqp.NewSubscriberDataAck(nc.normalizeSubscriptionOptions(options), topicsPrefixed, handler, &nc.waitGroupInit, &nc.waitGroupShutdown)
 }
 
 func (nc *networkConnectionAmqp) SubscribeSignals(topics []string, handler m2cp.SignalHandler) error {
@@ -209,12 +222,21 @@ func (nc *networkConnectionAmqp) SubscribeSignals(topics []string, handler m2cp.
 }
 
 func (nc *networkConnectionAmqp) SubscribeSignalsWithOptions(topics []string, handler m2cp.SignalHandler, options m2cp.SubscriptionOptions) error {
+	_, err := nc.SubscribeSignalsAckWithOptions(topics, func(msg m2cp.SignalMessage, ack m2cp.Acknowledger) {
+		handler(msg)
+		if options.ManualAck {
+			_ = ack.Ack()
+		}
+	}, options)
+	return err
+}
+
+func (nc *networkConnectionAmqp) SubscribeSignalsAckWithOptions(topics []string, handler m2cp.SignalAckHandler, options m2cp.SubscriptionOptions) (m2cp.Subscriber, error) {
 	topicsPrefixed := make([]string, len(topics))
 	for i, topic := range topics {
 		topicsPrefixed[i] = fmt.Sprintf("signal/%s", topic)
 	}
-	_, err := amqp.NewSubscriberSignals(nc.normalizeSubscriptionOptions(options), topicsPrefixed, handler, &nc.waitGroupInit, &nc.waitGroupShutdown)
-	return err
+	return amqp.NewSubscriberSignalsAck(nc.normalizeSubscriptionOptions(options), topicsPrefixed, handler, &nc.waitGroupInit, &nc.waitGroupShutdown)
 }
 
 func (nc *networkConnectionAmqp) GetKnownNodeAddresses() []string {
@@ -264,13 +286,13 @@ func (nc *networkConnectionAmqp) DiscoverNodes() error {
 	origin := nc.GetDomain().GetName()
 	addr, err := messages.NewAddressWithSubtopic(nc.ctp, origin, "sys-broadcast")
 	if err != nil {
-		return fmt.Errorf("failed to create address for 'hello?' signal: %s", err.Error())
+		return fmt.Errorf("failed to create address for 'hello?' signal: %w", err)
 	}
 	if msg, err = messages.NewSignalMessage(addr, "hello?", "", m2cp.SignalLevelInfo, m2cp.MessageScopeNetwork); err != nil {
-		return fmt.Errorf("failed to create 'hello?' signal: %s", err.Error())
+		return fmt.Errorf("failed to create 'hello?' signal: %w", err)
 	}
 	if err = nc.sender.Send(msg); err != nil {
-		return fmt.Errorf("failed to send 'hello?' signal: %s", err.Error())
+		return fmt.Errorf("failed to send 'hello?' signal: %w", err)
 	}
 	return nil
 }

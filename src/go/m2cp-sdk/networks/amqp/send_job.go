@@ -5,6 +5,8 @@ import (
 	"m2cp"
 	"m2cp/messages"
 	"time"
+
+	"github.com/rabbitmq/amqp091-go"
 )
 
 type SendJob struct {
@@ -16,8 +18,9 @@ type SendJob struct {
 	MessageID       string
 	Origin          string
 	CorrelationId   string
-	DeliveryTag     uint64
-	DeliveryAttempt time.Duration
+	deferredConfirm *amqp091.DeferredConfirmation
+	EnqueueTime     time.Time
+	DeliveryAttempt time.Time
 }
 
 func newSendJobs(message m2cp.Message, serializer m2cp.MessageSerializer) ([]*SendJob, error) {

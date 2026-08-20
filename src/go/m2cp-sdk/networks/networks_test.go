@@ -616,6 +616,10 @@ func (s *TestSuite) testSendSubscribeReceiveData(maxCount int, maxAge time.Durat
 			return
 		}
 		received = received + data.CountRows()
+
+		for _, row := range data.GetRows() {
+			s.Nil(row.GetFieldInt("nillable"))
+		}
 	}
 	err = con.SubscribeData([]string{"*"}, handleData)
 	if err != nil {
@@ -634,6 +638,7 @@ func (s *TestSuite) testSendSubscribeReceiveData(maxCount int, maxAge time.Durat
 	format, err := messages.NewDataFormat(testId,
 		messages.NewDataFieldBool("foo"),
 		messages.NewDataFieldInt("counter"),
+		messages.NewDataFieldInt("nillable"),
 	)
 	s.NoError(err)
 
@@ -644,8 +649,9 @@ func (s *TestSuite) testSendSubscribeReceiveData(maxCount int, maxAge time.Durat
 		//err = nodeA.EmitSignal(testId, fmt.Sprintf("sent by Go-SDK at %s", time.Now().String()), messages.SignalType_Info)
 		var row m2cp.DataRow
 		row, err = format.NewRow(map[string]interface{}{
-			"foo":     true,
-			"counter": i,
+			"foo":      true,
+			"counter":  i,
+			"nillable": (*int)(nil),
 		})
 		s.NoError(err)
 		err = nodeSender.EmitDataRow(row)

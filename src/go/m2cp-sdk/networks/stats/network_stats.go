@@ -3,6 +3,7 @@ package stats
 import (
 	"m2cp"
 	"sync"
+	"time"
 )
 
 type NetworkStats struct {
@@ -36,6 +37,28 @@ func (c *Counter) Set(value uint64) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	c.counter = value
+}
+
+func (c *Counter) Sum(value uint64) {
+	c.lock.Lock()
+	defer c.lock.Unlock()
+	c.counter += value
+}
+
+func (c *Counter) SetIfMax(value uint64) {
+	c.lock.Lock()
+	defer c.lock.Unlock()
+	if value > c.counter {
+		c.counter = value
+	}
+}
+
+func (c *Counter) SetIfMin(value uint64) {
+	c.lock.Lock()
+	defer c.lock.Unlock()
+	if (c.counter == 0 || value < c.counter) && value > 0 {
+		c.counter = value
+	}
 }
 
 type SenderStats struct {
@@ -77,6 +100,32 @@ func (o *SenderStats) GetQueueAckMax() uint64 {
 }
 
 type QueueStats struct {
-	Len Counter
-	Max Counter
+	Len   Counter
+	Max   Counter
+	Delta DeltaTimes
+}
+
+type DeltaTimes struct {
+	Min   Counter
+	Max   Counter
+	Sum   Counter
+	Count Counter
+	Avg   Counter
+}
+
+func (o *DeltaTimes) Add(delta time.Duration) {
+	v := uint64(delta.Milliseconds())
+	o.Count.Inc()
+	o.Sum.Sum(v)
+	o.Min.SetIfMin(v)
+	o.Max.SetIfMax(v)
+	o.Avg.Set(o.calcAvg())
+}
+
+func (o *DeltaTimes) calcAvg() uint64 {
+	count := o.Count.Get()
+	if count == 0 {
+		return 0
+	}
+	return o.Sum.Get() / count
 }

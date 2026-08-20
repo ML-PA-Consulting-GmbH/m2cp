@@ -122,7 +122,7 @@ type DataMessage interface {
 type DataRow interface {
 	GetTimeString() string
 	GetFormat() DataFormat
-	GetFieldsRaw() map[string]string
+	GetFieldsRaw() map[string]*string
 	GetTime() time.Time
 	SetTime(timestamp time.Time)
 	GetFieldInt(field string) *int

@@ -1,19 +1,18 @@
 package device
 
 import (
-	"encoding/base64"
-	"encoding/binary"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/google/uuid"
 	"m2cp"
-	"m2cp/coap/coap-client"
+	coap_client "m2cp/coap/coap-client"
 	"m2cp/snapd"
 	"m2cp/tools"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/google/uuid"
 )
 
 /**
@@ -91,19 +90,37 @@ func GetType() (string, error) {
 	return "m2cp-device", nil
 }
 
-// GetModel get identifier encoding the model of the device.
-func GetModel(ctp m2cp.ContextPlus) (string, error) {
-	var err error
+type ModelInfo struct {
+	Model        string `json:"model"`
+	BrandId      string `json:"brand_id"`
+	Architecture string `json:"architecture"`
+	Revision     int    `json:"revision"`
+}
 
+func GetModelInfo(ctp m2cp.ContextPlus) (ModelInfo, error) {
 	assertion, err := snapd.GetModelAssertion(ctp)
 	if err != nil {
-		return "", err
+		return ModelInfo{}, err
 	}
 
 	if assertion.Architecture == "" {
 		assertion.Architecture = "amd64"
 	}
 
+	return ModelInfo{
+		Model:        assertion.Model,
+		BrandId:      assertion.BrandId,
+		Architecture: assertion.Architecture,
+		Revision:     assertion.Revision,
+	}, nil
+}
+
+// GetModel get identifier encoding the model of the device.
+func GetModel(ctp m2cp.ContextPlus) (string, error) {
+	assertion, err := GetModelInfo(ctp)
+	if err != nil {
+		return "", err
+	}
 	return fmt.Sprintf("%s/%s/%s/%d", assertion.BrandId, assertion.Model, assertion.Architecture, assertion.Revision), nil
 }
 
@@ -133,41 +150,21 @@ func GetHwSerial(ctp m2cp.ContextPlus) (string, error) {
 		return "", fmt.Errorf(errorPrefix, err.Error())
 	}
 
-	return EncodeHwSerial(info.Sn), nil
+	return tools.EncodeHardwareSerial(info.Sn), nil
 }
 
+// Deprecated: use tools.DecodeHardwareSerial instead.
+//
+//go:fix inline
 func DecodeHwSerial(encodedID string) (uint32, error) {
-	decodedBytes, err := base64.RawStdEncoding.DecodeString(encodedID)
-	if err != nil {
-		return 0, fmt.Errorf("failed to decode base64: %w", err)
-	}
-
-	switch len(decodedBytes) {
-	case 2:
-		return uint32(binary.LittleEndian.Uint16(decodedBytes)), nil
-	case 4:
-		return uint32(binary.LittleEndian.Uint32(decodedBytes)), nil
-	case 8:
-		return binary.LittleEndian.Uint32(decodedBytes), nil
-	default:
-		return 0, errors.New("invalid length of decoded byte slice")
-	}
+	return tools.DecodeHardwareSerial(encodedID)
 }
 
+// Deprecated: use tools.EncodeHardwareSerial instead.
+//
+//go:fix inline
 func EncodeHwSerial(id uint32) string {
-	buf := make([]byte, 4)
-	binary.LittleEndian.PutUint32(buf, id)
-
-	// Trim trailing zero bytes to handle numbers that don't use all 4 bytes
-	i := len(buf)
-	for i > 0 && buf[i-1] == 0 {
-		i--
-	}
-	if i != len(buf) {
-		buf = buf[:i]
-	}
-
-	return base64.RawStdEncoding.EncodeToString(buf)
+	return tools.EncodeHardwareSerial(id)
 }
 
 func GetOsVersion(ctp m2cp.ContextPlus) (string, error) {

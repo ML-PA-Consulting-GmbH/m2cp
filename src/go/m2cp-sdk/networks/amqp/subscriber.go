@@ -15,6 +15,9 @@ var (
 	DebugSubscriber bool = false
 )
 
+// Ensure subscriber complies with the exposed m2cp.Subscriber interface
+var _ = m2cp.Subscriber(&subscriber{})
+
 type subscriber struct {
 	amqpClient           *amqpClient
 	ctp                  m2cp.ContextPlus
@@ -28,11 +31,11 @@ type subscriber struct {
 	closed               bool
 	topics               []string
 	messageType          m2cp.MessageType
-	callbackSignal       func(msg m2cp.SignalMessage)
-	callbackData         func(msg m2cp.DataMessage)
-	callbackCommand      func(msg m2cp.CommandMessage)
-	callbackResponse     func(msg m2cp.ResponseMessage)
-	callbackRaw          func(raw []byte)
+	callbackSignal       func(msg m2cp.SignalMessage, ack m2cp.Acknowledger)
+	callbackData         func(msg m2cp.DataMessage, ack m2cp.Acknowledger)
+	callbackCommand      func(msg m2cp.CommandMessage)  // no Acknowledger, as workRpc does ack handling already
+	callbackResponse     func(msg m2cp.ResponseMessage) // no Acknowledger, as workRpc does ack handling already
+	callbackRaw          func(raw []byte, ack m2cp.Acknowledger)
 	running              bool
 	waitGroupInit        *sync.WaitGroup
 	waitGroupShutdown    *sync.WaitGroup
@@ -40,7 +43,38 @@ type subscriber struct {
 	connectedAtLeastOnce bool
 }
 
-func NewSubscriberSignals(options m2cp.SubscriptionOptions, topics []string, callbackSignal func(msg m2cp.SignalMessage),
+// acknowledger is an [amqp] specific [m2cp.Acknowledger] implementation that wraps an [amqp.Delivery] to provide Ack, Nack, and Reject functionality.
+type acknowledger struct {
+	delivery amqp.Delivery
+}
+
+// Ack acknowledges the message, signaling successful processing.
+// see [amqp.Delivery.Ack] for details
+func (cb *acknowledger) Ack() error {
+	return cb.delivery.Ack(false)
+}
+
+// Nack negatively acknowledges the message and requeues it for redelivery.
+// See [amqp.Delivery.Nack] for details
+func (cb *acknowledger) Nack() error {
+	return cb.delivery.Nack(false, true)
+}
+
+// Reject rejects the message and removes it from the queue without redelivery.
+// See [amqp.Delivery.Reject] for details
+func (cb *acknowledger) Reject() error {
+	return cb.delivery.Reject(false)
+}
+
+// NewSubscriberSignalsAck creates a new subscriber for signal messages with manual acknowledgment control.
+// The callback receives each signal message along with a [m2cp.Acknowledger] to control message disposition.
+// Use this with [m2cp.SubscriptionOptions.ManualAck] = true when explicit control over Ack, Nack, or Reject is needed.
+// The Acknowledger must not be used when ManualAck is set to false.
+//
+// Parameters: options configures subscription behavior; topics specifies which topics to subscribe to;
+// callbackSignal is called with each received signal message and an Acknowledger; waitGroupInit and waitGroupShutdown coordinate lifecycle.
+// Returns a Subscriber or an error if initialization fails.
+func NewSubscriberSignalsAck(options m2cp.SubscriptionOptions, topics []string, callbackSignal func(msg m2cp.SignalMessage, ack m2cp.Acknowledger),
 	waitGroupInit, waitGroupShutdown *sync.WaitGroup) (m2cp.Subscriber, error) {
 	s, err := newSubscriber(&options, topics, waitGroupInit, waitGroupShutdown)
 	if err != nil {
@@ -52,7 +86,15 @@ func NewSubscriberSignals(options m2cp.SubscriptionOptions, topics []string, cal
 	return s, nil // s.waitUntilRunning()
 }
 
-func NewSubscriberData(options m2cp.SubscriptionOptions, topics []string, callbackData func(msg m2cp.DataMessage), waitGroupInit, waitGroupShutdown *sync.WaitGroup) (m2cp.Subscriber, error) {
+// NewSubscriberDataAck creates a new subscriber for data messages with manual acknowledgment control.
+// The callback receives each data message along with a [m2cp.Acknowledger] to control message disposition.
+// Use this with [m2cp.SubscriptionOptions.ManualAck] = true when explicit control over Ack, Nack, or Reject is needed.
+// The Acknowledger must not be used when ManualAck is set to false.
+//
+// Parameters: options configures subscription behavior; topics specifies which topics to subscribe to;
+// callbackData is called with each received data message and an Acknowledger; waitGroupInit and waitGroupShutdown coordinate lifecycle.
+// Returns a Subscriber or an error if initialization fails.
+func NewSubscriberDataAck(options m2cp.SubscriptionOptions, topics []string, callbackData func(msg m2cp.DataMessage, ack m2cp.Acknowledger), waitGroupInit, waitGroupShutdown *sync.WaitGroup) (m2cp.Subscriber, error) {
 	s, err := newSubscriber(&options, topics, waitGroupInit, waitGroupShutdown)
 	if err != nil {
 		return nil, err
@@ -63,6 +105,12 @@ func NewSubscriberData(options m2cp.SubscriptionOptions, topics []string, callba
 	return s, nil // s.waitUntilRunning()
 }
 
+// NewSubscriberCommands creates a new subscriber for RPC command messages with automatic acknowledgment.
+// Commands are automatically acknowledged as they are processed through the RPC handler.
+//
+// Parameters: options configures subscription behavior; domain specifies the receiving domain;
+// callbackCommand is called with each received command message; waitGroupInit and waitGroupShutdown coordinate lifecycle.
+// Returns a Subscriber or an error if initialization fails.
 func NewSubscriberCommands(options m2cp.SubscriptionOptions, domain m2cp.Domain, callbackCommand func(msg m2cp.CommandMessage),
 	waitGroupInit, waitGroupShutdown *sync.WaitGroup) (m2cp.Subscriber, error) {
 	topics := []string{fmt.Sprintf("command/*.%s", domain.GetName())}
@@ -77,6 +125,12 @@ func NewSubscriberCommands(options m2cp.SubscriptionOptions, domain m2cp.Domain,
 	return s, nil // s.waitUntilRunning()
 }
 
+// NewSubscriberResponses creates a new subscriber for RPC response messages with automatic acknowledgment.
+// Responses are automatically acknowledged as they are processed through the RPC handler.
+//
+// Parameters: options configures subscription behavior; domain specifies the receiving domain;
+// callbackResponse is called with each received response message; waitGroupInit and waitGroupShutdown coordinate lifecycle.
+// Returns a Subscriber or an error if initialization fails.
 func NewSubscriberResponses(options m2cp.SubscriptionOptions, domain m2cp.Domain, callbackResponse func(msg m2cp.ResponseMessage),
 	waitGroupInit, waitGroupShutdown *sync.WaitGroup) (m2cp.Subscriber, error) {
 	topics := []string{fmt.Sprintf("response/*.%s", domain.GetName())}
@@ -91,7 +145,15 @@ func NewSubscriberResponses(options m2cp.SubscriptionOptions, domain m2cp.Domain
 	return s, nil // s.waitUntilRunning()
 }
 
-func NewSubscriberRaw(options m2cp.SubscriptionOptions, topics []string, callbackRaw func(raw []byte),
+// NewSubscriberRawAck creates a new subscriber for raw message bytes with manual acknowledgment control.
+// The callback receives each message as raw bytes along with a [m2cp.Acknowledger] to control message disposition.
+// Use [m2cp.SubscriptionOptions.ManualAck] = true when explicit control over Ack, Nack, or Reject is needed.
+// The Acknowledger must not be used when ManualAck is set to false.
+//
+// Parameters: options configures subscription behavior; topics specifies which topics to subscribe to;
+// callbackRaw is called with each received message as raw bytes and an Acknowledger; waitGroupInit and waitGroupShutdown coordinate lifecycle.
+// Returns a Subscriber or an error if initialization fails.
+func NewSubscriberRawAck(options m2cp.SubscriptionOptions, topics []string, callbackRaw func(raw []byte, ack m2cp.Acknowledger),
 	waitGroupInit, waitGroupShutdown *sync.WaitGroup) (m2cp.Subscriber, error) {
 	s, err := newSubscriber(&options, topics, waitGroupInit, waitGroupShutdown)
 	if err != nil {
@@ -140,6 +202,18 @@ func (o *subscriber) Stop() {
 	for !o.closed {
 		o.ctp.Sleep(10 * time.Millisecond)
 	}
+}
+
+func (o *subscriber) Remove() bool {
+	if o.persistent {
+		if err := o.deleteQueue(); err != nil {
+			o.ctp.LogError("failed to delete queue '%s': %s", o.queueName, err.Error())
+			return false
+		}
+		o.ctp.LogInfo("deleted queue '%s'", o.queueName)
+		return true
+	}
+	return false
 }
 
 func (s *subscriber) doneInit() {
@@ -205,12 +279,12 @@ func (o *subscriber) activateChannel() error {
 
 	if o.conn == nil || o.conn.IsClosed() {
 		if o.conn, err = o.amqpClient.getAmqpConnection(); err != nil {
-			return fmt.Errorf("failed to connect to AMQP: %s", err.Error())
+			return fmt.Errorf("failed to connect to AMQP: %w", err)
 		}
 	}
 	if o.amqpChannel == nil || o.amqpChannel.IsClosed() {
 		if o.amqpChannel, err = o.conn.Channel(); err != nil {
-			return fmt.Errorf("failed to open a channel: %s", err.Error())
+			return fmt.Errorf("failed to open a channel: %w", err)
 		}
 	}
 	return nil
@@ -298,10 +372,10 @@ func (o *subscriber) connInit() error {
 			// this means the queue already exists and the parameters are different - we'll have to delete it and retry
 			o.ctp.LogWarn("existing queue mismatches parameters - deleting and re-declaring '%s'", o.queueName)
 			if err = o.deleteQueue(); err != nil {
-				return fmt.Errorf("failed to delete queue '%s': %s", o.queueName, err.Error())
+				return fmt.Errorf("failed to delete queue '%s': %w", o.queueName, err)
 			}
 			if err = o.declareQueue(); err != nil {
-				return fmt.Errorf("failed to re-declare queue '%s': %s", o.queueName, err.Error())
+				return fmt.Errorf("failed to re-declare queue '%s': %w", o.queueName, err)
 			}
 			o.ctp.LogDebug("queue '%s' re-declared with new parameters", o.queueName)
 			o.doneInit()
@@ -310,7 +384,7 @@ func (o *subscriber) connInit() error {
 			return fmt.Errorf("failed to declare queue '%s'. AMQP Error: Code: %d, Reason: %s", o.queueName, amqpErr.Code, amqpErr.Reason)
 		}
 	}
-	return fmt.Errorf("failed to declare queue '%s': %s", o.queueName, err.Error())
+	return fmt.Errorf("failed to declare queue '%s': %w", o.queueName, err)
 }
 
 func (o *subscriber) connCleanup() {
@@ -333,7 +407,7 @@ func (o *subscriber) workRpc(role string) error {
 		return err
 	}
 	if err = o.amqpChannel.Qos(1, 0, false); err != nil {
-		return fmt.Errorf("failed to set QoS: %s", err.Error())
+		return fmt.Errorf("failed to set QoS: %w", err)
 	}
 	var deliveryChan <-chan amqp.Delivery
 	if deliveryChan, err = o.amqpChannel.Consume(
@@ -345,7 +419,7 @@ func (o *subscriber) workRpc(role string) error {
 		false,        // no-wait
 		nil,          // args
 	); err != nil {
-		return fmt.Errorf("failed to register a consumer: %s", err.Error())
+		return fmt.Errorf("failed to register a consumer: %w", err)
 	}
 	errorChan := o.amqpChannel.NotifyClose(make(chan *amqp.Error))
 
@@ -358,7 +432,7 @@ func (o *subscriber) workRpc(role string) error {
 			}
 			o.ctp.LogDebug("recv: %s", d.RoutingKey)
 			if err = d.Ack(false); err != nil {
-				return fmt.Errorf("failed ack for %s message: %s", role, err.Error())
+				return fmt.Errorf("failed ack for %s message: %w", role, err)
 			}
 			if role == "command" {
 				go o.handleCommandMessage(d.Body, d.ReplyTo)
@@ -417,14 +491,14 @@ func (o *subscriber) workMessage() (err error) {
 		exchangeName, _ := messageType2Exchange(o.messageType)
 		err = o.amqpChannel.QueueBind(o.queue.Name, routingKey, exchangeName, false, nil)
 		if err != nil {
-			return fmt.Errorf("failed to bind a queue: %s", err.Error())
+			return fmt.Errorf("failed to bind a queue: %w", err)
 		}
 		o.ctp.LogDebug("subs: %s@%s(%s)", routingKey, exchangeName, o.queue.Name)
 	}
 
-	msgs, err := o.amqpChannel.Consume(o.queue.Name, "", true, false, false, false, nil)
+	msgs, err := o.amqpChannel.Consume(o.queue.Name, "", !o.options.ManualAck, false, false, false, nil)
 	if err != nil {
-		return fmt.Errorf("failed to register a consumer: %s", err.Error())
+		return fmt.Errorf("failed to register a consumer: %w", err)
 	}
 	errorChan := o.amqpChannel.NotifyClose(make(chan *amqp.Error))
 
@@ -439,7 +513,7 @@ func (o *subscriber) workMessage() (err error) {
 	o.ctp.LogDebug("lstn: %s", o.queue.Name)
 	o.running = true
 	for o.running {
-		// as soon as context is cancelled, we should stop the worker
+		// as soon as context is canceled, we should stop the worker
 		select {
 		case d := <-errorChan:
 			o.running = false
@@ -460,7 +534,7 @@ func (o *subscriber) handleIncoming(msg amqp.Delivery) (errResult error) {
 	}()
 	// for subscribers, who want to receive the raw bytes of the message
 	if o.callbackRaw != nil {
-		o.callbackRaw(msg.Body)
+		o.callbackRaw(msg.Body, &acknowledger{msg})
 	}
 	if o.callbackSignal == nil && o.callbackData == nil {
 		return
@@ -472,18 +546,18 @@ func (o *subscriber) handleIncoming(msg amqp.Delivery) (errResult error) {
 			var signalMsg m2cp.SignalMessage
 			signalMsg, err = messages.SignalFromBinary(msg.Body)
 			if err != nil {
-				return fmt.Errorf("failed to parse signal message: %s", err.Error())
+				return fmt.Errorf("failed to parse signal message: %w", err)
 			}
-			o.callbackSignal(signalMsg)
+			o.callbackSignal(signalMsg, &acknowledger{msg})
 		}
 	case m2cp.MessageTypeData:
 		if o.callbackData != nil {
 			var dataMsg m2cp.DataMessage
 			dataMsg, err = messages.DataFromBinary(msg.Body)
 			if err != nil {
-				return fmt.Errorf("failed to parse data message: %s", err.Error())
+				return fmt.Errorf("failed to parse data message: %w", err)
 			}
-			o.callbackData(dataMsg)
+			o.callbackData(dataMsg, &acknowledger{msg})
 		}
 	default:
 		return fmt.Errorf("message of unexpected type: %s", msg.Body)

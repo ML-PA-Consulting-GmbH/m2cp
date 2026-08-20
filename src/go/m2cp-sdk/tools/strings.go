@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"strings"
 	"time"
 	"unicode"
@@ -40,15 +41,36 @@ func FormatHex(b []byte) string {
 	return sb.String()
 }
 
-func DecodeSensorId(encodedID string) (uint32, error) {
+func trimTrailingZeros(buf []byte) []byte {
+	i := len(buf)
+	for i > 0 && buf[i-1] == 0 {
+		i--
+	}
+	if i != len(buf) {
+		buf = buf[:i]
+	}
+	return buf
+}
 
-	decodedBytes, errURL := base64.RawURLEncoding.DecodeString(encodedID)
+func encodeHardwareSerial(hardwareSerial uint32) []byte {
+	buf := make([]byte, 4)
+	binary.LittleEndian.PutUint32(buf, hardwareSerial)
+	return buf
+}
+
+// DecodeHardwareSerial transforms encoded Hardware Serial to an integer value. The hardware serial is a
+// 32-bit unsigned integer in little-endian byte order, encoded as Base 64 using the
+// URL and filename safe alphabet (see also: https://datatracker.ietf.org/doc/html/rfc4648#section-5). It must not have
+// trailing pad characters (`=`) and may have trimmed zero bytes.
+func DecodeHardwareSerial(encodedHardwareSerial string) (uint32, error) {
+	decodedBytes, errURL := base64.RawURLEncoding.DecodeString(encodedHardwareSerial)
 	if errURL != nil {
 		var errStd error
-		if decodedBytes, errStd = base64.RawStdEncoding.DecodeString(encodedID); errStd != nil {
-			return 0, errors.New("failed to decode base64:\n" + "- for URL safe encoding:" + errURL.Error() + "\n" + "- for standard encoding" + errStd.Error())
+		if decodedBytes, errStd = base64.RawStdEncoding.DecodeString(encodedHardwareSerial); errStd != nil {
+			return 0, fmt.Errorf("failed to decode base64: URL safe encoding failed with: %w: standard encoding failed with: %w", errURL, errStd)
 		}
 	}
+
 	// right pad with zero bytes to handle numbers that don't use all 4 bytes
 	if len(decodedBytes) < 4 {
 		decodedBytes = append(decodedBytes, make([]byte, 4-len(decodedBytes))...)
@@ -71,20 +93,32 @@ func DecodeSensorId(encodedID string) (uint32, error) {
 	}
 }
 
+// Deprecated: use DecodeHardwareSerial instead.
+//
+//go:fix inline
+func DecodeSensorId(encodedID string) (uint32, error) {
+	return DecodeHardwareSerial(encodedID)
+}
+
+// EncodeHardwareSerial transforms the Hardware Serial to the encoded representation as a string. The hardware serial is a
+// 32-bit unsigned integer in little-endian byte order, encoded as Base 64 using the
+// URL and filename safe alphabet (see also: https://datatracker.ietf.org/doc/html/rfc4648#section-5). It must not have
+// trailing pad characters (`=`) and zero bytes are not trimmed.
+func EncodeHardwareSerial(hardwareSerial uint32) string {
+	return base64.RawURLEncoding.EncodeToString(encodeHardwareSerial(hardwareSerial))
+}
+
+// Deprecated: use EncodeHardwareSerial instead.
+//
+//go:fix inline
 func EncodeSensorId(id uint32) string {
-	buf := make([]byte, 4)
-	binary.LittleEndian.PutUint32(buf, id)
+	return EncodeHardwareSerial(id)
+}
 
-	// Trim trailing zero bytes to handle numbers that don't use all 4 bytes
-	i := len(buf)
-	for i > 0 && buf[i-1] == 0 {
-		i--
-	}
-	if i != len(buf) {
-		buf = buf[:i]
-	}
-
-	return base64.RawStdEncoding.EncodeToString(buf)
+// Deprecated: use EncodeHardwareSerial without trimming instead.
+// EncodeSensorIdTrimmed returns the encoded hardware serial without trailing zero bytes.
+func EncodeSensorIdTrimmed(id uint32) string {
+	return base64.RawURLEncoding.EncodeToString(trimTrailingZeros(encodeHardwareSerial(id)))
 }
 
 func ConvertToISO8601UTC(timeStr string) (string, error) {

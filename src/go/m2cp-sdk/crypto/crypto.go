@@ -4,12 +4,14 @@ import (
 	"bytes"
 	"crypto"
 	"crypto/rsa"
+	"crypto/sha3"
 	"encoding/base64"
 	"fmt"
-	"golang.org/x/crypto/openpgp/packet"
-	"golang.org/x/crypto/sha3"
+	"hash"
 	"io"
 	"time"
+
+	"github.com/ProtonMail/go-crypto/openpgp/packet"
 )
 
 var (
@@ -58,7 +60,7 @@ func encodeKeyBase64(key PublicKey) (string, error) {
 }
 
 func newOpenPGPPubKey(intPubKey *packet.PublicKey) *openpgpPubKey {
-	h := sha3.New384()
+	h := hash.Hash(sha3.New384())
 	h.Write(v1Header)
 	err := intPubKey.Serialize(h)
 	if err != nil {

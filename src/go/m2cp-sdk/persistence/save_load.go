@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -49,7 +50,7 @@ func saveStruct(structure any, location string, path string) (string, error) {
 
 	marshalled, err := json.Marshal(structure)
 	if err != nil {
-		return "", errors.New("could not marshal struct into storage format (JSON): " + err.Error())
+		return "", fmt.Errorf("could not marshal struct into storage format (JSON): %w", err)
 	}
 
 	entryPath := ""
@@ -63,7 +64,7 @@ func saveStruct(structure any, location string, path string) (string, error) {
 	}
 
 	if err != nil {
-		return "", errors.New("could not resolve path: " + err.Error())
+		return "", fmt.Errorf("could not resolve path: %w", err)
 	}
 
 	truePath := filepath.Join(entryPath, path)
@@ -104,7 +105,7 @@ func loadStruct(pointer any, location string, path string) error {
 	}
 
 	if err != nil {
-		return errors.New("could not resolve path: " + err.Error())
+		return fmt.Errorf("could not resolve path: %w", err)
 	}
 
 	truePath := filepath.Join(entryPath, path)
@@ -121,7 +122,7 @@ func loadStruct(pointer any, location string, path string) error {
 	data, err := loadFromFile(truePath)
 
 	if err != nil {
-		return errors.New("could not load struct: " + err.Error())
+		return fmt.Errorf("could not load struct: %w", err)
 	}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))
@@ -129,7 +130,7 @@ func loadStruct(pointer any, location string, path string) error {
 
 	err = decoder.Decode(pointer)
 	if err != nil {
-		return errors.New("could not decode JSON into struct: " + err.Error())
+		return fmt.Errorf("could not decode JSON into struct: %w", err)
 	}
 
 	return nil
@@ -148,7 +149,7 @@ func saveBytes(data []byte, location string, path string) (string, error) {
 	}
 
 	if err != nil {
-		return "", errors.New("could not resolve path: " + err.Error())
+		return "", fmt.Errorf("could not resolve path: %w", err)
 	}
 
 	truePath := filepath.Join(entryPath, path)
@@ -170,14 +171,14 @@ func loadBytes(location string, path string) ([]byte, error) {
 	}
 
 	if err != nil {
-		return nil, errors.New("could not resolve path: " + err.Error())
+		return nil, fmt.Errorf("could not resolve path: %w", err)
 	}
 
 	truePath := filepath.Join(entryPath, path)
 
 	data, err := loadFromFile(truePath)
 	if err != nil {
-		return []byte{}, errors.New("could not load bytes: " + err.Error())
+		return []byte{}, fmt.Errorf("could not load bytes: %w", err)
 	}
 
 	return data, nil
@@ -188,22 +189,22 @@ func saveToFile(data []byte, absPath string) (string, error) {
 	dir := filepath.Dir(absPath)
 	err := os.MkdirAll(dir, os.ModePerm)
 	if err != nil {
-		return "", errors.New("could not create directory: " + err.Error())
+		return "", fmt.Errorf("could not create directory: %w", err)
 	}
 
 	file, err := os.Create(absPath)
 	if err != nil {
-		return "", errors.New("could not create file at path: " + absPath + " error: " + err.Error())
+		return "", fmt.Errorf("could not create file at path %s: %w", absPath, err)
 	}
 
 	_, err = file.Write(data)
 	if err != nil {
-		return "", errors.New("could not write to file at path: " + absPath + " error: " + err.Error())
+		return "", fmt.Errorf("could not write to file at path %s: %w", absPath, err)
 	}
 
 	err = file.Close()
 	if err != nil {
-		return absPath, errors.New("could not close file at path: " + absPath + " error: " + err.Error())
+		return absPath, fmt.Errorf("could not close file at path %s: %w", absPath, err)
 	}
 	return absPath, nil
 }
@@ -212,7 +213,7 @@ func loadFromFile(absPath string) ([]byte, error) {
 
 	data, err := os.ReadFile(absPath)
 	if err != nil {
-		return nil, errors.New("could not read file at path: " + absPath + " error: " + err.Error())
+		return nil, fmt.Errorf("could not read file at path %s: %w", absPath, err)
 	}
 
 	return data, nil
@@ -232,7 +233,7 @@ func ensureSubPath(basePath, targetPath string) error {
 
 	// Check if relPath starts with ".." which means it's outside basePath
 	if strings.HasPrefix(relPath, "..") {
-		return errors.New("path: " + targetPath + " is outside of base path: " + basePath)
+		return fmt.Errorf("path %s is outside of base path %s", targetPath, basePath)
 	}
 
 	return nil

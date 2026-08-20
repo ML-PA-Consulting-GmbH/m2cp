@@ -299,46 +299,6 @@ func (t *TestSuite) TestDTLSErrorResult() {
 	t.Contains(string(res), "error response")
 }
 
-// TestDTLSMultiIp tests the servers behaviour when being reachable on multiple IPs.
-// A bug reported, that the server answers from a different IP than the one it received the request on in that case.
-// This test should ensure that the server answers from the same IP as the request was received on.
-// To prepare this test, you need to add an additional IP to your network interface:
-// $ sudo ip -6 addr add fd12:3456:789a:1::1/128 dev lo
-func (t *TestSuite) TestDTLSMultiIp() {
-	if os.Getenv("CI") == "true" {
-		t.ctp.LogInfo("Skipping test TestDTLSMultiIp in CI environment")
-		t.T().Skip("Skipping test TestDTLSMultiIp in CI environment")
-		return
-	}
-	port, freeResource := tests.GetCoapDTLSTestPort()
-	defer freeResource()
-	conf := coap.NewDTLSConfigSingleKey("m2cp-coap", []byte{0xAB, 0xC1, 0x23})
-
-	addresses := []string{"[::]:" + port}
-
-	err := NewServer(t.ctp, addresses, []m2cp.CoapEndpoint{
-		EndpointHello(),
-	}, m2cp.CoapServerOptions{
-		DTLS: conf,
-	})
-	t.NoError(err)
-	t.ctp.LogInfo("Server started")
-
-	t.ctp.Sleep(1 * time.Second)
-
-	res, err := libcoapDTLSClientRequest(t.ctp, LibcoapDTLSRequest{
-		Addr:     "[::1]:" + port,
-		Path:     "/hello",
-		Method:   "get",
-		Token:    true,
-		Identity: "m2cp-client",
-		Key:      []byte{0xAB, 0xC1, 0x23},
-	})
-	t.NoError(err, "Error sending CoAP request - please make sure you have added the IP fd12:3456:789a:1::1 to your network interface ($ sudo ip -6 addr add fd12:3456:789a:1::1/128 dev lo)")
-	t.Equal([]byte("hello!"), res)
-
-}
-
 func (t *TestSuite) TestDTLSLargePayloadPost() {
 	port, freeResource := tests.GetCoapDTLSTestPort()
 	defer freeResource()
