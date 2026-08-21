@@ -265,6 +265,7 @@ func customDeviceInfoFormatter(output deviceInfoOutput) (string, error) {
 	out += fmt.Sprintf("\n%s:  ", console.Colorize(console.Green, "Device"))
 	out += fmt.Sprintf("\n  ├─ Id:                      %s", deviceInfo.DeviceId)
 	out += fmt.Sprintf("\n  ├─ OS Serial:               %s", deviceInfo.DeviceSerial)
+	out += fmt.Sprintf("\n  ├─ Hardware Serial:         %s", tools.MaybeStringToString(deviceInfo.HardwareSerialNumber, "n/a"))
 	out += fmt.Sprintf("\n  ├─ Name:                    %s", tools.MaybeStringToString(deviceInfo.DeviceName, "n/a"))
 	out += fmt.Sprintf("\n  ├─ Description:             %s", tools.MaybeStringToString(deviceInfo.Description, "n/a"))
 	out += fmt.Sprintf("\n  ├─ Device Enabled:          %s", tools.BoolToString(deviceInfo.IsDeviceActivated, "yes", "no"))
@@ -347,20 +348,22 @@ func customDeviceInfoFormatter(output deviceInfoOutput) (string, error) {
 			out += fmt.Sprintf("%s\n", console.Colorize(console.Yellow, "* no Real Time Devices seen recently"))
 		} else {
 			peersTable := format.NewTable(map[string]string{
-				"serial": "Serial",
-				"name":   "Name",
-				"arch":   "Arch",
-				"model":  "Model",
+				"serial":   "Serial",
+				"hwserial": "Hardware Serial",
+				"name":     "Name",
+				"arch":     "Arch",
+				"model":    "Model",
 			})
 			for _, device := range deviceInfo.LastRealTimeDevices {
 				peersTable.AddRow(map[string]string{
-					"serial": device.DeviceSerial,
-					"name":   tools.MaybeStringToString(device.DeviceName, "n/a"),
-					"arch":   device.DeviceArchitecture,
-					"model":  fmt.Sprintf("%s (%d)", device.DeviceModelRevision.Name, device.DeviceModelRevision.Revision),
+					"serial":   device.DeviceSerial,
+					"hwserial": tools.MaybeStringToString(device.HardwareSerialNumber, "n/a"),
+					"name":     tools.MaybeStringToString(device.DeviceName, "n/a"),
+					"arch":     device.DeviceArchitecture,
+					"model":    fmt.Sprintf("%s (%d)", device.DeviceModelRevision.Name, device.DeviceModelRevision.Revision),
 				})
 			}
-			out += peersTable.StringSelect([]string{"serial", "name", "arch", "model"})
+			out += peersTable.StringSelect([]string{"serial", "hwserial", "name", "arch", "model"})
 		}
 	} else if deviceInfo.DeviceArchitecture == "ARM32" {
 		if deviceInfo.LastEdgeDevice == nil {

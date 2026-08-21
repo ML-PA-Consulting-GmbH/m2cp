@@ -3,6 +3,7 @@ query getDeviceInfoBasic($id: UUID!) {
     device(id: $id) {
         id
         serialNumber
+        hardwareSerialNumber
         deviceName
         description
         deviceStatus {
@@ -47,11 +48,13 @@ query getDeviceInfoBasic($id: UUID!) {
         connectedDevice{
             id
             serialNumber
+            hardwareSerialNumber
             deviceName
         }
         connectedDevices{
             id
             serialNumber
+            hardwareSerialNumber
             deviceName
             deviceModelRevision {
                 deviceModel {

@@ -90,6 +90,7 @@ query getDeviceInfoById($id: UUID!) {
         connectedDevices{
             id
             serialNumber
+            hardwareSerialNumber
             deviceName
             deviceModelRevision {
                 deviceModel {

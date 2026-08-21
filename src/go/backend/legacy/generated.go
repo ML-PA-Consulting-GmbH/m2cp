@@ -14433,20 +14433,21 @@ func (v *getDeviceIdBySerialResponse) GetData() *getDeviceIdBySerialDataDeviceCo
 //
 // I am a generated type!
 type getDeviceInfoBasicDevice struct {
-	Id                  string                                                     `json:"id"`
-	SerialNumber        string                                                     `json:"serialNumber"`
-	DeviceName          *string                                                    `json:"deviceName"`
-	Description         *string                                                    `json:"description"`
-	IsDeviceActivated   bool                                                       `json:"isDeviceActivated"`
-	IsUpdateActivated   bool                                                       `json:"isUpdateActivated"`
-	DeviceStatus        *getDeviceInfoBasicDeviceDeviceStatus                      `json:"deviceStatus"`
-	DeviceModelRevision *getDeviceInfoBasicDeviceDeviceModelRevision               `json:"deviceModelRevision"`
-	PendingActions      *getDeviceInfoBasicDevicePendingActionsDevicePendingAction `json:"pendingActions"`
-	ConnectedDevice     *getDeviceInfoBasicDeviceConnectedDevice                   `json:"connectedDevice"`
-	ConnectedDevices    []*getDeviceInfoBasicDeviceConnectedDevicesDevice          `json:"connectedDevices"`
-	DeviceSnap          *getDeviceInfoBasicDeviceDeviceSnap                        `json:"deviceSnap"`
-	AssetId             *string                                                    `json:"assetId"`
-	Asset               *getDeviceInfoBasicDeviceAsset                             `json:"asset"`
+	Id                   string                                                     `json:"id"`
+	SerialNumber         string                                                     `json:"serialNumber"`
+	HardwareSerialNumber *string                                                    `json:"hardwareSerialNumber"`
+	DeviceName           *string                                                    `json:"deviceName"`
+	Description          *string                                                    `json:"description"`
+	IsDeviceActivated    bool                                                       `json:"isDeviceActivated"`
+	IsUpdateActivated    bool                                                       `json:"isUpdateActivated"`
+	DeviceStatus         *getDeviceInfoBasicDeviceDeviceStatus                      `json:"deviceStatus"`
+	DeviceModelRevision  *getDeviceInfoBasicDeviceDeviceModelRevision               `json:"deviceModelRevision"`
+	PendingActions       *getDeviceInfoBasicDevicePendingActionsDevicePendingAction `json:"pendingActions"`
+	ConnectedDevice      *getDeviceInfoBasicDeviceConnectedDevice                   `json:"connectedDevice"`
+	ConnectedDevices     []*getDeviceInfoBasicDeviceConnectedDevicesDevice          `json:"connectedDevices"`
+	DeviceSnap           *getDeviceInfoBasicDeviceDeviceSnap                        `json:"deviceSnap"`
+	AssetId              *string                                                    `json:"assetId"`
+	Asset                *getDeviceInfoBasicDeviceAsset                             `json:"asset"`
 }
 
 // GetId returns getDeviceInfoBasicDevice.Id, and is useful for accessing the field via an interface.
@@ -14454,6 +14455,9 @@ func (v *getDeviceInfoBasicDevice) GetId() string { return v.Id }
 
 // GetSerialNumber returns getDeviceInfoBasicDevice.SerialNumber, and is useful for accessing the field via an interface.
 func (v *getDeviceInfoBasicDevice) GetSerialNumber() string { return v.SerialNumber }
+
+// GetHardwareSerialNumber returns getDeviceInfoBasicDevice.HardwareSerialNumber, and is useful for accessing the field via an interface.
+func (v *getDeviceInfoBasicDevice) GetHardwareSerialNumber() *string { return v.HardwareSerialNumber }
 
 // GetDeviceName returns getDeviceInfoBasicDevice.DeviceName, and is useful for accessing the field via an interface.
 func (v *getDeviceInfoBasicDevice) GetDeviceName() *string { return v.DeviceName }
@@ -14519,9 +14523,10 @@ func (v *getDeviceInfoBasicDeviceAsset) GetId() string { return v.Id }
 //
 // I am a generated type!
 type getDeviceInfoBasicDeviceConnectedDevice struct {
-	Id           string  `json:"id"`
-	SerialNumber string  `json:"serialNumber"`
-	DeviceName   *string `json:"deviceName"`
+	Id                   string  `json:"id"`
+	SerialNumber         string  `json:"serialNumber"`
+	HardwareSerialNumber *string `json:"hardwareSerialNumber"`
+	DeviceName           *string `json:"deviceName"`
 }
 
 // GetId returns getDeviceInfoBasicDeviceConnectedDevice.Id, and is useful for accessing the field via an interface.
@@ -14529,6 +14534,11 @@ func (v *getDeviceInfoBasicDeviceConnectedDevice) GetId() string { return v.Id }
 
 // GetSerialNumber returns getDeviceInfoBasicDeviceConnectedDevice.SerialNumber, and is useful for accessing the field via an interface.
 func (v *getDeviceInfoBasicDeviceConnectedDevice) GetSerialNumber() string { return v.SerialNumber }
+
+// GetHardwareSerialNumber returns getDeviceInfoBasicDeviceConnectedDevice.HardwareSerialNumber, and is useful for accessing the field via an interface.
+func (v *getDeviceInfoBasicDeviceConnectedDevice) GetHardwareSerialNumber() *string {
+	return v.HardwareSerialNumber
+}
 
 // GetDeviceName returns getDeviceInfoBasicDeviceConnectedDevice.DeviceName, and is useful for accessing the field via an interface.
 func (v *getDeviceInfoBasicDeviceConnectedDevice) GetDeviceName() *string { return v.DeviceName }
@@ -14538,10 +14548,11 @@ func (v *getDeviceInfoBasicDeviceConnectedDevice) GetDeviceName() *string { retu
 //
 // I am a generated type!
 type getDeviceInfoBasicDeviceConnectedDevicesDevice struct {
-	Id                  string                                                             `json:"id"`
-	SerialNumber        string                                                             `json:"serialNumber"`
-	DeviceName          *string                                                            `json:"deviceName"`
-	DeviceModelRevision *getDeviceInfoBasicDeviceConnectedDevicesDeviceDeviceModelRevision `json:"deviceModelRevision"`
+	Id                   string                                                             `json:"id"`
+	SerialNumber         string                                                             `json:"serialNumber"`
+	HardwareSerialNumber *string                                                            `json:"hardwareSerialNumber"`
+	DeviceName           *string                                                            `json:"deviceName"`
+	DeviceModelRevision  *getDeviceInfoBasicDeviceConnectedDevicesDeviceDeviceModelRevision `json:"deviceModelRevision"`
 }
 
 // GetId returns getDeviceInfoBasicDeviceConnectedDevicesDevice.Id, and is useful for accessing the field via an interface.
@@ -14550,6 +14561,11 @@ func (v *getDeviceInfoBasicDeviceConnectedDevicesDevice) GetId() string { return
 // GetSerialNumber returns getDeviceInfoBasicDeviceConnectedDevicesDevice.SerialNumber, and is useful for accessing the field via an interface.
 func (v *getDeviceInfoBasicDeviceConnectedDevicesDevice) GetSerialNumber() string {
 	return v.SerialNumber
+}
+
+// GetHardwareSerialNumber returns getDeviceInfoBasicDeviceConnectedDevicesDevice.HardwareSerialNumber, and is useful for accessing the field via an interface.
+func (v *getDeviceInfoBasicDeviceConnectedDevicesDevice) GetHardwareSerialNumber() *string {
+	return v.HardwareSerialNumber
 }
 
 // GetDeviceName returns getDeviceInfoBasicDeviceConnectedDevicesDevice.DeviceName, and is useful for accessing the field via an interface.
@@ -14947,10 +14963,11 @@ func (v *getDeviceInfoByIdDeviceConnectedDevice) GetDeviceName() *string { retur
 //
 // I am a generated type!
 type getDeviceInfoByIdDeviceConnectedDevicesDevice struct {
-	Id                  string                                                            `json:"id"`
-	SerialNumber        string                                                            `json:"serialNumber"`
-	DeviceName          *string                                                           `json:"deviceName"`
-	DeviceModelRevision *getDeviceInfoByIdDeviceConnectedDevicesDeviceDeviceModelRevision `json:"deviceModelRevision"`
+	Id                   string                                                            `json:"id"`
+	SerialNumber         string                                                            `json:"serialNumber"`
+	HardwareSerialNumber *string                                                           `json:"hardwareSerialNumber"`
+	DeviceName           *string                                                           `json:"deviceName"`
+	DeviceModelRevision  *getDeviceInfoByIdDeviceConnectedDevicesDeviceDeviceModelRevision `json:"deviceModelRevision"`
 }
 
 // GetId returns getDeviceInfoByIdDeviceConnectedDevicesDevice.Id, and is useful for accessing the field via an interface.
@@ -14959,6 +14976,11 @@ func (v *getDeviceInfoByIdDeviceConnectedDevicesDevice) GetId() string { return 
 // GetSerialNumber returns getDeviceInfoByIdDeviceConnectedDevicesDevice.SerialNumber, and is useful for accessing the field via an interface.
 func (v *getDeviceInfoByIdDeviceConnectedDevicesDevice) GetSerialNumber() string {
 	return v.SerialNumber
+}
+
+// GetHardwareSerialNumber returns getDeviceInfoByIdDeviceConnectedDevicesDevice.HardwareSerialNumber, and is useful for accessing the field via an interface.
+func (v *getDeviceInfoByIdDeviceConnectedDevicesDevice) GetHardwareSerialNumber() *string {
+	return v.HardwareSerialNumber
 }
 
 // GetDeviceName returns getDeviceInfoByIdDeviceConnectedDevicesDevice.DeviceName, and is useful for accessing the field via an interface.
@@ -20438,6 +20460,7 @@ query getDeviceInfoBasic ($id: UUID!) {
 	device(id: $id) {
 		id
 		serialNumber
+		hardwareSerialNumber
 		deviceName
 		description
 		isDeviceActivated
@@ -20484,11 +20507,13 @@ query getDeviceInfoBasic ($id: UUID!) {
 		connectedDevice {
 			id
 			serialNumber
+			hardwareSerialNumber
 			deviceName
 		}
 		connectedDevices {
 			id
 			serialNumber
+			hardwareSerialNumber
 			deviceName
 			deviceModelRevision {
 				deviceModel {
@@ -20633,6 +20658,7 @@ query getDeviceInfoById ($id: UUID!) {
 		connectedDevices {
 			id
 			serialNumber
+			hardwareSerialNumber
 			deviceName
 			deviceModelRevision {
 				deviceModel {

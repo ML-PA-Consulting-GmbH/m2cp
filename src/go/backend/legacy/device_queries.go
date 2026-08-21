@@ -167,13 +167,14 @@ func GetDeviceInfoById(ctx context.Context, id string) (*structs.Device, error) 
 	}
 
 	deviceInfo := structs.Device{
-		DeviceId:           resBasic.Device.Id,
-		DeviceSerial:       resBasic.Device.SerialNumber,
-		DeviceName:         resBasic.Device.DeviceName,
-		Description:        resBasic.Device.Description,
-		IsDeviceActivated:  resBasic.Device.IsDeviceActivated,
-		IsUpdateActivated:  resBasic.Device.IsUpdateActivated,
-		DeviceArchitecture: string(resBasic.Device.DeviceModelRevision.DeviceModel.Architecture),
+		DeviceId:             resBasic.Device.Id,
+		DeviceSerial:         resBasic.Device.SerialNumber,
+		HardwareSerialNumber: resBasic.Device.HardwareSerialNumber,
+		DeviceName:           resBasic.Device.DeviceName,
+		Description:          resBasic.Device.Description,
+		IsDeviceActivated:    resBasic.Device.IsDeviceActivated,
+		IsUpdateActivated:    resBasic.Device.IsUpdateActivated,
+		DeviceArchitecture:   string(resBasic.Device.DeviceModelRevision.DeviceModel.Architecture),
 		DeviceModelRevision: &structs.DeviceModelRevision{
 			Id:           resBasic.Device.DeviceModelRevision.Id,
 			Name:         resBasic.Device.DeviceModelRevision.DeviceModel.ModelName,
@@ -264,10 +265,11 @@ func GetDeviceInfoById(ctx context.Context, id string) (*structs.Device, error) 
 		deviceInfo.LastRealTimeDevices = []structs.Device{}
 		for _, device := range resBasic.Device.ConnectedDevices {
 			deviceInfo.LastRealTimeDevices = append(deviceInfo.LastRealTimeDevices, structs.Device{
-				DeviceId:           device.Id,
-				DeviceSerial:       device.SerialNumber,
-				DeviceName:         device.DeviceName,
-				DeviceArchitecture: string(device.DeviceModelRevision.DeviceModel.Architecture),
+				DeviceId:             device.Id,
+				DeviceSerial:         device.SerialNumber,
+				HardwareSerialNumber: device.HardwareSerialNumber,
+				DeviceName:           device.DeviceName,
+				DeviceArchitecture:   string(device.DeviceModelRevision.DeviceModel.Architecture),
 				DeviceModelRevision: &structs.DeviceModelRevision{
 					Name:         device.DeviceModelRevision.DeviceModel.ModelName,
 					Architecture: string(device.DeviceModelRevision.DeviceModel.Architecture),

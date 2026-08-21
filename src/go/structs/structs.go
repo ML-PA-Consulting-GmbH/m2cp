@@ -143,6 +143,7 @@ type Device struct {
 	DeviceId                string     `json:"deviceId"`
 	DeviceType              DeviceType `json:"deviceType"`
 	DeviceSerial            string     `json:"deviceSerial"`
+	HardwareSerialNumber    *string    `json:"hardwareSerialNumber,omitempty"`
 	DeviceArchitecture      string     `json:"deviceArchitecture"`
 	DeviceName              *string    `json:"deviceName"`
 	Description             *string    `json:"description"`
