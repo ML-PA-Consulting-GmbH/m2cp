@@ -12,7 +12,7 @@ import (
 func StoreSession(method AuthenticationMethod, url, userEmail, privateKeyPath, jwt string) error {
 	sanitizedUrl, err := config.SanitizeStoreUrl(url)
 	if err != nil {
-		return fmt.Errorf("could not sanitize store url \"%s\": %v", url, err)
+		return fmt.Errorf("could not sanitize store url %q: %w", url, err)
 	}
 	storeId := UrlToStoreId(sanitizedUrl)
 
@@ -30,7 +30,7 @@ func StoreSession(method AuthenticationMethod, url, userEmail, privateKeyPath, j
 	viper.Set("jwt", jwt)
 	err = viper.WriteConfig()
 	if err != nil {
-		return fmt.Errorf("could not store session: %s", err)
+		return fmt.Errorf("could not store session: %w", err)
 	}
 	return nil
 }
@@ -43,7 +43,7 @@ func StoreTenant(tenantId, alias, name string) error {
 	viper.Set("tenant-alias", alias)
 	viper.Set("tenant-name", name)
 	if err := viper.WriteConfig(); err != nil {
-		return fmt.Errorf("could not store tenant: %s", err)
+		return fmt.Errorf("could not store tenant: %w", err)
 	}
 	return nil
 }
@@ -56,7 +56,7 @@ func StorePermissions(roles []string, isSuperAdmin bool) error {
 	viper.Set("permissions-roles", roles)
 	viper.Set("permissions-is-super-admin", isSuperAdmin)
 	if err := viper.WriteConfig(); err != nil {
-		return fmt.Errorf("could not store permissions: %s", err)
+		return fmt.Errorf("could not store permissions: %w", err)
 	}
 	return nil
 }
@@ -87,19 +87,19 @@ func GetSshDetails(url string, sshUserArg, sshKeyArg string) (sshUser string, ss
 
 	if sshKeyArg != "" {
 		if sshKey, err = tools.Abspath(sshKeyArg); err != nil {
-			return "", "", fmt.Errorf("could not find absolute path for \"%s\": %v", sshKeyArg, err)
-		} else {
-			viper.Set(storeId+".ssh-key", sshKey)
-			if err = viper.WriteConfig(); err != nil {
-				return "", "", fmt.Errorf("could not write configuration: %v", err)
-			}
+			return "", "", fmt.Errorf("could not find absolute path for %q: %w", sshKeyArg, err)
+		}
+
+		viper.Set(storeId+".ssh-key", sshKey)
+		if err = viper.WriteConfig(); err != nil {
+			return "", "", fmt.Errorf("could not write configuration: %w", err)
 		}
 	}
 
 	if sshUserArg != "" {
 		viper.Set(storeId+".ssh-user", sshUserArg)
 		if err = viper.WriteConfig(); err != nil {
-			return "", "", fmt.Errorf("could not write configuration: %v", err)
+			return "", "", fmt.Errorf("could not write configuration: %w", err)
 		}
 	}
 

@@ -3,6 +3,7 @@ package user
 import (
 	"bufio"
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"m2cpcli/auth"
@@ -217,18 +218,18 @@ func runLoginCmd(cmd *cobra.Command, args []string) error {
 	method := viper.GetString("method")
 	authenticationMethod, err := env.ParseAuthenticationMethod(method)
 	if err != nil {
-		return fmt.Errorf("%s: please use one of {%s}",
+		return fmt.Errorf("%w: please use one of {%s}",
 			err, env.ListingOfKnownAuthenticationMethods())
 	}
 
 	url := viper.GetString("store")
 	sanitizedUrl, err := config.SanitizeStoreUrl(url)
 	if err != nil {
-		return fmt.Errorf("could not sanitize store url \"%s\": %v", url, err)
+		return fmt.Errorf("could not sanitize store url %q: %w", url, err)
 	}
 	viper.Set("store", sanitizedUrl)
 	if sanitizedUrl == "" {
-		return fmt.Errorf("the store URL must not be empty: please give a value for \"--store\"")
+		return errors.New(`the store URL must not be empty: please give a value for "--store"`)
 	}
 
 	if cmd.Flags().Changed("store") && cmd.Flags().Changed("alias") {
@@ -263,16 +264,16 @@ func runLoginCmd(cmd *cobra.Command, args []string) error {
 
 	sshUserArg, err := cmd.Flags().GetString("ssh-user")
 	if err != nil {
-		return fmt.Errorf("failed to get ssh-user: %s", err)
+		return fmt.Errorf("failed to get ssh-user: %w", err)
 	}
 	sshKeyArg, err := cmd.Flags().GetString("ssh-key")
 	if err != nil {
-		return fmt.Errorf("failed to get ssh-key: %s", err)
+		return fmt.Errorf("failed to get ssh-key: %w", err)
 	}
 	// TODO: GetSshDetails does also change the config!
 	sshUser, sshKey, err := env.GetSshDetails(url, sshUserArg, sshKeyArg)
 	if err != nil {
-		return fmt.Errorf("failed to get SSH details: %s", err)
+		return fmt.Errorf("failed to get SSH details: %w", err)
 	}
 
 	var jwt string
@@ -285,7 +286,7 @@ func runLoginCmd(cmd *cobra.Command, args []string) error {
 		jwt = *token
 	case env.SshAuthentication:
 		if sshUser == "" {
-			return fmt.Errorf("please specify --ssh-user")
+			return errors.New("please specify --ssh-user")
 		}
 		if jwt, err = authenticate(cmd.Context(), sshKey, url, sshUser); err != nil {
 			return err
@@ -304,14 +305,14 @@ func runLoginCmd(cmd *cobra.Command, args []string) error {
 	// and persisted, so status/roles-list don't need to repeat any of these calls.
 	me, err := backend.GetMeWithFallback(cmd.Context())
 	if err != nil {
-		return fmt.Errorf("could not fetch current user information: %s", err)
+		return fmt.Errorf("could not fetch current user information: %w", err)
 	}
 	if me.TenantId == "" {
-		return fmt.Errorf("could not determine tenant id: \"me\" query returned an empty tenantId")
+		return errors.New(`could not determine tenant id: "me" query returned an empty tenantId`)
 	}
 	tenant, err := gql.TenantById(cmd.Context(), gql.UUID(me.TenantId))
 	if err != nil {
-		return fmt.Errorf("could not retrieve tenant metadata: %s", err)
+		return fmt.Errorf("could not retrieve tenant metadata: %w", err)
 	}
 	if err = env.StoreTenant(me.TenantId, tenant.Alias, tenant.TenantName); err != nil {
 		return err
