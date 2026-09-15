@@ -10,11 +10,13 @@ type AuthenticationMethod int
 const (
 	SshAuthentication AuthenticationMethod = iota
 	BrowserAuthentication
+	M2MAuthentication
 )
 
 var allowedAuthenticationMethods = [...]AuthenticationMethod{
 	SshAuthentication,
 	BrowserAuthentication,
+	M2MAuthentication,
 }
 
 func (method AuthenticationMethod) String() string {
@@ -23,6 +25,8 @@ func (method AuthenticationMethod) String() string {
 		return "ssh"
 	case BrowserAuthentication:
 		return "browser"
+	case M2MAuthentication:
+		return "m2m"
 	default:
 		return "unknown"
 	}
@@ -35,7 +39,7 @@ func ParseAuthenticationMethod(method string) (AuthenticationMethod, error) {
 			return m, nil
 		}
 	}
-	return BrowserAuthentication, fmt.Errorf("invalid authentication method: \"%s\"", method)
+	return BrowserAuthentication, fmt.Errorf("invalid authentication method: %q", method)
 }
 
 func IsValidAuthenticationMethod(method string) bool {

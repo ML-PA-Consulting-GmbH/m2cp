@@ -33,14 +33,14 @@ import (
 var loginCmd = &cobra.Command{
 	Use:   "login [alias]",
 	Short: "Log into a m2cp backend",
-	Long: `Log into a m2cp backend. The default authentication method is browser based authentication. Alternatively, SSH authentication can be used.
+	Long: `Log into a m2cp backend. The default authentication method is browser based authentication. Alternatively, m2m or SSH authentication can be used.
 A call without parameters will try to re-use parameters from the last login, as stored in the configuration file.`,
 	Args: validateLoginArgs,
 	//ArgAliases: []string{"user"}, // TODO: how to use them?
 	Example: `When logging in the first time, you need to provide at least a backend URL:
   $ m2cp user login --store <url>
 
-The --method "browser" is the the implicit default. 
+The --method "browser" is the the implicit default.
 Alternatively, you can use --method "ssh" and provide your email or your SSH username (as configured in your user account) for logging in:
 
   $ m2cp user login --method ssh --ssh-user testuser@ml-pa.com --store <url>
@@ -65,7 +65,12 @@ For convenience it is possible to store an alias for a store URL:
 
 Once stored, you can use it to log in like this:
 
-  $ m2cp user login ex1`,
+  $ m2cp user login ex1
+
+For machine-to-machine (M2M) authentication (e.g. CI), use the --method m2m flag and provide the client id and organization id (provide the secret via env M2CP_CLIENT_SECRET or via stdin with --client-secret-stdin):
+
+  $ m2cp user login --method m2m --client-id <client_id> --org-id <org_id> --store <url>
+`,
 	RunE: runLoginCmd,
 }
 
@@ -100,6 +105,12 @@ func init() {
 	loginCmd.Flags().String("method", "browser", fmt.Sprintf("the authentication method in {%s}",
 		env.ListingOfKnownAuthenticationMethods()))
 	loginCmd.Flags().Bool("ignore-update", false, "skip checking for updates (Windows only)")
+
+	loginCmd.Flags().String("client-id", "", "client id for --method m2m (OAuth M2M application)")
+	loginCmd.Flags().String("org-id", "", "organization id for --method m2m (sent as the OAuth 'organization' parameter)")
+	loginCmd.Flags().Bool("client-secret-stdin", false, "read the client secret from stdin for --method m2m (otherwise the M2CP_CLIENT_SECRET env var)")
+	loginCmd.Flags().String("token-endpoint", "", "experts: override the OIDC token endpoint for --method m2m (bypasses backend discovery)")
+	loginCmd.Flags().String("audience", "", "experts: override the machine API audience for --method m2m (bypasses backend discovery)")
 
 	var err error
 	err = viper.BindPFlag("store", loginCmd.Flags().Lookup("store"))
@@ -289,6 +300,38 @@ func runLoginCmd(cmd *cobra.Command, args []string) error {
 			return errors.New("please specify --ssh-user")
 		}
 		if jwt, err = authenticate(cmd.Context(), sshKey, url, sshUser); err != nil {
+			return err
+		}
+	case env.M2MAuthentication:
+		clientId, err := cmd.Flags().GetString("client-id")
+		if err != nil {
+			return fmt.Errorf("failed to get client-id: %w", err)
+		}
+		orgId, err := cmd.Flags().GetString("org-id")
+		if err != nil {
+			return fmt.Errorf("failed to get org-id: %w", err)
+		}
+		if err = auth.ValidateM2MLoginParams(clientId, orgId); err != nil {
+			return err
+		}
+		fromStdin, err := cmd.Flags().GetBool("client-secret-stdin")
+		if err != nil {
+			return fmt.Errorf("failed to get client-secret-stdin: %w", err)
+		}
+		secret, secretErr := auth.ResolveClientSecret(fromStdin, cmd.InOrStdin())
+		if secretErr != nil {
+			return secretErr
+		}
+		tokenEndpointOverride, _ := cmd.Flags().GetString("token-endpoint")
+		audienceOverride, _ := cmd.Flags().GetString("audience")
+		if jwt, err = auth.M2MLogin(cmd.Context(), auth.M2MLoginInput{
+			StoreURL:              sanitizedUrl,
+			ClientID:              clientId,
+			OrgID:                 orgId,
+			Secret:                secret,
+			TokenEndpointOverride: tokenEndpointOverride,
+			AudienceOverride:      audienceOverride,
+		}); err != nil {
 			return err
 		}
 	}
