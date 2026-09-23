@@ -11482,6 +11482,24 @@ func (v *UplinkModeOperationFilterInput) GetIn() []UplinkMode { return v.In }
 // GetNin returns UplinkModeOperationFilterInput.Nin, and is useful for accessing the field via an interface.
 func (v *UplinkModeOperationFilterInput) GetNin() []UplinkMode { return v.Nin }
 
+// UserLogoutResponse is returned by UserLogout on success.
+type UserLogoutResponse struct {
+	UserLogout *UserLogoutUserLogoutUserLogoutOutput `json:"userLogout"`
+}
+
+// GetUserLogout returns UserLogoutResponse.UserLogout, and is useful for accessing the field via an interface.
+func (v *UserLogoutResponse) GetUserLogout() *UserLogoutUserLogoutUserLogoutOutput {
+	return v.UserLogout
+}
+
+// UserLogoutUserLogoutUserLogoutOutput includes the requested fields of the GraphQL type UserLogoutOutput.
+type UserLogoutUserLogoutUserLogoutOutput struct {
+	Success bool `json:"success"`
+}
+
+// GetSuccess returns UserLogoutUserLogoutUserLogoutOutput.Success, and is useful for accessing the field via an interface.
+func (v *UserLogoutUserLogoutUserLogoutOutput) GetSuccess() bool { return v.Success }
+
 // __AddAppRevisionToDeploymentGroupMutationInput is used internally by genqlient
 type __AddAppRevisionToDeploymentGroupMutationInput struct {
 	DeploymentGroupId string `json:"deploymentGroupId"`
@@ -19347,6 +19365,41 @@ func UpdateSnapRevisionStatus(
 	}
 
 	data_ = &UpdateSnapRevisionStatusResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
+// The mutation executed by UserLogout.
+const UserLogout_Operation = `
+mutation UserLogout {
+	userLogout {
+		success
+	}
+}
+`
+
+func UserLogout(
+	ctx_ context.Context,
+) (data_ *UserLogoutResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "UserLogout",
+		Query:  UserLogout_Operation,
+	}
+	var client_ graphql.Client
+
+	client_, err_ = infrastructure.NewGraphqlClient(ctx_)
+	if err_ != nil {
+		return nil, err_
+	}
+
+	data_ = &UserLogoutResponse{}
 	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(

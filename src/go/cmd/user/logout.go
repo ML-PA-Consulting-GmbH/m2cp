@@ -1,15 +1,18 @@
 package user
 
 import (
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	"fmt"
+	"m2cpcli/backend"
 	"m2cpcli/env"
 	"m2cpcli/format"
+
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var logoutCmd = &cobra.Command{
 	Use:   "logout",
-	Short: "logout current developer",
+	Short: "logout current user",
 	Args:  cobra.ExactArgs(0),
 	RunE:  runLogoutCmd,
 }
@@ -29,29 +32,34 @@ func init() {
 }
 
 func runLogoutCmd(cmd *cobra.Command, args []string) error {
-	jwtString := viper.GetString("jwt")
-
 	var LogoutResult struct {
 		Message string `json:"message"`
 	}
 
+	jwtString := viper.GetString("jwt")
 	jwt, err := env.NewJsonWebToken(jwtString)
 	if err != nil {
 		return err
 	}
 	if jwt.IsValid() {
-		// TODO: server side invalidation was removed
-		//err = auth.InvalidateJSONWebToken(cmd.Context(), url, jwtString)
-		//if err != nil {
-		//	return err
-		//}
+		success, err := backend.UserLogout(cmd.Context())
+		if err != nil {
+			return err
+		}
+
+		if success {
+			LogoutResult.Message = "logged out successfully"
+		} else {
+			LogoutResult.Message = "failed to log out"
+		}
+
+		err = env.InvalidateSessionJwt()
+		if err != nil {
+			return fmt.Errorf("failed to invalidate session jwt: %v", err)
+		}
+	} else {
+		LogoutResult.Message = "logged out already"
 	}
-	err = env.InvalidateSessionJwt()
-	if err != nil {
-		return err
-	}
-	// either way the same message
-	LogoutResult.Message = "logged out successfully"
 
 	return format.PrintFormattedOutput(cmd, LogoutResult, nil)
 }

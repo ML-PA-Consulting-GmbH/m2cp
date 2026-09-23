@@ -57,3 +57,18 @@ func GetMeWithFallback(ctx context.Context) (*structs.User, error) {
 	}
 	return fallbackUser, nil
 }
+
+func UserLogout(ctx context.Context) (bool, error) {
+	if backendMajorVersionInt(ctx) < 5 {
+		res, err := legacy.UserLogout(ctx)
+		if err != nil {
+			return false, err
+		}
+		return res.GetUserLogout().GetSuccess(), nil
+	}
+	res, err := v5.UserLogout(ctx)
+	if err != nil {
+		return false, err
+	}
+	return res.GetUserLogout().GetSuccess(), nil
+}
