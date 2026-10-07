@@ -67,7 +67,7 @@ Once stored, you can use it to log in like this:
 
   $ m2cp user login ex1
 
-For machine-to-machine (M2M) authentication (e.g. CI), use the --method m2m flag and provide the client id and organization id (provide the secret via env M2CP_CLIENT_SECRET or via stdin with --client-secret-stdin):
+For machine-to-machine (M2M) authentication (e.g. CI), use the --method m2m flag and provide the client id and organization id (provide the secret via env LIOT_CLI_CLIENT_SECRET or via stdin with --client-secret-stdin):
 
   $ m2cp user login --method m2m --client-id <client_id> --org-id <org_id> --store <url>
 `,
@@ -108,7 +108,7 @@ func init() {
 
 	loginCmd.Flags().String("client-id", "", "client id for --method m2m (OAuth M2M application)")
 	loginCmd.Flags().String("org-id", "", "organization id for --method m2m (sent as the OAuth 'organization' parameter)")
-	loginCmd.Flags().Bool("client-secret-stdin", false, "read the client secret from stdin for --method m2m (otherwise the M2CP_CLIENT_SECRET env var)")
+	loginCmd.Flags().Bool("client-secret-stdin", false, "read the client secret from stdin for --method m2m (otherwise the LIOT_CLI_CLIENT_SECRET env var)")
 	loginCmd.Flags().String("token-endpoint", "", "experts: override the OIDC token endpoint for --method m2m (bypasses backend discovery)")
 	loginCmd.Flags().String("audience", "", "experts: override the machine API audience for --method m2m (bypasses backend discovery)")
 

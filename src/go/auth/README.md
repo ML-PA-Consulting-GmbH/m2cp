@@ -42,7 +42,7 @@ To create a client.
 - Tab Credentials: copy the Client Secret to set as env for the command below
 
 ```sh
-M2CP_CLIENT_SECRET=<copied-client-secret> m2cp user login --method m2m \
+LIOT_CLI_CLIENT_SECRET=<copied-client-secret> m2cp user login --method m2m \
 --client-id m2cp-cli-m2m-test \
 --org-id local \
 --token-endpoint http://localhost:46800/realms/local-realm/protocol/openid-connect/token \

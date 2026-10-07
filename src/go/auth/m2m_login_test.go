@@ -18,7 +18,7 @@ func TestValidateM2MLoginParams(t *testing.T) {
 }
 
 func TestResolveClientSecret_StdinWinsAndTrimsNewline(t *testing.T) {
-	t.Setenv("M2CP_CLIENT_SECRET", "from-env")
+	t.Setenv("LIOT_CLI_CLIENT_SECRET", "from-env")
 	secret, err := ResolveClientSecret(true, strings.NewReader("from-stdin\n"))
 	assert.NoError(t, err)
 	assert.Equal(t, "from-stdin", secret, "stdin takes precedence and the trailing newline is stripped")
@@ -30,13 +30,29 @@ func TestResolveClientSecret_StdinEmpty(t *testing.T) {
 }
 
 func TestResolveClientSecret_FromEnv(t *testing.T) {
-	t.Setenv("M2CP_CLIENT_SECRET", "s3cr3t")
+	t.Setenv("LIOT_CLI_CLIENT_SECRET", "s3cr3t")
+	secret, err := ResolveClientSecret(false, strings.NewReader(""))
+	assert.NoError(t, err)
+	assert.Equal(t, "s3cr3t", secret)
+}
+
+func TestResolveClientSecret_FromLegacyEnv(t *testing.T) {
+	t.Setenv("M2CP_CLIENT_SECRET", "legacy")
+	secret, err := ResolveClientSecret(false, strings.NewReader(""))
+	assert.NoError(t, err)
+	assert.Equal(t, "legacy", secret)
+}
+
+func TestResolveClientSecret_FromEnv_RespectHierarchy(t *testing.T) {
+	t.Setenv("LIOT_CLI_CLIENT_SECRET", "s3cr3t")
+	t.Setenv("M2CP_CLIENT_SECRET", "legacy")
 	secret, err := ResolveClientSecret(false, strings.NewReader(""))
 	assert.NoError(t, err)
 	assert.Equal(t, "s3cr3t", secret)
 }
 
 func TestResolveClientSecret_MissingEnv(t *testing.T) {
+	t.Setenv("LIOT_CLI_CLIENT_SECRET", "")
 	t.Setenv("M2CP_CLIENT_SECRET", "")
 	_, err := ResolveClientSecret(false, strings.NewReader(""))
 	assert.Error(t, err)

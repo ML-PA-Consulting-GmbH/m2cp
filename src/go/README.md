@@ -39,11 +39,11 @@ account** using `--method m2m` (the OAuth 2.0 client-credentials grant).
 
 ### Logging in
 
-The client secret is supplied via the `M2CP_CLIENT_SECRET` environment variable (or `--client-secret-stdin`).
+The client secret is supplied via the `LIOT_CLI_CLIENT_SECRET` environment variable (or `--client-secret-stdin`).
 **Never** as a command-line flag, and it is **never** written to `~/.m2cp/state.json`.
 
 ```bash
-export M2CP_CLIENT_SECRET='********'
+export LIOT_CLI_CLIENT_SECRET='********'
 m2cp user login --method m2m \
   --client-id <client-id> \
   --org-id <org-id> \
@@ -71,7 +71,7 @@ Log in once per job, then run as many commands as needed with the cached token
 steps:
   - bash: m2cp user login --method m2m --client-id $(M2M_CLIENT_ID) --org-id $(M2M_ORG_ID) --store $(STORE_URL)
     env:
-      M2CP_CLIENT_SECRET: $(M2M_CLIENT_SECRET)   # exposed to this step only
+      LIOT_CLI_CLIENT_SECRET: $(M2M_CLIENT_SECRET)   # exposed to this step only
     displayName: Machine login
   - bash: m2cp snap push ./my-snap_1.2.3_arm64.snap
     displayName: Publish snap

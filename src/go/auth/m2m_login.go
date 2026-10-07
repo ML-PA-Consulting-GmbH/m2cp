@@ -15,7 +15,10 @@ import (
 
 // clientSecretEnvVar is the environment variable the CLI reads the M2M client secret from
 // when --client-secret-stdin is not used.
-const clientSecretEnvVar = "M2CP_CLIENT_SECRET"
+const (
+	clientSecretEnvVar               = "LIOT_CLI_CLIENT_SECRET"
+	clientSecretEnvVarFallbackLegacy = "M2CP_CLIENT_SECRET"
+)
 
 // ValidateM2MLoginParams checks the required parameters for a client-credentials ("--method m2m") login.
 // An org id is required because every machine token must be organization-scoped.
@@ -32,7 +35,8 @@ func ValidateM2MLoginParams(clientId, orgId string) error {
 // ResolveClientSecret returns the client secret for a client-credentials login.
 // Resolved by order of priority:
 //  1. stdin (if fromStdin is true)
-//  2. M2CP_CLIENT_SECRET environment variable
+//  2. LIOT_CLI_CLIENT_SECRET environment variable (specific)
+//  3. M2CP_CLIENT_SECRET environment variable (legacy name)
 func ResolveClientSecret(fromStdin bool, stdin io.Reader) (string, error) {
 	if fromStdin {
 		data, err := io.ReadAll(stdin)
@@ -50,7 +54,10 @@ func ResolveClientSecret(fromStdin bool, stdin io.Reader) (string, error) {
 
 	secret := os.Getenv(clientSecretEnvVar)
 	if secret == "" {
-		return "", fmt.Errorf("client secret required: set %s or pass --client-secret-stdin", clientSecretEnvVar)
+		secret = os.Getenv(clientSecretEnvVarFallbackLegacy)
+		if secret == "" {
+			return "", fmt.Errorf("client secret required: set %s or pass --client-secret-stdin", clientSecretEnvVar)
+		}
 	}
 	return secret, nil
 }
