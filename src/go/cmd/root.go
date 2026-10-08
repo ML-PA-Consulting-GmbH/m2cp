@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"m2cpcli/format"
 	"m2cpcli/state"
@@ -26,8 +27,14 @@ var RootCmd = &cobra.Command{
 	SilenceErrors:     true, // Assure, nothing is printed to stdout when we expect JSON!
 }
 
-func prepare(cmd *cobra.Command, args []string) error {
-	err := initConfiguration(cmd)
+func prepare(cmd *cobra.Command, _ []string) error {
+	var err error
+	flagStateJson := cmd.Flag("state").Value.String()
+	state.ConfigStateFileName, err = tools.Abspath(flagStateJson)
+	if err != nil {
+		return err
+	}
+	err = initConfiguration()
 	if err != nil {
 		return err
 	}
@@ -73,27 +80,26 @@ func init() {
 func createFile(filePath string) {
 	var err error
 	dir := filepath.Dir(filePath)
-	err = os.MkdirAll(dir, 0755)
+	err = os.MkdirAll(dir, state.DirMode)
 	cobra.CheckErr(err)
 
 	_, err = os.Stat(filePath)
 	if os.IsNotExist(err) {
-		file, err2 := os.Create(filePath)
+		// The state file holds a bearer JWT, so create it owner-only (0600).
+		// os.Create would use 0644 (world-readable)
+		// os.OpenFile applies the restrictive mode at creation, avoiding a create-then-chmod race.
+		file, err2 := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, state.FileMode)
 		cobra.CheckErr(err2)
 		defer file.Close()
 	}
 }
 
-func initConfiguration(cmd *cobra.Command) error {
-	var err error
-	flagStateJson := cmd.Flag("state").Value.String()
-	state.ConfigStateFileName, err = tools.Abspath(flagStateJson)
-
+func initConfiguration() error {
 	// split filename into path, filename and extension
 	configFileNameFull := filepath.Base(state.ConfigStateFileName)
 	configFileExtension := filepath.Ext(configFileNameFull)
 	if configFileExtension != ".json" {
-		return fmt.Errorf("bad value for --state, configuration file must have '.json' extension")
+		return errors.New("bad value for --state, configuration file must have '.json' extension")
 	}
 	configFileName := strings.TrimSuffix(configFileNameFull, configFileExtension)
 	configFileDir := filepath.Dir(state.ConfigStateFileName)
@@ -102,9 +108,15 @@ func initConfiguration(cmd *cobra.Command) error {
 	viper.SetConfigType("json")         // REQUIRED if the config file does not have the extension in the name
 	viper.AddConfigPath(configFileDir)
 
-	if err = viper.ReadInConfig(); err != nil {
+	// The state file holds a bearer JWT. Make viper write it owner-only (its default is 0644),
+	// and tighten any pre-existing file that an older CLI created world-readable
+	viper.SetConfigPermissions(state.FileMode)
+	state.SecurePermissions(state.ConfigStateFileName)
+
+	if err := viper.ReadInConfig(); err != nil {
 		// Only create config file if it doesn't exist, not for other errors
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+		var notFoundErr viper.ConfigFileNotFoundError
+		if errors.As(err, &notFoundErr) {
 			createFile(state.ConfigStateFileName)
 			if err := viper.WriteConfig(); err != nil {
 				// If we still can't write config, it's not critical for version command
