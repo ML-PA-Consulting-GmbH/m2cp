@@ -24,7 +24,7 @@ func StoreSession(method AuthenticationMethod, url, userEmail, privateKeyPath, j
 	viper.Set("ssh-key", nil)
 
 	viper.Set(storeId+".url", sanitizedUrl)
-	viper.Set(storeId+".method", method.String())
+	viper.Set(storeId+".method", string(method))
 	viper.Set(storeId+".ssh-user", userEmail)
 	viper.Set(storeId+".ssh-key", privateKeyPath)
 	viper.Set("jwt", jwt)

@@ -17,8 +17,9 @@ func TestParseAuthenticationMethod_M2M(t *testing.T) {
 	assert.Equal(t, M2MAuthentication, m)
 }
 
-func TestAuthenticationMethod_String_M2M(t *testing.T) {
-	assert.Equal(t, "m2m", M2MAuthentication.String())
+func TestAuthenticationMethod_CanonicalValue_M2M(t *testing.T) {
+	// the constant value is the canonical wire name written to state.json
+	assert.Equal(t, "m2m", string(M2MAuthentication))
 }
 
 func TestListingOfKnownAuthenticationMethods_IncludesAll(t *testing.T) {

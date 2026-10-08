@@ -102,7 +102,7 @@ func init() {
 	loginCmd.Flags().String("ssh-user", "", "username of email address to use for login")
 	loginCmd.Flags().String("ssh-key", "", "path to private ssl key to use for login (~/.ssh/id_rsa if nothing else defined)")
 	loginCmd.Flags().String("alias", "", "store an alias for the URL")
-	loginCmd.Flags().String("method", "browser", fmt.Sprintf("the authentication method in {%s}",
+	loginCmd.Flags().String("method", string(env.BrowserAuthentication), fmt.Sprintf("the authentication method in {%s}",
 		env.ListingOfKnownAuthenticationMethods()))
 	loginCmd.Flags().Bool("ignore-update", false, "skip checking for updates (Windows only)")
 
@@ -345,6 +345,10 @@ func runLoginCmd(cmd *cobra.Command, args []string) error {
 		}); err != nil {
 			return err
 		}
+	default:
+		// Unreachable today (ParseAuthenticationMethod validated the value), but
+		// guards against a new method being added to the enum without a case here.
+		return fmt.Errorf("unsupported authentication method %q; use one of {%s}", authenticationMethod, env.ListingOfKnownAuthenticationMethods())
 	}
 
 	if err = env.StoreSession(authenticationMethod, sanitizedUrl, sshUser, sshKey, jwt); err != nil {
