@@ -71,6 +71,11 @@ type M2MLoginParams struct {
 	ClientSecret  string
 	Audience      string
 	OrgID         string
+	// AllowInsecure downgrades a cleartext-endpoint rejection to a warning
+	// (written to Warn). Intended only for local development.
+	AllowInsecure bool
+	// Warn receives the --allow-insecure warning; defaults to os.Stderr when nil.
+	Warn io.Writer
 }
 
 // m2mTokenResponse is the OAuth2 token-endpoint success response.
@@ -88,6 +93,11 @@ type m2mTokenResponse struct {
 // The client secret is only ever sent in the request body; it is never logged
 // or included in a returned error.
 func acquireM2MToken(ctx context.Context, p M2MLoginParams) (string, error) {
+	// The client secret travels in this request body, so refuse a cleartext endpoint (RFC 6749 §10.8),
+	// unless the caller opted into --allow-insecure (local development only).
+	if err := RequireSecureURL(p.TokenEndpoint, "token endpoint", p.AllowInsecure, p.Warn); err != nil {
+		return "", err
+	}
 	form := url.Values{}
 	form.Set("grant_type", "client_credentials")
 	form.Set("client_id", p.ClientID)
@@ -161,6 +171,11 @@ type M2MLoginInput struct {
 	Secret                string
 	TokenEndpointOverride string
 	AudienceOverride      string
+	// AllowInsecure permits a cleartext token endpoint (warning instead of error).
+	// The store URL is enforced by the caller before discovery; see the login command.
+	AllowInsecure bool
+	// Warn receives the --allow-insecure warning; defaults to os.Stderr when nil.
+	Warn io.Writer
 }
 
 // M2MLogin performs a full machine (client-credentials) login:
@@ -190,5 +205,7 @@ func M2MLogin(ctx context.Context, in M2MLoginInput) (string, error) {
 		ClientSecret:  in.Secret,
 		Audience:      audience,
 		OrgID:         in.OrgID,
+		AllowInsecure: in.AllowInsecure,
+		Warn:          in.Warn,
 	})
 }

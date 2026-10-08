@@ -111,6 +111,9 @@ func init() {
 	loginCmd.Flags().Bool("client-secret-stdin", false, "read the client secret from stdin for --method m2m (otherwise the LIOT_CLI_CLIENT_SECRET env var)")
 	loginCmd.Flags().String("token-endpoint", "", "experts: override the OIDC token endpoint for --method m2m (bypasses backend discovery)")
 	loginCmd.Flags().String("audience", "", "experts: override the machine API audience for --method m2m (bypasses backend discovery)")
+	loginCmd.Flags().Bool("allow-insecure", false, `DANGEROUS: permit cleartext http for the store and OAuth endpoints instead of failing.
+The OAuth RFCs require TLS (RFC 6749 §10.8, RFC 9700 §2.6); even inside a private network this
+undermines defense-in-depth and can expose client secrets and tokens. Use only for local development.`)
 
 	var err error
 	err = viper.BindPFlag("store", loginCmd.Flags().Lookup("store"))
@@ -242,6 +245,12 @@ func runLoginCmd(cmd *cobra.Command, args []string) error {
 	if sanitizedUrl == "" {
 		return errors.New(`the store URL must not be empty: please give a value for "--store"`)
 	}
+	allowInsecure, _ := cmd.Flags().GetBool("allow-insecure")
+	// Verify the base store URL early: every method attaches the token to GraphQL
+	// calls against it, and (for --method m2m) discovery is derived from it.
+	if err = auth.RequireSecureURL(sanitizedUrl, "store", allowInsecure, cmd.ErrOrStderr()); err != nil {
+		return err
+	}
 
 	if cmd.Flags().Changed("store") && cmd.Flags().Changed("alias") {
 		err = updateAliasDefinition(cmd)
@@ -331,6 +340,8 @@ func runLoginCmd(cmd *cobra.Command, args []string) error {
 			Secret:                secret,
 			TokenEndpointOverride: tokenEndpointOverride,
 			AudienceOverride:      audienceOverride,
+			AllowInsecure:         allowInsecure,
+			Warn:                  cmd.ErrOrStderr(),
 		}); err != nil {
 			return err
 		}

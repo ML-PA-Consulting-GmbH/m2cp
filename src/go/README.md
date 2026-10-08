@@ -62,6 +62,23 @@ cat path/to/file-with-secret | m2cp user login --method m2m \
 The access token is stored in `~/.m2cp/state.json` and reused by subsequent `m2cp` commands until it expires. 
 Re-run the login to obtain a fresh token.
 
+### Local development (insecure endpoints)
+
+By default, the store URL and every OAuth endpoint must use `https`; cleartext
+`http` is permitted only for loopback hosts (`localhost`, `127.0.0.1`, `::1`),
+see RFC 6749 §10.8, RFC 9700 §2.6.
+Against a non-loopback development backend served over plain `http`, pass
+`--allow-insecure` to downgrade the hard error to a warning:
+
+```bash
+m2cp user login --method m2m --client-id <client-id> --org-id <org-id> \
+  --store http://dev.internal/graphql --allow-insecure
+```
+
+Use this **for local development only** (e.g. docker container IPs).
+Sending client secrets or tokens over cleartext exposes them to anyone on the network path; 
+even on a private network it undermines defense-in-depth.
+
 ### Pipeline usage
 
 Log in once per job, then run as many commands as needed with the cached token
