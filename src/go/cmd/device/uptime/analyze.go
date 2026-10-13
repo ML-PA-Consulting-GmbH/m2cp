@@ -7,7 +7,6 @@ import (
 	"m2cpcli/backend"
 	"m2cpcli/cmd/device/message"
 	"m2cpcli/format"
-	"os"
 	"strings"
 	"time"
 
@@ -92,11 +91,7 @@ func analyzeUptimeMessages(ctp m2cp.ContextPlus, deviceId string, date time.Time
 		uptimeValues = append(uptimeValues, heartbeat.uptimeDetails)
 	}
 
-	outpath, err := os.MkdirTemp("", "m2cp-")
-	if err != nil {
-		return nil, fmt.Errorf("failed to create temp directory: %w", err)
-	}
-	if _, err = message.ProcessDataMessages(ctp, deviceId, date, outpath, callback); err != nil {
+	if _, err := message.ProcessDataMessages(ctp, deviceId, date, "", callback); err != nil {
 		return nil, err
 	}
 

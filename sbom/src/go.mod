@@ -18,7 +18,6 @@ require (
 	github.com/ML-PA-Consulting-GmbH/graphql v0.0.0-20240424113036-dc9c0506b2e0
 	github.com/Masterminds/semver/v3 v3.2.1
 	github.com/ProtonMail/go-crypto v1.4.1
-	github.com/cavaliergopher/grab/v3 v3.0.1
 	github.com/cheggaaa/pb/v3 v3.1.5
 	github.com/diskfs/go-diskfs v1.9.2
 	github.com/go-jose/go-jose/v4 v4.1.4

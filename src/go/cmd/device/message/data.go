@@ -13,7 +13,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cavaliergopher/grab/v3"
 	"github.com/spf13/cobra"
 )
 
@@ -28,7 +27,7 @@ var dataCmd = &cobra.Command{
 func init() {
 	messageCmd.AddCommand(dataCmd)
 
-	dataCmd.Flags().StringP("outpath", "o", "", "if set: a directory to write data points as csv files. Existing files will be appended to.")
+	dataCmd.Flags().StringP("outpath", "o", "", "if set: a directory to write the unaltered JSON blobs (all parts, replaced on re-download) and the data points as csv files (existing csv files will be appended to).")
 	dataCmd.Flags().String("topic", "*", "select data points containing <topic>")
 	dataCmd.Flags().String("origin", "*", "select data points containing <origin>")
 	dataCmd.Flags().String("print", "", "print ("+printData+"|"+listTopic+"|"+listOrigin+"|"+listCombined+") found in the data points - don't print the data itself")
@@ -43,8 +42,9 @@ const (
 )
 
 type DataResult struct {
-	BlobsFound int `json:"blobs-found"`
-	DataPoints int `json:"data-points-parsed"`
+	BlobsFound int      `json:"blobs-found"`
+	DataPoints int      `json:"data-points-parsed"`
+	Files      []string `json:"files,omitempty"`
 }
 
 type dataPoint struct {
@@ -189,12 +189,21 @@ func ProcessDataMessages(ctp m2cp.ContextPlus, deviceId string, date time.Time, 
 
 	fmt.Printf("Found %d data message blob(s) to download\n", len(blobs.DataMessagesDownload))
 
+	if outPath != "" {
+		if err := os.MkdirAll(outPath, 0755); err != nil {
+			return res, fmt.Errorf("could not create output path: %w", err)
+		}
+	}
+
 	for i, blob := range blobs.DataMessagesDownload {
 		res.BlobsFound++
 
-		dataPointsParsed, err := downloadAndParseBlob(blob.DownloadUri, outPath, callback, i+1, len(blobs.DataMessagesDownload))
+		file, dataPointsParsed, err := downloadAndParseBlob(date.Format("2006-01-02"), blob.BlobName, blob.DownloadUri, outPath, callback, i+1, len(blobs.DataMessagesDownload))
 		if err != nil {
 			return res, err
+		}
+		if file != "" {
+			res.Files = append(res.Files, file)
 		}
 		res.DataPoints += dataPointsParsed
 	}
@@ -202,62 +211,48 @@ func ProcessDataMessages(ctp m2cp.ContextPlus, deviceId string, date time.Time, 
 	return res, nil
 }
 
-func downloadAndParseBlob(downloadUri, outPath string, callback ParserCallback, fileNum, totalFiles int) (int, error) {
-	tmpFile, err := os.CreateTemp("", "m2cp-download-")
-	if err != nil {
-		return 0, fmt.Errorf("failed to create temp file: %w", err)
+// downloadAndParseBlob keeps the unaltered blob and csv files in outPath (if set) and feeds callback (if set).
+func downloadAndParseBlob(day, blobName, downloadUri, outPath string, callback ParserCallback, fileNum, totalFiles int) (string, int, error) {
+	var f *os.File
+	var err error
+	finalPath := ""
+	if outPath != "" {
+		f, finalPath, err = createPartFile(outPath, day, blobName)
+	} else if callback != nil {
+		f, err = os.CreateTemp("", "m2cp-download-")
+	} else {
+		return "", 0, nil
 	}
-	defer os.Remove(tmpFile.Name())
-	tmpFile.Close() // Close immediately so grab can write to it
-
-	// Use grab for robust downloading with automatic resume support
-	client := grab.NewClient()
-	req, err := grab.NewRequest(tmpFile.Name(), downloadUri)
 	if err != nil {
-		return 0, fmt.Errorf("failed to create download request: %w", err)
+		return "", 0, err
 	}
+	partPath := f.Name()
+	filePath := partPath
+	defer func() {
+		f.Close()
+		os.Remove(partPath) // no-op once the .part file has been renamed
+	}()
 
-	fmt.Printf("[%d/%d] Starting download...\n", fileNum, totalFiles)
-
-	resp := client.Do(req)
-
-	// Track download progress
-	ticker := time.NewTicker(500 * time.Millisecond)
-	defer ticker.Stop()
-
-	for {
-		select {
-		case <-ticker.C:
-			if resp.Size() > 0 {
-				fmt.Printf("\r[%d/%d] Downloading... %.2f%% (%.2f / %.2f MB) @ %.2f MB/s",
-					fileNum, totalFiles,
-					100*resp.Progress(),
-					float64(resp.BytesComplete())/1024/1024,
-					float64(resp.Size())/1024/1024,
-					resp.BytesPerSecond()/1024/1024)
-			} else {
-				fmt.Printf("\r[%d/%d] Downloading... %.2f MB @ %.2f MB/s",
-					fileNum, totalFiles,
-					float64(resp.BytesComplete())/1024/1024,
-					resp.BytesPerSecond()/1024/1024)
-			}
-		case <-resp.Done:
-			if err := resp.Err(); err != nil {
-				fmt.Println() // New line after progress
-				return 0, fmt.Errorf("failed to download blob: %w", err)
-			}
-			// Clear the line by overwriting with spaces, then print completion message
-			fmt.Printf("\r%-80s\r[%d/%d] Download complete: %.2f MB\n", "", fileNum, totalFiles, float64(resp.BytesComplete())/1024/1024)
-			goto downloadComplete
+	label := fmt.Sprintf("[%d/%d]", fileNum, totalFiles)
+	fmt.Printf("%s Starting download...\n", label)
+	if err := downloadTo(f, downloadUri, label); err != nil {
+		fmt.Println()
+		return "", 0, err
+	}
+	if err := f.Close(); err != nil {
+		return "", 0, fmt.Errorf("failed to write file: %w", err)
+	}
+	if finalPath != "" {
+		if err := os.Rename(partPath, finalPath); err != nil {
+			return "", 0, fmt.Errorf("failed to replace %s: %w", finalPath, err)
 		}
+		filePath = finalPath
 	}
 
-downloadComplete:
-
-	dataPointsParsed, err := parseFile(tmpFile.Name(), outPath, callback)
+	dataPointsParsed, err := parseFile(filePath, outPath, callback)
 	if err != nil {
-		return 0, fmt.Errorf("failed to parse file: %w", err)
+		return filePath, 0, fmt.Errorf("failed to parse file: %w", err)
 	}
 
-	return dataPointsParsed, nil
+	return filePath, dataPointsParsed, nil
 }
