@@ -126,7 +126,7 @@ func TestDownloadAndParseBlobReplacesOldFile(t *testing.T) {
 		t.Fatalf("file not replaced: %q", got)
 	}
 	entries, _ := os.ReadDir(dir)
-	if len(entries) != 2 { // the json file and signal.csv, no .part file
-		t.Fatalf("expected the json and csv file, found %d entries", len(entries))
+	if len(entries) != 1 { // only the final json file, no .part file
+		t.Fatalf("expected only the json file, found %d entries", len(entries))
 	}
 }

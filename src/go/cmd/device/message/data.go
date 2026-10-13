@@ -27,7 +27,7 @@ var dataCmd = &cobra.Command{
 func init() {
 	messageCmd.AddCommand(dataCmd)
 
-	dataCmd.Flags().StringP("outpath", "o", "", "if set: a directory to write the unaltered JSON blobs (all parts, replaced on re-download) and the data points as csv files (existing csv files will be appended to).")
+	dataCmd.Flags().StringP("outpath", "o", "", "if set: a directory to write the unaltered JSON blobs (all parts) to. Files from an earlier download are replaced.")
 	dataCmd.Flags().String("topic", "*", "select data points containing <topic>")
 	dataCmd.Flags().String("origin", "*", "select data points containing <origin>")
 	dataCmd.Flags().String("print", "", "print ("+printData+"|"+listTopic+"|"+listOrigin+"|"+listCombined+") found in the data points - don't print the data itself")
@@ -211,7 +211,7 @@ func ProcessDataMessages(ctp m2cp.ContextPlus, deviceId string, date time.Time, 
 	return res, nil
 }
 
-// downloadAndParseBlob keeps the unaltered blob and csv files in outPath (if set) and feeds callback (if set).
+// downloadAndParseBlob keeps the unaltered blob in outPath (if set) and feeds callback (if set).
 func downloadAndParseBlob(day, blobName, downloadUri, outPath string, callback ParserCallback, fileNum, totalFiles int) (string, int, error) {
 	var f *os.File
 	var err error
@@ -249,7 +249,7 @@ func downloadAndParseBlob(day, blobName, downloadUri, outPath string, callback P
 		filePath = finalPath
 	}
 
-	dataPointsParsed, err := parseFile(filePath, outPath, callback)
+	dataPointsParsed, err := parseFile(filePath, "", callback)
 	if err != nil {
 		return filePath, 0, fmt.Errorf("failed to parse file: %w", err)
 	}
