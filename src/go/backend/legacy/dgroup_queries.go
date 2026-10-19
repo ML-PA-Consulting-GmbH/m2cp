@@ -47,11 +47,9 @@ func GetDeploymentGroupByNameOrId(ctx context.Context, arg string) (*structs.Dep
 		PendingActionsTotal: dgroup.PendingActionSummary.TotalPendingActionCount,
 	}
 
-	// resolve owner
-	owner, err := GetUserById(ctx, dgroup.OwnerUserId)
-	if err != nil {
-		return nil, err
-	}
+	// resolve owner; falls back to "unknown" when the user is not visible
+	// to the current session (e.g. other tenant)
+	owner := GetUserByIdOrUnknown(ctx, dgroup.OwnerUserId)
 	dgroupsInfo.Owner = structs.User{
 		Id:    owner.Id,
 		Name:  owner.Name,
@@ -60,12 +58,7 @@ func GetDeploymentGroupByNameOrId(ctx context.Context, arg string) (*structs.Dep
 
 	// resolve co-admins
 	for _, user := range dgroup.DeploymentGroupAdministrators {
-		var coOwner *structs.User
-		coOwner, err = GetUserById(ctx, user.UserId)
-		if err != nil {
-			return nil, err
-		}
-		dgroupsInfo.CoOwners = append(dgroupsInfo.CoOwners, *coOwner)
+		dgroupsInfo.CoOwners = append(dgroupsInfo.CoOwners, GetUserByIdOrUnknown(ctx, user.UserId))
 	}
 
 	for _, device := range dgroup.Devices {

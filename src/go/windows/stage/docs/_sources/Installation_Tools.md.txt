@@ -75,15 +75,33 @@ contains packages of the [Edge Device SDK](/Development_Edge.md#edge-device-sdk)
 
 ### Login and Usage
 
-To be able to use the CLI Tool you must first log in to the Backend. There are two available methods: 
+To be able to use the CLI Tool you must first log in to the Backend. There are three available methods: 
 - **Browser-Based Authentication** requires the store's URL along with a valid username and password. 
-- **E-Mail and Public Key Authentication** requires a registered E-Mail address and a ssh public key registered with the account 
+- **Machine-to-Machine (M2M) Authentication** lets CI pipelines and automation log in without a browser or a personal account, using a client id and client secret issued by the identity provider
+- **E-Mail and Public Key Authentication** requires a registered E-Mail address and an ssh public key registered with the account
 
 For detailed information on all available commands, the CLI includes a built-in manual, which can be accessed using the following commands:
 
 ```sh
 $ m2cp  #lists all available sub-commands
 $ m2cp <command> --help  #provides help for a specific command
+```
+
+```{tip}
+  If you frequently switch between App Store Services, you can simplify the login process by creating an alias for the App Store UI URL. This can be done using the following command:
+  
+  $ m2cp user login --store <store_url> --alias <choose_your_alias>
+
+  During the next login, you can use the alias as a positional argument:
+
+  $ m2cp user login <your_chosen_alias>
+
+  Note that aliases should not begin with a protocol prefix (e.g., "https://") and must not contain any whitespace. The aliases are stored in a JSON file (~/.m2cp/store-url-aliases.json), which can also be edited using a text editor. The format is simple: key-value pairs, where the key is the alias and the value is the URL:
+
+  {
+  "alias": "protocol://the.url",
+  "ex1": "https://example.com/graphql"
+  }
 ```
 
 #### Browser-Based Authentication
@@ -103,25 +121,8 @@ $ m2cp user login
 ```
 
 ```{caution}
-As of 05/2024, the implementation requires that **TCP port 3100 on the client machine is not in use.**
+As of 05/2024, the implementation requires that **TCP port 3100 on the client machine is not in use.**  
 As of 10/2024, browser authentication is **not enabled for all backends** and **only RSA keys** are supported. If you encounter a 404 error, please contact the M2CP team. 
-```
-
-```{tip}
-  If you frequently switch between App Store Services, you can simplify the login process by creating an alias for the App Store UI URL. This can be done using the following command:
-  
-  $ m2cp user login --store <store_url> --alias <choose_your_alias>
-
-  During the next login, you can use the alias as a positional argument:
-
-  $ m2cp user login <your_chosen_alias>
-
-  Note that aliases should not begin with a protocol prefix (e.g., "https://") and must not contain any whitespace. The aliases are stored in a JSON file (~/.m2cp/store-url-aliases.json), which can also be edited using a text editor. The format is simple: key-value pairs, where the key is the alias and the value is the URL:
-
-  {
-  "alias": "protocol://the.url",
-  "ex1": "http://example.com/graphql"
-  }
 ```
 
 #### Registered E-Mail and public SSH-key
@@ -147,21 +148,79 @@ You only need to provide these parameters once, as the most recent ones will be 
 $ m2cp user login
 ```
 
+#### Machine-to-Machine (M2M) Authentication (since version 5.18.0)
+CI pipelines and automation can authenticate **without a browser or a personal account** using the `m2m` method. 
+It uses the OAuth 2.0 client-credentials grant: the CLI exchanges a client id and client secret for a short-lived access token that is scoped to a single organization.
+
+##### Prerequisites
+- A **Machine-to-Machine application** registered with the identity provider and granted to your organization. 
+  The platform team provides you with a **client id** and a **client secret**
+- The permissions required for the operations the application performs, set up on the identity provider (for example, `*.read.all` for read access to everything).
+  [Consult the backend documentation](https://m2cpdocs.ml-pa.com/general/Management_User.html#rolepermission-scope-matrix) for the precise permission names.
+- A backend that exposes the machine-login discovery route. 
+  Against an older backend the CLI fails with a clear *"backend does not support machine login; upgrade ..."* message. 
+  Discovery can be bypassed with the `--token-endpoint` and `--audience` flags.
+- The **org id** of your organization
+
+##### Logging in
+The client secret is supplied through the `LIOT_CLI_CLIENT_SECRET` environment variable, or piped via standard input with `--client-secret-stdin`.
+
+```{caution}
+Never pass the client secret directly on the command line, as it would leak into the process list and shell history.
+The secret is **never** written to `~/.m2cp/state.json`; only the resulting access token is stored there.
+```
+
+Using the environment variable:
+```bash
+export LIOT_CLI_CLIENT_SECRET="$(cat path/to/file-with-secret)"
+m2cp user login --method m2m \
+  --client-id <client-id> \
+  --org-id <org-id> \
+  --store https://store.company.com:3100/graphql
+```
+
+Or piping the secret via standard input:
+```bash
+cat path/to/file-with-secret | m2cp user login --method m2m \
+  --client-id <client-id> \
+  --org-id <org-id> \
+  --store https://store.company.com:3100/graphql --client-secret-stdin
+```
+
+The access token is stored in `~/.m2cp/state.json` and reused by subsequent `m2cp` commands until it expires. 
+Re-run the full login command to obtain a fresh token. Additional arguments are not persisted.
+
+To check the remaining lifetime of the cached token, run:
+```bash
+m2cp user status --json | jq --raw-output '.output.session.jwtExpirationTime'
+```
+
+##### Pipeline usage
+Log in once per job, then run as many commands as needed with the cached token. The secret is only required for the login step:
+```yaml
+steps:
+  - bash: m2cp user login --method m2m --client-id $(M2M_CLIENT_ID) --org-id $(M2M_ORG_ID) --store $(STORE_URL)
+    env:
+      LIOT_CLI_CLIENT_SECRET: $(M2M_CLIENT_SECRET)   # exposed to this step only
+    displayName: Machine login
+  - bash: m2cp snap push ./my-snap_1.2.3_arm64.snap
+    displayName: Publish snap
+```
+
 ```{tip}
-  If you frequently switch between App Store Services, you can simplify the login process by creating an alias for the App Store UI URL. This can be done using the following command:
-  
-  $ m2cp user login --store <store_url> --alias <choose_your_alias>
+Prefer reusing the cached token across a job over re-authenticating before every command. 
+Each login requests a new token, and token requests count against the identity provider's M2M token quota.
 
-  During the next login, you can use the alias as a positional argument:
+The state file may be re-used across jobs, though you have to ensure the token is still valid for the duration of the job.
+```
 
-  $ m2cp user login <your_chosen_alias>
-
-  Note that aliases should not begin with a protocol prefix (e.g., "https://") and must not contain any whitespace. The aliases are stored in a JSON file (~/.m2cp/store-url-aliases.json), which can also be edited using a text editor. The format is simple: key-value pairs, where the key is the alias and the value is the URL:
-
-  {
-  "alias": "protocol://the.url",
-  "ex1": "http://example.com/graphql"
-  }
+##### Multiple organizations or stores
+An M2M session is scoped to a single organization (`--org-id`). To work with several organizations or stores at once, give each session its own state file with the `--state` flag:
+```bash
+m2cp user login --method m2m --client-id <client-id> --org-id org1 --store https://store.company.com:3100/graphql --state ~/.m2cp/state-org1.json
+m2cp user login --method m2m --client-id <client-id> --org-id org2 --store https://store.company.com:3100/graphql --state ~/.m2cp/state-org2.json
+m2cp snap push ./my-snap_1.2.3_arm64.snap --state ~/.m2cp/state-org1.json
+m2cp snap push ./my-snap_1.2.3_arm64.snap --state ~/.m2cp/state-org2.json
 ```
 
 #### Switch Authentication Method

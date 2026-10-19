@@ -39,7 +39,7 @@
             L-IoT Documentation
           </a>
               <div class="version">
-                Version 1.15.1
+                Version 1.15.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -267,7 +267,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#monitoring-firmware-deployment">3.5. Monitoring Firmware Deployment</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#debugging-problem-scenarios">3.5.1. Debugging Problem Scenarios</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#debugging-fault-scenarios">3.5.1. Debugging Fault Scenarios</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#localising-the-cause">3.5.2. Localising the cause</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#reporting-the-fault">3.5.3. Reporting the fault</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#observing-m2cp-coap-logs">3.5.4. Observing m2cp-coap logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Development_RTD.html#common-issues-and-known-behaviors">3.5.5. Common Issues and Known Behaviors</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Development_RTD.html#legacy">3.6. Legacy</a><ul>
@@ -646,15 +650,28 @@ contains packages of the <a class="reference internal" href="Development_Edge.ht
 </section>
 <section id="login-and-usage">
 <h3><span class="section-number">2.2.3. </span>Login and Usage<a class="headerlink" href="#login-and-usage" title="Permalink to this heading"></a></h3>
-<p>To be able to use the CLI Tool you must first log in to the Backend. There are two available methods:</p>
+<p>To be able to use the CLI Tool you must first log in to the Backend. There are three available methods:</p>
 <ul class="simple">
 <li><p><strong>Browser-Based Authentication</strong> requires the store’s URL along with a valid username and password.</p></li>
-<li><p><strong>E-Mail and Public Key Authentication</strong> requires a registered E-Mail address and a ssh public key registered with the account</p></li>
+<li><p><strong>Machine-to-Machine (M2M) Authentication</strong> lets CI pipelines and automation log in without a browser or a personal account, using a client id and client secret issued by the identity provider</p></li>
+<li><p><strong>E-Mail and Public Key Authentication</strong> requires a registered E-Mail address and an ssh public key registered with the account</p></li>
 </ul>
 <p>For detailed information on all available commands, the CLI includes a built-in manual, which can be accessed using the following commands:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w">  </span><span class="c1">#lists all available sub-commands</span>
 $<span class="w"> </span>m2cp<span class="w"> </span>&lt;command&gt;<span class="w"> </span>--help<span class="w">  </span><span class="c1">#provides help for a specific command</span>
 </pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you frequently switch between App Store Services, you can simplify the login process by creating an alias for the App Store UI URL. This can be done using the following command:</p>
+<p>$ m2cp user login –store &lt;store_url&gt; –alias &lt;choose_your_alias&gt;</p>
+<p>During the next login, you can use the alias as a positional argument:</p>
+<p>$ m2cp user login &lt;your_chosen_alias&gt;</p>
+<p>Note that aliases should not begin with a protocol prefix (e.g., “https://”) and must not contain any whitespace. The aliases are stored in a JSON file (~/.m2cp/store-url-aliases.json), which can also be edited using a text editor. The format is simple: key-value pairs, where the key is the alias and the value is the URL:</p>
+<p>{
+“alias”: “protocol://the.url”,
+“ex1”: “https://example.com/graphql”
+}</p>
 </div>
 <section id="browser-based-authentication">
 <h4>Browser-Based Authentication<a class="headerlink" href="#browser-based-authentication" title="Permalink to this heading"></a></h4>
@@ -673,20 +690,8 @@ $<span class="w"> </span>m2cp<span class="w"> </span>&lt;command&gt;<span class=
 </div>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
-<p>As of 05/2024, the implementation requires that <strong>TCP port 3100 on the client machine is not in use.</strong>
+<p>As of 05/2024, the implementation requires that <strong>TCP port 3100 on the client machine is not in use.</strong><br />
 As of 10/2024, browser authentication is <strong>not enabled for all backends</strong> and <strong>only RSA keys</strong> are supported. If you encounter a 404 error, please contact the M2CP team.</p>
-</div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>If you frequently switch between App Store Services, you can simplify the login process by creating an alias for the App Store UI URL. This can be done using the following command:</p>
-<p>$ m2cp user login –store &lt;store_url&gt; –alias &lt;choose_your_alias&gt;</p>
-<p>During the next login, you can use the alias as a positional argument:</p>
-<p>$ m2cp user login &lt;your_chosen_alias&gt;</p>
-<p>Note that aliases should not begin with a protocol prefix (e.g., “https://”) and must not contain any whitespace. The aliases are stored in a JSON file (~/.m2cp/store-url-aliases.json), which can also be edited using a text editor. The format is simple: key-value pairs, where the key is the alias and the value is the URL:</p>
-<p>{
-“alias”: “protocol://the.url”,
-“ex1”: “http://example.com/graphql”
-}</p>
 </div>
 </section>
 <section id="registered-e-mail-and-public-ssh-key">
@@ -707,17 +712,82 @@ As of 10/2024, browser authentication is <strong>not enabled for all backends</s
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>user<span class="w"> </span>login
 </pre></div>
 </div>
+</section>
+</section>
+<section id="machine-to-machine-m2m-authentication-since-version-5-18-0">
+<h4>Machine-to-Machine (M2M) Authentication (since version 5.18.0)<a class="headerlink" href="#machine-to-machine-m2m-authentication-since-version-5-18-0" title="Permalink to this heading"></a></h4>
+<p>CI pipelines and automation can authenticate <strong>without a browser or a personal account</strong> using the <code class="docutils literal notranslate"><span class="pre">m2m</span></code> method.
+It uses the OAuth 2.0 client-credentials grant: the CLI exchanges a client id and client secret for a short-lived access token that is scoped to a single organization.</p>
+<section id="prerequisites">
+<h5>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>A <strong>Machine-to-Machine application</strong> registered with the identity provider and granted to your organization.
+The platform team provides you with a <strong>client id</strong> and a <strong>client secret</strong></p></li>
+<li><p>The permissions required for the operations the application performs, set up on the identity provider (for example, <code class="docutils literal notranslate"><span class="pre">*.read.all</span></code> for read access to everything).
+<a class="reference external" href="https://m2cpdocs.ml-pa.com/general/Management_User.html#rolepermission-scope-matrix">Consult the backend documentation</a> for the precise permission names.</p></li>
+<li><p>A backend that exposes the machine-login discovery route.
+Against an older backend the CLI fails with a clear <em>“backend does not support machine login; upgrade …”</em> message.
+Discovery can be bypassed with the <code class="docutils literal notranslate"><span class="pre">--token-endpoint</span></code> and <code class="docutils literal notranslate"><span class="pre">--audience</span></code> flags.</p></li>
+<li><p>The <strong>org id</strong> of your organization</p></li>
+</ul>
+</section>
+<section id="logging-in">
+<h5>Logging in<a class="headerlink" href="#logging-in" title="Permalink to this heading"></a></h5>
+<p>The client secret is supplied through the <code class="docutils literal notranslate"><span class="pre">LIOT_CLI_CLIENT_SECRET</span></code> environment variable, or piped via standard input with <code class="docutils literal notranslate"><span class="pre">--client-secret-stdin</span></code>.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Never pass the client secret directly on the command line, as it would leak into the process list and shell history.
+The secret is <strong>never</strong> written to <code class="docutils literal notranslate"><span class="pre">~/.m2cp/state.json</span></code>; only the resulting access token is stored there.</p>
+</div>
+<p>Using the environment variable:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">LIOT_CLI_CLIENT_SECRET</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>cat<span class="w"> </span>path/to/file-with-secret<span class="k">)</span><span class="s2">&quot;</span>
+m2cp<span class="w"> </span>user<span class="w"> </span>login<span class="w"> </span>--method<span class="w"> </span>m2m<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--client-id<span class="w"> </span>&lt;client-id&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--org-id<span class="w"> </span>&lt;org-id&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--store<span class="w"> </span>https://store.company.com:3100/graphql
+</pre></div>
+</div>
+<p>Or piping the secret via standard input:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>path/to/file-with-secret<span class="w"> </span><span class="p">|</span><span class="w"> </span>m2cp<span class="w"> </span>user<span class="w"> </span>login<span class="w"> </span>--method<span class="w"> </span>m2m<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--client-id<span class="w"> </span>&lt;client-id&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--org-id<span class="w"> </span>&lt;org-id&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--store<span class="w"> </span>https://store.company.com:3100/graphql<span class="w"> </span>--client-secret-stdin
+</pre></div>
+</div>
+<p>The access token is stored in <code class="docutils literal notranslate"><span class="pre">~/.m2cp/state.json</span></code> and reused by subsequent <code class="docutils literal notranslate"><span class="pre">m2cp</span></code> commands until it expires.
+Re-run the full login command to obtain a fresh token. Additional arguments are not persisted.</p>
+<p>To check the remaining lifetime of the cached token, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>m2cp<span class="w"> </span>user<span class="w"> </span>status<span class="w"> </span>--json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>--raw-output<span class="w"> </span><span class="s1">&#39;.output.session.jwtExpirationTime&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="pipeline-usage">
+<h5>Pipeline usage<a class="headerlink" href="#pipeline-usage" title="Permalink to this heading"></a></h5>
+<p>Log in once per job, then run as many commands as needed with the cached token. The secret is only required for the login step:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">bash</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">m2cp user login --method m2m --client-id $(M2M_CLIENT_ID) --org-id $(M2M_ORG_ID) --store $(STORE_URL)</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">LIOT_CLI_CLIENT_SECRET</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$(M2M_CLIENT_SECRET)</span><span class="w">   </span><span class="c1"># exposed to this step only</span>
+<span class="w">    </span><span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Machine login</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">bash</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">m2cp snap push ./my-snap_1.2.3_arm64.snap</span>
+<span class="w">    </span><span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Publish snap</span>
+</pre></div>
+</div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>If you frequently switch between App Store Services, you can simplify the login process by creating an alias for the App Store UI URL. This can be done using the following command:</p>
-<p>$ m2cp user login –store &lt;store_url&gt; –alias &lt;choose_your_alias&gt;</p>
-<p>During the next login, you can use the alias as a positional argument:</p>
-<p>$ m2cp user login &lt;your_chosen_alias&gt;</p>
-<p>Note that aliases should not begin with a protocol prefix (e.g., “https://”) and must not contain any whitespace. The aliases are stored in a JSON file (~/.m2cp/store-url-aliases.json), which can also be edited using a text editor. The format is simple: key-value pairs, where the key is the alias and the value is the URL:</p>
-<p>{
-“alias”: “protocol://the.url”,
-“ex1”: “http://example.com/graphql”
-}</p>
+<p>Prefer reusing the cached token across a job over re-authenticating before every command.
+Each login requests a new token, and token requests count against the identity provider’s M2M token quota.</p>
+<p>The state file may be re-used across jobs, though you have to ensure the token is still valid for the duration of the job.</p>
+</div>
+</section>
+<section id="multiple-organizations-or-stores">
+<h5>Multiple organizations or stores<a class="headerlink" href="#multiple-organizations-or-stores" title="Permalink to this heading"></a></h5>
+<p>An M2M session is scoped to a single organization (<code class="docutils literal notranslate"><span class="pre">--org-id</span></code>). To work with several organizations or stores at once, give each session its own state file with the <code class="docutils literal notranslate"><span class="pre">--state</span></code> flag:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>m2cp<span class="w"> </span>user<span class="w"> </span>login<span class="w"> </span>--method<span class="w"> </span>m2m<span class="w"> </span>--client-id<span class="w"> </span>&lt;client-id&gt;<span class="w"> </span>--org-id<span class="w"> </span>org1<span class="w"> </span>--store<span class="w"> </span>https://store.company.com:3100/graphql<span class="w"> </span>--state<span class="w"> </span>~/.m2cp/state-org1.json
+m2cp<span class="w"> </span>user<span class="w"> </span>login<span class="w"> </span>--method<span class="w"> </span>m2m<span class="w"> </span>--client-id<span class="w"> </span>&lt;client-id&gt;<span class="w"> </span>--org-id<span class="w"> </span>org2<span class="w"> </span>--store<span class="w"> </span>https://store.company.com:3100/graphql<span class="w"> </span>--state<span class="w"> </span>~/.m2cp/state-org2.json
+m2cp<span class="w"> </span>snap<span class="w"> </span>push<span class="w"> </span>./my-snap_1.2.3_arm64.snap<span class="w"> </span>--state<span class="w"> </span>~/.m2cp/state-org1.json
+m2cp<span class="w"> </span>snap<span class="w"> </span>push<span class="w"> </span>./my-snap_1.2.3_arm64.snap<span class="w"> </span>--state<span class="w"> </span>~/.m2cp/state-org2.json
+</pre></div>
 </div>
 </section>
 </section>

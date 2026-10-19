@@ -51,14 +51,14 @@ func customDGroupInfoFormatter(dgroup *structs.DeploymentGroup) (string, error) 
 	modelNode.AddLeaf("Revision: " + fmt.Sprintf("%d", dgroup.ModelRevision.Revision))
 	modelNode.AddLeaf("Architecture: " + dgroup.ModelRevision.Architecture)
 
-	dgroupTree.AddLeaf("Owner: " + dgroup.Owner.Name + " (" + dgroup.Owner.Email + ")")
+	dgroupTree.AddLeaf("Owner: " + dgroup.Owner.DisplayName())
 
 	if dgroup.CoOwners == nil || len(dgroup.CoOwners) == 0 {
 		dgroupTree.AddLeaf("Co-Owners: None")
 	} else {
 		coAdminsNode := dgroupTree.NewChild("Co-Owners")
 		for _, admin := range dgroup.CoOwners {
-			coAdminsNode.AddLeaf(admin.Name + " (" + admin.Email + ")")
+			coAdminsNode.AddLeaf(admin.DisplayName())
 		}
 	}
 

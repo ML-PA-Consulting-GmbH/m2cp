@@ -14,7 +14,7 @@ The following subsections define each CoAP endpoint used in the L.IoT system.
 
 ---
 
-#### `/din/1/{sensorId}`
+### `/din/1/{sensorId}`
 <a id="post-din-1-sensorid"></a>
 
 **Purpose:** A Real Time Device sends one or more data messages to the Edge Device, identified by its hardware serial number.
@@ -56,7 +56,7 @@ See also: [Messaging — Data Points to Data Visualization](Tech_Messaging.md#da
 
 ---
 
-#### `/din/2/{osSerial}`
+### `/din/2/{osSerial}`
 <a id="post-din-2-osserial"></a>
 
 **Purpose:** A Real Time Device sends one or more data messages to the Edge Device, identified by its OS Serial Number.
@@ -99,7 +99,7 @@ See also: [Messaging — Data Points to Data Visualization](Tech_Messaging.md#da
 ---
 
 
-#### `/whoami/2`
+### `/whoami/2`
 <a id="get-whoami-2"></a>
 
 **Purpose:**  Supersedes [whoami/1](#get-whoami-1) on Real Time Devices. An Edge Device queries a Real Time Device for its current hardware and firmware details. 
@@ -118,7 +118,7 @@ See also: [Peers Discovery](Tech_Lifecycle_RTD.md#peers-discovery)
 
 ---
 
-#### `/whoami/1`
+### `/whoami/1`
 <a id="get-whoami-1"></a>
 <a id="get-whoami-1-node-self-description"></a>
 
@@ -127,7 +127,8 @@ See also: [Peers Discovery](Tech_Lifecycle_RTD.md#peers-discovery)
 | GET    | Any client → Any node | Node self-description; expected on all CoAP nodes |
 | POST   | Provisioning tool → Edge Device | Serial number provisioning (write-once; Edge Device only) |
 
-##### GET
+
+#### GET
 
 **Purpose:** Returns a self-description of the CoAP node. Every CoAP node with a server in the L.IoT system is expected to implement this endpoint.
 
@@ -168,7 +169,8 @@ The response format differs between node types:
 
 See also: [Legacy Real Time Devices](Tech_Lifecycle_RTD.md#legacy-real-time-devices)
 
-##### POST
+
+#### POST
 <a id="post-whoami-1-serial-number-provisioning"></a>
 
 **Purpose:** Writes the [Hardware Serial Number](Glossary.md#hardware-serial-number) of an Edge Device. The operation can be performed only once — the device stores the assigned serial and rejects subsequent writes. 
@@ -181,29 +183,33 @@ See also: [Legacy Real Time Devices](Tech_Lifecycle_RTD.md#legacy-real-time-devi
 | Request Body | Hardware serial number: 16-bit unsigned integer, little-endian, base64-encoded without padding |
 | Response     | —                                                            |
 
-The serial is a 16-bit unsigned integer encoded in little-endian byte order and base64 without padding.
+The serial is a 32-bit unsigned integer encoded in little-endian byte
+order and in [Base 64 Encoding with URL Safe
+Alphabet](https://datatracker.ietf.org/doc/html/rfc4648#section-5) but
+without the pad character `=`.
 
-Example — encoding serial `8667` to `2yE`:
+Example of encoding serial `10235` to `-ycAAA`:
 
 ```python3
-import struct, base64
-hardware_serial = 8667
-base64.b64encode(struct.pack('<H', hardware_serial)).decode().rstrip('=')
-# '2yE'
+>>> import base64
+>>> hardware_serial = 10235
+>>> base64.urlsafe_b64encode(int(hardware_serial).to_bytes(4, "little")).decode().rstrip("=")
+'-ycAAA'
 ```
 
 Decoding back to integer:
 
 ```python3
-import struct, base64
-encoded_serial = '2yE'
-struct.unpack('<H', base64.b64decode(encoded_serial + '=' * (-len(encoded_serial) % 4)))[0]
-# 8667
+>>> import base64
+>>> encoded_serial = '-ycAAA'
+>>> int.from_bytes(base64.urlsafe_b64decode(encoded_serial + '=' * (-len(encoded_serial) % 4)).ljust(4, b'\0'), 'little')
+10235
 ```
 
 ---
 
-#### `/uptime/1`
+
+### `/uptime/1`
 <a id="get-uptime-1"></a>
 
 **Purpose:** Returns the number of seconds the node has been running. Every CoAP node in the L.IoT system is expected to implement this endpoint.
@@ -217,7 +223,7 @@ struct.unpack('<H', base64.b64decode(encoded_serial + '=' * (-len(encoded_serial
 
 ---
 
-#### `/t/1`
+### `/t/1`
 
 **Purpose:** Returns the current system time of the node. This endpoint is Edge Device specific and is not expected to be implemented by Real Time Devices.
 
@@ -231,7 +237,7 @@ struct.unpack('<H', base64.b64decode(encoded_serial + '=' * (-len(encoded_serial
 
 ---
 
-#### `/realtime/1`
+### `/realtime/1`
 <a id="get-realtime-1"></a>
 
 **Purpose:** Returns the current UTC time of the Edge Device as a JSON-encoded ISO 8601 string.
@@ -251,7 +257,7 @@ Example response:
 
 ---
 
-#### `/status/clients/1`
+### `/status/clients/1`
 <a id="get-status-clients-1"></a>
 
 **Purpose:** Returns the list of known CoAP clients (RTDs) that the Edge Device has seen.
@@ -278,7 +284,7 @@ Each entry in the response array contains the client's IP address and the timest
 
 ---
 
-#### `/status/online/1`
+### `/status/online/1`
 <a id="get-status-online-1"></a>
 
 **Purpose:** Reports the internet connectivity status of the Edge Device by running a set of active probes.
@@ -314,7 +320,7 @@ Example response:
 
 ---
 
-#### `/status/ping/1`
+### `/status/ping/1`
 <a id="get-status-ping-1"></a>
 
 **Purpose:** Pings an arbitrary address from the Edge Device, optionally via a specific network interface.
@@ -338,7 +344,7 @@ ok
 
 ---
 
-#### `/status/refresh/1`
+### `/status/refresh/1`
 <a id="get-status-refresh-1"></a>
 
 **Purpose:** Returns the timestamp of the most recent successful snap refresh on the Edge Device.
@@ -354,7 +360,7 @@ The timestamp is sourced from `snap changes` and corresponds to the completion t
 
 ---
 
-#### `/status/snaps/1`
+### `/status/snaps/1`
 <a id="get-status-snaps-1"></a>
 
 **Purpose:** Returns the list of installed snaps on the Edge Device.
@@ -377,7 +383,7 @@ Each entry is a 3-element JSON array of `[name, version, revision]`, sourced fro
 
 ---
 
-#### `/hello/2`
+### `/hello/2`
 <a id="post-hello-2"></a>
 
 **Purpose:** A Real Time Device announces itself to the Edge Device, or reports its current state after booting new firmware.
@@ -395,7 +401,7 @@ See also: [Firmware Updates (modernised)](Tech_Lifecycle_RTD.md#peers-discovery)
 
 ---
 
-#### `/hello/1`
+### `/hello/1`
 <a id="post-hello-1"></a>
 
 **Purpose:** Legacy endpoint for a Real Time Device to announce itself to the Edge Device.
@@ -412,7 +418,7 @@ It is used by older Real Time Device firmware that does not support the modern d
 
 ---
 
-#### `suit/keys`
+### `suit/keys`
 <a id="get-suit-keys"></a>
 
 **Purpose:** _m2cp-coap_ retrieves the public SUIT signing keys from a legacy Real Time Device. Modern devices expose their keys via the `keys` field in [RTD Details](#rtd-details) (returned by [`/whoami/2`](#get-whoami-2)); this endpoint is the fallback for devices that only implement [`/whoami/1`](#get-whoami-1).
@@ -436,7 +442,7 @@ See also: [Legacy Real Time Devices](Tech_Lifecycle_RTD.md#legacy-real-time-devi
 
 ---
 
-#### `/suit/mani`
+### `/suit/mani`
 <a id="post-suit-mani"></a>
 
 **Purpose:** A Real Time Device requests available firmware update manifests from the Edge Device.
@@ -459,7 +465,7 @@ Calling this endpoint also acts as an implicit self announcement as well (See [P
 
 ---
 
-#### `/suit/fw/{app-revision-id}/{slot}`
+### `/suit/fw/{app-revision-id}/{slot}`
 <a id="get-suit-fw-app-revision-id-slot"></a>
 
 **Purpose:** A Real Time Device downloads a firmware binary from the Edge Device.
@@ -479,7 +485,7 @@ See also: [Serve Firmware Updates](Tech_Lifecycle_RTD.md#serve-firmware-updates)
 
 ---
 
-#### `/suit/result/{sequence-number}`
+### `/suit/result/{sequence-number}`
 <a id="post-suit-result-sequence-number"></a>
 
 **Purpose:** A Real Time Device reports the result of a firmware update attempt to the Edge Device.
@@ -500,7 +506,7 @@ See also: [Serve Firmware Updates](Tech_Lifecycle_RTD.md#serve-firmware-updates)
 
 ---
 
-#### `/report/update/result/1`
+### `/report/update/result/1`
 <a id="post-report-update-result-1"></a>
 
 **Purpose:** Legacy alias for [`/suit/result/{sequence-number}`](#post-suit-result-sequence-number) to report firmware update results.
@@ -517,7 +523,7 @@ Used by older firmware versions that have not yet adopted [`/suit/result/{sequen
 
 ---
 
-#### `/fw/1/m/{hw-serial}`
+### `/fw/1/m/{hw-serial}`
 <a id="post-fw-1-m-hw-serial"></a>
 
 **Purpose:** Legacy endpoint used by Real Time Devices without a CoAP server to request a firmware manifest.
@@ -537,7 +543,7 @@ See also: [Legacy Real Time Devices](Tech_Lifecycle_RTD.md#legacy-real-time-devi
 
 ---
 
-#### `/cmd/1/{sensorId}`
+### `/cmd/1/{sensorId}`
 <a id="post-cmd-1-sensorid"></a>
 
 **Purpose:** A Real Time Device reports the result of the previously executed command batch and requests the next one from the Edge Device.
@@ -563,7 +569,7 @@ On success the response body contains the CBOR-encoded [`CommandBatch`](#command
 
 ---
 
-#### `/update/1`
+### `/update/1`
 <a id="put-update-1"></a>
 
 **Purpose:** _m2cp-coap_ announces the availability of a new firmware update to a Real Time Device.
@@ -583,7 +589,7 @@ See also: [Announce Updates](Tech_Lifecycle_RTD.md#announce-updates)
 
 ---
 
-#### `/notify/poweroff/1`
+### `/notify/poweroff/1`
 <a id="post-notify-poweroff-1"></a>
 <a id="power-management-endpoints"></a>
 
@@ -603,7 +609,7 @@ See also: [Networking — Power Management](Networking.md#power-management)
 
 ---
 
-#### `/shutdown/1`
+### `/shutdown/1`
 <a id="post-shutdown-1"></a>
 
 **Purpose:** The PMU instructs _m2cp-coap_ to shut down the Linux system immediately.
@@ -621,7 +627,7 @@ See also: [Networking — Power Management](Networking.md#power-management)
 
 ---
 
-#### `/request_uptime/1`
+### `/request_uptime/1`
 <a id="put-request_uptime-1"></a>
 
 **Purpose:** An application requests additional uptime from _m2cp-coap_.

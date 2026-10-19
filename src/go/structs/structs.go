@@ -369,6 +369,31 @@ type User struct {
 	Permissions *Permissions `json:"permissions,omitempty"`
 }
 
+// UnknownUserName is the display name used for a user that could not be
+// resolved, e.g. because the account lives in another tenant and is not
+// visible to the current session.
+const UnknownUserName = "unknown"
+
+// UnknownUser returns a placeholder for a user that could not be resolved.
+// Only the Id is retained so the reference stays traceable in JSON output.
+func UnknownUser(id string) User {
+	return User{Id: id, Name: UnknownUserName}
+}
+
+// IsUnknown reports whether this user is an unresolved placeholder.
+func (u User) IsUnknown() bool {
+	return u.Name == UnknownUserName && u.Email == ""
+}
+
+// DisplayName returns "Name (Email)" for a resolved user and just "unknown" for a
+// placeholder, so the output never shows an empty "()" pair.
+func (u User) DisplayName() string {
+	if u.IsUnknown() {
+		return UnknownUserName
+	}
+	return u.Name + " (" + u.Email + ")"
+}
+
 // Permissions is only populated by the "me" query (backend/v5).
 type Permissions struct {
 	Scopes []string `json:"scopes,omitempty"`

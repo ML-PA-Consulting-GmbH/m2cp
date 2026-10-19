@@ -39,7 +39,7 @@
             L-IoT Documentation
           </a>
               <div class="version">
-                Version 1.15.1
+                Version 1.15.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -267,7 +267,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#monitoring-firmware-deployment">3.5. Monitoring Firmware Deployment</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#debugging-problem-scenarios">3.5.1. Debugging Problem Scenarios</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#debugging-fault-scenarios">3.5.1. Debugging Fault Scenarios</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#localising-the-cause">3.5.2. Localising the cause</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reporting-the-fault">3.5.3. Reporting the fault</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#observing-m2cp-coap-logs">3.5.4. Observing m2cp-coap logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#common-issues-and-known-behaviors">3.5.5. Common Issues and Known Behaviors</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#legacy">3.6. Legacy</a><ul>
@@ -738,7 +742,7 @@ deployment group’s model name and model revision!</p>
 <li><p>Pending update actions</p></li>
 <li><p>Last uptime</p></li>
 </ul>
-<p>Then, a new App Revision can be set and a refresh is triggered automatically (wip).
+<p>Then, a new App Revision can be set and a refresh is triggered automatically.
 You can also trigger the refresh for each <em>RTD</em> individually, using the command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>refresh<span class="w"> </span>&lt;..&gt;
 </pre></div>
@@ -753,76 +757,39 @@ To reboot <em>RTDs</em> manually one can use:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">device</span> <span class="pre">history</span> <span class="pre">&lt;OS</span> <span class="pre">Serial&gt;</span> <span class="pre">--changes</span></code> shows the update attempts and their results, this is the most user-friendly way (but wip).</p></li>
 <li><p>Execute command <code class="docutils literal notranslate"><span class="pre">m2cp</span> <span class="pre">device</span> <span class="pre">peers</span></code> (or <code class="docutils literal notranslate"><span class="pre">listKnownPeers</span></code> RPC) on the <em>ED</em> the <em>RTD</em> is connected to. The last update result is shown in the fields <code class="docutils literal notranslate"><span class="pre">Last</span> <span class="pre">Update</span> <span class="pre">Result</span></code> of the respective <em>RTD</em>.
 If the result is a success, the update was successful and the <em>RTD</em> will eventually reboot to the new firmware.
-If the result is an error, the update most likely failed. However, there are some scenarios where the result shows an error or nothing, but the update was successful. See <a class="reference internal" href="#debugging-problem-scenarios">Debugging Problem Scenarios</a> for details.</p></li>
+If the result is an error, the update most likely failed. However, there are some scenarios where the result shows an error or nothing, but the update was successful. See <a class="reference internal" href="#debugging-fault-scenarios">Debugging Fault Scenarios</a> for details.</p></li>
 </ul>
-<section id="debugging-problem-scenarios">
-<h3><span class="section-number">3.5.1. </span>Debugging Problem Scenarios<a class="headerlink" href="#debugging-problem-scenarios" title="Permalink to this heading"></a></h3>
-<section id="successive-firmware-app-refreshes">
-<h4>Successive Firmware App refreshes<a class="headerlink" href="#successive-firmware-app-refreshes" title="Permalink to this heading"></a></h4>
-<p>If after a successful refresh, another one is triggered and the respective <em>RTD</em> didn’t reboot inbetween, <em>m2cp-coap</em> will deliver the firmware to the <em>RTD</em> again.
-As the <em>RTD</em> already received it, it will reply with an error. As the first update was successful, the <em>RTD</em> will eventually reboot and show the new version. So the update is generally successful, but the <code class="docutils literal notranslate"><span class="pre">Last</span> <span class="pre">Update</span> <span class="pre">Result</span></code> value will be set to an error. The error code will be <code class="docutils literal notranslate"><span class="pre">-5:</span> <span class="pre">Sequence</span> <span class="pre">number</span> <span class="pre">less</span> <span class="pre">or</span> <span class="pre">equal</span> <span class="pre">to</span> <span class="pre">current</span> <span class="pre">sequence</span> <span class="pre">number</span></code>. One can trigger a reboot manually to verify it was this issue that caused this behaviour.</p>
+<section id="debugging-fault-scenarios">
+<h3><span class="section-number">3.5.1. </span>Debugging Fault Scenarios<a class="headerlink" href="#debugging-fault-scenarios" title="Permalink to this heading"></a></h3>
+<p>The most commonly observed issue is: I assigned a new firmware to a deployment group, triggered a refresh on the <em>RTD</em>, but the <em>RTD</em> didn’t update.
+The starting point for every investigation should be the localisation of the cause.</p>
 </section>
-<section id="rtd-does-not-receive-an-update-from-the-app-store">
-<h4><em>RTD</em> does not receive an update from the <em>App Store</em><a class="headerlink" href="#rtd-does-not-receive-an-update-from-the-app-store" title="Permalink to this heading"></a></h4>
-<p>Because of a misunderstanding, it can happen, that an <em>RTD</em> does not receive an update from the <em>App Store</em>.
-To verify this is happening, one can use the RPC command <code class="docutils literal notranslate"><span class="pre">getLastRefreshCall</span></code> on the <em>ED</em> the <em>RTD</em> is connected to:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>node<span class="w"> </span>rpc<span class="w"> </span>&lt;node&gt;<span class="w"> </span>-c<span class="w"> </span>getLastRefreshCall<span class="w"> </span>
+<section id="localising-the-cause">
+<h3><span class="section-number">3.5.2. </span>Localising the cause<a class="headerlink" href="#localising-the-cause" title="Permalink to this heading"></a></h3>
+<p>Execute the following <em>RPC</em> to observe the last <a class="reference internal" href="Tech_Lifecycle_RTD.html#refresh-call"><span class="std std-ref">refresh request</span></a> from the <em>ED</em> to the <em>App Store</em> and its response:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>m2cp<span class="w"> </span>device<span class="w"> </span>node<span class="w"> </span>rpc<span class="w"> </span>rpc.m2cp-coap.&lt;ED-OS-Serial&gt;<span class="w"> </span>--command<span class="w"> </span>getLastRefreshCall
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>To find out the correct <em>ED</em> use the command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>info<span class="w"> </span>&lt;RTD&gt;
-</pre></div>
-</div>
-<p>The field <code class="docutils literal notranslate"><span class="pre">Last</span> <span class="pre">Seen</span> <span class="pre">Edge</span> <span class="pre">Device</span></code> shows the <em>ED</em> the <em>RTD</em> was last seen on.</p>
-</div>
-<p>This shows the last refresh call made by the <em>ED</em> to the <em>App Store</em>, including the response from the <em>App Store</em> (see <a class="reference internal" href="Tech_Lifecycle_RTD.html#refresh-call"><span class="std std-ref">Refresh Call</span></a>).
-If the response does not contain an update action for the <em>RTD</em> in question, the <em>RTD</em> was most likely not correctly assigned to the deployment group.</p>
-<p>A cause for confusion can be, that the same physical <em>RTD</em> can appear as two different <em>RTDs</em> in the list of Known Devices of an <em>ED</em>. Once as legacy <em>RTD</em> and once as modern <em>RTD</em>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This is because an <em>RTD</em> interacting with the <em>m2cp-coap</em> server using legacy endpoints will be reported with a different OS Serial than one interacting using modern endpoints.
-So it will cause two Devices to appear in the list of Known Devices, even though they are the same physical device.
-This is because the legacy endpoints don’t report enough information to conform to the new standards.
-There are two situations in which this can occur:</p>
-<ul class="simple">
-<li><p>The <em>RTD</em> changed its Firmware App to a version that supports the modern endpoints. <em>m2cp-coap</em> will retain the information about the legacy <em>RTD</em> for a while.</p></li>
-<li><p>The <em>RTD</em> supports both legacy and modern endpoints. In this case, <em>m2cp-coap</em> will receive information from both endpoints and thus create two different <em>RTDs</em> in the list of Known Devices.</p></li>
-</ul>
-</div>
-<p>However only one of the two <em>RTDs</em> will be reported to the <em>App Store</em> during the refresh call.</p>
-<ul class="simple">
-<li><p>If the last seen timestamps of the two <em>RTDs</em> are at least five minutes apart, the older one is filtered out from the list of Known Devices.</p></li>
-<li><p>If the last seen timestamps of the two <em>RTDs</em> are less than five minutes apart, the legacy one is filtered out from the list of Known Devices.</p></li>
-</ul>
-<p>So if the legacy one is the only one that is assigned to a deployment group, the Device will not receive updates.
-To debug this, use the <code class="docutils literal notranslate"><span class="pre">--unfiltered</span></code> option of the <code class="docutils literal notranslate"><span class="pre">m2cp</span> <span class="pre">device</span> <span class="pre">peers</span></code> command to view all Known Devices, including the filtered out ones to compare it with the output of the RPC <code class="docutils literal notranslate"><span class="pre">getLastRefreshCall</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>peers<span class="w"> </span>--unfiltered<span class="w"> </span>&lt;ED&gt;
-...
-
-$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>node<span class="w"> </span>rpc<span class="w"> </span>&lt;node&gt;<span class="w"> </span>-c<span class="w"> </span>getLastRefreshCall
-...
-</pre></div>
-</div>
+<p>The response contains the last refresh <code class="docutils literal notranslate"><span class="pre">request</span></code>, its <code class="docutils literal notranslate"><span class="pre">response</span></code> and potential <code class="docutils literal notranslate"><span class="pre">error</span></code>s. From the response of the <em>RPC</em> three different cases arise:</p>
+<ol class="arabic simple">
+<li><p>Case: If <code class="docutils literal notranslate"><span class="pre">request</span></code> is empty or the target <em>RTD</em> is not in the list of reported devices in <code class="docutils literal notranslate"><span class="pre">request</span></code>: Cause either on the <em>ED</em> or the <em>RTD</em> (or in the communication between them)</p></li>
+<li><p>Case: If <code class="docutils literal notranslate"><span class="pre">response</span></code> is empty (and not Case 1):</p>
+<ol class="arabic simple">
+<li><p>If the <code class="docutils literal notranslate"><span class="pre">error</span></code> field contains an error, the cause is in the communication between ED and Backend.</p></li>
+<li><p>If the <code class="docutils literal notranslate"><span class="pre">error</span></code> field of the response is empty, the cause is in the Backend.</p></li>
+</ol>
+</li>
+<li><p>Case: If <code class="docutils literal notranslate"><span class="pre">response</span></code> doesn’t contain update action with <em>OS Serial</em> of the <em>RTD</em> that should be updated (and not Case 1 or 2): Cause is in the Backend.</p></li>
+</ol>
+<p>The <code class="docutils literal notranslate"><span class="pre">error</span></code> field of the response can contain additional information on the cause.</p>
 </section>
-<section id="issues-with-the-firmware-apps-or-manifest">
-<h4>Issues with the Firmware Apps or Manifest.<a class="headerlink" href="#issues-with-the-firmware-apps-or-manifest" title="Permalink to this heading"></a></h4>
-<p>Here are some known issues that can cause the update to fail, even though the <em>RTD</em> received the firmware:</p>
-<ul class="simple">
-<li><p><strong>Wrong offset:</strong> The offset specified in the <code class="docutils literal notranslate"><span class="pre">meta/firmware.yaml</span></code> file is wrong. This can only be clarified when looking in the <em>RTDs</em> logs and triggering a refresh.</p></li>
-<li><p><strong>Missing keys:</strong> The firmware is missing a required key to verify the firmware. The known keys are persisted in the <em>Known RTDs</em> list of the <em>ED</em> and can be viewed using the <code class="docutils literal notranslate"><span class="pre">listKnownPeers</span></code> RPC command.
-However, legacy firmware does not report keys.</p></li>
-<li><p><strong>Update Result is sent to the wrong endpoint:</strong> This is an issue that is present in some older firmware versions. The RTD sends the update result to the legacy endpoint instead of the modern one. This doesn’t change the outcome of the update but makes it harder to observe.
-There are two ways to find out this is happening. Inb both cases the result information can be used from the legacy endpoint:</p></li>
-<li><p>Get the full list of Known Devices using <code class="docutils literal notranslate"><span class="pre">m2cp</span> <span class="pre">device</span> <span class="pre">peers</span> <span class="pre">--unfiltered</span></code> and check if both a legacy and a modern variant of the <em>RTD</em> are present. If so, check the <code class="docutils literal notranslate"><span class="pre">Last</span> <span class="pre">Update</span> <span class="pre">Result</span></code> of both. If the legacy one shows a success and the modern nothing, this is most likely the issue.</p></li>
-<li><p>Advanced: Inspect the logs of the <em>m2cp-coap</em> server (see below) during a refresh request. Look out for update results being sent to the legacy endpoint after the update was announced to the modern endpoint. The logs can be hard to read, so ask for assistance if needed.</p></li>
-</ul>
+<section id="reporting-the-fault">
+<h3><span class="section-number">3.5.3. </span>Reporting the fault<a class="headerlink" href="#reporting-the-fault" title="Permalink to this heading"></a></h3>
+<p>A detailed bug report should be filed containing IDs of all the devices (<em>RTD</em> and <em>ED</em>) that had a role in the process.
+The fault will be investigated by the respective team: Edge Team for Case 1 and Case 2.1 and Backend Team for Case 2.2 and Case 3.</p>
 </section>
-<section id="further-investigation">
-<h4>Further investigation<a class="headerlink" href="#further-investigation" title="Permalink to this heading"></a></h4>
-<section id="observe-the-logs-of-the-m2cp-coap-server">
-<h5>Observe the logs of the <em>m2cp-coap</em> server<a class="headerlink" href="#observe-the-logs-of-the-m2cp-coap-server" title="Permalink to this heading"></a></h5>
+<section id="observing-m2cp-coap-logs">
+<h3><span class="section-number">3.5.4. </span>Observing m2cp-coap logs<a class="headerlink" href="#observing-m2cp-coap-logs" title="Permalink to this heading"></a></h3>
 <p>SSH into the <em>ED</em>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>m2cp<span class="w"> </span>device<span class="w"> </span>ssh<span class="w"> </span>open<span class="w"> </span>&lt;ED&gt;
 </pre></div>
@@ -837,10 +804,35 @@ There are two ways to find out this is happening. Inb both cases the result info
 </div>
 <p>From <code class="docutils literal notranslate"><span class="pre">m2cp-coap</span> <span class="pre">6.1.0</span></code> onwards, the log level can be modified using the RPC “setLogLevel”. This allows you to increase the log level to “debug” to see more detailed logs.</p>
 </section>
-<section id="observe-the-logs-on-the-rtd">
-<h5>Observe the logs on the RTD<a class="headerlink" href="#observe-the-logs-on-the-rtd" title="Permalink to this heading"></a></h5>
-<p>requires attaching to the RTD via a serial console. Differs from device to device.</p>
+<section id="common-issues-and-known-behaviors">
+<h3><span class="section-number">3.5.5. </span>Common Issues and Known Behaviors<a class="headerlink" href="#common-issues-and-known-behaviors" title="Permalink to this heading"></a></h3>
+<section id="legacy-to-up-to-date-firmware-update">
+<h4>Legacy to Up-to-Date Firmware Update<a class="headerlink" href="#legacy-to-up-to-date-firmware-update" title="Permalink to this heading"></a></h4>
+<p>When updating firmware that used the old (snap-based) firmware update process (short: <em>legacy-firmware</em>) to firmware supporting the Firmware-Updates-2.0 process, the physical <em>RTD</em> will get a second representation in the Appstore. That means two different <em>RTDs</em> with different OS Serials will exist in the Appstore which relate to the same physical device. For the reason behind that, refer to <a class="reference internal" href="Tech_Lifecycle_RTD.html#firmware-updates-2-0-current"><span class="std std-ref">Firmware Updates 2.0</span></a>.
+Only the <em>RTD</em> representation that was last seen is reported to the store (and if both were seen in a similar timespan, the up-to-date representation is chosen). This has two consequences:</p>
+<ul class="simple">
+<li><p>The success of the update will not be displayed for the legacy <em>RTD</em> representation. A pending update will be shown, even though the update was successful. That representation should be ignored and may be removed from the deployment group (but doesn’t need to be).</p></li>
+<li><p>The up-to-date <em>RTD</em> representation must be assigned to the deployment group for the <em>RTD</em> to receive any updates.
+The downgrade from up-to-date firmware to legacy firmware is <strong>not supported</strong> but may be possible. In that case, swapping back to the legacy <em>RTD</em> representation will be required.</p></li>
+</ul>
 </section>
+<section id="successive-firmware-app-refreshes-without-updates">
+<h4>Successive Firmware App refreshes without updates<a class="headerlink" href="#successive-firmware-app-refreshes-without-updates" title="Permalink to this heading"></a></h4>
+<p>If after a successful refresh, another one is triggered and the respective <em>RTD</em> didn’t reboot inbetween, <em>m2cp-coap</em> will deliver the firmware to the <em>RTD</em> again.
+As the <em>RTD</em> already received it, it will reply with an error. As the first update was successful, the <em>RTD</em> will eventually reboot and show the new version. So the update is generally successful, but the <code class="docutils literal notranslate"><span class="pre">Last</span> <span class="pre">Update</span> <span class="pre">Result</span></code> value will be set to an error. The error code will be <code class="docutils literal notranslate"><span class="pre">-5:</span> <span class="pre">Sequence</span> <span class="pre">number</span> <span class="pre">less</span> <span class="pre">or</span> <span class="pre">equal</span> <span class="pre">to</span> <span class="pre">current</span> <span class="pre">sequence</span> <span class="pre">number</span></code>. One can trigger a reboot manually to verify it was this issue that caused this behaviour.</p>
+</section>
+<section id="issues-with-the-firmware-apps-or-manifest">
+<h4>Issues with the Firmware Apps or Manifest.<a class="headerlink" href="#issues-with-the-firmware-apps-or-manifest" title="Permalink to this heading"></a></h4>
+<p>Here are some known issues that can cause the update to fail, even though the <em>RTD</em> received the firmware:</p>
+<ul class="simple">
+<li><p><strong>Wrong offset:</strong> The offset specified in the <code class="docutils literal notranslate"><span class="pre">meta/firmware.yaml</span></code> file is wrong. This can only be clarified when looking in the <em>RTDs</em> logs and triggering a refresh.</p></li>
+<li><p><strong>Missing keys:</strong> The firmware is missing a required key to verify the firmware. The known keys are persisted in the <em>Known RTDs</em> list of the <em>ED</em> and can be viewed using the <code class="docutils literal notranslate"><span class="pre">listKnownPeers</span></code> RPC command.
+However, legacy firmware does not report keys.</p></li>
+<li><p><strong>Update Result is sent to the wrong endpoint:</strong> This is an issue that is present in some older firmware versions. The RTD sends the update result to the legacy endpoint instead of the modern one. This doesn’t change the outcome of the update but makes it harder to observe.
+There are two ways to find out this is happening. In both cases the result information can be used from the legacy endpoint:</p></li>
+<li><p>Get the full list of Known Devices using <code class="docutils literal notranslate"><span class="pre">m2cp</span> <span class="pre">device</span> <span class="pre">peers</span> <span class="pre">--unfiltered</span></code> and check if both a legacy and a modern variant of the <em>RTD</em> are present. If so, check the <code class="docutils literal notranslate"><span class="pre">Last</span> <span class="pre">Update</span> <span class="pre">Result</span></code> of both. If the legacy one shows a success and the modern nothing, this is most likely the issue.</p></li>
+<li><p>Advanced: Inspect the logs of the <em>m2cp-coap</em> server (see above) during a refresh request. Look out for update results being sent to the legacy endpoint after the update was announced to the modern endpoint. The logs can be hard to read, so ask for assistance if needed.</p></li>
+</ul>
 </section>
 </section>
 </section>

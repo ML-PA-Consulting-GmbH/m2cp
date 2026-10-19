@@ -24,6 +24,19 @@ func GetUserById(ctx context.Context, id string) (*structs.User, error) {
 	}, nil
 }
 
+// GetUserByIdOrUnknown resolves a user by id. When the user cannot be
+// resolved (typically because it belongs to another tenant and is therefore
+// not visible to the current session), a placeholder user named "unknown" is
+// returned instead of an error, so callers that only reference a user for
+// display never fail because of it.
+func GetUserByIdOrUnknown(ctx context.Context, id string) structs.User {
+	user, err := GetUserById(ctx, id)
+	if err != nil || user == nil {
+		return structs.UnknownUser(id)
+	}
+	return *user
+}
+
 func GetUserByEmail(ctx context.Context, email string) (*structs.User, error) {
 	res, err := getUserByEmail(ctx, email)
 	if err != nil {

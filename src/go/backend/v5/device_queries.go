@@ -283,29 +283,17 @@ func GetDeviceInfoById(ctx context.Context, id string) (*structs.Device, error) 
 		return nil, err
 	}
 	if resDeploymentGroup.Device != nil && resDeploymentGroup.Device.DeploymentGroup != nil {
-		owner, err := GetUserById(ctx, resDeploymentGroup.Device.DeploymentGroup.OwnerUserId)
-		if err != nil {
-			owner = &structs.User{
-				Id:   resDeploymentGroup.Device.DeploymentGroup.OwnerUserId,
-				Name: fmt.Sprintf("unknown user %s", resDeploymentGroup.Device.DeploymentGroup.OwnerUserId),
-			}
-		}
+		owner := GetUserByIdOrUnknown(ctx, resDeploymentGroup.Device.DeploymentGroup.OwnerUserId)
 		deviceInfo.DeploymentGroup = &structs.DeploymentGroup{
 			Id:          resDeploymentGroup.Device.DeploymentGroup.Id,
 			Name:        resDeploymentGroup.Device.DeploymentGroup.Name,
 			Description: resDeploymentGroup.Device.DeploymentGroup.Description,
-			Owner:       *owner,
+			Owner:       owner,
 			CoOwners:    []structs.User{},
 		}
 
 		for _, coAdmin := range resDeploymentGroup.Device.DeploymentGroup.DeploymentGroupAdministrators {
-			coAdminDetails, err := GetUserById(ctx, coAdmin.UserId)
-			if err != nil {
-				coAdminDetails = &structs.User{
-					Id:   resDeploymentGroup.Device.DeploymentGroup.OwnerUserId,
-					Name: fmt.Sprintf("unknown user %s", coAdmin.UserId),
-				}
-			}
+			coAdminDetails := GetUserByIdOrUnknown(ctx, coAdmin.UserId)
 			deviceInfo.DeploymentGroup.CoOwners = append(deviceInfo.DeploymentGroup.CoOwners, structs.User{
 				Id:    coAdminDetails.Id,
 				Name:  coAdminDetails.Name,

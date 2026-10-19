@@ -385,7 +385,7 @@ func customDeviceInfoFormatter(output deviceInfoOutput) (string, error) {
 	} else {
 		out += fmt.Sprintf("  ├─ Id:             %s\n", deviceInfo.DeploymentGroup.Id)
 		out += fmt.Sprintf("  ├─ Name:           %s\n", deviceInfo.DeploymentGroup.Name)
-		out += fmt.Sprintf("  ├─ Owner:          %s\n", deviceInfo.DeploymentGroup.Owner.Name+" ("+deviceInfo.DeploymentGroup.Owner.Email+")")
+		out += fmt.Sprintf("  ├─ Owner:          %s\n", deviceInfo.DeploymentGroup.Owner.DisplayName())
 		out += fmt.Sprintf("  └─ Description:    %s\n", tools.MaybeStringToString(deviceInfo.DeploymentGroup.Description, "n/a"))
 	}
 	out += "\n"

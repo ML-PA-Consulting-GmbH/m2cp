@@ -182,6 +182,7 @@ Every user automatically receives the **Default** role upon account creation. Th
 | `FleetBridgeSnapRevision.Update.All` | Update deployment group app assignments |
 | `FleetBridgeSnapRevision.Delete.All` | Remove app assignments from deployment groups |
 | `DeviceSnap.Update.All` | Update apps installed on devices |
+| `UpdateAction.Reset.Own` | Reset update actions for devices in deployment group for which the user is an Owner or Co-Admin|
 | `SnapDeclaration.Read.All` | View app declarations |
 | `SnapRevision.Read.All` | View app revisions |
 | `SnapStatus.Read.All` | View app status |
@@ -393,6 +394,7 @@ Every user automatically receives the **Default** role upon account creation. Th
 | `AssetAttributeValue.Delete.Tenant` | Delete asset attribute values in the tenant|
 | `AssetAttributeValue.Read.Tenant` | View asset attribute values in the tenant|
 | `AssetAttributeValue.Update.Tenant` | Edit asset attribute values in the tenant|
+| `AssetAttributeModelDefaultValue.Create.Tenant` | Edit default asset attribute values in the tenant|
 | `AssetBridgeAssetTag.Create.Tenant` | Create an asset tag in the tenant|
 | `AssetBridgeAssetTag.Delete.Tenant` | Delete an asset tag in the tenant|
 | `AssetBridgeAssetTag.Read.Tenant` | View asset tags in the tenant|
@@ -656,6 +658,7 @@ All permission scopes in a single view. Read **across a row** to find every role
 | Devices | `EdgeDeviceInstallStateHistory.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | | ★ |
 | Devices | `EdgeDeviceInstallStateSnapshot.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | | ★ |
 | Devices | `Log.Read.All` | | ★ | ● | | | | ★ | | | | | | | ★ |
+| Devices | `UpdateAction.Reset.Own` | | | | ● | ● | | | | | | | | | ★ |
 | Deployment Groups | `Fleet.Read.All` | | ★ | ● | ● | ● | ● | ★ | ● | | | | | | ★ |
 | Deployment Groups | `Fleet.Create.All` | | | | ● | ● | | | | | | | | | ★ |
 | Deployment Groups | `Fleet.Update.All` | | | | ● | ● | | | | | | | | | ★ |
@@ -727,9 +730,6 @@ All permission scopes in a single view. Read **across a row** to find every role
 | Assets | `AssetModelBridgeAssetAttributeSet.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
 | Assets | `AssetModelBridgeAssetAttributeSet.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
 | Assets | `AssetModelDefaultValue.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
-| Assets | `AssetModelDefaultValue.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
-| Assets | `AssetModelDefaultValue.Read.Tenant` | | | | | | | | | ● | | | | | ★ |
-| Assets | `AssetModelDefaultValue.Update.Tenant` | | | | | | | | | ● | | | | | ★ |
 | Assets | `AssetModelTree.Create.Tenant` | | | | | | | | | ● | | | | | ★ |
 | Assets | `AssetModelTree.Delete.Tenant` | | | | | | | | | ● | | | | | ★ |
 | Assets | `AssetModelTree.Read.Tenant` | | | | | | | | | ● | | | | | ★ |

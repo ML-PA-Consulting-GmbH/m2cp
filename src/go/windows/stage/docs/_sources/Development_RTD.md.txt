@@ -229,7 +229,7 @@ This shows the currently targeted App (Firmware) version for the deployment grou
 - Pending update actions
 - Last uptime
 
-Then, a new App Revision can be set and a refresh is triggered automatically (wip).
+Then, a new App Revision can be set and a refresh is triggered automatically.
 You can also trigger the refresh for each _RTD_ individually, using the command:
 ```bash
 $ m2cp device refresh <..>
@@ -244,73 +244,35 @@ To get an insight on the success of the update, without waiting for the next reb
 - `device history <OS Serial> --changes` shows the update attempts and their results, this is the most user-friendly way (but wip).
 - Execute command `m2cp device peers` (or `listKnownPeers` RPC) on the _ED_ the _RTD_ is connected to. The last update result is shown in the fields `Last Update Result` of the respective _RTD_.
 If the result is a success, the update was successful and the _RTD_ will eventually reboot to the new firmware.
-If the result is an error, the update most likely failed. However, there are some scenarios where the result shows an error or nothing, but the update was successful. See [Debugging Problem Scenarios](#debugging-problem-scenarios) for details.
+If the result is an error, the update most likely failed. However, there are some scenarios where the result shows an error or nothing, but the update was successful. See [Debugging Fault Scenarios](#debugging-fault-scenarios) for details.
 
 
-### Debugging Problem Scenarios
-#### Successive Firmware App refreshes
-If after a successful refresh, another one is triggered and the respective _RTD_ didn't reboot inbetween, _m2cp-coap_ will deliver the firmware to the _RTD_ again. 
-As the _RTD_ already received it, it will reply with an error. As the first update was successful, the _RTD_ will eventually reboot and show the new version. So the update is generally successful, but the `Last Update Result` value will be set to an error. The error code will be `-5: Sequence number less or equal to current sequence number`. One can trigger a reboot manually to verify it was this issue that caused this behaviour.
+### Debugging Fault Scenarios
+The most commonly observed issue is: I assigned a new firmware to a deployment group, triggered a refresh on the _RTD_, but the _RTD_ didn't update.
+The starting point for every investigation should be the localisation of the cause. 
 
+### Localising the cause
 
-#### _RTD_ does not receive an update from the _App Store_
-Because of a misunderstanding, it can happen, that an _RTD_ does not receive an update from the _App Store_.
-To verify this is happening, one can use the RPC command `getLastRefreshCall` on the _ED_ the _RTD_ is connected to:
-
+Execute the following *RPC* to observe the last [refresh request](Tech_Lifecycle_RTD.md#refresh-call) from the _ED_ to the _App Store_ and its response:
 ```bash
-$ m2cp device node rpc <node> -c getLastRefreshCall 
+m2cp device node rpc rpc.m2cp-coap.<ED-OS-Serial> --command getLastRefreshCall
 ```
+The response contains the last refresh `request`, its `response` and potential `error`s. From the response of the *RPC* three different cases arise:
+1. Case: If `request` is empty or the target *RTD* is not in the list of reported devices in `request`: Cause either on the _ED_ or the _RTD_ (or in the communication between them)
+2. Case: If `response` is empty (and not Case 1): 
+    1. If the `error` field contains an error, the cause is in the communication between ED and Backend.
+    2. If the `error` field of the response is empty, the cause is in the Backend. 
+3. Case: If `response` doesn't contain update action with *OS Serial* of the *RTD* that should be updated (and not Case 1 or 2): Cause is in the Backend.
 
-````{note}
-To find out the correct _ED_ use the command:
-```bash
-$ m2cp device info <RTD>
-```
-The field `Last Seen Edge Device` shows the _ED_ the _RTD_ was last seen on.
-````
-
-This shows the last refresh call made by the _ED_ to the _App Store_, including the response from the _App Store_ (see [Refresh Call](Tech_Lifecycle_RTD.md#refresh-call)).
-If the response does not contain an update action for the _RTD_ in question, the _RTD_ was most likely not correctly assigned to the deployment group.
-
-A cause for confusion can be, that the same physical _RTD_ can appear as two different _RTDs_ in the list of Known Devices of an _ED_. Once as legacy _RTD_ and once as modern _RTD_. 
-
-```{note}
-This is because an _RTD_ interacting with the _m2cp-coap_ server using legacy endpoints will be reported with a different OS Serial than one interacting using modern endpoints. 
-So it will cause two Devices to appear in the list of Known Devices, even though they are the same physical device.
-This is because the legacy endpoints don't report enough information to conform to the new standards.
-There are two situations in which this can occur:
-- The _RTD_ changed its Firmware App to a version that supports the modern endpoints. _m2cp-coap_ will retain the information about the legacy _RTD_ for a while.
-- The _RTD_ supports both legacy and modern endpoints. In this case, _m2cp-coap_ will receive information from both endpoints and thus create two different _RTDs_ in the list of Known Devices.
-```
-
-However only one of the two _RTDs_ will be reported to the _App Store_ during the refresh call. 
-- If the last seen timestamps of the two _RTDs_ are at least five minutes apart, the older one is filtered out from the list of Known Devices.
-- If the last seen timestamps of the two _RTDs_ are less than five minutes apart, the legacy one is filtered out from the list of Known Devices.
-
-So if the legacy one is the only one that is assigned to a deployment group, the Device will not receive updates.
-To debug this, use the `--unfiltered` option of the `m2cp device peers` command to view all Known Devices, including the filtered out ones to compare it with the output of the RPC `getLastRefreshCall`.
-```bash
-$ m2cp device peers --unfiltered <ED>
-...
-
-$ m2cp device node rpc <node> -c getLastRefreshCall
-...
-```
+The `error` field of the response can contain additional information on the cause. 
 
 
-#### Issues with the Firmware Apps or Manifest.
-Here are some known issues that can cause the update to fail, even though the _RTD_ received the firmware:
-  - **Wrong offset:** The offset specified in the `meta/firmware.yaml` file is wrong. This can only be clarified when looking in the _RTDs_ logs and triggering a refresh.
-  - **Missing keys:** The firmware is missing a required key to verify the firmware. The known keys are persisted in the _Known RTDs_ list of the _ED_ and can be viewed using the `listKnownPeers` RPC command.
-However, legacy firmware does not report keys.
-  - **Update Result is sent to the wrong endpoint:** This is an issue that is present in some older firmware versions. The RTD sends the update result to the legacy endpoint instead of the modern one. This doesn't change the outcome of the update but makes it harder to observe. 
-There are two ways to find out this is happening. Inb both cases the result information can be used from the legacy endpoint:
-  - Get the full list of Known Devices using `m2cp device peers --unfiltered` and check if both a legacy and a modern variant of the _RTD_ are present. If so, check the `Last Update Result` of both. If the legacy one shows a success and the modern nothing, this is most likely the issue.
-  - Advanced: Inspect the logs of the _m2cp-coap_ server (see below) during a refresh request. Look out for update results being sent to the legacy endpoint after the update was announced to the modern endpoint. The logs can be hard to read, so ask for assistance if needed.
 
+### Reporting the fault
+A detailed bug report should be filed containing IDs of all the devices (*RTD* and *ED*) that had a role in the process. 
+The fault will be investigated by the respective team: Edge Team for Case 1 and Case 2.1 and Backend Team for Case 2.2 and Case 3.
 
-#### Further investigation
-##### Observe the logs of the _m2cp-coap_ server
+### Observing m2cp-coap logs
 SSH into the _ED_:
 ```bash
 $ m2cp device ssh open <ED>
@@ -325,8 +287,33 @@ $ m2cp device refresh <RTD>
 ```
 From `m2cp-coap 6.1.0` onwards, the log level can be modified using the RPC "setLogLevel". This allows you to increase the log level to "debug" to see more detailed logs.
 
-##### Observe the logs on the RTD 
-requires attaching to the RTD via a serial console. Differs from device to device.
+
+### Common Issues and Known Behaviors
+
+#### Legacy to Up-to-Date Firmware Update
+When updating firmware that used the old (snap-based) firmware update process (short: *legacy-firmware*) to firmware supporting the Firmware-Updates-2.0 process, the physical *RTD* will get a second representation in the Appstore. That means two different *RTDs* with different OS Serials will exist in the Appstore which relate to the same physical device. For the reason behind that, refer to [Firmware Updates 2.0](Tech_Lifecycle_RTD.md#firmware-updates-20-current).
+Only the *RTD* representation that was last seen is reported to the store (and if both were seen in a similar timespan, the up-to-date representation is chosen). This has two consequences:
+
+- The success of the update will not be displayed for the legacy *RTD* representation. A pending update will be shown, even though the update was successful. That representation should be ignored and may be removed from the deployment group (but doesn't need to be). 
+- The up-to-date *RTD* representation must be assigned to the deployment group for the *RTD* to receive any updates.
+The downgrade from up-to-date firmware to legacy firmware is **not supported** but may be possible. In that case, swapping back to the legacy *RTD* representation will be required. 
+
+
+#### Successive Firmware App refreshes without updates
+If after a successful refresh, another one is triggered and the respective _RTD_ didn't reboot inbetween, _m2cp-coap_ will deliver the firmware to the _RTD_ again. 
+As the _RTD_ already received it, it will reply with an error. As the first update was successful, the _RTD_ will eventually reboot and show the new version. So the update is generally successful, but the `Last Update Result` value will be set to an error. The error code will be `-5: Sequence number less or equal to current sequence number`. One can trigger a reboot manually to verify it was this issue that caused this behaviour.
+
+
+
+#### Issues with the Firmware Apps or Manifest.
+Here are some known issues that can cause the update to fail, even though the _RTD_ received the firmware:
+  - **Wrong offset:** The offset specified in the `meta/firmware.yaml` file is wrong. This can only be clarified when looking in the _RTDs_ logs and triggering a refresh.
+  - **Missing keys:** The firmware is missing a required key to verify the firmware. The known keys are persisted in the _Known RTDs_ list of the _ED_ and can be viewed using the `listKnownPeers` RPC command.
+However, legacy firmware does not report keys.
+  - **Update Result is sent to the wrong endpoint:** This is an issue that is present in some older firmware versions. The RTD sends the update result to the legacy endpoint instead of the modern one. This doesn't change the outcome of the update but makes it harder to observe. 
+There are two ways to find out this is happening. In both cases the result information can be used from the legacy endpoint:
+  - Get the full list of Known Devices using `m2cp device peers --unfiltered` and check if both a legacy and a modern variant of the _RTD_ are present. If so, check the `Last Update Result` of both. If the legacy one shows a success and the modern nothing, this is most likely the issue.
+  - Advanced: Inspect the logs of the _m2cp-coap_ server (see above) during a refresh request. Look out for update results being sent to the legacy endpoint after the update was announced to the modern endpoint. The logs can be hard to read, so ask for assistance if needed.
 
 ## Legacy
 
