@@ -30,7 +30,7 @@ func (t *TestSuite) generateMockDataMessage(numRows int) []byte {
 	msg.GetHeader().SetId("dfccbdf5-aa49-4529-af83-ffdda81cdee1")
 	msg.GetHeader().SetTaskId("eb94490d-306b-4475-9e8b-5b470d669f80")
 
-	for i := 0; i < numRows; i++ {
+	for range numRows {
 		values := map[string]interface{}{
 			"pressureValveA": generateRandomString(10),
 			"pressureValveB": generateRandomString(10),
@@ -59,7 +59,7 @@ func (t *TestSuite) TestPrintMockDataMessages() {
 	)
 
 	out := ""
-	for i := 0; i < numMessages; i++ {
+	for range numMessages {
 		out += string(t.generateMockDataMessage(rowsPerMessage))
 	}
 

@@ -47,7 +47,7 @@ func (t *TestSuite) randomParameters() []map[string]string {
 
 	dataSlice := make([]map[string]string, length)
 
-	for i := 0; i < length; i++ {
+	for i := range length {
 		data := make(map[string]string)
 
 		// Generate random key-value pairs for each map

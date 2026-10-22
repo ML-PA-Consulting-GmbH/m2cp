@@ -110,8 +110,8 @@ func NewDTLSConfigFromFile(ownIdentity string, pskFilePath string) (m2cp.DTLSCon
 // It returns a map of identity string and hexkey as bytes and an error if parsing fails.
 func ParsePSKString(content string) (map[string][]byte, error) {
 	identities := make(map[string][]byte)
-	lines := strings.Split(content, "\n")
-	for _, line := range lines {
+	lines := strings.SplitSeq(content, "\n")
+	for line := range lines {
 		line = strings.TrimSpace(line)
 		if line == "" {
 			continue

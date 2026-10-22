@@ -194,7 +194,7 @@ func (l *listenerInstance) reachabilityTest(ctpParent m2cp.ContextPlus) {
 		ctpParent.LogError("creating reachability client for server at %s: %w", address, err)
 		return
 	}
-	for i := 0; i < 10; i++ {
+	for range 10 {
 		res, err := client.Get("/.well-known/core", "", nil)
 		if err != nil {
 			continue

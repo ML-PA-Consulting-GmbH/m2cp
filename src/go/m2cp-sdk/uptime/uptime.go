@@ -170,10 +170,7 @@ func doUptimeRequest(ctp m2cp.ContextPlus, identifier string) error {
 	}
 
 	// do an uptime request
-	seconds := int(math.Ceil(runtimeRequest.Sub(time.Now()).Seconds()))
-	if seconds < 0 {
-		seconds = 0
-	}
+	seconds := max(int(math.Ceil(runtimeRequest.Sub(time.Now()).Seconds())), 0)
 	//ctp.LogDebug("Requesting %d seconds uptime", seconds)
 
 	client, err := coap_client.NewClient(ctp, uptimeManagerIp)

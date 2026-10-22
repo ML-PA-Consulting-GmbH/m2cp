@@ -135,6 +135,7 @@ func FormatISO8601UTC(t time.Time) string {
 	return t.Format("20060102T150405Z")
 }
 
+//go:fix inline
 func StrPtr(s string) *string {
-	return &s
+	return new(s)
 }

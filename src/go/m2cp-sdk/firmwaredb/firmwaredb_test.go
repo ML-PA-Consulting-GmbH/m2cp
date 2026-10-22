@@ -1,11 +1,12 @@
 package firmwaredb
 
 import (
-	"github.com/stretchr/testify/suite"
 	"m2cp"
 	coap_server "m2cp/coap/coap-server"
 	"m2cp/m2cp_new"
 	"testing"
+
+	"github.com/stretchr/testify/suite"
 )
 
 type FirmwareDbTestSuite struct {
@@ -50,7 +51,7 @@ func (t *FirmwareDbTestSuite) TestFindLatestRevisionNothingNew() {
 	})
 	revision, err := t.firmwareDb.FindNewerRevision(sensor)
 	t.Error(err)
-	t.Contains(err.Error(), "No compatible and allowed revision found")
+	t.ErrorContains(err, "No compatible and allowed revision found")
 	t.Nil(revision)
 }
 

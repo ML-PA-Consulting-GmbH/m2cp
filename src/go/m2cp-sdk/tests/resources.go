@@ -14,13 +14,11 @@ var (
 func LockResource(name string) {
 	fmt.Println("Locking resource", name)
 
+	resourcesLock.Lock()
 	if resources == nil {
-		resourcesLock.Lock()
 		resources = make(map[string]*sync.Mutex)
-		resourcesLock.Unlock()
 	}
 
-	resourcesLock.Lock()
 	if _, ok := resources[name]; !ok {
 		resources[name] = &sync.Mutex{}
 	}

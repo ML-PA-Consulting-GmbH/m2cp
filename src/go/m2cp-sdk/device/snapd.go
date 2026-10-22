@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"gopkg.in/yaml.v3"
 	"io"
 	"m2cp"
 	"net"
@@ -14,6 +13,8 @@ import (
 	"os/exec"
 	"strings"
 	"time"
+
+	"go.yaml.in/yaml/v3"
 )
 
 func getSnapdSerialFromSocket() (string, error) {

@@ -94,10 +94,10 @@ func (t *TestSuite) TestNewDataRow_withIntArray() {
 	}{
 		{"[1,2,3]", map[string]interface{}{
 			"testInt": []int{1, 2, 3},
-		}, Ptr("1,2,3")},
+		}, new("1,2,3")},
 		{"[]", map[string]interface{}{
 			"testInt": []int{},
-		}, Ptr("")},
+		}, new("")},
 		{"nil", map[string]interface{}{
 			"testInt": ([]int)(nil),
 		}, nil},
@@ -191,7 +191,7 @@ func (t *TestSuite) TestStringifyFuzzing() {
 	f := fuzz.New()
 
 	// Run tests for different data types
-	for i := 0; i < 10000; i++ {
+	for range 10000 {
 		var v interface{}
 		var tp string
 		var expected string

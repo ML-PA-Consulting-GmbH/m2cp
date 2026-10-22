@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"m2cp"
 	"m2cp/tools"
+	"slices"
 	"strconv"
 	"strings"
 	"sync/atomic"
@@ -218,7 +219,7 @@ func (df *dataField) SetPos(pos int) {
 
 func NewDataFormat(formatId string, fields ...m2cp.DataField) (m2cp.DataFormat, error) {
 	fs := make([]dataField, len(fields))
-	for i := 0; i < len(fields); i++ {
+	for i := range fields {
 		fs[i] = *fields[i].(*dataField)
 	}
 	df := dataFormat{}
@@ -261,12 +262,7 @@ func (df *dataFormat) InitAfterParsing(formatId string, fields []dataField) {
 }
 
 func isValidDataType(dataType string) bool {
-	for _, t := range validDataTypes {
-		if t == dataType {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(validDataTypes, dataType)
 }
 
 func stringify(value interface{}) (*string, *string) {

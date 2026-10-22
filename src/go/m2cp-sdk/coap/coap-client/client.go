@@ -194,7 +194,7 @@ func (o *client) coapCall(endpoint string, query string, method string, payloadB
 	buf := make([]byte, len(payloadBytes))
 	_, err = readSeeker.Read(buf)
 	if err != nil && err != io.EOF {
-		return nil, fmt.Errorf("failed converting payload to io.Reader: %s", err)
+		return nil, fmt.Errorf("failed converting payload to io.Reader: %w", err)
 	}
 
 	var address string
@@ -218,7 +218,7 @@ func (o *client) coapCall(endpoint string, query string, method string, payloadB
 	if o.source != "" {
 		laddr, err = net2.ResolveUDPAddr("udp", o.source)
 		if err != nil {
-			return nil, fmt.Errorf("failed resolving source UDP address %s: %v", o.source, err)
+			return nil, fmt.Errorf("failed resolving source UDP address %s: %w", o.source, err)
 		}
 	}
 	dialer := &net2.Dialer{
@@ -232,13 +232,13 @@ func (o *client) coapCall(endpoint string, query string, method string, payloadB
 	if o.dtlsConf == nil {
 		con, err = udp.Dial(address, options.WithDialer(dialer), options.WithErrors(errs), options.WithBlockwise(true, blockwise.SZX1024, time.Second*5))
 		if err != nil {
-			return nil, fmt.Errorf("failed dialing: %v", err)
+			return nil, fmt.Errorf("failed dialing: %w", err)
 		}
 	} else {
 		config, _ := o.dtlsConf(o.ctp)
 		con, err = dtls.Dial(address, config, options.WithDialer(dialer), options.WithErrors(errs), options.WithBlockwise(true, blockwise.SZX1024, time.Second*5))
 		if err != nil {
-			return nil, fmt.Errorf("failed dialing DTLS: %v", err)
+			return nil, fmt.Errorf("failed dialing DTLS: %w", err)
 		}
 	}
 
@@ -286,7 +286,7 @@ func (o *client) coapCall(endpoint string, query string, method string, payloadB
 
 	response, err = m2cpCoapResponseFromCoapResponse(resp, con)
 	if err != nil {
-		return nil, fmt.Errorf("failed converting response: %s", err)
+		return nil, fmt.Errorf("failed converting response: %w", err)
 	}
 
 	return response, nil
@@ -295,7 +295,7 @@ func (o *client) coapCall(endpoint string, query string, method string, payloadB
 func queryToOptions(query string) ([]message.Option, error) {
 	values, err := url.ParseQuery(query)
 	if err != nil {
-		return nil, fmt.Errorf("Error parsing query: %s\n", err.Error())
+		return nil, fmt.Errorf("Error parsing query: %w\n", err)
 	}
 
 	var opts []message.Option

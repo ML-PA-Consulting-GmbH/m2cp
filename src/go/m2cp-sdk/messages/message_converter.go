@@ -4,8 +4,10 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"errors"
-	"github.com/klauspost/compress/zstd"
+	"io"
 	"m2cp"
+
+	"github.com/klauspost/compress/zstd"
 )
 
 var (
@@ -225,7 +227,7 @@ func decompressZstd(data []byte) ([]byte, error) {
 	defer decoder.Close()
 
 	var out []byte
-	if out, err = decoder.DecodeAll(data, nil); err != nil && err.Error() != "unexpected EOF" {
+	if out, err = decoder.DecodeAll(data, nil); err != nil && !errors.Is(err, io.ErrUnexpectedEOF) {
 		return nil, err
 	}
 	return out, nil

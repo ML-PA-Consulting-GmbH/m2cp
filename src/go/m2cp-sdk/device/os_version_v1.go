@@ -2,9 +2,10 @@ package device
 
 import (
 	"fmt"
-	"gopkg.in/yaml.v3"
 	"strconv"
 	"strings"
+
+	"go.yaml.in/yaml/v3"
 )
 
 type osVersionV1 struct {

@@ -3,8 +3,9 @@ package snapd
 import (
 	"bytes"
 	"fmt"
-	"gopkg.in/yaml.v3"
 	"time"
+
+	"go.yaml.in/yaml/v3"
 )
 
 type BaseAssertion struct {

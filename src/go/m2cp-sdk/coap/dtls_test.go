@@ -3,10 +3,11 @@ package coap
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/stretchr/testify/suite"
 	"m2cp"
 	"m2cp/contextplus"
 	"testing"
+
+	"github.com/stretchr/testify/suite"
 )
 
 type TestSuite struct {
@@ -74,7 +75,7 @@ func (s *TestSuite) TestParsePSKString_InvalidFormat() {
 	identities, err := ParsePSKString(content)
 	s.Error(err)
 	s.Nil(identities)
-	s.Contains(err.Error(), "invalid line format")
+	s.ErrorContains(err, "invalid line format")
 }
 
 func (s *TestSuite) TestParsePSKString_InvalidHex() {
@@ -83,7 +84,7 @@ func (s *TestSuite) TestParsePSKString_InvalidHex() {
 	identities, err := ParsePSKString(content)
 	s.Error(err)
 	s.Nil(identities)
-	s.Contains(err.Error(), "invalid hex key")
+	s.ErrorContains(err, "invalid hex key")
 }
 
 func (s *TestSuite) TestParsePSKString_EmptyString() {
@@ -122,7 +123,7 @@ func (s *TestSuite) TestNewDTLSConfigFromFile_NonExistentFile() {
 	builder, err := NewDTLSConfigFromFile("test-server", "testdata/non-existent.txt")
 	s.Error(err)
 	s.Nil(builder)
-	s.Contains(err.Error(), "cannot read PSK file")
+	s.ErrorContains(err, "cannot read PSK file")
 }
 
 func (s *TestSuite) TestNewDTLSConfigFromMap_MultipleIdentities() {
@@ -180,7 +181,7 @@ func (s *TestSuite) TestNewDTLSConfigFromMap_UnknownIdentity() {
 	psk, err := config.PSK([]byte("unknown-client"))
 	s.Error(err)
 	s.Nil(psk)
-	s.Contains(err.Error(), "unknown identity hint")
+	s.ErrorContains(err, "unknown identity hint")
 }
 
 func (s *TestSuite) TestNewDTLSConfigFromMap_StableOutput() {
@@ -275,7 +276,7 @@ func (s *TestSuite) TestNewDTLSConfigWithFunc_UnknownIdentity() {
 	psk, err := config.PSK([]byte("unknown"))
 	s.Error(err)
 	s.Nil(psk)
-	s.Contains(err.Error(), "unknown identity")
+	s.ErrorContains(err, "unknown identity")
 }
 
 func (s *TestSuite) TestNewDTLSConfigWithFunc_ReachabilityIdentity() {

@@ -96,11 +96,9 @@ func (t *TestSuite) newNamedBranch(name string, ctp m2cp.ContextPlus) branch {
 func (t *TestSuite) runBranches() {
 	for i := range t.branches {
 		b := &t.branches[i]
-		t.wg.Add(1)
-		go func() {
-			defer t.wg.Done()
+		t.wg.Go(func() {
 			b.run()
-		}()
+		})
 	}
 }
 

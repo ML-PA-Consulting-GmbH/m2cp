@@ -30,12 +30,12 @@ type Peer struct {
 	AppVersion     string `json:"app_version,omitempty"`
 	SequenceNumber int    `json:"seq_no"`
 
-	LastSeen     time.Time `json:"last_seen,omitempty"`
+	LastSeen     time.Time `json:"last_seen"`
 	Uptime       int64     `json:"uptime,omitempty"`
 	FirmwareKeys []string  `json:"keys,omitempty"`
 
 	UpdateResult     int       `json:"update_result,omitempty"`
-	UpdateResultTime time.Time `json:"update_result_time,omitempty"`
+	UpdateResultTime time.Time `json:"update_result_time"`
 	UpdateResultCode string    `json:"update_result_code,omitempty"`
 
 	//Legacy fields for compatibility

@@ -99,13 +99,13 @@ func decodeAttributes(attr tpm2.KeyProp) string {
 		{tpm2.FlagDecrypt, "FlagDecrypt"},
 		{tpm2.FlagSign, "FlagSign"},
 	}
-	result := ""
+	var result strings.Builder
 	for _, flag := range flags {
 		if attr&flag.Bitmask != 0 {
-			result += fmt.Sprintf("|%s", flag.Name)
+			result.WriteString(fmt.Sprintf("|%s", flag.Name))
 		}
 	}
-	return result
+	return result.String()
 }
 
 // prettyPrintPublicKey was invented for debugging only
@@ -350,7 +350,7 @@ func newCashedSymKey() (symKey []byte, new bool, err error) {
 	// Note: Exponential backoff is less necessary now that storage key is in same context
 	var handle tpmutil.Handle
 	maxRetries := 4
-	for i := 0; i < maxRetries; i++ {
+	for i := range maxRetries {
 		// Wait before retry: exponential backoff (10ms, 100ms, 1s)
 		if i > 0 {
 			time.Sleep(time.Duration(math.Pow10(i)) * 10 * time.Millisecond)
@@ -519,7 +519,7 @@ func withTpm(handle tpmutil.Handle, template tpm2.Public, f func(key *client.Key
 	const maxTries = 3
 	const waitBetweenTriesS = 1
 
-	for try := 0; try < maxTries; try++ {
+	for range maxTries {
 		err := withTpmTry(handle, template, f)
 		if err != nil {
 			time.Sleep(time.Duration(waitBetweenTriesS) * time.Second)
@@ -589,8 +589,8 @@ func getDriveSerial(drive string) (serial string, err error) {
 
 	model := ""
 
-	lines := strings.Split(out.String(), "\n")
-	for _, line := range lines {
+	lines := strings.SplitSeq(out.String(), "\n")
+	for line := range lines {
 		if strings.Contains(line, "ID_SERIAL=") {
 			serial = strings.Split(line, "=")[1]
 		} else if strings.Contains(line, "ID_NAME=") {

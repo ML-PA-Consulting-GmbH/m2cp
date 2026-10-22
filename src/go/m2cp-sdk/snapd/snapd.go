@@ -206,7 +206,7 @@ type resultServiceControl struct {
 	Status     string `json:"status"`
 	Result     struct {
 		Message string `json:"message"`
-	} `json:"result,omitempty"`
+	} `json:"result"`
 	Change string `json:"change,omitempty"`
 }
 

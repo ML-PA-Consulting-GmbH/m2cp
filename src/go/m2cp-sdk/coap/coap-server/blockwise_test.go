@@ -115,7 +115,7 @@ func (t *TestSuite) Test20SimultaneousDownloads() {
 	signalChan := make(chan struct{})
 	wg := sync.WaitGroup{}
 
-	for i := 0; i < numRequests; i++ {
+	for i := range numRequests {
 		wg.Add(1)
 		go func(idx int) {
 

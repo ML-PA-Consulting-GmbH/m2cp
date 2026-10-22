@@ -182,16 +182,16 @@ func (t *TestSuite) TestDataMessage_15725_ParseOID32_withOptionalFields() {
 		expectedDataJson string
 	}{
 		{"All fields present",
-			1769934987, "fw_type", "fw_version", Ptr(uint32(4)), Ptr(uint32(5)), Ptr(uint32(6)),
+			1769934987, "fw_type", "fw_version", new(uint32(4)), new(uint32(5)), new(uint32(6)),
 			`"1769934987","fw_type","fw_version","4","5","6"`},
 		{"Optional fields nil",
 			1600000000, "typeB", "versionB", nil, nil, nil,
 			`"1600000000","typeB","versionB",null,null,null`},
 		{"Some optional fields nil",
-			1769934993, "fw_type", "fw_version", nil, nil, Ptr(uint32(6)),
+			1769934993, "fw_type", "fw_version", nil, nil, new(uint32(6)),
 			`"1769934993","fw_type","fw_version",null,null,"6"`},
 		{"Default 0 values for optional uint32 fields",
-			1600000000, "typeD", "versionD", Ptr(uint32(0)), Ptr(uint32(0)), Ptr(uint32(0)),
+			1600000000, "typeD", "versionD", new(uint32(0)), new(uint32(0)), new(uint32(0)),
 			`"1600000000","typeD","versionD","0","0","0"`},
 	}
 
@@ -296,7 +296,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*int", NewDataFieldInt, DataTypeInt, Ptr(42), `"42"`,
+		{"*int", NewDataFieldInt, DataTypeInt, new(42), `"42"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
@@ -308,7 +308,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*int8", NewDataFieldInt, DataTypeInt, Ptr((int8)(42)), `"42"`,
+		{"*int8", NewDataFieldInt, DataTypeInt, new((int8)(42)), `"42"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
@@ -320,7 +320,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*int16", NewDataFieldInt, DataTypeInt, Ptr((int16)(42)), `"42"`,
+		{"*int16", NewDataFieldInt, DataTypeInt, new((int16)(42)), `"42"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
@@ -332,7 +332,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*int32", NewDataFieldInt, DataTypeInt, Ptr((int32)(42)), `"42"`,
+		{"*int32", NewDataFieldInt, DataTypeInt, new((int32)(42)), `"42"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
@@ -344,7 +344,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*int64", NewDataFieldInt, DataTypeInt, Ptr((int64)(42)), `"42"`,
+		{"*int64", NewDataFieldInt, DataTypeInt, new((int64)(42)), `"42"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
@@ -356,7 +356,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*uint", NewDataFieldInt, DataTypeInt, Ptr((uint)(42)), `"42"`,
+		{"*uint", NewDataFieldInt, DataTypeInt, new((uint)(42)), `"42"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
@@ -368,7 +368,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*uint8", NewDataFieldInt, DataTypeInt, Ptr((uint8)(42)), `"42"`,
+		{"*uint8", NewDataFieldInt, DataTypeInt, new((uint8)(42)), `"42"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
@@ -380,7 +380,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
-		{"*uint16", NewDataFieldInt, DataTypeInt, Ptr((uint16)(42)), `"42"`,
+		{"*uint16", NewDataFieldInt, DataTypeInt, new((uint16)(42)), `"42"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(42, *row.GetFieldInt("field1"))
 			}},
@@ -392,7 +392,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal((uint32)(42), *row.GetFieldUint32("field1"))
 			}},
-		{"*uint32", NewDataFieldUint32, DataTypeUint32, Ptr((uint32)(42)), `"42"`,
+		{"*uint32", NewDataFieldUint32, DataTypeUint32, new((uint32)(42)), `"42"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal((uint32)(42), *row.GetFieldUint32("field1"))
 			}},
@@ -404,7 +404,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal((uint64)(42), *row.GetFieldUint64("field1"))
 			}},
-		{"*uint64", NewDataFieldUint64, DataTypeUint64, Ptr((uint64)(42)), `"42"`,
+		{"*uint64", NewDataFieldUint64, DataTypeUint64, new((uint64)(42)), `"42"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal((uint64)(42), *row.GetFieldUint64("field1"))
 			}},
@@ -458,7 +458,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(1.5, *row.GetFieldDouble("field1"))
 			}},
-		{"*float32", NewDataFieldDouble, DataTypeDouble, Ptr(float32(1.5)), `"1.5"`,
+		{"*float32", NewDataFieldDouble, DataTypeDouble, new(float32(1.5)), `"1.5"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(1.5, *row.GetFieldDouble("field1"))
 			}},
@@ -484,7 +484,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(1.5, *row.GetFieldDouble("field1"))
 			}},
-		{"*float64", NewDataFieldDouble, DataTypeDouble, Ptr(float64(1.5)), `"1.5"`,
+		{"*float64", NewDataFieldDouble, DataTypeDouble, new(float64(1.5)), `"1.5"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal(1.5, *row.GetFieldDouble("field1"))
 			}},
@@ -510,7 +510,7 @@ func (t *TestSuite) TestDataMessage_BuildConvertAndParse_Types() {
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal("foo", *row.GetFieldString("field1"))
 			}},
-		{"*string", NewDataFieldString, DataTypeString, Ptr("foo"), `"foo"`,
+		{"*string", NewDataFieldString, DataTypeString, new("foo"), `"foo"`,
 			func(t *TestSuite, row m2cp.DataRow) {
 				t.Equal("foo", *row.GetFieldString("field1"))
 			}},
@@ -617,8 +617,9 @@ func helperBuildConvertAndParseMessage(t *TestSuite, format m2cp.DataFormat, for
 	return rows[0]
 }
 
+//go:fix inline
 func Ptr[T any](v T) *T {
-	return &v
+	return new(v)
 }
 
 func (t *TestSuite) TestParseAggregatedDataMessage() {

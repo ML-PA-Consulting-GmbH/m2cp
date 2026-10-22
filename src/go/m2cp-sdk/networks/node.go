@@ -388,11 +388,7 @@ func (n *node) RemoteProcedureCallsWithOptions(to m2cp.Address, command string, 
 
 func (n *node) SetRpcTimeout(timeout time.Duration) {
 	const minTimeout = 1 * time.Second
-	if timeout < minTimeout {
-		n.rpcTimeout = minTimeout
-	} else {
-		n.rpcTimeout = timeout
-	}
+	n.rpcTimeout = max(timeout, minTimeout)
 }
 
 func (n *node) handleRpcCall(cmd m2cp.CommandMessage) (m2cp.ResponseMessage, error) {
@@ -404,13 +400,13 @@ func (n *node) handleRpcCall(cmd m2cp.CommandMessage) (m2cp.ResponseMessage, err
 
 func (n *node) handleRpcResponse(res m2cp.ResponseMessage) {
 	n.pendingRPCsLock.Lock()
+	defer n.pendingRPCsLock.Unlock()
 	responseCh, ok := n.pendingRPCs[res.GetCommandId()]
 	if ok {
 		responseCh <- res.GetResults()
 	} else {
 		n.ctp.LogWarn("rpc response not found for id %s", res.GetHeader().GetId())
 	}
-	n.pendingRPCsLock.Unlock()
 }
 
 func (n *node) calcDataQueueMaxAge(format m2cp.DataFormat) time.Duration {

@@ -54,7 +54,7 @@ func (s *TestSuite) TestSendSubscribeReceiveSignals() {
 	timeStart := time.Now()
 
 	sent := 0
-	for i := 0; i < numSignals; i++ {
+	for range numSignals {
 		err = nodeA.EmitSignal(testId, fmt.Sprintf("sent by Go-SDK at %s", time.Now().String()), messages.SignalType_Info)
 		sent++
 		s.Nil(err)
@@ -200,7 +200,7 @@ func (s *TestSuite) sendSubscribeReceiveSignals(options sendSubscribeReceiveOpti
 		sent = 0
 		for i := 0; i < options.NumSignals; i++ {
 			s.ctp.LogInfo("sending signal #%d from node #%d '%s'", i, 0, nodeA.GetName())
-			for retryEmit := 0; retryEmit < 3; retryEmit++ {
+			for range 3 {
 				if err = nodeA.EmitSignal(signalTopic, time.Now().String(), m2cp.SignalLevelInfo); err != nil {
 					s.ctp.Sleep(10 * time.Millisecond)
 					continue
@@ -332,7 +332,7 @@ func (s *TestSuite) TestSubscribeSpecificTopics() {
 		timeStart := time.Now()
 
 		sent := 0
-		for i := 0; i < numSignalsPerNode; i++ {
+		for i := range numSignalsPerNode {
 			for j, node := range nodes {
 				s.ctp.LogInfo("sending signal #%d from node #%d '%s'", i, j, node.GetName())
 				err = node.EmitSignal(testId, fmt.Sprintf("sent by Go-SDK at %s", time.Now().String()), messages.SignalType_Info)
@@ -417,7 +417,7 @@ func (s *TestSuite) TestSubscriberAutoRestore() {
 		timeStart = time.Now()
 
 		sent = 0
-		for i := 0; i < numSignals; i++ {
+		for range numSignals {
 			select {
 			case <-s.ctp.Done():
 				break
@@ -570,7 +570,7 @@ func (s *TestSuite) TestNetworkDiscovery() {
 		{con: con2, success: false},
 	}
 	const maxTries = 10
-	for tries := 0; tries < maxTries; tries++ {
+	for tries := range maxTries {
 		s.ctp.LogInfo("try %d/%d", tries, maxTries)
 		allGood := true
 		for i := range checks {
@@ -645,7 +645,7 @@ func (s *TestSuite) testSendSubscribeReceiveData(maxCount int, maxAge time.Durat
 	con.AwaitReady()
 
 	sent := 0
-	for i := 0; i < numRows; i++ {
+	for i := range numRows {
 		//err = nodeA.EmitSignal(testId, fmt.Sprintf("sent by Go-SDK at %s", time.Now().String()), messages.SignalType_Info)
 		var row m2cp.DataRow
 		row, err = format.NewRow(map[string]interface{}{
@@ -755,7 +755,7 @@ func (s *TestSuite) TestRpcOnce() {
 
 func (s *TestSuite) TestRpc() {
 	const repetitions = 10
-	for i := 0; i < repetitions; i++ {
+	for i := range repetitions {
 		fmt.Printf("\n\n--[Iteration %d/%d]--------------------------------------------------------------------------\n", i, repetitions)
 		s.testRpcOnce(2)
 	}
@@ -791,7 +791,7 @@ func (s *TestSuite) testRpcOnce(numCalls int) {
 
 	conB.AwaitReady()
 
-	for i := 0; i < numCalls; i++ {
+	for range numCalls {
 		resChan, err := nodeB.RemoteProcedureCall(nodeA, "Test", map[string]string{
 			"x":  "42",
 			"xs": "1,2,3,4,5",
@@ -922,7 +922,7 @@ func (s *TestSuite) TestRpcLoooongResponse() {
 	s.Nil(err)
 	nodeB.SetRpcTimeout(5 * time.Second)
 
-	for i := 0; i < 10; i++ {
+	for i := range 10 {
 		maxMessageSize := i * 10000
 		s.ctp.LogInfo("maxMessageSize: %d", maxMessageSize)
 		resChan, err := nodeB.RemoteProcedureCall(nodeA, "Logs", map[string]string{

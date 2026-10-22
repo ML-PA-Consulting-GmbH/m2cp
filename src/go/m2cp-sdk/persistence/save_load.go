@@ -83,7 +83,7 @@ func saveStruct(structure any, location string, path string) (string, error) {
 
 func loadStruct(pointer any, location string, path string) error {
 
-	if reflect.ValueOf(pointer).Kind() != reflect.Ptr {
+	if reflect.ValueOf(pointer).Kind() != reflect.Pointer {
 		return errors.New("argument \"pointer\" must be a pointer")
 	}
 	if reflect.ValueOf(pointer).Elem().Kind() != reflect.Struct {

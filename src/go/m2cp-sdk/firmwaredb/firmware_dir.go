@@ -140,7 +140,7 @@ func (o *FirmwareDir) GetSyncItem() (item *FirmwareSyncItem, err error) {
 	if item.ManifestHash, err = o.ManifestHash(); err != nil {
 		return nil, fmt.Errorf("error calculating hash: %s", err)
 	}
-	for i := 0; i < 2; i++ {
+	for range 2 {
 		if item.Firmware0Hash, err = o.FirmwareHash(0); err != nil {
 			return nil, fmt.Errorf("error calculating hash: %s", err)
 		}

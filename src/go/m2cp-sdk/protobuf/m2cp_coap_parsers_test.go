@@ -184,7 +184,7 @@ func randomString(r *rand.Rand) string {
 	var output strings.Builder
 	output.Grow(length)
 
-	for i := 0; i < length; i++ {
+	for range length {
 		randomIndex := r.Intn(len(charset))
 		runeValue, _ := utf8.DecodeRuneInString(charset[randomIndex:])
 		output.WriteRune(runeValue)

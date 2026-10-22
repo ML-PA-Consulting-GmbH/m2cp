@@ -365,8 +365,7 @@ func (o *subscriber) connInit() error {
 		o.doneInit()
 		return nil
 	}
-	var amqpErr *amqp.Error
-	if errors.As(err, &amqpErr) {
+	if amqpErr, ok := errors.AsType[*amqp.Error](err); ok {
 		if amqpErr.Code == 406 {
 			// 406 is the code for "PRECONDITION_FAILED"
 			// this means the queue already exists and the parameters are different - we'll have to delete it and retry

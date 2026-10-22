@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"m2cp"
-	"m2cp/tools"
 	"strings"
 	"time"
 )
@@ -123,7 +122,7 @@ func (o *protobufParserService) subscribeDin1(oid uint) error {
 	topicDin1 := fmt.Sprintf("sensor.*.oid.%d.protobuf", oid)
 
 	optionsDin1 := m2cp.SubscriptionOptions{
-		PersistenceId: tools.StrPtr("parser-" + topicDin1),
+		PersistenceId: new("parser-" + topicDin1),
 	}
 	if err := o.conn.SubscribeDataWithOptions([]string{topicDin1}, func(message m2cp.DataMessage) {
 		// catch panic
@@ -168,7 +167,7 @@ func (o *protobufParserService) subscribeDin2(oid uint) error {
 	}
 	topicDin2 := fmt.Sprintf("oid.%d.protobuf", oid)
 	optionsDin2 := m2cp.SubscriptionOptions{
-		PersistenceId: tools.StrPtr("parser-" + topicDin2),
+		PersistenceId: new("parser-" + topicDin2),
 	}
 	if err = o.conn.SubscribeDataWithOptions([]string{topicDin2}, func(message m2cp.DataMessage) {
 		// catch panic

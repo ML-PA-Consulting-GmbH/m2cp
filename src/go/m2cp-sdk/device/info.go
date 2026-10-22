@@ -133,21 +133,21 @@ type coapDeviceInfo struct {
 }
 
 func GetHwSerial(ctp m2cp.ContextPlus) (string, error) {
-	const errorPrefix = "failed hw serial request to m2cp-coap: %s"
+	const errorPrefix = "failed hw serial request to m2cp-coap: %w"
 	client, err := coap_client.NewClient(ctp, "::1")
 	if err != nil {
-		return "", fmt.Errorf(errorPrefix, err.Error())
+		return "", fmt.Errorf(errorPrefix, err)
 	}
 	res, err := client.Get("/whoami/1", "", nil)
 	if err != nil {
-		return "", fmt.Errorf(errorPrefix, err.Error())
+		return "", fmt.Errorf(errorPrefix, err)
 	}
 
 	payload := res.GetBody()
 
 	var info coapDeviceInfo
 	if err = json.Unmarshal(payload, &info); err != nil {
-		return "", fmt.Errorf(errorPrefix, err.Error())
+		return "", fmt.Errorf(errorPrefix, err)
 	}
 
 	return tools.EncodeHardwareSerial(info.Sn), nil

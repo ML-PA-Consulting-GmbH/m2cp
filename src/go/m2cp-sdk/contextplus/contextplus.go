@@ -358,9 +358,9 @@ func SetDebugMode(debug bool) {
 
 func countBranch(delta int) {
 	counterBranchLock.Lock()
+	defer counterBranchLock.Unlock()
 	counterBranch += delta
 	if debugMode {
 		fmt.Printf("countBranch %d -> %d\n", delta, counterBranch)
 	}
-	counterBranchLock.Unlock()
 }

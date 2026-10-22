@@ -6,7 +6,6 @@ import (
 	"encoding/binary"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"m2cp"
 	"sync"
 )
@@ -224,7 +223,7 @@ func decompressDeflate(compressedMessage []byte) (string, error) {
 	messageStream := bytes.NewReader(compressedMessage)
 	decompressor := flate.NewReader(messageStream)
 	defer decompressor.Close()
-	decompressedMessage, err := ioutil.ReadAll(decompressor)
+	decompressedMessage, err := io.ReadAll(decompressor)
 	if err != nil {
 		return "", err
 	}
@@ -235,7 +234,7 @@ func decompressDeflateBytes(compressedMessage []byte) ([]byte, error) {
 	messageStream := bytes.NewReader(compressedMessage)
 	decompressor := flate.NewReader(messageStream)
 	defer decompressor.Close()
-	decompressedMessage, err := ioutil.ReadAll(decompressor)
+	decompressedMessage, err := io.ReadAll(decompressor)
 	if err != nil {
 		return nil, err
 	}
@@ -251,10 +250,10 @@ func computeCrc32(input []byte, offset, length int) uint32 {
 	initLock.Lock()
 	if !crc32Initialized {
 		poly := uint32(0xedb88320)
-		for i := uint32(0); i < 256; i++ {
+		for i := range uint32(256) {
 			res := i
-			for t := 0; t < 16; t++ {
-				for k := 0; k < 8; k++ {
+			for t := range 16 {
+				for range 8 {
 					if (res & 1) == 1 {
 						res = poly ^ (res >> 1)
 					} else {

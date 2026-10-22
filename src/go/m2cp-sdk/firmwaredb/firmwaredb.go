@@ -67,10 +67,9 @@ type Hashes struct {
 	Firmware1 string `json:"firmware1"`
 }
 
-func newClientRevisionCache() clientRevisionCache {
-	cache := clientRevisionCache{
-		revisionsByClient: make(map[string]*Revision),
-	}
+func newClientRevisionCache() *clientRevisionCache {
+	cache := new(clientRevisionCache)
+	cache.revisionsByClient = make(map[string]*Revision)
 	// go routine to clean up old revisions
 	go func() {
 		for {
@@ -124,7 +123,7 @@ func New(ctxParent m2cp.ContextPlus, dataPath string) *FirmwareDb {
 	return &FirmwareDb{
 		path:                firmwarePath,
 		ctp:                 ctx,
-		clientRevisionCache: newClientRevisionCache(),
+		clientRevisionCache: *newClientRevisionCache(),
 	}
 }
 

@@ -3,6 +3,7 @@ package coap_server
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"m2cp"
 	"net"
@@ -11,6 +12,7 @@ import (
 
 	"github.com/plgd-dev/go-coap/v3/message"
 	"github.com/plgd-dev/go-coap/v3/message/codes"
+	"github.com/plgd-dev/go-coap/v3/message/noresponse"
 	"github.com/plgd-dev/go-coap/v3/mux"
 )
 
@@ -291,7 +293,7 @@ func (r *coapRequest) WriteResponse(w mux.ResponseWriter, req *mux.Message) {
 
 	if err := w.SetResponse(r.responseCode, r.responseType, bytes.NewReader(r.responseBytes)); err != nil {
 
-		if err.Error() != "message not to be sent due to disinterest" {
+		if !errors.Is(err, noresponse.ErrMessageNotInterested) {
 			r.ctp.LogError("cannot set response (Code: %v, Token: %v): %v", r.responseCode, req.Token(), err)
 		}
 

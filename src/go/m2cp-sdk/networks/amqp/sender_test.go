@@ -47,7 +47,7 @@ func (t *TestSuite) TestSend() {
 // The type of leak we're looking for appears only sometimes, so we need to repeat this test
 func (t *TestSuite) TestInitSendShutdownRepeat() {
 	const iterations = 10
-	for i := 0; i < iterations; i++ {
+	for i := range iterations {
 		fmt.Printf("iteration %d/%d\n", (i + 1), iterations)
 		func() {
 			var err error

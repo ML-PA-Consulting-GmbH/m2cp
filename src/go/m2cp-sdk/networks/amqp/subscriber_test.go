@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"m2cp"
 	"m2cp/contextplus"
-	"m2cp/tools"
 	"math/rand"
 	"sync"
 	"time"
@@ -51,7 +50,7 @@ func (t *TestSuite) TestNewDataSubscriberPersistent() {
 
 	topics := []string{"#"}
 	callbackData := func(_ m2cp.DataMessage, _ m2cp.Acknowledger) {}
-	subs, err := NewSubscriberDataAck(m2cp.SubscriptionOptions{Context: ctp, PersistenceId: tools.StrPtr("test-persistent-data")}, topics, callbackData, &waitGroupInit, &waitGroupShutdown)
+	subs, err := NewSubscriberDataAck(m2cp.SubscriptionOptions{Context: ctp, PersistenceId: new("test-persistent-data")}, topics, callbackData, &waitGroupInit, &waitGroupShutdown)
 	t.NoError(err)
 	t.NotNil(subs)
 
@@ -107,7 +106,7 @@ func (t *TestSuite) TestNewResponseSubscriber() {
 // The type of leak we're looking for appears only sometimes, so we need to repeat this test
 func (t *TestSuite) Test_InitSubscribeShutdownRepeat() {
 	const iterations = 10
-	for i := 0; i < iterations; i++ {
+	for i := range iterations {
 		fmt.Printf("iteration %d/%d\n", (i + 1), iterations)
 		func() {
 			var err error

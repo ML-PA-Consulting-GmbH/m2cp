@@ -7,7 +7,6 @@ import (
 	"m2cp/device"
 	"m2cp/messages"
 	"m2cp/networks"
-	"m2cp/tools"
 	"strings"
 	"time"
 )
@@ -333,7 +332,7 @@ func subscribeToDataFromTopic(ctp m2cp.ContextPlus, topic string) (m2cp.DataMess
 	}
 
 	optionsDin1 := m2cp.SubscriptionOptions{
-		PersistenceId: tools.StrPtr("test-subscribe-" + topic),
+		PersistenceId: new("test-subscribe-" + topic),
 		Context:       ctp,
 	}
 
@@ -377,7 +376,7 @@ func subscribeToSignalFromTopic(ctp m2cp.ContextPlus, topic string) (m2cp.Signal
 	}
 
 	optionsDin1 := m2cp.SubscriptionOptions{
-		PersistenceId: tools.StrPtr("test-subscribe-signal-" + topic),
+		PersistenceId: new("test-subscribe-signal-" + topic),
 		Context:       ctp,
 	}
 

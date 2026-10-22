@@ -52,6 +52,7 @@ func newAmqpConnection(ctx m2cp.ContextPlus) (*amqpClient, error) {
 // Dial wraps amqp.Dial with automatic IPv6/IPv4 fallback and singleton caching
 func (c *amqpClient) Dial(ctp m2cp.ContextPlus) (*amqp.Connection, error) {
 	amqpHostLock.Lock()
+	defer amqpHostLock.Unlock()
 	if c.url == "" {
 
 		// Try IPv6 first
@@ -61,7 +62,6 @@ func (c *amqpClient) Dial(ctp m2cp.ContextPlus) (*amqp.Connection, error) {
 			amqpURL = url
 			c.url = url
 			ctp.LogDebug("AMQP connection successful using IPv6 (::1)")
-			amqpHostLock.Unlock()
 			return conn, nil
 		}
 
@@ -72,14 +72,11 @@ func (c *amqpClient) Dial(ctp m2cp.ContextPlus) (*amqp.Connection, error) {
 			amqpURL = url
 			c.url = url
 			ctp.LogDebug("AMQP connection successful using IPv4 (127.0.0.1)")
-			amqpHostLock.Unlock()
 			return conn, nil
 		}
 
-		amqpHostLock.Unlock()
-		return nil, fmt.Errorf("failed to connect to AMQP on both IPv6 and IPv4: %s", err.Error())
+		return nil, fmt.Errorf("failed to connect to AMQP on both IPv6 and IPv4: %w", err)
 	}
-	amqpHostLock.Unlock()
 
 	return amqp.Dial(c.url)
 }
@@ -99,9 +96,9 @@ func (c *amqpClient) getAmqpConnection() (*amqp.Connection, error) {
 	}
 	conn, err := c.Dial(c.ctp)
 	if err != nil {
-		msg := fmt.Sprintf("failed to connect to AMQP: %s", err.Error())
-		//c.ctp.LogError(msg)
-		return nil, errors.New(msg)
+		msg := fmt.Errorf("failed to connect to AMQP: %w", err)
+		//c.ctp.LogError(msg.Error())
+		return nil, msg
 	}
 	return conn, nil
 }

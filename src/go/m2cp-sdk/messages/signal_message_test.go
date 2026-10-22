@@ -60,7 +60,7 @@ func (t *TestSuite) TestMultiMessage() {
 
 	messagesBinary := make([][]byte, amount)
 
-	for i := 0; i < amount; i++ {
+	for i := range amount {
 		messages[i], err = NewSignalMessage(senderAddress, "foo", fmt.Sprintf("%d", i), m2cp.SignalLevelWarning, m2cp.MessageScopeDevice)
 		t.NoError(err)
 		var msgBinary []byte
@@ -70,7 +70,7 @@ func (t *TestSuite) TestMultiMessage() {
 	}
 
 	bytesSingleCompression := 0
-	for i := 0; i < amount; i++ {
+	for i := range amount {
 		comp, err := ToBinary(messages[i], m2cp.MessageSerializerJson)
 		t.NoError(err)
 		bytesSingleCompression += len(comp)
@@ -91,7 +91,7 @@ func (t *TestSuite) TestMultiMessage() {
 	t.NotNil(unpacked)
 	t.Len(unpacked, amount)
 
-	for i := 0; i < amount; i++ {
+	for i := range amount {
 		assert.Equal(t.T(), messagesBinary[i], unpacked[i])
 	}
 }

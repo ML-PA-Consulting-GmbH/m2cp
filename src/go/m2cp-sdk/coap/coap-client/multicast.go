@@ -2,7 +2,6 @@ package coap_client
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"m2cp"
 	"strings"
@@ -188,12 +187,12 @@ func (o *client) multicast(endpoint string, opts []message.Option, address strin
 
 	}, mCastOpts...)
 	if err != nil {
-		return errors.New("Failed to send multicast request: " + err.Error())
+		return fmt.Errorf("Failed to send multicast request: %w", err)
 	}
 	s.Stop()
 	if err := l.Close(); err != nil {
 
-		return errors.New("Failed to close UDP listener: " + err.Error())
+		return fmt.Errorf("Failed to close UDP listener: %w", err)
 	}
 
 	return nil
