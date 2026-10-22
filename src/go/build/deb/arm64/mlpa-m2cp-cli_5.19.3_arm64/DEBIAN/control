@@ -1,7 +1,7 @@
 Package: mlpa-m2cp-cli
-Version: 5.19.2
+Version: 5.19.3
 Section: dev
 Priority: optional
-Architecture: amd64
+Architecture: arm64
 Maintainer: M2CP Team <m2cp-support@ml-pa.com>
 Description: command line interface

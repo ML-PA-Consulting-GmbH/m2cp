@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"m2cpcli/backend"
 	"m2cpcli/format"
+	"sort"
+	"strconv"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -65,6 +67,15 @@ func runChangesCmd(cmd *cobra.Command, args []string) error {
 			return fmt.Errorf("failed parsing changes from response: %s", err)
 		}
 	}
+
+	sort.SliceStable(changes, func(i, j int) bool {
+		a, errA := strconv.Atoi(changes[i].Id)
+		b, errB := strconv.Atoi(changes[j].Id)
+		if errA != nil || errB != nil {
+			return changes[i].Id < changes[j].Id
+		}
+		return a < b
+	})
 
 	return format.PrintFormattedOutput(cmd, changes, nil)
 }
