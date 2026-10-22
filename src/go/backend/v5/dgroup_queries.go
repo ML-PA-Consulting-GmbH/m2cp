@@ -32,6 +32,7 @@ func GetDeploymentGroupByNameOrId(ctx context.Context, arg string) (*structs.Dep
 	dgroupsInfo := &structs.DeploymentGroup{
 		Id:           dgroup.Id,
 		Name:         dgroup.Name,
+		Description:  dgroup.Description,
 		Architecture: string(dgroup.DeviceModelRevision.DeviceModel.Architecture),
 		Devices:      []structs.Device{},
 		DeviceType:   dgroup.DeviceModelRevision.DeviceModel.DeviceType.DeviceTypeName,

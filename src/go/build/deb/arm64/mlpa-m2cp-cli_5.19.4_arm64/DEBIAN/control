@@ -1,5 +1,5 @@
 Package: mlpa-m2cp-cli
-Version: 5.19.3
+Version: 5.19.4
 Section: dev
 Priority: optional
 Architecture: arm64

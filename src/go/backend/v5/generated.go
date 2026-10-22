@@ -16207,6 +16207,7 @@ func (v *getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegment)
 type getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroup struct {
 	Id                                string                                                                                                                                                         `json:"id"`
 	Name                              string                                                                                                                                                         `json:"name"`
+	Description                       *string                                                                                                                                                        `json:"description"`
 	IsDeltaUpdateOnly                 bool                                                                                                                                                           `json:"isDeltaUpdateOnly"`
 	DeviceModelRevision               *getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroupDeviceModelRevision                                                 `json:"deviceModelRevision"`
 	AutoUpdateMode                    *getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroupAutoUpdateMode                                                      `json:"autoUpdateMode"`
@@ -16225,6 +16226,11 @@ func (v *getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentI
 // GetName returns getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroup.Name, and is useful for accessing the field via an interface.
 func (v *getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroup) GetName() string {
 	return v.Name
+}
+
+// GetDescription returns getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroup.Description, and is useful for accessing the field via an interface.
+func (v *getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroup) GetDescription() *string {
+	return v.Description
 }
 
 // GetIsDeltaUpdateOnly returns getDeploymentGroupByIdDeploymentGroupsDeploymentGroupCollectionSegmentItemsDeploymentGroup.IsDeltaUpdateOnly, and is useful for accessing the field via an interface.
@@ -23280,6 +23286,7 @@ query getDeploymentGroupById ($id: UUID) {
 		items {
 			id
 			name
+			description
 			isDeltaUpdateOnly
 			deviceModelRevision {
 				id
