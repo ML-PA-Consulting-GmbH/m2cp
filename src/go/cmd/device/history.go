@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/cobra"
 	"m2cpcli/backend"
 	"m2cpcli/format"
+	"slices"
 	"strconv"
 	"time"
 )
@@ -22,6 +23,9 @@ type historyCmdOutput struct {
 	Changes    *backend.GetEdgeDeviceInstallHistoriesResponse
 	Snapshots  *backend.GetEdgeDeviceInstallSnapshotsResponse
 	CoreAppIds []string
+	// RtdChanges is set instead of Changes for real-time devices, which have no edge-device install history
+	RtdChanges []backend.DeviceInstallHistoryEntry
+	isRtd      bool
 }
 
 func init() {
@@ -73,6 +77,18 @@ func runHistoryCmd(cmd *cobra.Command, args []string) error {
 	deviceId, err := backend.GetDeviceIdByIdOrNameOrSerial(cmd.Context(), deviceNameOrSerial)
 	if err != nil {
 		return err
+	}
+
+	device, err := backend.GetDeviceInfoById(cmd.Context(), deviceId)
+	if err != nil {
+		return err
+	}
+
+	if device.IsRTD() {
+		if snapshots {
+			return fmt.Errorf("snapshots are not available for real-time devices, use --changes")
+		}
+		return getRtdInstallChanges(cmd, deviceId)
 	}
 
 	if changes {
@@ -157,6 +173,31 @@ func getDeviceInstallChanges(cmd *cobra.Command, id string) error {
 	return format.PrintFormattedOutput(cmd, output, historyOutputFormatter)
 }
 
+func getRtdInstallChanges(cmd *cobra.Command, id string) error {
+	limit, _ := cmd.Flags().GetInt("limit")
+	app, _ := cmd.Flags().GetString("app")
+	after, _ := cmd.Flags().GetString("after")
+	before, _ := cmd.Flags().GetString("before")
+	newerThan, _ := cmd.Flags().GetString("newer-than")
+
+	if newerThan != "" {
+		duration, _ := time.ParseDuration(newerThan)
+		after = time.Now().Add(-duration).Format(time.RFC3339)
+	}
+
+	changes, err := backend.GetDeviceInstallHistories(cmd.Context(), id, backend.DeviceInstallHistoryQuery{
+		AppName: app,
+		After:   after,
+		Before:  before,
+		Limit:   limit,
+	})
+	if err != nil {
+		return err
+	}
+
+	return format.PrintFormattedOutput(cmd, historyCmdOutput{RtdChanges: changes, isRtd: true}, historyOutputFormatter)
+}
+
 func getDeviceInstallSnapshots(cmd *cobra.Command, id string) error {
 	limit, _ := cmd.Flags().GetInt("limit")
 	app, _ := cmd.Flags().GetString("app")
@@ -210,6 +251,11 @@ func getDeviceInstallSnapshots(cmd *cobra.Command, id string) error {
 		return err
 	}
 
+	// The backend returns the newest snapshots first so that --limit keeps the newest ones; print them oldest first
+	if snapshots.EdgeDeviceInstallStateSnapshots != nil {
+		slices.Reverse(snapshots.EdgeDeviceInstallStateSnapshots.Items)
+	}
+
 	coreAppIds, err := backend.GetCoreAppIdsByDeviceId(cmd.Context(), id)
 	if err != nil {
 		return err
@@ -225,6 +271,36 @@ func getDeviceInstallSnapshots(cmd *cobra.Command, id string) error {
 
 func historyOutputFormatter(res historyCmdOutput) (string, error) {
 	outputStr := ""
+
+	if res.isRtd {
+		changesTable := format.NewTable(map[string]string{
+			"datetime": "DateTime",
+			"sequence": "Sequence",
+			"action":   "Action",
+			"name":     "Name",
+			"version":  "Version",
+			"revision": "Revision",
+		})
+
+		for _, change := range res.RtdChanges {
+			parsedTime, _ := time.Parse(time.RFC3339, change.DateTime)
+			sequence := "-"
+			if change.SequenceNumber != nil {
+				sequence = strconv.Itoa(*change.SequenceNumber)
+			}
+
+			changesTable.AddRow(map[string]string{
+				"datetime": parsedTime.Format("2006-01-02 15:04:05"),
+				"sequence": sequence,
+				"action":   change.Action,
+				"name":     change.AppName,
+				"version":  change.Version,
+				"revision": strconv.Itoa(change.Revision),
+			})
+		}
+
+		return changesTable.Sorts([]string{"datetime", "asc", "name", "asc", "action", "desc"}).StringSelect([]string{"datetime", "sequence", "action", "name", "version", "revision"}), nil
+	}
 
 	if res.Changes != nil {
 		changesTable := format.NewTable(map[string]string{

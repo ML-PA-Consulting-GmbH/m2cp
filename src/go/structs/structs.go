@@ -112,6 +112,12 @@ type SystemAssetProvisionOutputChildAsset struct {
 
 type DeviceType string
 
+// Device type UUIDs. They are equal in all app stores, unlike the type names, which are labels.
+const (
+	DeviceTypeIdEdgeDevice     = "8ca69cde-2b48-4aa0-a0d2-422f63ab3f75"
+	DeviceTypeIdRealTimeDevice = "9b1c3b9e-e61b-499e-8c95-ff42c7556f29"
+)
+
 const (
 	DeviceTypeRealTimeDevice DeviceType = "Real-time Device"
 	DeviceTypeEdgeDevice     DeviceType = "Edge Device"
@@ -188,7 +194,7 @@ type DeviceUplinkSignalContent struct {
 }
 
 func (d *Device) IsRTD() bool {
-	return d.DeviceModelRevision != nil && (d.DeviceModelRevision.Type == "Real Time Device" || d.DeviceModelRevision.Type == "Real-time Device")
+	return d.DeviceModelRevision != nil && d.DeviceModelRevision.TypeId == DeviceTypeIdRealTimeDevice
 }
 
 func (d *Device) IsED() bool {
@@ -208,6 +214,7 @@ type DeviceModelRevision struct {
 	Name         string
 	Architecture string
 	Type         string
+	TypeId       string
 	Revision     int
 	SystemApps   []App
 }

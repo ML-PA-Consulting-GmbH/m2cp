@@ -1,0 +1,28 @@
+# @genqlient(omitempty: true)
+query GetDeviceInstallStateHistories(
+    $filter: DeviceInstallStateHistoryFilterInput
+    $take: Int
+) {
+    deviceInstallStateHistories(
+        where: $filter
+        take: $take
+        order: { dateTime: DESC }
+    ) {
+        items {
+            changeSetId
+            dateTime
+            action
+            appRevision {
+                appId
+                app {
+                    appName
+                }
+                version
+                revision
+            }
+            deviceFirmwareSequenceHistory {
+                sequenceNumber
+            }
+        }
+    }
+}

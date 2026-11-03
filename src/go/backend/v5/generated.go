@@ -5190,6 +5190,90 @@ func (v *DeviceInstallStateFilterInput) GetDeviceFirmwareSequenceHistory() *Devi
 }
 
 // I am a generated type!
+type DeviceInstallStateHistoryFilterInput struct {
+	And                             []*DeviceInstallStateHistoryFilterInput       `json:"and,omitempty"`
+	Or                              []*DeviceInstallStateHistoryFilterInput       `json:"or,omitempty"`
+	Id                              *ComparableGuidOperationFilterInput           `json:"id,omitempty"`
+	TenantId                        *ComparableNullableOfGuidOperationFilterInput `json:"tenantId,omitempty"`
+	DeviceId                        *ComparableGuidOperationFilterInput           `json:"deviceId,omitempty"`
+	AppRevisionId                   *ComparableGuidOperationFilterInput           `json:"appRevisionId,omitempty"`
+	DeviceFirmwareSequenceHistoryId *ComparableNullableOfGuidOperationFilterInput `json:"deviceFirmwareSequenceHistoryId,omitempty"`
+	ChangeSetId                     *ComparableGuidOperationFilterInput           `json:"changeSetId,omitempty"`
+	DateTime                        *ComparableDateTimeOperationFilterInput       `json:"dateTime,omitempty"`
+	Action                          *StringOperationFilterInput                   `json:"action,omitempty"`
+	Tenant                          *DomainTenantFilterInput                      `json:"tenant,omitempty"`
+	Device                          *DeviceFilterInput                            `json:"device,omitempty"`
+	AppRevision                     *AppRevisionFilterInput                       `json:"appRevision,omitempty"`
+	DeviceFirmwareSequenceHistory   *DeviceFirmwareSequenceHistoryFilterInput     `json:"deviceFirmwareSequenceHistory,omitempty"`
+}
+
+// GetAnd returns DeviceInstallStateHistoryFilterInput.And, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetAnd() []*DeviceInstallStateHistoryFilterInput {
+	return v.And
+}
+
+// GetOr returns DeviceInstallStateHistoryFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetOr() []*DeviceInstallStateHistoryFilterInput {
+	return v.Or
+}
+
+// GetId returns DeviceInstallStateHistoryFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetId() *ComparableGuidOperationFilterInput {
+	return v.Id
+}
+
+// GetTenantId returns DeviceInstallStateHistoryFilterInput.TenantId, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetTenantId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.TenantId
+}
+
+// GetDeviceId returns DeviceInstallStateHistoryFilterInput.DeviceId, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetDeviceId() *ComparableGuidOperationFilterInput {
+	return v.DeviceId
+}
+
+// GetAppRevisionId returns DeviceInstallStateHistoryFilterInput.AppRevisionId, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetAppRevisionId() *ComparableGuidOperationFilterInput {
+	return v.AppRevisionId
+}
+
+// GetDeviceFirmwareSequenceHistoryId returns DeviceInstallStateHistoryFilterInput.DeviceFirmwareSequenceHistoryId, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetDeviceFirmwareSequenceHistoryId() *ComparableNullableOfGuidOperationFilterInput {
+	return v.DeviceFirmwareSequenceHistoryId
+}
+
+// GetChangeSetId returns DeviceInstallStateHistoryFilterInput.ChangeSetId, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetChangeSetId() *ComparableGuidOperationFilterInput {
+	return v.ChangeSetId
+}
+
+// GetDateTime returns DeviceInstallStateHistoryFilterInput.DateTime, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetDateTime() *ComparableDateTimeOperationFilterInput {
+	return v.DateTime
+}
+
+// GetAction returns DeviceInstallStateHistoryFilterInput.Action, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetAction() *StringOperationFilterInput {
+	return v.Action
+}
+
+// GetTenant returns DeviceInstallStateHistoryFilterInput.Tenant, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetTenant() *DomainTenantFilterInput { return v.Tenant }
+
+// GetDevice returns DeviceInstallStateHistoryFilterInput.Device, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetDevice() *DeviceFilterInput { return v.Device }
+
+// GetAppRevision returns DeviceInstallStateHistoryFilterInput.AppRevision, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetAppRevision() *AppRevisionFilterInput {
+	return v.AppRevision
+}
+
+// GetDeviceFirmwareSequenceHistory returns DeviceInstallStateHistoryFilterInput.DeviceFirmwareSequenceHistory, and is useful for accessing the field via an interface.
+func (v *DeviceInstallStateHistoryFilterInput) GetDeviceFirmwareSequenceHistory() *DeviceFirmwareSequenceHistoryFilterInput {
+	return v.DeviceFirmwareSequenceHistory
+}
+
+// I am a generated type!
 type DeviceModelFilterInput struct {
 	And                  []*DeviceModelFilterInput                            `json:"and,omitempty"`
 	Or                   []*DeviceModelFilterInput                            `json:"or,omitempty"`
@@ -9365,6 +9449,120 @@ type GetDeviceInfoLimitedForRefreshResponse struct {
 // GetDevice returns GetDeviceInfoLimitedForRefreshResponse.Device, and is useful for accessing the field via an interface.
 func (v *GetDeviceInfoLimitedForRefreshResponse) GetDevice() *GetDeviceInfoLimitedForRefreshDevice {
 	return v.Device
+}
+
+// GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegment includes the requested fields of the GraphQL type DeviceInstallStateHistoryCollectionSegment.
+type GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegment struct {
+	Items []*GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory `json:"items"`
+}
+
+// GetItems returns GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegment.Items, and is useful for accessing the field via an interface.
+func (v *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegment) GetItems() []*GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory {
+	return v.Items
+}
+
+// GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory includes the requested fields of the GraphQL type DeviceInstallStateHistory.
+// The GraphQL type's documentation follows.
+//
+// I am a generated type!
+type GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory struct {
+	ChangeSetId                   string                                                                                                                                                          `json:"changeSetId"`
+	DateTime                      string                                                                                                                                                          `json:"dateTime"`
+	Action                        string                                                                                                                                                          `json:"action"`
+	AppRevision                   *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevision                   `json:"appRevision"`
+	DeviceFirmwareSequenceHistory *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryDeviceFirmwareSequenceHistory `json:"deviceFirmwareSequenceHistory"`
+}
+
+// GetChangeSetId returns GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory.ChangeSetId, and is useful for accessing the field via an interface.
+func (v *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory) GetChangeSetId() string {
+	return v.ChangeSetId
+}
+
+// GetDateTime returns GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory.DateTime, and is useful for accessing the field via an interface.
+func (v *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory) GetDateTime() string {
+	return v.DateTime
+}
+
+// GetAction returns GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory.Action, and is useful for accessing the field via an interface.
+func (v *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory) GetAction() string {
+	return v.Action
+}
+
+// GetAppRevision returns GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory.AppRevision, and is useful for accessing the field via an interface.
+func (v *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory) GetAppRevision() *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevision {
+	return v.AppRevision
+}
+
+// GetDeviceFirmwareSequenceHistory returns GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory.DeviceFirmwareSequenceHistory, and is useful for accessing the field via an interface.
+func (v *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistory) GetDeviceFirmwareSequenceHistory() *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryDeviceFirmwareSequenceHistory {
+	return v.DeviceFirmwareSequenceHistory
+}
+
+// GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevision includes the requested fields of the GraphQL type AppRevision.
+// The GraphQL type's documentation follows.
+//
+// I am a generated type!
+type GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevision struct {
+	AppId    string                                                                                                                                           `json:"appId"`
+	App      *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevisionApp `json:"app"`
+	Version  string                                                                                                                                           `json:"version"`
+	Revision int                                                                                                                                              `json:"revision"`
+}
+
+// GetAppId returns GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevision.AppId, and is useful for accessing the field via an interface.
+func (v *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevision) GetAppId() string {
+	return v.AppId
+}
+
+// GetApp returns GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevision.App, and is useful for accessing the field via an interface.
+func (v *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevision) GetApp() *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevisionApp {
+	return v.App
+}
+
+// GetVersion returns GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevision.Version, and is useful for accessing the field via an interface.
+func (v *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevision) GetVersion() string {
+	return v.Version
+}
+
+// GetRevision returns GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevision.Revision, and is useful for accessing the field via an interface.
+func (v *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevision) GetRevision() int {
+	return v.Revision
+}
+
+// GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevisionApp includes the requested fields of the GraphQL type App.
+// The GraphQL type's documentation follows.
+//
+// I am a generated type!
+type GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevisionApp struct {
+	AppName string `json:"appName"`
+}
+
+// GetAppName returns GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevisionApp.AppName, and is useful for accessing the field via an interface.
+func (v *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryAppRevisionApp) GetAppName() string {
+	return v.AppName
+}
+
+// GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryDeviceFirmwareSequenceHistory includes the requested fields of the GraphQL type DeviceFirmwareSequenceHistory.
+// The GraphQL type's documentation follows.
+//
+// I am a generated type!
+type GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryDeviceFirmwareSequenceHistory struct {
+	SequenceNumber int `json:"sequenceNumber"`
+}
+
+// GetSequenceNumber returns GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryDeviceFirmwareSequenceHistory.SequenceNumber, and is useful for accessing the field via an interface.
+func (v *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegmentItemsDeviceInstallStateHistoryDeviceFirmwareSequenceHistory) GetSequenceNumber() int {
+	return v.SequenceNumber
+}
+
+// GetDeviceInstallStateHistoriesResponse is returned by GetDeviceInstallStateHistories on success.
+type GetDeviceInstallStateHistoriesResponse struct {
+	DeviceInstallStateHistories *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegment `json:"deviceInstallStateHistories"`
+}
+
+// GetDeviceInstallStateHistories returns GetDeviceInstallStateHistoriesResponse.DeviceInstallStateHistories, and is useful for accessing the field via an interface.
+func (v *GetDeviceInstallStateHistoriesResponse) GetDeviceInstallStateHistories() *GetDeviceInstallStateHistoriesDeviceInstallStateHistoriesDeviceInstallStateHistoryCollectionSegment {
+	return v.DeviceInstallStateHistories
 }
 
 // GetDeviceLogsDataEdgeDeviceLogQueryOutput includes the requested fields of the GraphQL type EdgeDeviceLogQueryOutput.
@@ -14904,6 +15102,20 @@ func (v *__setAssetSystemInput) GetSystemId() *string { return v.SystemId }
 // GetSystemIdNull returns __setAssetSystemInput.SystemIdNull, and is useful for accessing the field via an interface.
 func (v *__setAssetSystemInput) GetSystemIdNull() *bool { return v.SystemIdNull }
 
+// __GetDeviceInstallStateHistoriesInput is used internally by genqlient
+type __GetDeviceInstallStateHistoriesInput struct {
+	Filter *DeviceInstallStateHistoryFilterInput `json:"filter,omitempty"`
+	Take   *int                                  `json:"take,omitempty"`
+}
+
+// GetFilter returns __GetDeviceInstallStateHistoriesInput.Filter, and is useful for accessing the field via an interface.
+func (v *__GetDeviceInstallStateHistoriesInput) GetFilter() *DeviceInstallStateHistoryFilterInput {
+	return v.Filter
+}
+
+// GetTake returns __GetDeviceInstallStateHistoriesInput.Take, and is useful for accessing the field via an interface.
+func (v *__GetDeviceInstallStateHistoriesInput) GetTake() *int { return v.Take }
+
 // assetModelByIdAssetModel includes the requested fields of the GraphQL type AssetModel.
 // The GraphQL type's documentation follows.
 //
@@ -17066,8 +17278,12 @@ func (v *getDeviceInfoBasicDeviceDeviceModelRevisionDeviceModel) GetArchitecture
 //
 // I am a generated type!
 type getDeviceInfoBasicDeviceDeviceModelRevisionDeviceModelDeviceType struct {
+	Id             string `json:"id"`
 	DeviceTypeName string `json:"deviceTypeName"`
 }
+
+// GetId returns getDeviceInfoBasicDeviceDeviceModelRevisionDeviceModelDeviceType.Id, and is useful for accessing the field via an interface.
+func (v *getDeviceInfoBasicDeviceDeviceModelRevisionDeviceModelDeviceType) GetId() string { return v.Id }
 
 // GetDeviceTypeName returns getDeviceInfoBasicDeviceDeviceModelRevisionDeviceModelDeviceType.DeviceTypeName, and is useful for accessing the field via an interface.
 func (v *getDeviceInfoBasicDeviceDeviceModelRevisionDeviceModelDeviceType) GetDeviceTypeName() string {
@@ -21312,7 +21528,7 @@ func GetDevicesWithExtendedFleetInfoBySerial(
 // The query executed by GetEdgeDeviceInstallHistories.
 const GetEdgeDeviceInstallHistories_Operation = `
 query GetEdgeDeviceInstallHistories ($filter: EdgeDeviceInstallStateHistoryFilterInput, $take: Int) {
-	edgeDeviceInstallStateHistories(where: $filter, take: $take, order: {dateTime:ASC}) {
+	edgeDeviceInstallStateHistories(where: $filter, take: $take, order: {dateTime:DESC}) {
 		items {
 			changeSetId
 			dateTime
@@ -21365,7 +21581,7 @@ func GetEdgeDeviceInstallHistories(
 // The query executed by GetEdgeDeviceInstallSnapshots.
 const GetEdgeDeviceInstallSnapshots_Operation = `
 query GetEdgeDeviceInstallSnapshots ($filter: EdgeDeviceInstallStateSnapshotFilterInput, $take: Int) {
-	edgeDeviceInstallStateSnapshots(where: $filter, take: $take, order: [{dateTime:ASC},{changeSetId:ASC}]) {
+	edgeDeviceInstallStateSnapshots(where: $filter, take: $take, order: [{dateTime:DESC},{changeSetId:DESC}]) {
 		items {
 			dateTime
 			changeSetId
@@ -23583,6 +23799,7 @@ query getDeviceInfoBasic ($id: UUID!) {
 			id
 			deviceModel {
 				deviceType {
+					id
 					deviceTypeName
 				}
 				modelName
@@ -24549,6 +24766,30 @@ mutation setAssetSystem ($assetId: UUID!, $systemId: UUID, $systemIdNull: Boolea
 }
 `
 
+// The query executed by GetDeviceInstallStateHistories.
+const GetDeviceInstallStateHistories_Operation = `
+query GetDeviceInstallStateHistories ($filter: DeviceInstallStateHistoryFilterInput, $take: Int) {
+	deviceInstallStateHistories(where: $filter, take: $take, order: {dateTime:DESC}) {
+		items {
+			changeSetId
+			dateTime
+			action
+			appRevision {
+				appId
+				app {
+					appName
+				}
+				version
+				revision
+			}
+			deviceFirmwareSequenceHistory {
+				sequenceNumber
+			}
+		}
+	}
+}
+`
+
 func setAssetSystem(
 	ctx_ context.Context,
 	assetId string,
@@ -24572,6 +24813,38 @@ func setAssetSystem(
 	}
 
 	data_ = &setAssetSystemResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
+func GetDeviceInstallStateHistories(
+	ctx_ context.Context,
+	filter *DeviceInstallStateHistoryFilterInput,
+	take *int,
+) (data_ *GetDeviceInstallStateHistoriesResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "GetDeviceInstallStateHistories",
+		Query:  GetDeviceInstallStateHistories_Operation,
+		Variables: &__GetDeviceInstallStateHistoriesInput{
+			Filter: filter,
+			Take:   take,
+		},
+	}
+	var client_ graphql.Client
+
+	client_, err_ = infrastructure.NewGraphqlClient(ctx_)
+	if err_ != nil {
+		return nil, err_
+	}
+
+	data_ = &GetDeviceInstallStateHistoriesResponse{}
 	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(

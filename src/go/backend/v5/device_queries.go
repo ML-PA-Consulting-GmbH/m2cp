@@ -178,6 +178,7 @@ func GetDeviceInfoById(ctx context.Context, id string) (*structs.Device, error) 
 			Name:         resBasic.Device.DeviceModelRevision.DeviceModel.ModelName,
 			Architecture: string(resBasic.Device.DeviceModelRevision.DeviceModel.Architecture),
 			Type:         resBasic.Device.DeviceModelRevision.DeviceModel.DeviceType.DeviceTypeName,
+			TypeId:       resBasic.Device.DeviceModelRevision.DeviceModel.DeviceType.Id,
 			Revision:     tools.MaybeIntToInt(resBasic.Device.DeviceModelRevision.Revision, 0),
 			SystemApps:   []structs.App{},
 		},

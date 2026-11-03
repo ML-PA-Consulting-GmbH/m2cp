@@ -232,6 +232,89 @@ func GetEdgeDeviceInstallSnapshots(ctx context.Context, filter *EdgeDeviceInstal
 	return legacy.GetEdgeDeviceInstallSnapshots(ctx, (*legacy.EdgeDeviceInstallStateSnapshotFilterInput)(filter), take)
 }
 
+// DeviceInstallHistoryEntry is a single install/uninstall event of an app (e.g.
+// the RIOT firmware of a real-time device) in a device's install history.
+type DeviceInstallHistoryEntry struct {
+	DateTime       string `json:"dateTime"`
+	ChangeSetId    string `json:"changeSetId"`
+	Action         string `json:"action"`
+	AppId          string `json:"appId"`
+	AppName        string `json:"appName"`
+	Version        string `json:"version"`
+	Revision       int    `json:"revision"`
+	SequenceNumber *int   `json:"sequenceNumber,omitempty"`
+}
+
+// DeviceInstallHistoryQuery narrows a GetDeviceInstallHistories request. Empty
+// strings leave the respective condition out.
+type DeviceInstallHistoryQuery struct {
+	AppName string
+	After   string
+	Before  string
+	Limit   int
+}
+
+// GetDeviceInstallHistories returns the install history of any device type, in
+// particular of real-time devices, which have no edge-device install history.
+// The generic device install history is only available on v5+ backends.
+func GetDeviceInstallHistories(ctx context.Context, deviceId string, query DeviceInstallHistoryQuery) ([]DeviceInstallHistoryEntry, error) {
+	if backendMajorVersionInt(ctx) < 5 {
+		return nil, fmt.Errorf("the install history of real-time devices requires backend version >= 5")
+	}
+
+	conditions := []*v5.DeviceInstallStateHistoryFilterInput{
+		{DeviceId: &v5.ComparableGuidOperationFilterInput{Eq: &deviceId}},
+	}
+	if query.AppName != "" {
+		conditions = append(conditions, &v5.DeviceInstallStateHistoryFilterInput{
+			AppRevision: &v5.AppRevisionFilterInput{
+				App: &v5.AppFilterInput{AppName: &v5.StringOperationFilterInput{Eq: &query.AppName}},
+			},
+		})
+	}
+	if query.After != "" {
+		conditions = append(conditions, &v5.DeviceInstallStateHistoryFilterInput{
+			DateTime: &v5.ComparableDateTimeOperationFilterInput{Gte: &query.After},
+		})
+	}
+	if query.Before != "" {
+		conditions = append(conditions, &v5.DeviceInstallStateHistoryFilterInput{
+			DateTime: &v5.ComparableDateTimeOperationFilterInput{Lte: &query.Before},
+		})
+	}
+
+	res, err := v5.GetDeviceInstallStateHistories(ctx, &v5.DeviceInstallStateHistoryFilterInput{And: conditions}, &query.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	entries := []DeviceInstallHistoryEntry{}
+	if res.DeviceInstallStateHistories == nil {
+		return entries, nil
+	}
+	for _, item := range res.DeviceInstallStateHistories.Items {
+		if item == nil || item.AppRevision == nil {
+			continue
+		}
+		entry := DeviceInstallHistoryEntry{
+			DateTime:    item.DateTime,
+			ChangeSetId: item.ChangeSetId,
+			Action:      item.Action,
+			AppId:       item.AppRevision.AppId,
+			Version:     item.AppRevision.Version,
+			Revision:    item.AppRevision.Revision,
+		}
+		if item.AppRevision.App != nil {
+			entry.AppName = item.AppRevision.App.AppName
+		}
+		if item.DeviceFirmwareSequenceHistory != nil {
+			entry.SequenceNumber = &item.DeviceFirmwareSequenceHistory.SequenceNumber
+		}
+		entries = append(entries, entry)
+	}
+	return entries, nil
+}
+
 func GetDeviceLogs(ctx context.Context, filters *EdgeDeviceLogQueryInput) (*legacy.GetDeviceLogsResponse, error) {
 	return legacy.GetDeviceLogs(ctx, (*legacy.EdgeDeviceLogQueryInput)(filters))
 }

@@ -6,7 +6,7 @@ query GetEdgeDeviceInstallSnapshots(
     edgeDeviceInstallStateSnapshots(
         where: $filter
         take: $take
-        order: [{dateTime: ASC}, {changeSetId:ASC}]
+        order: [{dateTime: DESC}, {changeSetId: DESC}]
     ){
         items{
             dateTime

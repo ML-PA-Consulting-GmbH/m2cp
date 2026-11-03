@@ -14689,8 +14689,12 @@ func (v *getDeviceInfoBasicDeviceDeviceModelRevisionDeviceModel) GetArchitecture
 //
 // I am a generated type!
 type getDeviceInfoBasicDeviceDeviceModelRevisionDeviceModelDeviceType struct {
+	Id             string `json:"id"`
 	DeviceTypeName string `json:"deviceTypeName"`
 }
+
+// GetId returns getDeviceInfoBasicDeviceDeviceModelRevisionDeviceModelDeviceType.Id, and is useful for accessing the field via an interface.
+func (v *getDeviceInfoBasicDeviceDeviceModelRevisionDeviceModelDeviceType) GetId() string { return v.Id }
 
 // GetDeviceTypeName returns getDeviceInfoBasicDeviceDeviceModelRevisionDeviceModelDeviceType.DeviceTypeName, and is useful for accessing the field via an interface.
 func (v *getDeviceInfoBasicDeviceDeviceModelRevisionDeviceModelDeviceType) GetDeviceTypeName() string {
@@ -18397,7 +18401,7 @@ func GetDevicesWithExtendedFleetInfoBySerial(
 // The query executed by GetEdgeDeviceInstallHistories.
 const GetEdgeDeviceInstallHistories_Operation = `
 query GetEdgeDeviceInstallHistories ($filter: EdgeDeviceInstallStateHistoryFilterInput, $take: Int) {
-	edgeDeviceInstallStateHistories(where: $filter, take: $take, order: {dateTime:ASC}) {
+	edgeDeviceInstallStateHistories(where: $filter, take: $take, order: {dateTime:DESC}) {
 		items {
 			changeSetId
 			dateTime
@@ -18450,7 +18454,7 @@ func GetEdgeDeviceInstallHistories(
 // The query executed by GetEdgeDeviceInstallSnapshots.
 const GetEdgeDeviceInstallSnapshots_Operation = `
 query GetEdgeDeviceInstallSnapshots ($filter: EdgeDeviceInstallStateSnapshotFilterInput, $take: Int) {
-	edgeDeviceInstallStateSnapshots(where: $filter, take: $take, order: [{dateTime:ASC},{changeSetId:ASC}]) {
+	edgeDeviceInstallStateSnapshots(where: $filter, take: $take, order: [{dateTime:DESC},{changeSetId:DESC}]) {
 		items {
 			dateTime
 			changeSetId
@@ -20529,6 +20533,7 @@ query getDeviceInfoBasic ($id: UUID!) {
 			id
 			deviceModel {
 				deviceType {
+					id
 					deviceTypeName
 				}
 				modelName

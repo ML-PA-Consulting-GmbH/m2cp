@@ -19,6 +19,7 @@ query getDeviceInfoBasic($id: UUID!) {
             id
             deviceModel {
                 deviceType {
+                    id
                     deviceTypeName
                 }
                 modelName
