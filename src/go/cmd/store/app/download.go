@@ -13,7 +13,7 @@ import (
 
 var downloadCmd = &cobra.Command{
 	Use:   "download <appId | appName> <arch> <revision | version>",
-	Short: "Get information on an app in your store",
+	Short: "Download an app revision from the store",
 	Args:  cobra.ExactArgs(3),
 	RunE:  runDownloadCmd,
 }
