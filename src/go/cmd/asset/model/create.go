@@ -21,14 +21,14 @@ func init() {
 }
 
 func runCreateCmd(cmd *cobra.Command, args []string) error {
-	modelType := args[0]
+	modelTypeName := args[0]
 	name := args[1]
 	var description *string
 	if len(args) > 2 {
 		description = &args[2]
 	}
 
-	modelTypeId, err := structs.AssetModelTypeToId(modelType)
+	modelTypeId, err := structs.AssetModelTypeNameToId(modelTypeName)
 	if err != nil {
 		return fmt.Errorf("bad value for model type, use 'ed', 'rtd' or 'sys': %s", err)
 	}

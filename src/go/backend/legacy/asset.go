@@ -54,7 +54,7 @@ func GetAssetModels(ctx context.Context, types []string) ([]structs.AssetModel, 
 			Id:          assetModel.Id,
 			Name:        assetModel.AssetModelName,
 			Description: assetModel.Description,
-			Type:        structs.AssetModelTypeIdToType(assetModel.AssetTypeId),
+			TypeId:      assetModel.AssetTypeId,
 			Revision:    assetModel.Revision,
 		}
 	}
@@ -73,7 +73,7 @@ func GetAssetModelById(ctx context.Context, assetModelId string) (*structs.Asset
 		Id:          res.AssetModel.Id,
 		Name:        res.AssetModel.AssetModelName,
 		Description: res.AssetModel.Description,
-		Type:        structs.AssetModelTypeIdToType(res.AssetModel.AssetTypeId),
+		TypeId:      res.AssetModel.AssetTypeId,
 		Revision:    res.AssetModel.Revision,
 		TenantId:    res.AssetModel.Tenant.Id,
 		TenantName:  res.AssetModel.Tenant.Alias,
@@ -139,11 +139,8 @@ func GetAssetById(ctx context.Context, q string) (*structs.Asset, error) {
 	if err != nil {
 		return nil, err
 	}
-	if res == nil {
-		return nil, errors.New("no Assets found")
-	}
-	if res.Assets == nil || res.Assets.Items == nil || len(res.Assets.Items) == 0 {
-		return nil, errors.New("no Assets found")
+	if res == nil || res.Assets == nil || res.Assets.Items == nil || len(res.Assets.Items) == 0 {
+		return nil, fmt.Errorf("no assets found by %s", q)
 	}
 	asset := res.Assets.Items[0]
 	component := structs.Asset{
@@ -152,7 +149,7 @@ func GetAssetById(ctx context.Context, q string) (*structs.Asset, error) {
 		Serial:                 asset.SerialNo,
 		AssetModelName:         asset.AssetModel.AssetModelName,
 		AssetModelId:           asset.AssetModel.Id,
-		AssetType:              tools.StrPtr(structs.AssetModelTypeIdToType(asset.AssetModel.AssetTypeId)),
+		AssetTypeId:            asset.AssetModel.AssetType.Id,
 		AssetModelTypeName:     asset.AssetModel.AssetType.AssetTypeName,
 		AssetModelTypeCategory: string(asset.AssetModel.AssetType.AssetTypeCategory),
 		TenantId:               asset.Tenant.Id,
@@ -230,6 +227,17 @@ func backendQueryFiltersToAssetFilterAndSort(filters []structs.BackendQueryFilte
 	}, assetSort, nil
 }
 
+// TODO: fix duplicate code in legacy and v5
+// IsRelevantAssetType returns true if it is a System, Edge Device or Real-time Device asset. Else false.
+func IsRelevantAssetType(assetType *getAssetsAssetsAssetCollectionSegmentItemsAssetAssetModelAssetType) bool {
+	switch assetType.Id {
+	case structs.AssetModelTypeIdSystem, structs.AssetModelTypeIdEd, structs.AssetModelTypeIdRtd:
+		return true
+	default:
+		return false
+	}
+}
+
 func GetSystemsList(ctx context.Context, filters []structs.BackendQueryFilter) (assets []structs.Asset, err error) {
 	filter, sort, err := backendQueryFiltersToAssetFilterAndSort(filters)
 	if err != nil {
@@ -248,7 +256,7 @@ func GetSystemsList(ctx context.Context, filters []structs.BackendQueryFilter) (
 
 		if result.Assets != nil && result.Assets.Items != nil && len(result.Assets.Items) > 0 {
 			for _, resItem := range result.Assets.Items {
-				if resItem.AssetModel.AssetType.AssetTypeName != "M2CP" && resItem.AssetModel.AssetType.AssetTypeName != "RTOS" && resItem.AssetModel.AssetType.AssetTypeName != "System" {
+				if !IsRelevantAssetType(resItem.AssetModel.AssetType) {
 					continue
 				}
 				var asset = structs.Asset{

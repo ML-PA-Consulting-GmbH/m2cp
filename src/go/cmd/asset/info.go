@@ -72,10 +72,10 @@ func FormatAsset(asset *structs.Asset, title *string) string {
 	out += fmt.Sprintf("  ├─ Parent Asset Id:          %s\n", tools.MaybeStringToString(asset.ParentAssetId, "n/a"))
 	out += fmt.Sprintf("  ├─ System Asset Id:          %s\n", tools.MaybeStringToString(asset.SystemAssetId, "n/a"))
 	out += fmt.Sprintf("  ├─ Asset HW Serial:          %s\n", asset.Serial)
-	if tools.MaybeStringToString(asset.AssetType, "") == structs.AssetTypeRtd {
-		out += fmt.Sprintf("  ├─ Asset HW MCU Id:          %s\n", tools.MaybeStringToString(asset.McuId, "n/a"))
+	if asset.AssetTypeId == structs.AssetModelTypeIdRtd {
+		out += fmt.Sprintf("  ├─ Asset HW MCU Id:      %s\n", tools.MaybeStringToString(asset.McuId, "n/a"))
 	}
-	out += fmt.Sprintf("  ├─ Asset Type                %s\n", tools.MaybeStringToString(asset.AssetType, "n/a"))
+	out += fmt.Sprintf("  ├─ Asset Type Id             %s\n", asset.AssetTypeId)
 	// we don't need these three, they are condensed into AssetType
 	//out += fmt.Sprintf("  ├─ Asset Model Type Id       %s\n", asset.AssetModelTypeId)
 	//out += fmt.Sprintf("  ├─ Asset Model Type Name     %s\n", asset.AssetModelTypeName)

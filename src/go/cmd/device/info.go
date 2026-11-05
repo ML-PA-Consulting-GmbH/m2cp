@@ -280,7 +280,7 @@ func customDeviceInfoFormatter(output deviceInfoOutput) (string, error) {
 	out += fmt.Sprintf("\n  ├─ Model Id:                %s", deviceInfo.DeviceModelRevision.Id)
 	out += fmt.Sprintf("\n  ├─ Model Name:              %s", deviceInfo.DeviceModelRevision.Name)
 	out += fmt.Sprintf("\n  ├─ Model Revision:          %d", deviceInfo.DeviceModelRevision.Revision)
-	if deviceInfo.DeviceModelRevision.Type == structs.AssetTypeEd {
+	if deviceInfo.DeviceModelRevision.Type == structs.AssetModelTypeNameEd {
 		out += fmt.Sprintf("\n  ├─ Attestation Key:         %s", tools.MaybeStringToString(deviceInfo.DeviceAttestationKey, "n/a"))
 	}
 	out += fmt.Sprintf("\n  └─ Asset Id:                %s", tools.MaybeStringToString(deviceInfo.DeviceAssetId, "n/a"))
@@ -329,7 +329,7 @@ func customDeviceInfoFormatter(output deviceInfoOutput) (string, error) {
 			out += fmt.Sprintf("  ├─ Asset HW Serial:         %s\n", childAsset.Serial)
 			out += fmt.Sprintf("  ├─ Asset HW MCU-ID:         %s\n", tools.MaybeStringToString(childAsset.McuId, "n/a"))
 			out += fmt.Sprintf("  ├─ Asset Name:           %s\n", childAsset.Name)
-			out += fmt.Sprintf("  ├─ Asset Type:           %s\n", tools.MaybeStringToString(childAsset.AssetType, "n/a"))
+			out += fmt.Sprintf("  ├─ Asset Type Id:        %s\n", childAsset.AssetTypeId)
 			out += fmt.Sprintf("  ├─ Asset Model:          %s\n", childAsset.AssetModelName)
 			var deviceSerial = "n/a"
 			if childAsset.Device != nil {

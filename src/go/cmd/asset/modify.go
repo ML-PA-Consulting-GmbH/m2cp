@@ -23,6 +23,16 @@ func init() {
 	AssetCmd.AddCommand(modifyCmd)
 }
 
+// TODO: fix duplicate code, only differs by signature type
+func IsRelevantAssetType(asset *structs.Asset) bool {
+	switch asset.AssetTypeId {
+	case structs.AssetModelTypeIdSystem, structs.AssetModelTypeIdEd, structs.AssetModelTypeIdRtd:
+		return true
+	default:
+		return false
+	}
+}
+
 func runModifyCmd(cmd *cobra.Command, args []string) (err error) {
 	id := args[0]
 
@@ -33,15 +43,14 @@ func runModifyCmd(cmd *cobra.Command, args []string) (err error) {
 	if asset == nil {
 		return fmt.Errorf("asset not found")
 	}
-	if tools.MaybeStringToString(asset.AssetType, "") != structs.AssetTypeSystem &&
-		tools.MaybeStringToString(asset.AssetType, "") != structs.AssetTypeEd &&
-		tools.MaybeStringToString(asset.AssetType, "") != structs.AssetTypeRtd {
-		return fmt.Errorf("asset %s is not System", id)
+
+	if !IsRelevantAssetType(asset) {
+		return fmt.Errorf("wrong asset type id %s", asset.AssetTypeId)
 	}
 
 	var attestationKey *string
 	if cmd.Flags().Changed("attestation-key") {
-		if tools.MaybeStringToString(asset.AssetType, "") != structs.AssetTypeEd {
+		if asset.AssetTypeId != structs.AssetModelTypeIdEd {
 			return fmt.Errorf("only Assets of Edge Devices have an attestation key")
 		}
 		attestationKey = tools.StrPtr(cmd.Flag("attestation-key").Value.String())

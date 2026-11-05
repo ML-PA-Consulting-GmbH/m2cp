@@ -5,13 +5,18 @@ import (
 	"strings"
 )
 
+// Note, these AssetModelTypeIds are the same in every store.
 const (
-	AssetTypeIdEd     = "a14e3818-48f4-4474-b48c-6e9a1f0a9d7b"
-	AssetTypeIdRtd    = "c93bf8b3-ccf2-41c3-8fa6-c6d409f00685"
-	AssetTypeIdSystem = "bf52781e-ff5c-49a7-ad43-f6e091af3d37"
-	AssetTypeEd       = "Edge Device"
-	AssetTypeRtd      = "Real Time Device"
-	AssetTypeSystem   = "System"
+	AssetModelTypeIdEd     = "a14e3818-48f4-4474-b48c-6e9a1f0a9d7b"
+	AssetModelTypeIdRtd    = "c93bf8b3-ccf2-41c3-8fa6-c6d409f00685"
+	AssetModelTypeIdSystem = "bf52781e-ff5c-49a7-ad43-f6e091af3d37"
+)
+
+// TODO: these strings may change?
+const (
+	AssetModelTypeNameEd     = "Edge Device"
+	AssetModelTypeNameRtd    = "Real Time Device"
+	AssetModelTypeNameSystem = "System"
 )
 
 type Asset struct {
@@ -24,7 +29,7 @@ type Asset struct {
 	SystemAssetId          *string `json:"systemAssetId,omitempty"`
 	ParentAssetId          *string `json:"parentAssetId,omitempty"` // systems don't have parent assets, so this should be nil for an actual System ... but its not nil, if we fetched a child of a system by accident
 	Description            *string
-	AssetType              *string `json:"assetType"`
+	AssetTypeId            string  `json:"assetType"`
 	AssetModelName         string  `json:"assetModelName,omitempty"`
 	AssetModelId           string  `json:"assetModelId,omitempty"`
 	AssetModelTypeName     string  `json:"assetModelTypeName,omitempty"`
@@ -41,31 +46,31 @@ type AssetModel struct {
 	Name        string  `json:"name"`
 	Description *string `json:"description"`
 	Revision    *int    `json:"revision"`
-	Type        string  `json:"type"`
+	TypeId      string  `json:"typeId"`
 	TenantName  string  `json:"tenantName,omitempty"`
 	TenantId    string  `json:"tenantId,omitempty"`
 }
 
-func AssetModelTypeIdToType(assetModelId string) string {
-	if assetModelId == AssetTypeIdEd {
-		return AssetTypeEd
-	} else if assetModelId == AssetTypeIdRtd {
-		return AssetTypeRtd
-	} else if assetModelId == AssetTypeIdSystem {
-		return AssetTypeSystem
-	} else {
-		return "Invalid"
-	}
-}
+//func AssetModelTypeIdToName(assetModelTypeId string) string {
+//	if assetModelTypeId == AssetModelTypeIdEd {
+//		return AssetModelTypeNameEd
+//	} else if assetModelTypeId == AssetModelTypeIdRtd {
+//		return AssetModelTypeNameRtd
+//	} else if assetModelTypeId == AssetModelTypeIdSystem {
+//		return AssetModelTypeNameSystem
+//	} else {
+//		return "Invalid"
+//	}
+//}
 
-func AssetModelTypeToId(assetModelType string) (string, error) {
-	if assetModelType == "Edge Device" || strings.ToLower(assetModelType) == "ed" {
-		return AssetTypeIdEd, nil
-	} else if assetModelType == "Real Time Device" || strings.ToLower(assetModelType) == "rtd" {
-		return AssetTypeIdRtd, nil
-	} else if assetModelType == "System" || strings.ToLower(assetModelType) == "sys" {
-		return AssetTypeIdSystem, nil
+func AssetModelTypeNameToId(assetModelTypeName string) (string, error) {
+	if assetModelTypeName == AssetModelTypeNameEd || strings.ToLower(assetModelTypeName) == "ed" {
+		return AssetModelTypeIdEd, nil
+	} else if assetModelTypeName == AssetModelTypeNameRtd || strings.ToLower(assetModelTypeName) == "rtd" {
+		return AssetModelTypeIdRtd, nil
+	} else if assetModelTypeName == AssetModelTypeNameSystem || strings.ToLower(assetModelTypeName) == "sys" {
+		return AssetModelTypeIdSystem, nil
 	} else {
-		return "", fmt.Errorf("unknown asset model type '%s'", assetModelType)
+		return "", fmt.Errorf("unknown asset model type '%s'", assetModelTypeName)
 	}
 }

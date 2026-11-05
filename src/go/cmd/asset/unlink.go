@@ -5,7 +5,6 @@ import (
 	"m2cpcli/backend"
 	"m2cpcli/format"
 	"m2cpcli/structs"
-	"m2cpcli/tools"
 
 	"github.com/spf13/cobra"
 )
@@ -33,8 +32,8 @@ func runUnlinkCmd(cmd *cobra.Command, args []string) error {
 	if systemAsset == nil {
 		return fmt.Errorf("system asset not found")
 	}
-	if tools.MaybeStringToString(systemAsset.AssetType, "") != structs.AssetTypeSystem {
-		return fmt.Errorf("asset %s is not a System", systemAssetId)
+	if systemAsset.AssetTypeId != structs.AssetModelTypeIdSystem {
+		return fmt.Errorf("asset id %s is not a System", systemAssetId)
 	}
 
 	// validate device asset
@@ -45,8 +44,8 @@ func runUnlinkCmd(cmd *cobra.Command, args []string) error {
 	if deviceAsset == nil {
 		return fmt.Errorf("device asset not found")
 	}
-	if tools.MaybeStringToString(deviceAsset.AssetType, "") != structs.AssetTypeEd && tools.MaybeStringToString(deviceAsset.AssetType, "") != structs.AssetTypeRtd {
-		return fmt.Errorf("asset %s is neither an Edge Device nor a Real Time Device", deviceAssetId)
+	if deviceAsset.AssetTypeId != structs.AssetModelTypeIdEd && deviceAsset.AssetTypeId != structs.AssetModelTypeIdRtd {
+		return fmt.Errorf("asset id %s is neither an Edge Device nor a Real Time Device", deviceAssetId)
 	}
 
 	// validate device asset is part of system

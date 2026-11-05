@@ -1,21 +1,23 @@
 query findAsset($q: String!) {
     assets(
         where: {
-            or: [
-                { assetName: { contains: $q }},
-                { serialNo: { eq: $q }},
-            ],
+          and: {
             assetModel: {
-                assetType: {
-                    assetTypeName: {
-                        or: [
-                            { eq: "RTOS" }
-                            { eq: "M2CP" }
-                            { eq: "System" }
-                        ]
-                    }
+              assetType: {
+                id: {
+                  in: [
+                    "bf52781e-ff5c-49a7-ad43-f6e091af3d37", # System
+                    "a14e3818-48f4-4474-b48c-6e9a1f0a9d7b", # Edge Device
+                    "c93bf8b3-ccf2-41c3-8fa6-c6d409f00685"  # Real-time Device
+                  ]
                 }
+              }
             }
+          }
+          or: [
+            { assetName: { contains: $q }},
+            { serialNo: { eq: $q }},
+          ],
         }
     )
     {

@@ -5,7 +5,6 @@ import (
 	"m2cpcli/backend"
 	"m2cpcli/format"
 	"m2cpcli/structs"
-	"m2cpcli/tools"
 
 	"github.com/spf13/cobra"
 )
@@ -32,7 +31,7 @@ func runLinkCmd(cmd *cobra.Command, args []string) error {
 	if systemAsset == nil {
 		return fmt.Errorf("system asset not found")
 	}
-	if tools.MaybeStringToString(systemAsset.AssetType, "") != structs.AssetTypeSystem {
+	if systemAsset.AssetTypeId != structs.AssetModelTypeIdSystem {
 		return fmt.Errorf("asset %s is not a System", systemAssetId)
 	}
 
@@ -43,7 +42,7 @@ func runLinkCmd(cmd *cobra.Command, args []string) error {
 	if deviceAsset == nil {
 		return fmt.Errorf("device asset not found")
 	}
-	if tools.MaybeStringToString(deviceAsset.AssetType, "") != structs.AssetTypeEd && tools.MaybeStringToString(deviceAsset.AssetType, "") != structs.AssetTypeRtd {
+	if deviceAsset.AssetTypeId != structs.AssetModelTypeIdEd && deviceAsset.AssetTypeId != structs.AssetModelTypeIdRtd {
 		return fmt.Errorf("asset %s is neither an Edge Device nor a Real Time Device", deviceAssetId)
 	}
 

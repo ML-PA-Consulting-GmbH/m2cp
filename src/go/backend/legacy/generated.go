@@ -19803,7 +19803,7 @@ func edgeDeviceRefresh(
 // The query executed by findAsset.
 const findAsset_Operation = `
 query findAsset ($q: String!) {
-	assets(where: {or:[{assetName:{contains:$q}},{serialNo:{eq:$q}}],assetModel:{assetType:{assetTypeName:{or:[{eq:"RTOS"},{eq:"M2CP"}]}}}}) {
+	assets(where: {and:{assetModel:{assetType:{id:{in:["bf52781e-ff5c-49a7-ad43-f6e091af3d37","a14e3818-48f4-4474-b48c-6e9a1f0a9d7b","c93bf8b3-ccf2-41c3-8fa6-c6d409f00685"]}}}},or:[{assetName:{contains:$q}},{serialNo:{eq:$q}}]}) {
 		items {
 			id
 			assetName

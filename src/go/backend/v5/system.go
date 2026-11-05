@@ -48,7 +48,7 @@ func GetSystemById(ctx context.Context, id string) (*structs.Asset, error) {
 			Description:        resItem.AssetDescription,
 			SystemAssetId:      tools.Ptr(resItem.Id),
 			ParentAssetId:      resItem.ParentAssetId,
-			AssetType:          tools.Ptr(structs.AssetModelTypeIdToType(resItem.AssetModel.AssetType.Id)),
+			AssetTypeId:        resItem.AssetModel.AssetType.Id,
 			AssetModelId:       resItem.AssetModel.Id,
 			AssetModelName:     resItem.AssetModel.AssetModelName,
 			AssetModelTypeId:   resItem.AssetModel.AssetType.Id,
@@ -60,7 +60,7 @@ func GetSystemById(ctx context.Context, id string) (*structs.Asset, error) {
 			component := structs.Asset{
 				SystemAssetId:          tools.StrPtr(resItem.Id),
 				ParentAssetId:          tools.StrPtr(resItem.Id),
-				AssetType:              tools.Ptr(structs.AssetModelTypeIdToType(child.AssetModel.AssetType.Id)),
+				AssetTypeId:            child.AssetModel.AssetType.Id,
 				Id:                     child.Id,
 				Serial:                 child.SerialNo,
 				McuId:                  child.McuId,

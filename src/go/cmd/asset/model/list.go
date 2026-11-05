@@ -27,16 +27,16 @@ func init() {
 func runListCmd(cmd *cobra.Command, args []string) error {
 	types := []string{}
 	if cmd.Flags().Changed("ed") {
-		types = append(types, structs.AssetTypeIdEd)
+		types = append(types, structs.AssetModelTypeIdEd)
 	}
 	if cmd.Flags().Changed("rtd") {
-		types = append(types, structs.AssetTypeRtd)
+		types = append(types, structs.AssetModelTypeIdRtd)
 	}
 	if cmd.Flags().Changed("sys") {
-		types = append(types, structs.AssetTypeSystem)
+		types = append(types, structs.AssetModelTypeIdSystem)
 	}
 	if len(types) == 0 {
-		types = []string{structs.AssetTypeIdEd, structs.AssetTypeIdRtd, structs.AssetTypeIdSystem}
+		types = []string{structs.AssetModelTypeIdEd, structs.AssetModelTypeIdRtd, structs.AssetModelTypeIdSystem}
 	}
 
 	models, err := backend.GetAssetModels(cmd.Context(), types)
@@ -61,7 +61,7 @@ func modelsFormatter(models []structs.AssetModel) (string, error) {
 	for _, model := range models {
 		table.AddRow(map[string]string{
 			"id":          model.Id,
-			"type":        model.Type,
+			"type id":     model.TypeId,
 			"name":        model.Name,
 			"revision":    tools.MaybeIntToString(model.Revision, "n/a"),
 			"description": tools.MaybeStringToString(model.Description, "n/a"),

@@ -30,6 +30,9 @@ func runListCmd(cmd *cobra.Command, args []string) error {
 	}
 
 	systems, err := backend.GetSystemsList(cmd.Context(), filter)
+	if err != nil {
+		return err
+	}
 
 	return format.PrintFormattedOutput(cmd, systems, assetListFormatter)
 }
@@ -53,7 +56,7 @@ func assetListFormatter(assets []structs.Asset) (string, error) {
 			"hwSerial": asset.Serial,
 			"hwMcuId":  tools.MaybeStringToString(asset.McuId, "n/a"),
 			"name":     asset.Name,
-			"type":     formatAssetType(asset.AssetModelTypeName, asset.AssetModelTypeCategory),
+			"type":     asset.AssetModelTypeName, //formatAssetType(asset.AssetModelTypeName, asset.AssetModelTypeCategory),
 			"model":    asset.AssetModelName,
 			"deviceId": tools.MaybeStringToString(asset.DeviceId, "n/a"),
 		})
@@ -85,13 +88,13 @@ func getSystemListFilter(cmd *cobra.Command) ([]structs.BackendQueryFilter, erro
 
 	types := []string{}
 	if cmd.Flags().Changed("ed") {
-		types = append(types, structs.AssetTypeIdEd)
+		types = append(types, structs.AssetModelTypeIdEd)
 	}
 	if cmd.Flags().Changed("rtd") {
-		types = append(types, structs.AssetTypeIdRtd)
+		types = append(types, structs.AssetModelTypeIdRtd)
 	}
 	if cmd.Flags().Changed("sys") {
-		types = append(types, structs.AssetTypeIdSystem)
+		types = append(types, structs.AssetModelTypeIdSystem)
 	}
 	if len(types) > 0 {
 		filters = append(filters, structs.BackendQueryFilter{
@@ -136,15 +139,4 @@ func getSystemListFilter(cmd *cobra.Command) ([]structs.BackendQueryFilter, erro
 	}
 
 	return filters, nil
-}
-
-func formatAssetType(t, c string) string {
-	if t == "System" {
-		return "System"
-	} else if t == "M2CP" {
-		return "Edge Device"
-	} else if t == "RTOS" {
-		return "Real Time Device"
-	}
-	return "unknown"
 }
